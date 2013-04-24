@@ -1,0 +1,222 @@
+/* STYLES FOR THE BOXY PEDAL */
+
+@import url(../../../fonts/nexa/stylesheet.css);
+@import url(../../../fonts/questrial/stylesheet.css);
+
+
+/* = CONTAINER
+================================================ */
+.pedal-boxy {
+    background-position:center center;
+    background-repeat:no-repeat;
+    background-size:230px 431px;
+    height:431px;
+    position:absolute;
+    width:230px;
+}
+
+.pedal-boxy.boxy75 {
+    background-size:326px 431px;
+    width:326px;
+}
+
+/* = BACKGROUND IMAGES - Colour of the pedal
+================================================ */
+/* NORMAL */
+.pedal-boxy.blue {
+    background-image:url(blue.png);
+}
+.pedal-boxy.brown {
+    background-image:url(brown.png);
+}
+.pedal-boxy.cream {
+    background-image:url(cream.png);
+}
+.pedal-boxy.darkblue {
+    background-image:url(darkblue.png);
+}
+.pedal-boxy.gray {
+    background-image:url(gray.png);
+}
+.pedal-boxy.green {
+    background-image:url(green.png);
+}
+.pedal-boxy.orange {
+    background-image:url(orange.png);
+}
+.pedal-boxy.purple {
+    background-image:url(purple.png);
+}
+.pedal-boxy.red {
+    background-image:url(red.png);
+}
+.pedal-boxy.white {
+    background-image:url(white.png);
+}
+.pedal-boxy.yellow {
+    background-image:url(yellow.png);
+}
+
+/* LARGE */
+.pedal-boxy.boxy75.blue {
+    background-image:url(../boxy75/blue.png);
+}
+.pedal-boxy.boxy75.brown {
+    background-image:url(../boxy75/brown.png);
+}
+.pedal-boxy.boxy75.cream {
+    background-image:url(../boxy75/cream.png);
+}
+.pedal-boxy.boxy75.darkblue {
+    background-image:url(../boxy75/darkblue.png);
+}
+.pedal-boxy.boxy75.gray {
+    background-image:url(../boxy75/gray.png);
+}
+.pedal-boxy.boxy75.green {
+    background-image:url(../boxy75/green.png);
+}
+.pedal-boxy.boxy75.orange {
+    background-image:url(../boxy75/orange.png);
+}
+.pedal-boxy.boxy75.purple {
+    background-image:url(../boxy75/purple.png);
+}
+.pedal-boxy.boxy75.red {
+    background-image:url(../boxy75/red.png);
+}
+.pedal-boxy.boxy75.white {
+    background-image:url(../boxy75/white.png);
+}
+.pedal-boxy.boxy75.yellow {
+    background-image:url(../boxy75/yellow.png);
+}
+
+
+/* = PLUGIN'S AUTHOR
+================================================ */
+.pedal-boxy .author {
+    left:0;
+    position:absolute;
+    right:0;
+    text-align:center;
+    text-transform:uppercase;
+    top:150px;
+}
+
+.pedal-boxy .author h1 {
+    border-color:#000;
+    border-radius:12px;
+    border-style:solid;
+    border-width:4px;
+    display:inline-block;
+    font-family:"Nexa";
+    font-size:32px;
+    padding:3px 9px 0;
+}
+
+/* = PLUGIN'S NAME
+================================================ */
+.pedal-boxy .name {
+    left:30px;
+    overflow:hidden;
+    position:absolute;
+    right:30px;
+    text-align:center;
+    top:340px;
+}
+
+.pedal-boxy .name h1 {
+    font-family:"Questrial";
+    font-size:21px;
+    line-height:1;
+}
+
+
+/* = PLUGIN'S AUTHO AND NAME COLOURS
+================================================ */
+.pedal-boxy.blue .author h1,
+.pedal-boxy.blue .name h1 {
+    color:rgb(0,0,0);
+}
+
+.pedal-boxy.brown .author h1,
+.pedal-boxy.brown .name h1 {
+    border-color:rgb(255,255,255);
+    color:rgb(255,255,255);
+}
+
+.pedal-boxy.cream .author h1,
+.pedal-boxy.cream .name h1 {
+    color:rgb(0,0,0);
+}
+
+.pedal-boxy.darkblue .author h1,
+.pedal-boxy.darkblue .name h1 {
+    border-color:rgb(255,255,255);
+    color:rgb(255,255,255);
+}
+
+.pedal-boxy.gray .author h1,
+.pedal-boxy.gray .name h1 {
+    color:rgb(0,0,0);
+}
+
+.pedal-boxy.green .author h1,
+.pedal-boxy.green .name h1 {
+    border-color:rgb(255,255,255);
+    color:rgb(255,255,255);
+}
+
+.pedal-boxy.orange .author h1,
+.pedal-boxy.orange .name h1 {
+    color:rgb(0,0,0);
+}
+
+.pedal-boxy.purple .author h1,
+.pedal-boxy.purple .name h1 {
+    border-color:rgb(255,255,255);
+    color:rgb(255,255,255);
+}
+
+.pedal-boxy.red .author h1,
+.pedal-boxy.red .name h1 {
+    color:rgb(0,0,0);
+}
+
+.pedal-boxy.white .author h1,
+.pedal-boxy.white .name h1 {
+    color:rgb(0,0,0);
+}
+
+.pedal-boxy.yellow .author h1,
+.pedal-boxy.yellow .name h1 {
+    color:rgb(0,0,0);
+}
+
+/* = LIGHT ON/OFF
+================================================ */
+.pedal-boxy .light {
+    background-position:center center;
+    background-repeat:no-repeat;
+    height:32px;
+    left:10px;
+    position:absolute;
+    right:10px;
+    top:235px;
+}
+
+/* = FOOTSWITCH
+================================================ */
+.pedal-boxy .footswitch {
+    background-image:url(footswitch.png);
+    background-position:center center;
+    background-repeat:no-repeat;
+    background-size:auto 65px;
+    bottom:56px;
+    cursor:pointer;
+    height:155px;
+    left:13px;
+    position:absolute;
+    right:13px;
+}

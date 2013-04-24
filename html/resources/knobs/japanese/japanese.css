@@ -1,0 +1,88 @@
+/* STYLES FOR THE JAPANESE KNOB */
+
+
+/* = KNOBS
+================================================ */
+.pedal-japanese .knob-group.blue .knob .image {
+    background-image:url(blue.png);
+}
+.pedal-japanese .knob-group.brown .knob .image {
+    background-image:url(brown.png);
+}
+.pedal-japanese .knob-group.cream .knob .image {
+    background-image:url(cream.png);
+}
+.pedal-japanese .knob-group.darkblue .knob .image {
+    background-image:url(darkblue.png);
+}
+.pedal-japanese .knob-group.gray .knob .image {
+    background-image:url(gray.png);
+}
+.pedal-japanese .knob-group.green .knob .image {
+    background-image:url(green.png);
+}
+.pedal-japanese .knob-group.orange .knob .image {
+    background-image:url(orange.png);
+}
+.pedal-japanese .knob-group.purple .knob .image {
+    background-image:url(purple.png);
+}
+.pedal-japanese .knob-group.red .knob .image {
+    background-image:url(red.png);
+}
+.pedal-japanese .knob-group.white .knob .image {
+    background-image:url(white.png);
+}
+.pedal-japanese .knob-group.yellow .knob .image {
+    background-image:url(yellow.png);
+}
+
+.pedal-japanese .knob-group {
+    height:141px;
+    left:13px;
+    position:absolute;
+    right:13px;
+    top:18px;
+}
+.pedal-japanese .knob-group .knob {
+    height:70px;
+    float:left;
+    text-align:center;
+    width:62px;
+}
+.pedal-japanese .knob-group .knob > span.title {
+    color:white;
+    display:block;
+    font-size:10px;
+    font-weight:bold;
+    height:12px;
+    line-height:1;
+    margin:0;
+    padding:0;
+    text-transform:uppercase;
+}
+.pedal-japanese .knob-group .knob .image {
+    background-position:left center;
+    background-repeat:no-repeat;
+    background-size:auto 64px;
+    height:58px;
+    position:relative;
+    overflow:hidden;
+    width:56px;
+}
+
+
+/* 4 KNOBS */
+.pedal-japanese.four-knobs .knob-group {
+    top:49px;
+}
+
+/* 7 KNOBS - OPTION 1 */
+.pedal-japanese.seven-a-knobs .knob-group .knob:first-child {
+    margin-left:30px;
+}
+
+/* 7 KNOBS - OPTION 2 */
+.pedal-japanese.seven-b-knobs .knob-group .knob:first-child {
+    margin:0 30px;
+}

@@ -1,0 +1,438 @@
+/* GENERAL PEDAL STYLE */
+
+/* = ACTIONS - Icons above: settings, remove, etc
+================================================ */
+.pedal .actions { position:relative; }
+.pedal .actions .settings {
+    background:url(../../img/icn-settings-16x16.png) no-repeat bottom center;
+    cursor:pointer;
+    height:16px;
+    position:absolute;
+    right:22px;
+    top:-20px;
+    width:16px;
+}
+.pedal .actions .settings:hover { background-position:top center; }
+.pedal .actions .remove {
+    background:url(../../img/icn-remove-16x16.png) no-repeat bottom center;
+    cursor:pointer;
+    height:16px;
+    position:absolute;
+    right:0;
+    top:-20px;
+    width:16px;
+}
+.pedal .actions .remove:hover { background-position:top center; }
+
+
+/* = LIGHT ON/OFF
+================================================ */
+.pedal .light.off { background-image:url(red-light-off.png); }
+.pedal .light.on  { background-image:url(red-light-on.png); }
+
+
+/* = INPUT
+================================================ */
+.pedal .pedal-input {
+    height:170px;
+    left:-43px;
+    position:absolute;
+    top:106px;
+    width:45px;
+}
+
+.pedal .pedal-input .input { width:45px; }
+
+.pedal .pedal-input-0,
+.pedal .pedal-input-1,
+.pedal .pedal-input-2,
+.pedal .pedal-input-3 { height:45px; position:absolute; }
+
+.pedal .pedal-input-0 { top:0; }
+.pedal .pedal-input-1 { top:55px; }
+.pedal .pedal-input-2 { top:110px; }
+.pedal .pedal-input-3 { top:165px; }
+
+.pedal .pedal-input-control {
+/*    background:url(../../../img/icn-input-output.png) no-repeat right top;*/
+    height:28px;
+    left:15px;
+    position:absolute;
+    top:8px;
+    width:28px;
+    z-index:1;
+}
+
+.pedal .pedal-input-image {
+    background:url(../../../img/input.png) no-repeat right top;
+    background-size:auto 45px;
+    height:56px;
+    position:absolute;
+    right:0;
+    width:17px;
+    z-index:2;
+}
+
+.pedal .pedal-input-0 .jack-connected,
+.pedal .pedal-input-1 .jack-connected,
+.pedal .pedal-input-2 .jack-connected,
+.pedal .pedal-input-3 .jack-connected {
+    left:-16px; top:14px;
+}
+
+.pedal .input-disconnected {}
+.pedal .input-connecting {}
+.pedal .input-connected {}
+
+
+/* = OUTPUT
+================================================ */
+.pedal .pedal-output {
+    height:170px;
+    position:absolute;
+    right:-42px;
+    top:106px;
+    width:45px;
+}
+
+.pedal .pedal-output .output { cursor:pointer; width:45px; }
+
+.pedal .pedal-output-0,
+.pedal .pedal-output-1,
+.pedal .pedal-output-2,
+.pedal .pedal-output-3 { height:45px; position:absolute; }
+
+.pedal .pedal-output-0 { top:0; }
+.pedal .pedal-output-1 { top:55px; }
+.pedal .pedal-output-2 { top:110px; }
+.pedal .pedal-output-3 { top:165px; }
+
+.pedal .pedal-output-control {
+/*    background-image:url(../../../img/icn-input-output.png);*/
+    background-position:left top;
+    background-repeat:no-repeat;
+    height:28px;
+    right:14px;
+    position:absolute;
+    top:8px;
+    width:28px;
+}
+.pedal .pedal-output-control:hover {
+    background-image:url(../../../img/jack-p10.png);
+    height:18px;
+    left:3px;
+    top:14px;
+    width:87px;
+}
+
+.pedal .pedal-output-image {
+    background:url(../../../img/output.png) no-repeat right top;
+    background-size:auto 45px;
+    height:56px;
+    position:relative;
+    width:13px;
+    z-index:2;
+}
+
+.pedal .pedal-output-0 .jack-connected,
+.pedal .pedal-output-1 .jack-connected,
+.pedal .pedal-output-2 .jack-connected,
+.pedal .pedal-output-3 .jack-connected {
+    right:-16px; top:14px;
+}
+
+.pedal .output-disconnected {}
+.pedal .output-connecting {}
+.pedal .output-connected {}
+    
+/* = PEDAL SETTINGS - Pop Up Window
+================================================ */
+.pedal-settings {
+    background:#000;
+    border-radius:9px;
+    color:#fff;
+    left:0;
+    max-width:900px;
+    overflow:auto;
+    padding:0;
+    position:absolute;
+    right:0;
+    top:38px;
+    z-index:10;
+}
+
+.pedal-settings h1 {
+    font-size:18px;
+    font-weight:bold;
+    margin:0;
+    padding:10px 10px 18px;
+}
+
+.pedal-settings .actions {
+    border-color:#2b2b2b;
+    border-style:dotted;
+    border-width:1px 0 0 0;
+    margin:18px;
+    padding:18px 0 0 0;
+    text-align:right;
+}
+
+.pedal-settings .control-group {
+    margin:0;
+    padding:0 18px;
+}
+
+/* KNOB */
+.pedal-settings .knob {
+    background:rgba(255,255,255,.15);
+    float:left;
+    height:140px;
+    margin-bottom:2px;
+    margin-right:2px;
+    position:relative;
+    text-align:center;
+    width:140px;
+}
+
+.pedal-settings .knob > span.current-value {
+    bottom:20px;
+    font-size:12px;
+    font-weight:bold;
+    left:0;
+    position:absolute;
+    text-align:center;
+    right:0;
+}
+.pedal-settings .knob > span.max-value {
+    font-size:11px;
+    font-weight:bold;
+    left:100px;
+    position:absolute;
+    text-align:left;
+    top:72px;
+}
+.pedal-settings .knob > span.min-value {
+    font-size:11px;
+    font-weight:bold;
+    position:absolute;
+    text-align:right;
+    right:100px;
+    top:72px;
+}
+.pedal-settings .knob > span.title {
+    color:white;
+    display:block;
+    font-size:11px;
+    font-weight:bold;
+    height:12px;
+    line-height:1;
+    margin:9px 0;
+    padding:0;
+    text-transform:uppercase;
+}
+
+.pedal-settings .knob .image {
+    background-image:url(japanese/white/_strip.png);
+    background-position:left center;
+    background-repeat:no-repeat;
+    background-size:auto 80px;
+    height:66px;
+    left:32px;
+    position:absolute;
+    overflow:hidden;
+    top:27px;
+    width:80px;
+}
+
+/* ENUMERATED */
+.pedal-settings .enumerated {
+    background:rgba(255,255,255,.15);
+    color:white;
+    float:left;
+    font-size:11px;
+    height:140px;
+    margin-bottom:2px;
+    margin-right:2px;
+    overflow:hidden;
+    position:relative;
+    width:282px;
+}
+
+.pedal-settings .enumerated .title {
+    border-color:rgba(255,255,255,.2);
+    border-style:dotted;
+    border-width:0 0 1px 0;
+    display:block;
+    font-size:12px;
+    font-weight:bold;
+    line-height:1;
+    padding:7px 0 5px 10px;
+    text-transform:uppercase;
+}
+
+.pedal-settings .enumerated ul {
+    list-style:none;
+    margin:0;
+    padding:0;
+}
+
+.pedal-settings .enumerated ul li {
+    border-color:rgba(255,255,255,.2);
+    border-style:dotted;
+    border-width:0 0 1px 0;
+    cursor:pointer;
+    line-height:1.5;
+    margin:0;
+    padding:2px 0 2px 10px;
+}
+
+.pedal-settings .enumerated ul li.selected,
+.pedal-settings .enumerated ul li.selected:hover {
+    background:#0088cc;
+}
+
+.pedal-settings .enumerated ul li:hover {
+    background:rgba(255,255,255,.2);
+}
+
+/* SLIDER */
+.pedal-settings .slider {
+    background:rgba(255,255,255,.15);
+    color:white;
+    float:left;
+    font-size:11px;
+    height:140px;
+    margin-bottom:2px;
+    margin-right:2px;
+    overflow:hidden;
+    position:relative;
+    text-align:center;
+    width:70px;
+}
+
+.pedal-settings .slider .title {
+    border-color:rgba(255,255,255,.2);
+    border-style:dotted;
+    border-width:0 0 1px 0;
+    display:block;
+    font-size:12px;
+    font-weight:bold;
+    line-height:1;
+    margin-bottom:11px;
+    padding:7px 0 5px;
+    text-transform:uppercase;
+}
+
+.pedal-settings .slider .image {
+    background-image:url(../knobs/slider/slider.png);
+    background-position:center center;
+    background-repeat:no-repeat;
+    background-size:18px auto;
+    height:36px;
+    left:50%;
+    position:absolute;
+    margin-left:-9px;
+    top:32px;
+    width:18px;
+    z-index:2;
+}
+
+.pedal-settings .slider .image:hover {
+    cursor:pointer;
+}
+
+.pedal-settings .slider .track {
+    background-color:black;
+    border-radius:12px;
+    height:106px;
+    left:50%;
+    position:absolute;
+    margin-left:-3px;
+    top:30px;
+    width:6px;
+    z-index:1;
+}
+
+/* ADDRESSING BUTTON */
+.pedal-settings .knob .address,
+.pedal-settings .enumerated .address {
+    background-color:rgba(255,255,255,.1);
+    background-image:url(../../img/icn-addressing.png);
+    background-position:center center;
+    background-repeat:no-repeat;
+    cursor:pointer;
+    height:24px;
+    position:absolute;
+    right:0;
+    width:24px;
+}
+
+.pedal-settings .knob .address:hover,
+.pedal-settings .enumerated .address:hover {
+    background-color:#0088cc;
+}
+
+.pedal-settings .knob .address {
+    bottom:0;
+}
+
+.pedal-settings .enumerated .address {
+    top:0;
+}
+
+/* ADDRESSING POP-UP */
+.pedal-settings-address {
+    background:rgba(0,0,0,.75);
+    bottom:0;
+    left:0;
+    position:absolute;
+    right:0;
+    top:0;
+    z-index:1000;
+}
+
+.pedal-settings-address .box {
+    background:white;
+    border-radius:9px;
+    left:50%;
+    margin:-150px -168px;
+    padding:18px;
+    position:absolute;
+    top:50%;
+    width:300px;
+}
+
+.pedal-settings-address h1 {
+    font-size:18px;
+    line-height:1;
+    margin:0 0 18px 0;
+    padding:0;
+    text-transform:uppercase;
+}
+
+.pedal-settings-address label {
+    display:inline-block;
+    float:left;
+    line-height:2;
+    width:96px;
+}
+
+.pedal-settings-address .controls {
+    float:left;
+}
+
+.pedal-settings-address input[type="text"] {
+    width:190px;
+}
+
+.pedal-settings-address .value input[type="number"] {
+    width:190px;
+}
+
+.pedal-settings-address .range input[type="number"] {
+    width:81px;
+}
+
+.pedal-settings-address select {
+    width:202px;
+}

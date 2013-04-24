@@ -1,0 +1,193 @@
+/* STYLES FOR THE LATA PEDAL */
+
+@import url(../../../fonts/epf/stylesheet.css);
+@import url(../../../fonts/nexa/stylesheet.css);
+@import url(../../../fonts/pirulen/stylesheet.css);
+@import url(../../../fonts/questrial/stylesheet.css);
+
+/* = CONTAINER
+================================================ */
+.pedal-lata {
+    background-position:center center;
+    background-repeat:no-repeat;
+    height:516px;
+    position:absolute;
+    width:398px;
+}
+
+/* = BACKGROUND IMAGES - Colour of the pedal
+================================================ */
+.pedal-lata.blue        { background-image:url(blue.png); }
+.pedal-lata.brown       { background-image:url(brown.png); }
+.pedal-lata.cream       { background-image:url(cream.png); }
+.pedal-lata.darkblue    { background-image:url(darkblue.png); }
+.pedal-lata.gray        { background-image:url(gray.png); }
+.pedal-lata.green       { background-image:url(green.png); }
+.pedal-lata.orange      { background-image:url(orange.png); }
+.pedal-lata.purple      { background-image:url(purple.png); }
+.pedal-lata.red         { background-image:url(red.png); }
+.pedal-lata.white       { background-image:url(white.png); }
+.pedal-lata.yellow      { background-image:url(yellow.png); }
+
+/* = PLUGIN'S AUTHOR
+================================================ */
+.pedal-lata .author {
+    left:30px;
+    position:absolute;
+    right:30px;
+    text-align:center;
+    text-transform:uppercase;
+    top:290px;
+}
+
+.pedal-lata .author h1 {
+    color:#111;
+    font-family:"Nexa";
+    font-size:32px;
+}
+
+/* = PLUGIN'S NAME
+================================================ */
+.pedal-lata .name {
+    left:30px;
+    overflow:hidden;
+    position:absolute;
+    right:30px;
+    text-align:center;
+    top:330px;
+}
+
+.pedal-lata .name h1 {
+    font-family:"Questrial";
+    font-size:24px;
+    line-height:1;
+}
+
+.pedal-lata.blue .name h1 {
+    color:rgb(47,73,103);
+}
+
+.pedal-lata.brown .name h1 {
+    color:rgba(255,255,255,.85);
+}
+
+.pedal-lata.cream .name h1 {
+    color:rgb(102,98,81);
+}
+
+.pedal-lata.darkblue .name h1 {
+    color:rgba(255,255,255,.85);
+}
+
+.pedal-lata.gray .name h1 {
+    color:rgba(255,255,255,.85);
+}
+
+.pedal-lata.green .name h1 {
+    color:rgb(39,65,26);
+}
+
+.pedal-lata.orange .name h1 {
+    color:rgb(162,79,21);
+}
+
+.pedal-lata.purple .name h1 {
+    color:rgba(255,255,255,.85);
+}
+
+.pedal-lata.red .name h1 {
+    color:rgb(85,14,14);
+}
+
+.pedal-lata.white .name h1 {
+    color:rgb(42,42,42);
+}
+
+.pedal-lata.yellow .name h1 {
+    color:rgb(118,95,25);
+}
+
+/* = KNOBS
+================================================ */
+.pedal-lata .knob-group .knob .image { background-image:url(_strip.png); }
+
+.pedal-lata .knob-group {
+    height:141px;
+    left:40px;
+    position:absolute;
+    right:40px;
+    top:36px;
+}
+.pedal-lata .knob-group .knob {
+    height:100px;
+    float:left;
+    text-align:center;
+    width:79.5px;
+}
+
+.pedal-lata.blue .knob-group .knob > span.title { color:black; }
+.pedal-lata.brown .knob-group .knob > span.title { color:white; }
+.pedal-lata.cream .knob-group .knob > span.title { color:black; }
+.pedal-lata.darkblue .knob-group .knob > span.title { color:white; }
+.pedal-lata.gray .knob-group .knob > span.title { color:black; }
+.pedal-lata.green .knob-group .knob > span.title { color:white; }
+.pedal-lata.orange .knob-group .knob > span.title { color:black; }
+.pedal-lata.purple .knob-group .knob > span.title { color:white; }
+.pedal-lata.red .knob-group .knob > span.title { color:black; }
+.pedal-lata.white .knob-group .knob > span.title { color:black; }
+.pedal-lata.yellow .knob-group .knob > span.title { color:black; }
+
+.pedal-lata .knob-group .knob > span.title {
+    display:block;
+    font-size:10px;
+    font-weight:bold;
+    height:12px;
+    line-height:1;
+    margin:0;
+    padding:0;
+    text-transform:uppercase;
+}
+.pedal-lata .knob-group .knob .image { 
+    background-position:left center;
+    background-repeat:no-repeat;
+    background-size:auto 79.5px;
+    height:79.5px;
+    position:relative;
+    overflow:hidden;
+    width:79.5px;
+}
+
+
+/* = LIGHT ON/OFF
+================================================ */
+.pedal-lata .light {
+    height:32px;
+    left:0;
+    margin:0 auto;
+    position:absolute;
+    right:0;
+    top:250px;
+    width:32px;
+}
+
+/* = FOOTSWITCH
+================================================ */
+.pedal-lata .footswitch {
+    background-image:url(footswitch.png);
+    background-position:center center;
+    background-repeat:no-repeat;
+    background-size:auto 80px;
+    bottom:26px;
+    cursor:pointer;
+    height:155px;
+    left:13px;
+    position:absolute;
+    right:13px;
+}
+
+/* = INPUTS/OUTPUTS
+================================================ */
+.pedal-lata .pedal-input,
+.pedal-lata .pedal-output {
+    top:136px;
+}

@@ -1,0 +1,131 @@
+/* STYLES FOR THE JAPANESE PEDAL */
+
+@import url(../../../fonts/epf/stylesheet.css);
+@import url(../../../fonts/nexa/stylesheet.css);
+@import url(../../../fonts/pirulen/stylesheet.css);
+@import url(../../../fonts/questrial/stylesheet.css);
+
+/* = CONTAINER
+================================================ */
+.pedal-japanese {
+    background-position:center center;
+    background-repeat:no-repeat;
+    height:530px;
+    position:absolute;
+    width:274px;
+}
+
+/* = BACKGROUND IMAGES - Colour of the pedal
+================================================ */
+.pedal-japanese.blue        { background-image:url(blue.png); }
+.pedal-japanese.brown       { background-image:url(brown.png); }
+.pedal-japanese.cream       { background-image:url(cream.png); }
+.pedal-japanese.darkblue    { background-image:url(darkblue.png); }
+.pedal-japanese.gray        { background-image:url(gray.png); }
+.pedal-japanese.green       { background-image:url(green.png); }
+.pedal-japanese.orange      { background-image:url(orange.png); }
+.pedal-japanese.purple      { background-image:url(purple.png); }
+.pedal-japanese.red         { background-image:url(red.png); }
+.pedal-japanese.white       { background-image:url(white.png); }
+.pedal-japanese.yellow      { background-image:url(yellow.png); }
+
+/* = PLUGIN'S AUTHOR
+================================================ */
+.pedal-japanese .author {
+    bottom:95px;
+    left:30px;
+    position:absolute;
+    right:30px;
+    text-align:center;
+    text-transform:uppercase;
+}
+
+.pedal-japanese .author h1 {
+    color:#111;
+    font-family:"Nexa";
+    font-size:32px;
+    text-shadow:1px 1px 1px rgba(255,255,255,.1), -1px -1px 1px rgba(255,255,255,.2);
+}
+
+/* = PLUGIN'S NAME
+================================================ */
+.pedal-japanese .name {
+    bottom:210px;
+    left:30px;
+    overflow:hidden;
+    position:absolute;
+    right:30px;
+    text-align:right;
+    top:230px;
+}
+
+.pedal-japanese .name h1 {
+    font-family:"Questrial";
+    font-size:24px;
+    line-height:1;
+}
+
+.pedal-japanese.blue .name h1 {
+    color:rgb(47,73,103);
+}
+
+.pedal-japanese.brown .name h1 {
+    color:rgba(255,255,255,.85);
+}
+
+.pedal-japanese.cream .name h1 {
+    color:rgb(102,98,81);
+}
+
+.pedal-japanese.darkblue .name h1 {
+    color:rgba(255,255,255,.85);
+}
+
+.pedal-japanese.gray .name h1 {
+    color:rgba(255,255,255,.85);
+}
+
+.pedal-japanese.green .name h1 {
+    color:rgb(39,65,26);
+}
+
+.pedal-japanese.orange .name h1 {
+    color:rgb(162,79,21);
+}
+
+.pedal-japanese.purple .name h1 {
+    color:rgba(255,255,255,.85);
+}
+
+.pedal-japanese.red .name h1 {
+    color:rgb(85,14,14);
+}
+
+.pedal-japanese.white .name h1 {
+    color:rgb(42,42,42);
+}
+
+.pedal-japanese.yellow .name h1 {
+    color:rgb(118,95,25);
+}
+
+/* = LIGHT ON/OFF
+================================================ */
+.pedal-japanese .light {
+    height:32px;
+    left:120px;
+    position:absolute;
+    top:185px;
+    width:32px;
+}
+
+/* = FOOTSWITCH
+================================================ */
+.pedal-japanese .footswitch {
+    bottom:46px;
+    cursor:pointer;
+    height:155px;
+    left:13px;
+    position:absolute;
+    right:13px;
+}

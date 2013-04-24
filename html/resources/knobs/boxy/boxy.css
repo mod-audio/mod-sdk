@@ -1,0 +1,194 @@
+/* STYLES FOR THE BOXY KNOB */
+
+/* = KNOBS
+================================================ */
+.pedal-boxy .knob-group {
+    margin:20px;
+    text-align:center;
+}
+
+.pedal-boxy .knob-group .knob > span.title {
+    display:block;
+    font-size:11px;
+    font-weight:bold;
+    height:12px;
+    line-height:1;
+    margin:0;
+    padding:0;
+    text-transform:uppercase;
+}
+.pedal-boxy.blue .knob-group .knob > span.title {
+    color:black;
+}
+.pedal-boxy.brown .knob-group .knob > span.title {
+    color:white;
+}
+.pedal-boxy.cream .knob-group .knob > span.title {
+    color:black;
+}
+.pedal-boxy.darkblue .knob-group .knob > span.title {
+    color:white;
+}
+.pedal-boxy.gray .knob-group .knob > span.title {
+    color:black;
+}
+.pedal-boxy.green .knob-group .knob > span.title {
+    color:white;
+}
+.pedal-boxy.orange .knob-group .knob > span.title {
+    color:black;
+}
+.pedal-boxy.purple .knob-group .knob > span.title {
+    color:white;
+}
+.pedal-boxy.red .knob-group .knob > span.title {
+    color:black;
+}
+.pedal-boxy.white .knob-group .knob > span.title {
+    color:black;
+}
+.pedal-boxy.yellow .knob-group .knob > span.title {
+    color:black;
+}
+    
+
+/* ONE and TWO KNOBS */
+.pedal-boxy.one-knob .knob-group .knob .image,
+.pedal-boxy.two-knobs .knob-group .knob .image {
+    background-image:url(boxy.png);
+}
+.pedal-boxy.one-knob .knob-group  .knob .image,
+.pedal-boxy.two-knobs .knob-group .knob .image {
+    height:100px;
+    margin:0 auto;
+    width:100px;
+}
+
+/* TWO KNOBS */
+.pedal-boxy.two-knobs .knob-group {
+    margin:20px 10px;
+}
+
+.pedal-boxy.two-knobs .knob-group .knob {
+    float:left;
+    width:50%;
+}
+
+/* THREE AND HIGHER KNOBS */
+.pedal-boxy.three-knobs .knob-group,
+.pedal-boxy.four-knobs .knob-group,
+.pedal-boxy.five-knobs .knob-group,
+.pedal-boxy.six-knobs .knob-group,
+.pedal-boxy.seven-knobs .knob-group,
+.pedal-boxy.eight-knobs .knob-group {
+    margin:20px 6px;
+}
+
+.pedal-boxy.three-knobs .knob-group .knob,
+.pedal-boxy.four-knobs .knob-group .knob,
+.pedal-boxy.five-knobs .knob-group .knob,
+.pedal-boxy.six-knobs .knob-group .knob,
+.pedal-boxy.seven-knobs .knob-group .knob,
+.pedal-boxy.eight-knobs .knob-group .knob {
+    display:inline-block;
+}
+
+.pedal-boxy.three-knobs .knob-group .knob .image,
+.pedal-boxy.four-knobs .knob-group .knob .image,
+.pedal-boxy.five-knobs .knob-group .knob .image,
+.pedal-boxy.six-knobs .knob-group .knob .image,
+.pedal-boxy.seven-knobs .knob-group .knob .image,
+.pedal-boxy.eight-knobs .knob-group .knob .image {
+    background-image:url(../lata/lata.png);
+    background-repeat:no-repeat;
+    background-size:auto 70px;
+    height:70px;
+    margin:0 auto;
+    width:66px;
+}
+
+/* THREE KNOBS */
+.pedal-boxy.three-knobs .author {
+    top:150px;
+}
+
+.pedal-boxy.three-knobs .name {
+    top:345px;
+}
+
+.pedal-boxy.three-knobs .light { 
+    top:230px;
+}
+
+.pedal-boxy.three-knobs .footswitch { 
+    top:230px;
+}
+
+/* FIVE KNOBS */
+.pedal-boxy.five-knobs .author {
+    top:190px;
+}
+
+.pedal-boxy.five-knobs .name {
+    top:350px;
+}
+
+.pedal-boxy.five-knobs .light { 
+    top:253px;
+}
+
+.pedal-boxy.five-knobs .footswitch { 
+    top:240px;
+}
+
+/* SIX KNOBS */
+.pedal-boxy.six-knobs .author {
+    top:190px;
+}
+
+.pedal-boxy.six-knobs .name {
+    top:350px;
+}
+
+.pedal-boxy.six-knobs .light { 
+    top:253px;
+}
+
+.pedal-boxy.six-knobs .footswitch { 
+    top:240px;
+}
+
+/* SEVEN KNOBS */
+.pedal-boxy.seven-knobs .author {
+    top:190px;
+}
+
+.pedal-boxy.seven-knobs .name {
+    top:350px;
+}
+
+.pedal-boxy.seven-knobs .light { 
+    top:253px;
+}
+
+.pedal-boxy.seven-knobs .footswitch { 
+    top:240px;
+}
+
+
+/* EIGTH KNOBS */
+.pedal-boxy.eight-knobs .author {
+    top:190px;
+}
+
+.pedal-boxy.eight-knobs .name {
+    top:350px;
+}
+
+.pedal-boxy.eight-knobs .light { 
+    top:253px;
+}
+
+.pedal-boxy.eight-knobs .footswitch { 
+    top:240px;
+}
