@@ -1,14 +1,25 @@
-var dashboard, bundles, effects, reload
+var dashboard, bundles, effects, reload, screenshot, icon
 $(document).ready(function() {
     dashboard = $('#pedalboard-dashboard')
     bundles = $('#bundle-select')
     effects = $('#effect-select')
     reload = $('#reload')
+    screenshot = $('#screenshot')
 
     effects.hide()
 
     bundles.change(function() { getEffects() })
     effects.change(function() { showEffect() })
+    screenshot.click(function() {
+	var iconImg = $('<img>')
+	var param = { bundle: bundles.val(),
+		      effect: effects.val(),
+		      width: icon.width(),
+		      height: icon.height()
+		    }
+	$('<img class="icon">').attr('src', '/icon_screenshot?' + $.param(param)).appendTo(dashboard)
+	$('<img class="thumb">').attr('src', '/thumb_screenshot?'  + $.param(param)).appendTo(dashboard)
+    })
 
     var hash = window.location.hash.replace(/^#/, '')
     getBundles(function() {
@@ -30,6 +41,7 @@ function getBundles(callback) {
     $.ajax({ url: '/bundles',
 	     success: function(data) {
 		 dashboard.html('')
+		 $('#screenshot').hide()
 		 bundles.find('option').remove()
 		 $('<option>').val('').html('-- Select Bundle --').appendTo(bundles)
 		 for (var i in data) {
@@ -72,6 +84,7 @@ function getEffects(callback) {
 
 function showEffect() {
     dashboard.html('')
+    screenshot.hide()
     var bundle = bundles.val()
     if (!bundle) {
 	window.location.hash = ''
@@ -84,6 +97,18 @@ function showEffect() {
     }
     window.location.hash = bundle + ',' + options.url
     var element = $(Mustache.render(options.icon.template, getTemplateData(options)))
+
+    element.draggable({ handle: element.find('[mod-role=drag-handle]') })
+    element.find('[mod-role=bypass]').click(function() {
+	var light = element.find('[mod-role=bypass-light]')
+	if (light.hasClass('on')) {
+	    light.addClass('off')
+	    light.removeClass('on')
+	} else {
+	    light.addClass('on')
+	    light.removeClass('off')
+	}
+    })
 
     var max_inputs = 4
     var num_inputs = options.ports.audio.input.length
@@ -104,12 +129,33 @@ function showEffect() {
     }
 
     dashboard.append(element)
+    screenshot.show()
+    icon = element
 }
 
+
+
 function getTemplateData(options) {
-    var template_data = $.extend({}, options.icon.template_data)
-    template_data.effect = options
-    template_data.ns = 'url=' + escape(options.url)
-    return template_data
+    var i, port, control, symbol
+    var data = $.extend({}, options.icon.template_data)
+    data.effect = options
+    data.ns = 'url=' + escape(options.url)
+    if (!data.controls)
+	return data
+    var controlIndex = {}
+    for (i in options.ports.control.input) {
+	port = options.ports.control.input[i]
+	controlIndex[port.symbol] = port
+    }
+    for (var i in data.controls) {
+	control = data.controls[i]
+	if (typeof control == "string") {
+	    control = controlIndex[control]
+	} else {
+	    control = $.extend({}, controlIndex[control.symbol], control)
+	}
+	data.controls[i] = control
+    }
+    return data
 }
 
