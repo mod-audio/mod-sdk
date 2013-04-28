@@ -1,16 +1,16 @@
-var dashboard, bundles, effects, reload, screenshot, icon
+var dashboard, bundles, effects, reload, menu, icon
 $(document).ready(function() {
     dashboard = $('#pedalboard-dashboard')
     bundles = $('#bundle-select')
     effects = $('#effect-select')
     reload = $('#reload')
-    screenshot = $('#screenshot')
+    menu = $('#effect-menu')
 
     effects.hide()
 
     bundles.change(function() { getEffects() })
     effects.change(function() { showEffect() })
-    screenshot.click(function() {
+    $('#screenshot').click(function() {
 	var iconImg = $('<img>')
 	var param = { bundle: bundles.val(),
 		      effect: effects.val(),
@@ -19,6 +19,20 @@ $(document).ready(function() {
 		    }
 	$('<img class="icon">').attr('src', '/icon_screenshot?' + $.param(param)).appendTo(dashboard)
 	$('<img class="thumb">').attr('src', '/thumb_screenshot?'  + $.param(param)).appendTo(dashboard)
+    })
+
+    $('#install').click(function() {
+	$.ajax({ url: '/install/' + bundles.val(),
+		 success: function(result) {
+		     if (result.ok)
+			 alert("Effect installed")
+		     else
+			 alert(result.msg)
+		 },
+		 error: function(resp) {
+		     alert("Error: Can't install bundle. Is your server running? Check the logs.")
+		 }
+	       })
     })
 
     var hash = window.location.hash.replace(/^#/, '')
@@ -41,7 +55,7 @@ function getBundles(callback) {
     $.ajax({ url: '/bundles',
 	     success: function(data) {
 		 dashboard.html('')
-		 $('#screenshot').hide()
+		 menu.hide()
 		 bundles.find('option').remove()
 		 $('<option>').val('').html('-- Select Bundle --').appendTo(bundles)
 		 for (var i in data) {
@@ -84,7 +98,7 @@ function getEffects(callback) {
 
 function showEffect() {
     dashboard.html('')
-    screenshot.hide()
+    menu.hide()
     var bundle = bundles.val()
     if (!bundle) {
 	window.location.hash = ''
@@ -129,7 +143,7 @@ function showEffect() {
     }
 
     dashboard.append(element)
-    screenshot.show()
+    menu.show()
     icon = element
 }
 

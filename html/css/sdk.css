@@ -1,4 +1,6 @@
-#pedalboard-dashboard .pedal { margin: 50px 0 0 100px }
-#screenshot { background-color: #444444; border-radius: 4px; border: 2px solid #151515; position: absolute; top: 6px; right: 15px; padding: 3px 6px; font-size: 15px; color: white; font-weight: bold; cursor: pointer}
+#pedalboard-dashboard .pedal { margin: 50px 0 0 210px }
 #pedalboard-dashboard canvas { position: absolute; top: 50px; right: 100px; }
 #pedalboard-dashboard img { position: absolute; top: 50px; right: 100px; }
+
+#effect-menu { position: absolute; top: 50px; left: 10px; }
+#effect-menu div { display: block; background-color: #444444; border-radius: 4px; border: 2px solid #151515; padding: 3px 6px; font-size: 15px; color: white; font-weight: bold; cursor: pointer; margin: 10px }

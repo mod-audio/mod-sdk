@@ -3,7 +3,7 @@
 import os, json, random, subprocess
 import Image
 
-from tornado import web, options, ioloop, template
+from tornado import web, options, ioloop, template, httpclient
 from modcommon import lv2
 
 PORT = 9000
@@ -109,6 +109,49 @@ class ThumbScreenshot(web.RequestHandler):
                         self.get_argument('height'),
                         handle_image)
 
+class BundleInstall(web.RequestHandler):
+    @web.asynchronous
+    def get(self, bundle):
+        path = os.path.join(WORKSPACE, bundle)
+        package = lv2.BundlePackage(path, units_file=UNITS_FILE)
+        content_type, body = self.encode_multipart_formdata(package)
+
+        headers = {
+            'Content-Type': content_type,
+            'Content-Length': str(len(body)),
+            }
+
+        client = httpclient.AsyncHTTPClient()
+        client.fetch('http://localhost:8888/sdk/install',
+                     self.handle_response,
+                     method='POST', headers=headers, body=body)
+
+    def handle_response(self, response):
+        self.set_header('Content-type', 'application/json')
+        if (response.code == 200):
+            self.write(json.dumps({ 'ok': json.loads(response.body) }))
+        else:
+            self.write(json.dumps({ 'ok': False,
+                                    'error': response.body,
+                                    }))
+        self.finish()
+        
+    def encode_multipart_formdata(self, package):
+        boundary = '----------%s' % ''.join([ random.choice('0123456789abcdef') for i in range(22) ])
+        body = []
+
+        body.append('--%s' % boundary)
+        body.append('Content-Disposition: form-data; name="package"; filename="%s.tgz"' % package.uid)
+        body.append('Content-Type: application/octet-stream')
+        body.append('')
+        body.append(package.read())
+        
+        body.append('--%s--' % boundary)
+        body.append('')
+
+        content_type = 'multipart/form-data; boundary=%s' % boundary
+
+        return content_type, '\r\n'.join(body)
 
 def run():
     application = web.Application([
@@ -117,6 +160,7 @@ def run():
             (r"/", Index),
             (r"/icon_screenshot", IconScreenshot),
             (r"/thumb_screenshot", ThumbScreenshot),
+            (r"/install/(.+)/?", BundleInstall),
             (r"/(.*)", web.StaticFileHandler, {"path": HTML_DIR}),
             ],
                                   debug=True)
