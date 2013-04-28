@@ -1,10 +1,12 @@
-var dashboard, bundles, effects, reload, menu, icon
+var dashboard, bundles, effects, reload, menu, icon, settings, settingsWindow
 $(document).ready(function() {
     dashboard = $('#pedalboard-dashboard')
     bundles = $('#bundle-select')
     effects = $('#effect-select')
     reload = $('#reload')
     menu = $('#effect-menu')
+    settings = $('#settings')
+    settingsWindow = $('#settings-window')
 
     effects.hide()
 
@@ -35,6 +37,46 @@ $(document).ready(function() {
 		     alert("Error: Can't install bundle. Is your server running? Check the logs.")
 		 }
 	       })
+    })
+
+    $('#settings').click(function() {
+	$.ajax({ url: '/config/get',
+		 success: function(config) {
+		     settingsWindow.find('input').val('')
+		     var key
+		     for (key in config)
+			 settingsWindow.find('#'+key).val(config[key])
+		     settingsWindow.show()
+		 },
+		 error: function() {
+		     alert("Error: Can't get current configuration. Is your server running? Check the logs.")
+		 }
+	       })
+    })
+    $('#settings-cancel').click(function() {
+	settingsWindow.hide()
+	return false
+    })
+    $('#settings-save').click(function() {
+	var config = {}
+	settingsWindow.find('input').each(function() {
+	    config[this.id] = $(this).val()
+	});
+	$.ajax({ url: '/config/set',
+		 type: 'POST',
+		 data: JSON.stringify(config),
+		 success: function() {
+		     settingsWindow.hide()
+		 },
+		 error: function() {
+		     alert("Error: Can't set configuration. Is your server running? Check the logs.")
+		 }
+	       })
+	return false
+    })
+    settingsWindow.find('.controls span').click(function() {
+	var self = $(this)
+	self.parent().find('input').val(self.attr('data'))
     })
 
     var hash = window.location.hash.replace(/^#/, '')

@@ -2,5 +2,42 @@
 #pedalboard-dashboard canvas { position: absolute; top: 50px; right: 100px; }
 #pedalboard-dashboard img { position: absolute; top: 50px; right: 100px; }
 
+#pedalboard-info { right: 0 }
+
 #effect-menu { position: absolute; top: 50px; left: 10px; }
 #effect-menu div { display: block; background-color: #444444; border-radius: 4px; border: 2px solid #151515; padding: 3px 6px; font-size: 15px; color: white; font-weight: bold; cursor: pointer; margin: 10px }
+
+#settings {
+    background-image:url(../img/icn-settings.png);
+    background-repeat:no-repeat;
+    border-color:#2b2b2b;
+    border-style:solid;
+    border-width:0 0 0 1px;
+    cursor: pointer;
+    float:right;
+    height: 30px;
+    margin: 10px 0 0 0;
+    width: 30px;
+}
+
+.save-popup .box {
+    width: 520px;
+}
+.save-popup .box label {
+    width: 120px;
+}
+.save-popup .box input {
+    width: 400px;
+    margin-top: 2px;
+}
+.save-popup .box .controls {
+    margin-bottom: 20px;
+}
+.save-popup .box .controls span {
+    border: 1px solid #999;
+    border-radius: 3px;
+    cursor: pointer;
+    margin: 5px 5px 5px 0;
+    padding: 5px;
+}
+

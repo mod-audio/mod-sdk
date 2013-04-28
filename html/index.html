@@ -50,6 +50,7 @@
                     <div class="title">MOD SDK</div>
 		    <select id="bundle-select"></select>
 		    <select id="effect-select"></select>
+		    <div id="settings"></div>
                     </div>
                 </div>
                 <!-- END PEDALBOARD-SETTINGS -->
@@ -67,8 +68,30 @@
 
         </div>
         <!-- END PEDALBOARD -->
+	<div id="settings-window" class="save-popup hidden">
+	  <div class="box">
+            <h1>Settings</h1>
+            <form class="bottom">
+              <div class="controls clearfix">
+		<label>Device Address</label>
+		<input id="device" type="text"/>
+		<span id="device-local" data="http://localhost:8888">local</span>
+		<span id="device-quadra" data="qual eh esse ip?">quadra</span>
+              </div>
+              <div class="controls clearfix">
+		<label>Cloud Address</label>
+		<input id="cloud" type="text"/>
+              </div>
+              <div class="controls actions">
+		<button id="settings-cancel" class="js-cancel-saving btn btn-danger">Cancel</button>
+		<button id="settings-save" class="btn btn-success">Save</button>
+              </div>
+            </form>
+	  </div>
+	</div>
     </div>
     <!-- END WRAPPER -->
+
 </body>
 </html>
 

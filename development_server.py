@@ -11,10 +11,18 @@ ROOT = os.path.dirname(os.path.realpath(__file__))
 HTML_DIR = os.path.join(ROOT, 'html')
 WORKSPACE = os.path.join(ROOT, 'workspace')
 UNITS_FILE = os.path.join(ROOT, 'units.ttl')
+CONFIG_FILE = os.path.join(ROOT, 'config.json')
 PHANTOM_BINARY = os.path.join(ROOT, 'phantomjs-1.9.0-linux-x86_64/bin/phantomjs')
 SCREENSHOT_SCRIPT = os.path.join(ROOT, 'screenshot.js')
 MAX_THUMB_WIDTH = 64
 MAX_THUMB_HEIGHT = 64
+
+def get_config(key, default=None):
+    try:
+        config = json.loads(open(CONFIG_FILE).read())
+        return config[key]
+    except:
+        return default
 
 class BundleList(web.RequestHandler):
     def get(self):
@@ -141,7 +149,12 @@ class BundleInstall(web.RequestHandler):
             }
 
         client = httpclient.AsyncHTTPClient()
-        client.fetch('http://localhost:8888/sdk/install',
+        addr = get_config('device', 'http://localhost:8888')
+        if not addr.startswith('http://') and not addr.startswith('https://'):
+            addr = 'http://%s' % addr
+        if addr.endswith('/'):
+            addr = addr[:-1]
+        client.fetch('%s/sdk/install' % addr,
                      self.handle_response,
                      method='POST', headers=headers, body=body)
 
@@ -172,10 +185,28 @@ class BundleInstall(web.RequestHandler):
 
         return content_type, '\r\n'.join(body)
 
+class ConfigurationGet(web.RequestHandler):
+    def get(self):
+        try:
+            config = json.loads(open(CONFIG_FILE).read())
+        except:
+            config = {}
+        self.set_header('Content-type', 'application/json')
+        self.write(json.dumps(config))
+
+class ConfigurationSet(web.RequestHandler):
+    def post(self):
+        config = json.loads(self.request.body)
+        open(CONFIG_FILE, 'w').write(json.dumps(config))
+        self.set_header('Content-type', 'application/json')
+        self.write(json.dumps(True))
+
 def run():
     application = web.Application([
             (r"/bundles", BundleList),
             (r"/effects/(.+)", EffectList),
+            (r"/config/get", ConfigurationGet),
+            (r"/config/set", ConfigurationSet),
             (r"/", Index),
             (r"/icon_screenshot", IconScreenshot),
             (r"/thumb_screenshot", ThumbScreenshot),
