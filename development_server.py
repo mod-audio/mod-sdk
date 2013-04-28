@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import os, json, random, subprocess
+import os, json, random, subprocess, re
 import Image
 
 from tornado import web, options, ioloop, template, httpclient
@@ -67,17 +67,32 @@ def make_screenshot(bundle, effect, width, height, callback):
         
     loop = ioloop.IOLoop.instance()
     loop.add_handler(proc.stdout.fileno(), proc_callback, 16)
-        
+
+def save_icon_image(bundle, effect, prefix, data):
+    path = os.path.join(WORKSPACE, bundle)
+    package = lv2.Bundle(path, units_file=UNITS_FILE)
+    effect = package.data['plugins'][effect]
+    slug = effect['name'].lower()
+    slug = re.sub('\s+', '-', slug)
+    slug = re.sub('[^a-z0-9-]', '', slug)
+    slug = '%s-%s.png' % (prefix, slug)
+    img_name = os.path.join(effect['icon']['basedir'], slug)
+    open(img_name, 'w').write(data)
+
 class IconScreenshot(web.RequestHandler):
     @web.asynchronous
     def get(self):
+        bundle = self.get_argument('bundle')
+        effect = self.get_argument('effect')
+
         def send_image(fh):
             self.set_header('Content-type', 'image/png')
-            self.write(fh.read())
+            data = fh.read()
+            save_icon_image(bundle, effect, 'icon', data)
+            self.write(data)
             self.finish()
 
-        make_screenshot(self.get_argument('bundle'),
-                        self.get_argument('effect'),
+        make_screenshot(bundle, effect, 
                         self.get_argument('width'),
                         self.get_argument('height'),
                         send_image)
@@ -85,6 +100,9 @@ class IconScreenshot(web.RequestHandler):
 class ThumbScreenshot(web.RequestHandler):
     @web.asynchronous
     def get(self):
+        bundle = self.get_argument('bundle')
+        effect = self.get_argument('effect')
+
         def handle_image(fh):
             img = Image.open(fh)
             width, height = img.size
@@ -99,12 +117,13 @@ class ThumbScreenshot(web.RequestHandler):
             img.save(fname)
             fh = open(fname)
             self.set_header('Content-type', 'image/png')
-            self.write(fh.read())
+            data = fh.read()
+            save_icon_image(bundle, effect, 'thumb', data)
+            self.write(data)
             self.finish()
             os.remove(fname)
 
-        make_screenshot(self.get_argument('bundle'),
-                        self.get_argument('effect'),
+        make_screenshot(bundle, effect,
                         self.get_argument('width'),
                         self.get_argument('height'),
                         handle_image)

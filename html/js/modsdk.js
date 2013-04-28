@@ -17,8 +17,10 @@ $(document).ready(function() {
 		      width: icon.width(),
 		      height: icon.height()
 		    }
-	$('<img class="icon">').attr('src', '/icon_screenshot?' + $.param(param)).appendTo(dashboard)
+	dashboard.find('img').remove()
 	$('<img class="thumb">').attr('src', '/thumb_screenshot?'  + $.param(param)).appendTo(dashboard)
+	$('<img class="icon">').attr('src', '/icon_screenshot?' + $.param(param)).appendTo(dashboard)
+	
     })
 
     $('#install').click(function() {
