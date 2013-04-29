@@ -21,9 +21,20 @@ $(document).ready(function() {
 		      height: icon.height()
 		    }
 	dashboard.find('img').remove()
-	$('<img class="thumb">').attr('src', '/thumb_screenshot?'  + $.param(param)).appendTo(dashboard)
-	$('<img class="icon">').attr('src', '/icon_screenshot?' + $.param(param)).appendTo(dashboard)
-	
+	$.ajax({ url: '/screenshot',
+		 data: param,
+		 success: function(result) {
+		     if (result.ok) {
+			 $('<img class="thumb">').appendTo(dashboard).attr('src', 'data:image/png;base64,'+result.thumbnail)
+			 $('<img class="icon">').appendTo(dashboard).attr('src', 'data:image/png;base64,'+result.icon)
+		     } else {
+			 alert('Could not generate thumbnail')
+		     }
+		 },
+		 error: function(resp) {
+		     alert("Error: Can't generate thumbnail. Is your server running? Check the logs.")
+		 }
+	       })
     })
 
     $('#install').click(function() {

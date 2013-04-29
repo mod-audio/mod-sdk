@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import os, json, random, subprocess, re
+import os, json, random, subprocess, re, base64
 import Image
 
 from tornado import web, options, ioloop, template, httpclient, escape
@@ -54,91 +54,88 @@ class Index(web.RequestHandler):
             }
         self.write(loader.load(path).generate(**context))
 
-def tmp_filename():
-    tmp_filename = ''.join([ random.choice('0123456789abcdef') for i in range(6) ])
-    return '/tmp/%s.png' % tmp_filename
-    
-def make_screenshot(bundle, effect, width, height, callback):
-    fname = tmp_filename()
-    proc = subprocess.Popen([ PHANTOM_BINARY, 
-                              SCREENSHOT_SCRIPT,
-                              'http://localhost:%d/icon.html#%s,%s' % (PORT, bundle, effect),
-                              fname,
-                              width,
-                              height,
-                              ],
-                            stdout=subprocess.PIPE)
-    
-    def proc_callback(fileno, event):
-        if proc.poll() is None:
-            return
-        loop.remove_handler(fileno)
+class Screenshot(web.RequestHandler):
+    @web.asynchronous
+    def get(self):
+        self.bundle = self.get_argument('bundle')
+        self.effect = self.get_argument('effect')
+        self.width = self.get_argument('width')
+        self.height = self.get_argument('height')
+
+        self.make_screenshot()
+
+    def tmp_filename(self):
+        tmp_filename = ''.join([ random.choice('0123456789abcdef') for i in range(6) ])
+        return '/tmp/%s.png' % tmp_filename
+
+    def make_screenshot(self):
+        fname = self.tmp_filename()
+        proc = subprocess.Popen([ PHANTOM_BINARY, 
+                                  SCREENSHOT_SCRIPT,
+                                  'http://localhost:%d/icon.html#%s,%s' % (PORT, self.bundle, self.effect),
+                                  fname,
+                                  self.width,
+                                  self.height,
+                                  ],
+                                stdout=subprocess.PIPE)
+
+        def proc_callback(fileno, event):
+            if proc.poll() is None:
+                return
+            loop.remove_handler(fileno)
+            fh = open(fname)
+            os.remove(fname)
+            self.handle_image(fh)
+
+        loop = ioloop.IOLoop.instance()
+        loop.add_handler(proc.stdout.fileno(), proc_callback, 16)
+
+    def handle_image(self, fh):
+        icon_data = fh.read()
+        fh.seek(0)
+        thumb_data = self.thumbnail(fh).read()
+
+        self.save_icon(icon_data, thumb_data)
+
+        result = {
+            'ok': True,
+            'icon': base64.b64encode(icon_data),
+            'thumbnail': base64.b64encode(thumb_data),
+            }
+
+        self.set_header('Content-type', 'application/json')
+        self.write(json.dumps(result))
+        self.finish()
+
+    def thumbnail(self, fh):
+        img = Image.open(fh)
+        width, height = img.size
+        if width > MAX_THUMB_WIDTH:
+            width = MAX_THUMB_WIDTH
+            height = height * MAX_THUMB_WIDTH / width
+        if height > MAX_THUMB_HEIGHT:
+            height = MAX_THUMB_HEIGHT
+            width = width * MAX_THUMB_HEIGHT / height
+        img.thumbnail((width, height))
+        fname = self.tmp_filename()
+        img.save(fname)
         fh = open(fname)
         os.remove(fname)
-        callback(fh)
-        
-    loop = ioloop.IOLoop.instance()
-    loop.add_handler(proc.stdout.fileno(), proc_callback, 16)
+        return fh
 
-def save_icon_image(bundle, effect, prefix, data):
-    path = os.path.join(WORKSPACE, bundle)
-    package = lv2.Bundle(path, units_file=UNITS_FILE)
-    effect = package.data['plugins'][effect]
-    slug = effect['name'].lower()
-    slug = re.sub('\s+', '-', slug)
-    slug = re.sub('[^a-z0-9-]', '', slug)
-    slug = '%s-%s.png' % (prefix, slug)
-    img_name = os.path.join(effect['icon']['basedir'], slug)
-    open(img_name, 'w').write(data)
+    def save_icon(self, icon_data, thumb_data):
+        path = os.path.join(WORKSPACE, self.bundle)
+        package = lv2.Bundle(path, units_file=UNITS_FILE)
+        effect = package.data['plugins'][self.effect]
+        slug = effect['name'].lower()
+        slug = re.sub('\s+', '-', slug)
+        slug = re.sub('[^a-z0-9-]', '', slug)
 
-class IconScreenshot(web.RequestHandler):
-    @web.asynchronous
-    def get(self):
-        bundle = self.get_argument('bundle')
-        effect = self.get_argument('effect')
+        icon_path = os.path.join(effect['icon']['basedir'], '%s-%s.png' % ('icon', slug))
+        thumb_path = os.path.join(effect['icon']['basedir'], '%s-%s.png' % ('thumb', slug))
 
-        def send_image(fh):
-            self.set_header('Content-type', 'image/png')
-            data = fh.read()
-            save_icon_image(bundle, effect, 'icon', data)
-            self.write(data)
-            self.finish()
-
-        make_screenshot(bundle, effect, 
-                        self.get_argument('width'),
-                        self.get_argument('height'),
-                        send_image)
-
-class ThumbScreenshot(web.RequestHandler):
-    @web.asynchronous
-    def get(self):
-        bundle = self.get_argument('bundle')
-        effect = self.get_argument('effect')
-
-        def handle_image(fh):
-            img = Image.open(fh)
-            width, height = img.size
-            if width > MAX_THUMB_WIDTH:
-                width = MAX_THUMB_WIDTH
-                height = height * MAX_THUMB_WIDTH / width
-            if height > MAX_THUMB_HEIGHT:
-                height = MAX_THUMB_HEIGHT
-                width = width * MAX_THUMB_HEIGHT / height
-            img.thumbnail((width, height))
-            fname = tmp_filename()
-            img.save(fname)
-            fh = open(fname)
-            self.set_header('Content-type', 'image/png')
-            data = fh.read()
-            save_icon_image(bundle, effect, 'thumb', data)
-            self.write(data)
-            self.finish()
-            os.remove(fname)
-
-        make_screenshot(bundle, effect,
-                        self.get_argument('width'),
-                        self.get_argument('height'),
-                        handle_image)
+        open(icon_path, 'w').write(icon_data)
+        open(thumb_path, 'w').write(thumb_data)
 
 class BundleInstall(web.RequestHandler):
     @web.asynchronous
@@ -212,8 +209,7 @@ def run():
             (r"/config/get", ConfigurationGet),
             (r"/config/set", ConfigurationSet),
             (r"/", Index),
-            (r"/icon_screenshot", IconScreenshot),
-            (r"/thumb_screenshot", ThumbScreenshot),
+            (r"/screenshot", Screenshot),
             (r"/install/(.+)/?", BundleInstall),
             (r"/(.*)", web.StaticFileHandler, {"path": HTML_DIR}),
             ],
