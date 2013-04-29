@@ -45,8 +45,9 @@ class EffectList(web.RequestHandler):
         
         
 class Index(web.RequestHandler):
-    def get(self):
-        path = 'index.html'
+    def get(self, path):
+        if not path:
+            path = 'index.html'
         loader = template.Loader(HTML_DIR)
         default_template = open(DEFAULT_TEMPLATE).read()
         context = {
@@ -131,8 +132,15 @@ class Screenshot(web.RequestHandler):
         slug = re.sub('\s+', '-', slug)
         slug = re.sub('[^a-z0-9-]', '', slug)
 
-        icon_path = os.path.join(effect['icon']['basedir'], '%s-%s.png' % ('icon', slug))
-        thumb_path = os.path.join(effect['icon']['basedir'], '%s-%s.png' % ('thumb', slug))
+        try:
+            basedir = effect['icon']['basedir']
+        except:
+            basedir = os.path.join(path, 'modgui')
+        if not os.path.exists(basedir):
+            os.mkdir(basedir)
+
+        icon_path = os.path.join(basedir, '%s-%s.png' % ('icon', slug))
+        thumb_path = os.path.join(basedir, '%s-%s.png' % ('thumb', slug))
 
         open(icon_path, 'w').write(icon_data)
         open(thumb_path, 'w').write(thumb_data)
@@ -208,7 +216,7 @@ def run():
             (r"/effects/(.+)", EffectList),
             (r"/config/get", ConfigurationGet),
             (r"/config/set", ConfigurationSet),
-            (r"/", Index),
+            (r"/(icon.html)?", Index),
             (r"/screenshot", Screenshot),
             (r"/install/(.+)/?", BundleInstall),
             (r"/(.*)", web.StaticFileHandler, {"path": HTML_DIR}),
