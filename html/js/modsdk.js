@@ -1,4 +1,5 @@
 var dashboard, bundles, effects, reload, menu, icon, settings, settingsWindow
+var default_template // loaded in index.html
 $(document).ready(function() {
     dashboard = $('#pedalboard-dashboard')
     bundles = $('#bundle-select')
@@ -153,10 +154,18 @@ function showEffect() {
 	window.location.hash = bundle
 	return
     }
+    if (!options.icon)
+	options.icon = {}
+    if (!options.icon.template)
+	options.icon.template = default_template
     window.location.hash = bundle + ',' + options.url
     var element = $(Mustache.render(options.icon.template, getTemplateData(options)))
 
-    element.draggable({ handle: element.find('[mod-role=drag-handle]') })
+    var handle = element.find('[mod-role=drag-handle]')
+    if (handle.length > 0)
+	element.draggable({ handle: handle })
+    else
+	console.log('no handle')
     element.find('[mod-role=bypass]').click(function() {
 	var light = element.find('[mod-role=bypass-light]')
 	if (light.hasClass('on')) {

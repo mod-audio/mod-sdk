@@ -3,7 +3,7 @@
 import os, json, random, subprocess, re
 import Image
 
-from tornado import web, options, ioloop, template, httpclient
+from tornado import web, options, ioloop, template, httpclient, escape
 from modcommon import lv2
 
 PORT = 9000
@@ -12,6 +12,7 @@ HTML_DIR = os.path.join(ROOT, 'html')
 WORKSPACE = os.path.join(ROOT, 'workspace')
 UNITS_FILE = os.path.join(ROOT, 'units.ttl')
 CONFIG_FILE = os.path.join(ROOT, 'config.json')
+DEFAULT_TEMPLATE = os.path.join(ROOT, 'html/resources/templates/default.html')
 PHANTOM_BINARY = os.path.join(ROOT, 'phantomjs-1.9.0-linux-x86_64/bin/phantomjs')
 SCREENSHOT_SCRIPT = os.path.join(ROOT, 'screenshot.js')
 MAX_THUMB_WIDTH = 64
@@ -47,7 +48,10 @@ class Index(web.RequestHandler):
     def get(self):
         path = 'index.html'
         loader = template.Loader(HTML_DIR)
-        context = {}
+        default_template = open(DEFAULT_TEMPLATE).read()
+        context = {
+            'default_template': escape.squeeze(default_template.replace("'", "\\'")),
+            }
         self.write(loader.load(path).generate(**context))
 
 def tmp_filename():
