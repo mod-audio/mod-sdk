@@ -40,4 +40,23 @@
     margin: 5px 5px 5px 0;
     padding: 5px;
 }
+#wizard-window .box { 
+    top: 200px;
+    width: 800px;
+}
+
+#wizard-icon {
+    float: left;
+    padding: 10px;
+}
+
+#wizard-icon .previous, #wizard-icon .next {
+    cursor: pointer;
+    font-size: 30px;
+    margin: 10px;
+}
+
+#wizard-icon div, #wizard-icon img { 
+    display: inline;
+}
 

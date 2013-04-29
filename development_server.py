@@ -10,8 +10,10 @@ PORT = 9000
 ROOT = os.path.dirname(os.path.realpath(__file__))
 HTML_DIR = os.path.join(ROOT, 'html')
 WORKSPACE = os.path.join(ROOT, 'workspace')
+WIZARD_DB = os.path.join(HTML_DIR, 'resources/wizard.json')
 UNITS_FILE = os.path.join(ROOT, 'units.ttl')
 CONFIG_FILE = os.path.join(ROOT, 'config.json')
+TEMPLATE_DIR = os.path.join(HTML_DIR, 'resources/templates')
 DEFAULT_TEMPLATE = os.path.join(ROOT, 'html/resources/templates/default.html')
 PHANTOM_BINARY = os.path.join(ROOT, 'phantomjs-1.9.0-linux-x86_64/bin/phantomjs')
 SCREENSHOT_SCRIPT = os.path.join(ROOT, 'screenshot.js')
@@ -52,6 +54,7 @@ class Index(web.RequestHandler):
         default_template = open(DEFAULT_TEMPLATE).read()
         context = {
             'default_template': escape.squeeze(default_template.replace("'", "\\'")),
+            'wizard_db': json.dumps(json.loads(open(WIZARD_DB).read())),
             }
         self.write(loader.load(path).generate(**context))
 
@@ -210,6 +213,21 @@ class ConfigurationSet(web.RequestHandler):
         self.set_header('Content-type', 'application/json')
         self.write(json.dumps(True))
 
+class BulkTemplateLoader(web.RequestHandler):
+    def get(self):
+        self.set_header('Content-type', 'text/javascript')
+        basedir = TEMPLATE_DIR
+        for template in os.listdir(basedir):
+            if not re.match('^[a-z0-9_-]+\.html$', template):
+                continue
+            contents = open(os.path.join(basedir, template)).read()
+            template = template[:-5]
+            self.write("TEMPLATES['%s'] = '%s';\n\n"
+                       % (template, 
+                          escape.squeeze(contents.replace("'", "\\'"))
+                          )
+                       )
+
 def run():
     application = web.Application([
             (r"/bundles", BundleList),
@@ -219,6 +237,7 @@ def run():
             (r"/(icon.html)?", Index),
             (r"/screenshot", Screenshot),
             (r"/install/(.+)/?", BundleInstall),
+            (r"/js/templates.js$", BulkTemplateLoader),
             (r"/(.*)", web.StaticFileHandler, {"path": HTML_DIR}),
             ],
                                   debug=True)

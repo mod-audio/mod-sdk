@@ -30,11 +30,16 @@
     <script src="js/jquery-1.9.1.min.js"></script>
     <script src="js/jquery-ui-1.10.1.custom.min.js"></script>
     <script src="js/mustache.js"></script>
+    <script src="js/common.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/modsdk.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/wizard.js" type="text/javascript" charset="utf-8"></script>
     <script>
       {% autoescape None %}
+      var TEMPLATES = {}
       default_template = '{{default_template}}'
+      wizard_db = JSON.parse('{{wizard_db}}')
     </script>
+    <script src="js/templates.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body>
     
@@ -60,6 +65,7 @@
             <!-- END PEDALBOARD-ACTIONS -->
 
 	    <div id="effect-menu">
+	      <div id="wizard">Interface wizard</div>
 	      <div id="screenshot">Generate icon images</div>
 	      <div id="install">Install in webserver</div>
 	    </div>
@@ -89,6 +95,26 @@
 		<button id="settings-save" class="btn btn-success">Save</button>
               </div>
             </form>
+	  </div>
+	</div>
+
+	<div id="wizard-window" class="save-popup hidden">
+	  <div class="box">
+            <h1>Interface Wizard</h1>
+            <div id="model-choice">
+	      <h2>Model here</h2>
+	      <div class="previous">&lt;</div>
+	      <div id="wizard-icon"></div>
+	      <div class="next">&gt;</div>
+	    </div>
+	    <div id="color-choice">
+	      <h2>Choose color</h2>
+	      <div id="color-options"></div>
+	    </div>
+	    <div id="panel-choice">
+	      <h2>Choose panel</h2>
+	      <ul id="panel-options"></ul>
+	    </div>
 	  </div>
 	</div>
     </div>
