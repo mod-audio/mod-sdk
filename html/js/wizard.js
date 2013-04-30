@@ -5,6 +5,8 @@ $(document).ready(function() {
     $('#wizard').click(function() { wizard.wizard('open') })
     $('#wizard-cancel').click(function() { wizard.wizard('close') })
     $('#wizard-next').click(function() { wizard.wizard('next') })
+    $('#wizard-previous').click(function() { wizard.wizard('previous') })
+    $('#wizard-generate-thumbnail').click(function() { wizard.wizard('generate_thumbnail') })
     wizard.data({ model: 'japanese',
 		  color: 'orange',
 		  panel: '4-knobs'
@@ -44,6 +46,7 @@ JqueryClass('wizard', {
 	var steps = [ 'chooseModel',
 		      'configure',
 		      'edit_ttl',
+		      'save_template',
 		    ]
 
 	self.find('.step').hide()
@@ -203,6 +206,7 @@ JqueryClass('wizard', {
 	    }
 	}
 	var sel
+	$('#pedal-buttons').html('')
 	for (i=0; i<max && i < controls.length; i++) {
 	    sel = select.clone()
 	    sel.val(controls[i].symbol || controls[i])
@@ -235,13 +239,58 @@ JqueryClass('wizard', {
 	var slug = effect['name'].toLowerCase().replace(/\s+/, '-').replace(/[^a-z0-9-]/, '')
 
 	var canvas = $('#ttl-body')
+	canvas.text('')
 	canvas.append('mod:icon [\n')
-	canvas.append('    mod:iconTemplate &lt;modgui/pedal-'+model+'-'+panel+'.html&gt;;\n')
-	canvas.append('    mod:iconData &lt;modgui/data.json&gt;;\n')
 	canvas.append('    mod:iconBasedir &lt;modgui&gt;;\n')
+	canvas.append('    mod:iconTemplate &lt;modgui/pedal-'+model+'-'+panel+'.html&gt;;\n')
+	canvas.append('    mod:iconData &lt;modgui/data-'+slug+'.json&gt;;\n')
 	canvas.append('    mod:iconImage &lt;modgui/icon-'+slug+'.png&gt;;\n')
 	canvas.append('    mod:iconThumbnail &lt;modgui/thumb-'+slug+'.png&gt;;\n')
 	canvas.append('].')
+    },
+
+    save_template: function() {
+	var self = $(this)
+	$.ajax({ url: '/effect/save',
+		 type: 'POST',
+		 data: JSON.stringify(self.data()),
+		 success: function() {
+		     self.wizard('generate_thumbnail')
+		 },
+		 error: function() {
+		     self.wizard('previous')
+		     alert("Error: Can't save your effect configuration. Is your server running? Check the logs.")
+		 }
+	       })
+    },
+
+    generate_thumbnail: function() {
+	var self = $(this)
+	var effect = self.data('effect')
+	var icon = self.find('.wizard-icon')
+	
+	var canvas = self.find('#wizard-thumbnail')
+	canvas.html('')
+
+	var param = { bundle: effect['package'],
+		      effect: effect.url,
+		      width: icon.width(),
+		      height: icon.height()
+		    }
+
+	$.ajax({ url: '/screenshot',
+		 data: param,
+		 success: function(result) {
+		     if (result.ok) {
+			 var img = $('<img class="icon">').appendTo(canvas).attr('src', 'data:image/png;base64,'+result.icon)
+		     } else {
+			 alert('Could not generate thumbnail')
+		     }
+		 },
+		 error: function(resp) {
+		     alert("Error: Can't generate thumbnail. Is your server running? Check the logs.")
+		 }
+	       })
     }
 
 })

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import os, json, random, subprocess, re, base64
+import os, json, random, subprocess, re, base64, shutil
 import Image
 
 from tornado import web, options, ioloop, template, httpclient, escape
@@ -15,10 +15,12 @@ UNITS_FILE = os.path.join(ROOT, 'units.ttl')
 CONFIG_FILE = os.path.join(ROOT, 'config.json')
 TEMPLATE_DIR = os.path.join(HTML_DIR, 'resources/templates')
 DEFAULT_TEMPLATE = os.path.join(ROOT, 'html/resources/templates/default.html')
-PHANTOM_BINARY = os.path.join(ROOT, 'phantomjs-1.9.0-macosx/bin/phantomjs')
 SCREENSHOT_SCRIPT = os.path.join(ROOT, 'screenshot.js')
 MAX_THUMB_WIDTH = 64
 MAX_THUMB_HEIGHT = 64
+PHANTOM_BINARY = os.path.join(ROOT, 'phantomjs-1.9.0-macosx/bin/phantomjs')
+if not os.path.exists(PHANTOM_BINARY):
+    PHANTOM_BINARY = os.path.join(ROOT, 'phantomjs-1.9.0-linux-x86_64/bin/phantomjs')
 
 def get_config(key, default=None):
     try:
@@ -26,6 +28,12 @@ def get_config(key, default=None):
         return config[key]
     except:
         return default
+
+def slugify(name):
+    slug = name.lower()
+    slug = re.sub('\s+', '-', slug)
+    slug = re.sub('[^a-z0-9-]', '', slug)
+    return slug
 
 class BundleList(web.RequestHandler):
     def get(self):
@@ -44,8 +52,34 @@ class EffectList(web.RequestHandler):
         package = lv2.Bundle(path, units_file=UNITS_FILE)
         self.set_header('Content-type', 'application/json')
         self.write(package.data)
-        
-        
+
+class EffectSave(web.RequestHandler):
+    def post(self):
+        param = json.loads(self.request.body)
+        bundle = param['effect']['package']
+        path = os.path.join(WORKSPACE, bundle)
+        if not os.path.exists(os.path.join(path, 'manifest.ttl')):
+            raise web.HTTPError(404)
+        basedir = os.path.join(path, 'modgui')
+        if not os.path.exists(basedir):
+            os.mkdir(basedir)
+        template_name = 'pedal-%s-%s.html' % (param['model'], param['panel'])
+        source = os.path.join(TEMPLATE_DIR, template_name)
+        dest = os.path.join(basedir, template_name)
+        shutil.copy(source, dest)
+
+        data = {
+            'color': param['color'],
+            'label': param['label'],
+            'author': param['author'],
+            'controls': [ c['symbol'] for c in param['controls'] ],
+            }
+        datafile = os.path.join(basedir, 'data-%s.json' % slugify(param['effect']['name']))
+        open(datafile, 'w').write(json.dumps(data, sort_keys=True, indent=4))
+
+        self.set_header('Content-type', 'application/json')
+        self.write(json.dumps(True))
+
 class Index(web.RequestHandler):
     def get(self, path):
         if not path:
@@ -131,9 +165,7 @@ class Screenshot(web.RequestHandler):
         path = os.path.join(WORKSPACE, self.bundle)
         package = lv2.Bundle(path, units_file=UNITS_FILE)
         effect = package.data['plugins'][self.effect]
-        slug = effect['name'].lower()
-        slug = re.sub('\s+', '-', slug)
-        slug = re.sub('[^a-z0-9-]', '', slug)
+        slug = slugify(effect['name'])
 
         try:
             basedir = effect['icon']['basedir']
@@ -232,6 +264,7 @@ def run():
     application = web.Application([
             (r"/bundles", BundleList),
             (r"/effects/(.+)", EffectList),
+            (r"/effect/save", EffectSave),
             (r"/config/get", ConfigurationGet),
             (r"/config/set", ConfigurationSet),
             (r"/(icon.html)?", Index),
