@@ -1,7 +1,7 @@
 <div class="pedal pedal-japanese seven-b-knobs {{color}}">
     
     <!-- HANDLE -->
-    <div class="drag-handle js-drag-handle"></div>
+    <div mod-role="icon-handle" class="drag-handle"></div>
     <!-- END HANDLE -->
     
     <!-- PLUGIN'S AUTHOR -->
@@ -18,44 +18,22 @@
 
 
     <!-- LIGHT -->
-    <div class="light on"></div>
+    <div class="light on" mod-role="bypass-light"></div>
     <!-- END LIGHT -->
 
     <!-- KNOBS -->
     <div class="knob-group {{knob-color}} clearfix">
-        <div class="knob">
-            <span class="title">L Comp</span>
-            <div class="image"></div>
-        </div>
-        <div class="knob">
-            <span class="title">M Comp</span>
-            <div class="image"></div>
-        </div>
-        <div class="knob">
-            <span class="title">H Comp</span>
-            <div class="image"></div>
-        </div>
-        <div class="knob clear">
-            <span class="title">L-M</span>
-            <div class="image"></div>
-        </div>
-        <div class="knob">
-            <span class="title">L Comp</span>
-            <div class="image"></div>
-        </div>
-        <div class="knob">
-            <span class="title">M Comp</span>
-            <div class="image"></div>
-        </div>
-        <div class="knob">
-            <span class="title">H Comp</span>
-            <div class="image"></div>
-        </div>
+        {{#controls}}
+          <div class="knob" mod-role="icon-button" mod-button-type="knob">
+              <span class="title">{{name}}</span>
+              <div class="image"></div>
+          </div>
+        {{/controls}}
     </div>
     <!-- END KNOBS -->
     
     <!-- FOOTSWITCH -->
-   <div class="footswitch"></div> 
+   <div class="footswitch" mod-role="bypass"></div>  
    <!-- END FOOTSWITCH -->
    
    <!-- INPUT -->
