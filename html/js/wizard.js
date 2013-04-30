@@ -107,17 +107,12 @@ JqueryClass('wizard', {
 	    }
 	    element = $(Mustache.render(template, getTemplateData(effect)))
 	}
-	console.log(element)
+
 	element.appendTo(icon)
-	if (element.width() > 0) {
-	    icon.width(element.width() + 100)
+	element.load(function() {
+	    icon.width(element.width())
 	    icon.height(element.height())
-	} else {
-	    element.load(function() {
-		icon.width(element.width() + 100)
-		icon.height(element.height())
-	    })
-	}
+	})
     },
 
 	
