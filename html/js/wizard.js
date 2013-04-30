@@ -26,7 +26,11 @@ JqueryClass('wizard', {
 
     open: function() {
 	var self = $(this)
-	self.data('effect', effects.find('option:selected').data())
+	var effect = effects.find('option:selected').data()
+
+	self.data('effect', effect)
+	self.data('label', effect.name)
+
 	self.show()
 	self.wizard('step', 0)
     },
@@ -38,7 +42,8 @@ JqueryClass('wizard', {
     step: function(step) {
 	var self = $(this)
 	var steps = [ 'chooseModel',
-		      'configure'
+		      'configure',
+		      'edit_ttl',
 		    ]
 
 	self.find('.step').hide()
@@ -215,7 +220,28 @@ JqueryClass('wizard', {
 	})
 
 	self.wizard('render')
+    },
+    
+    edit_ttl: function() {
+	var self = $(this)
+	var effect = self.data('effect')
+	var label = self.data('label')
+	var author = self.data('author')
+	var model = self.data('model')
+	var panel = self.data('panel')
+	var controls = self.data('controls')
+	var db = self.data('model_index')
+
+	var slug = effect['name'].toLowerCase().replace(/\s+/, '-').replace(/[^a-z0-9-]/, '')
+
+	var canvas = $('#ttl-body')
+	canvas.append('mod:icon [\n')
+	canvas.append('    mod:iconTemplate &lt;modgui/pedal-'+model+'-'+panel+'.html&gt;;\n')
+	canvas.append('    mod:iconData &lt;modgui/data.json&gt;;\n')
+	canvas.append('    mod:iconBasedir &lt;modgui&gt;;\n')
+	canvas.append('    mod:iconImage &lt;modgui/icon-'+slug+'.png&gt;;\n')
+	canvas.append('    mod:iconThumbnail &lt;modgui/thumb-'+slug+'.png&gt;;\n')
+	canvas.append('].')
     }
 
-	
 })
