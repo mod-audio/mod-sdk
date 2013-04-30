@@ -105,7 +105,9 @@ JqueryClass('wizard', {
 		template: template,
 		template_data: {
 		    color: color,
-		    controls: effect.ports.control.input.slice(0, db[model].panels[panel])
+		    controls: effect.ports.control.input.slice(0, db[model].panels[panel]),
+		    label: 'Label here',
+		    author: 'brand'
 		}
 	    }
 	    element = $(Mustache.render(template, getTemplateData(effect)))
