@@ -41,7 +41,7 @@ JqueryClass('wizard', {
 		      'configure'
 		    ]
 
-	self.find('.box').hide()
+	self.find('.step').hide()
 	self.find('#wizard-step-'+step).show()
 	self.data('step', step)
 	self.wizard(steps[step])
@@ -84,6 +84,8 @@ JqueryClass('wizard', {
 	self.data('model', model)
 	self.data('color', null)
 	self.data('panel', null)
+
+	self.find('#model-choice h3').html(model)
 
 	var canvas, factory
 
@@ -129,10 +131,8 @@ JqueryClass('wizard', {
 	var db = self.data('model_index')
 	var controls = self.data('controls') || effect.ports.control.input.slice(0, db[model].panels[panel])
 
-	self.find('#model-choice h2').html(model)
-
 	var step = self.data('step')
-	var icon = self.find('#wizard-step-'+step+' .wizard-icon')
+	var icon = self.find('.wizard-icon')
 	icon.html('')
 
 	var element
@@ -153,10 +153,6 @@ JqueryClass('wizard', {
 	}
 
 	element.appendTo(icon)
-	element.load(function() {
-	    icon.width(element.width())
-	    icon.height(element.height())
-	})
 
 	self.wizard('ok', model && panel && self.data('color'))
     },

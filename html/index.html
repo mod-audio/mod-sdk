@@ -99,41 +99,36 @@
 	</div>
 
 	<div id="wizard-window" class="save-popup hidden">
-
-	  <div id="wizard-step-0" class="box">
-            <h1>Step 1 - choose model</h1>
-            <div id="model-choice">
-	      <div class="previous">&lt;</div>
-	      <h2>Model here</h2>
-	      <div class="next">&gt;</div>
-	      <div class="wizard-icon"></div>
-	    </div>
-	    <div id="color-choice">
-	      <h3>color</h3>
-	      <div id="color-options"></div>
-	    </div>
-	    <div id="panel-choice">
-	      <h3>panel</h3>
-	      <ul id="panel-options"></ul>
-	    </div>
+	  <div class="box">
+	    <h1>Wizard</h1>
+	    <div class="wizard-icon"></div>
+	    <button id="wizard-cancel" class="js-cancel-saving btn btn-danger">X</button>
             <div class="controls">
-	      <button id="wizard-cancel" class="js-cancel-saving btn btn-danger">Cancel</button>
+	      <button id="wizard-previous" class="btn btn-success">Previous</button>
 	      <button id="wizard-next" class="btn btn-success">Next</button>
             </div>
-	  </div>
 
-	  <div id="wizard-step-1" class="box">
-	    <h1>Step 2 - configure</h1>
-	    <div class="wizard-icon"></div>
-	    <div id="wizard-configuration">
-	      Label: <input name="label" type="text"/><br />
-	      Author: <input name="author" type="text"/><br />
-	      <div id="pedal-buttons"></div>
+	    <div id="wizard-step-0" class="step">
+              <h2>Step 1 - choose model</h2>
+              <div id="model-choice">
+		<div class="previous">&lt;</div>
+		<h3>Model here</h3>
+		<div class="next">&gt;</div>
+	      </div>
+	      <div id="color-options"></div>
+	      <ul id="panel-options"></ul>
 	    </div>
+
+	    <div id="wizard-step-1" class="step">
+	      <h2>Step 2 - configure</h2>
+	      <div id="wizard-configuration">
+		Label: <input name="label" type="text"/><br />
+		Author: <input name="author" type="text"/><br />
+		<div id="pedal-buttons"></div>
+	      </div>
+	    </div>
+
 	  </div>
-
-	</div>
-
 
     </div>
     <!-- END WRAPPER -->

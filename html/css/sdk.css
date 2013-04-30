@@ -41,16 +41,59 @@
     padding: 5px;
 }
 
+/* Wizard - basic layout */
+
 #wizard-window .box { 
-    height: 620px;
+    height: 565px;
     margin-left: -450px;
     top: 200px;
     width: 900px;
 }
 
 .wizard-icon {
+    border: 1px dashed red;
     float: left;
-    padding: 10px;
+    height: 530px;
+    width: 420px;
+}
+
+#wizard-cancel {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+#wizard-window .controls {
+    position: absolute;
+    bottom: 0;
+    right: 20px;
+    width: 450px
+}
+
+#wizard-next {
+    float: right;
+}
+
+/* Step box */
+
+.step {
+    border: 1px dashed red;
+    float: right;
+    width: 450px
+}
+
+.step h2 {
+    font-size: 20px;
+    line-height: 20px;
+    margin: 0
+}
+
+#model-choice {
+    margin-top: 20px;
+    text-align: center;
+}
+#model-choice div, #model-choice h3 {
+    display: inline ;
 }
 
 #model-choice .previous, #model-choice .next {
@@ -64,23 +107,6 @@
 }
 .next {
     float: right;
-}
-
-#model-choice h2 {
-    display: inline;
-}
-
-#wizard-window .controls {
-    bottom: 0;
-    float: right;
-    margin-top: 320px;
-}
-
-.wizard-icon img, .wizard-icon .pedal {
-    margin: 40px 0 0 -40px;
-}
-.wizard-icon img {
-    max-width: none;
 }
 
 #color-options img {
@@ -100,14 +126,3 @@
     text-align: left;
 }
 
-#wizard-step-1 .wizard-icon {
-    margin-left: 40px;
-}
-
-#wizard-configuration {
-    border: 1px dashed red;
-    float: right;
-    height: 470px;
-    margin-top: 50px;
-    width: 450px;
-}
