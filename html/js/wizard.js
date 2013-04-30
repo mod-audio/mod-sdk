@@ -47,6 +47,8 @@ JqueryClass('wizard', {
 		      'configure',
 		      'edit_ttl',
 		      'save_template',
+		      'docs',
+		      'finish'
 		    ]
 
 	self.find('.step').hide()
@@ -291,6 +293,14 @@ JqueryClass('wizard', {
 		     alert("Error: Can't generate thumbnail. Is your server running? Check the logs.")
 		 }
 	       })
+    },
+
+    docs: function() {
+	var self = $(this)
+    },
+
+    finish: function() {
+	document.location.reload()
     }
 
 })
