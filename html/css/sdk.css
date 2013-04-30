@@ -40,9 +40,12 @@
     margin: 5px 5px 5px 0;
     padding: 5px;
 }
+
 #wizard-window .box { 
+    height: 620px;
+    margin-left: -450px;
     top: 200px;
-    width: 800px;
+    width: 900px;
 }
 
 #wizard-icon {
@@ -50,13 +53,50 @@
     padding: 10px;
 }
 
-#wizard-icon .previous, #wizard-icon .next {
+#model-choice .previous, #model-choice .next {
     cursor: pointer;
     font-size: 30px;
     margin: 10px;
 }
 
-#wizard-icon div, #wizard-icon img { 
+.previous {
+    float: left;
+}
+.next {
+    float: right;
+}
+
+#model-choice h2 {
     display: inline;
+}
+
+#wizard-window .controls {
+    bottom: 0;
+    float: right;
+    margin-top: 320px;
+}
+
+#wizard-icon img, #wizard-icon .pedal {
+    margin: 40px 0 0 -40px;
+}
+#wizard-icon img {
+    max-width: none;
+}
+
+#color-options img {
+    margin: 5px;
+    cursor: pointer;
+}
+
+#panel-options {
+    float: left;
+    padding: 0;
+    margin: 0;
+}
+
+#panel-options li {
+    cursor: pointer;
+    list-style-type: none;
+    text-align: left;
 }
 

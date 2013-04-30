@@ -1,9 +1,8 @@
 var wizard_db // populated in index.html
 $(document).ready(function() {
     $('#wizard-window').wizard(wizard_db)
-    $('#wizard').click(function() {
-	$('#wizard-window').wizard('open')
-    })
+    $('#wizard').click(function() { $('#wizard-window').wizard('open') })
+    $('#wizard-cancel').click(function() { $('#wizard-window').wizard('close') })
 })
 
 JqueryClass('wizard', {
@@ -20,6 +19,10 @@ JqueryClass('wizard', {
 	var self = $(this)
 	self.show()
 	self.wizard('chooseModel', 0)
+    },
+    
+    close: function() {
+	$(this).hide()
     },
 
     shiftModel: function(diff) {
