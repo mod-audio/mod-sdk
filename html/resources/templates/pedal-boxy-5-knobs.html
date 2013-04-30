@@ -24,26 +24,12 @@
 
     <!-- 1 KNOB -->
     <div class="knob-group clearfix">
-        <div class="knob">
+      {{#controls}}
+        <div class="knob" mod-role="icon-button" mod-button-type="knob">
             <div class="image"></div>
-            <span class="title">Gain</span>
+            <span class="title">{{name}}</span>
         </div>
-        <div class="knob">
-            <div class="image"></div>
-            <span class="title">Gain</span>
-        </div>
-        <div class="knob">
-            <div class="image"></div>
-            <span class="title">Gain</span>
-        </div>
-        <div class="knob">
-            <div class="image"></div>
-            <span class="title">Gain</span>
-        </div>
-        <div class="knob">
-            <div class="image"></div>
-            <span class="title">Gain</span>
-        </div>
+      {{/controls}}
     </div>
     <!-- END 1 BIG KNOB -->
 

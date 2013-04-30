@@ -99,13 +99,14 @@
 	</div>
 
 	<div id="wizard-window" class="save-popup hidden">
-	  <div class="box">
-            <h1>Interface Wizard</h1>
+
+	  <div id="wizard-step-0" class="box">
+            <h1>Step 1 - choose model</h1>
             <div id="model-choice">
 	      <div class="previous">&lt;</div>
 	      <h2>Model here</h2>
 	      <div class="next">&gt;</div>
-	      <div id="wizard-icon"></div>
+	      <div class="wizard-icon"></div>
 	    </div>
 	    <div id="color-choice">
 	      <h3>color</h3>
@@ -120,7 +121,20 @@
 	      <button id="wizard-next" class="btn btn-success">Next</button>
             </div>
 	  </div>
+
+	  <div id="wizard-step-1" class="box">
+	    <h1>Step 2 - configure</h1>
+	    <div class="wizard-icon"></div>
+	    <div id="wizard-configuration">
+	      Label: <input name="label" type="text"/><br />
+	      Author: <input name="author" type="text"/><br />
+	      <div id="pedal-buttons"></div>
+	    </div>
+	  </div>
+
 	</div>
+
+
     </div>
     <!-- END WRAPPER -->
 

@@ -1,8 +1,10 @@
 <div class="pedal pedal-boxy one-knob {{color}}">
     <!-- HANDLE -->
-    <div class="drag-handle js-drag-handle"></div>
+    <div mod-role="icon-handle" class="drag-handle"></div>
     <!-- END HANDLE -->
-    <div mod-role="icon-handle" class="drag-handle"></div>author">
+    
+    <!-- PLUGIN'S AUTHOR -->
+    <div class="author">
         <h1>{{author}}</h1>
     </div>
     <!-- END PLUGIN'S AUTHOR -->
@@ -22,10 +24,12 @@
 
     <!-- 1 KNOB -->
     <div class="knob-group clearfix">
-        <div class="knob">
+      {{#controls}}
+        <div class="knob" mod-role="icon-button" mod-button-type="knob">
             <div class="image"></div>
-            <span class="title">Gain</span>
+            <span class="title">{{name}}</span>
         </div>
+      {{/controls}}
     </div>
     <!-- END 1 BIG KNOB -->
 

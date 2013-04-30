@@ -48,7 +48,7 @@
     width: 900px;
 }
 
-#wizard-icon {
+.wizard-icon {
     float: left;
     padding: 10px;
 }
@@ -76,10 +76,10 @@
     margin-top: 320px;
 }
 
-#wizard-icon img, #wizard-icon .pedal {
+.wizard-icon img, .wizard-icon .pedal {
     margin: 40px 0 0 -40px;
 }
-#wizard-icon img {
+.wizard-icon img {
     max-width: none;
 }
 
@@ -100,3 +100,14 @@
     text-align: left;
 }
 
+#wizard-step-1 .wizard-icon {
+    margin-left: 40px;
+}
+
+#wizard-configuration {
+    border: 1px dashed red;
+    float: right;
+    height: 470px;
+    margin-top: 50px;
+    width: 450px;
+}

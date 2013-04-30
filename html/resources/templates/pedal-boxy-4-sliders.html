@@ -24,26 +24,13 @@
 
     <!-- 3 SLIDERS -->
     <div class="knob-group clearfix">
-        <div class="slider">
-            <span class="title">31 Hz</span>
+      {{#controls}}
+        <div class="slider" mod-role="icon-button" mod-button-type="slider">
+            <span class="title">{{name}}</span>
             <div class="image"></div>
             <div class="track"></div>
         </div>
-        <div class="slider">
-            <span class="title">31 Hz</span>
-            <div class="image"></div>
-            <div class="track"></div>
-        </div>
-        <div class="slider">
-            <span class="title">31 Hz</span>
-            <div class="image"></div>
-            <div class="track"></div>
-        </div>
-        <div class="slider">
-            <span class="title">31 Hz</span>
-            <div class="image"></div>
-            <div class="track"></div>
-        </div>
+      {{/controls}}
     </div>
     <!-- END 3 SLIDERS -->
 

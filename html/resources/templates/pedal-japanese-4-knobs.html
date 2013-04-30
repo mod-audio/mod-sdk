@@ -23,22 +23,12 @@
 
     <!-- KNOBS -->
     <div class="knob-group {{knob-color}} clearfix">
-        <div class="knob">
-            <span class="title">L-M</span>
+      {{#controls}}
+        <div class="knob" mod-role="icon-button" mod-button-type="knob">
             <div class="image"></div>
+            <span class="title">{{name}}</span>
         </div>
-        <div class="knob">
-            <span class="title">L Comp</span>
-            <div class="image"></div>
-        </div>
-        <div class="knob">
-            <span class="title">M Comp</span>
-            <div class="image"></div>
-        </div>
-        <div class="knob">
-            <span class="title">H Comp</span>
-            <div class="image"></div>
-        </div>
+      {{/controls}}
     </div>
     <!-- END KNOBS -->
     
