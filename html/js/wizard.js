@@ -198,7 +198,7 @@ JqueryClass('wizard', {
 	    }
 	}
 	var sel
-	for (i=0; i<max; i++) {
+	for (i=0; i<max && i < controls.length; i++) {
 	    sel = select.clone()
 	    sel.val(controls[i].symbol || controls[i])
 	    sel.change(factory(sel, i))
