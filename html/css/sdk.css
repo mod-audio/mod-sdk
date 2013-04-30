@@ -126,6 +126,13 @@
     text-align: left;
 }
 
+#wizard-thumbnail {
+    text-align: center
+}
+#wizard-thumbnail img {
+    height: 60%
+}
+
 .ttl-code {
     border: 1px solid black;
     background-color: #ddd;

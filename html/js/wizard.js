@@ -227,6 +227,10 @@ JqueryClass('wizard', {
 
 	self.wizard('render')
     },
+
+    slug: function() {
+	return $(this).data('effect')['name'].toLowerCase().replace(/\s+/, '-').replace(/[^a-z0-9-]/, '')
+    },
     
     edit_ttl: function() {
 	var self = $(this)
@@ -238,7 +242,7 @@ JqueryClass('wizard', {
 	var controls = self.data('controls')
 	var db = self.data('model_index')
 
-	var slug = effect['name'].toLowerCase().replace(/\s+/, '-').replace(/[^a-z0-9-]/, '')
+	var slug = self.wizard('slug')
 
 	var canvas = $('#ttl-body')
 	canvas.text('')
@@ -269,7 +273,7 @@ JqueryClass('wizard', {
     generate_thumbnail: function() {
 	var self = $(this)
 	var effect = self.data('effect')
-	var icon = self.find('.wizard-icon')
+	var icon = $(self.find('.wizard-icon').children()[0])
 	
 	var canvas = self.find('#wizard-thumbnail')
 	canvas.html('')
@@ -297,6 +301,15 @@ JqueryClass('wizard', {
 
     docs: function() {
 	var self = $(this)
+	var effect = self.data('effect')
+	var model = self.data('model')
+	var panel = self.data('panel')
+	var canvas = $('#wizard-modifications')
+	var slug = self.wizard('slug')
+	$('<li>').html('modgui/pedal-'+model+'-'+panel+'.html').appendTo(canvas)
+ 	$('<li>').html('modgui/data-'+slug+'.json').appendTo(canvas)
+ 	$('<li>').html('modgui/icon-'+slug+'.png').appendTo(canvas)
+ 	$('<li>').html('modgui/thumb-'+slug+'.png').appendTo(canvas)
     },
 
     finish: function() {
