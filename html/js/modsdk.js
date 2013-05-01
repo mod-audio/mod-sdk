@@ -26,7 +26,7 @@ $(document).ready(function() {
 		 success: function(result) {
 		     if (result.ok) {
 			 $('<img class="thumb">').appendTo(dashboard).attr('src', 'data:image/png;base64,'+result.thumbnail)
-			 $('<img class="icon">').appendTo(dashboard).attr('src', 'data:image/png;base64,'+result.icon)
+			 $('<img class="screenshot">').appendTo(dashboard).attr('src', 'data:image/png;base64,'+result.screenshot)
 		     } else {
 			 alert('Could not generate thumbnail')
 		     }

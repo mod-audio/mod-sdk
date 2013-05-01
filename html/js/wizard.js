@@ -247,11 +247,12 @@ JqueryClass('wizard', {
 	var canvas = $('#ttl-body')
 	canvas.text('')
 	canvas.append('mod:icon [\n')
-	canvas.append('    mod:iconBasedir &lt;modgui&gt;;\n')
-	canvas.append('    mod:iconTemplate &lt;modgui/pedal-'+model+'-'+panel+'.html&gt;;\n')
-	canvas.append('    mod:iconData &lt;modgui/data-'+slug+'.json&gt;;\n')
-	canvas.append('    mod:iconImage &lt;modgui/icon-'+slug+'.png&gt;;\n')
-	canvas.append('    mod:iconThumbnail &lt;modgui/thumb-'+slug+'.png&gt;;\n')
+	canvas.append('    a mod:Icon;\n')
+	canvas.append('    mod:basedir &lt;modgui&gt;;\n')
+	canvas.append('    mod:template &lt;modgui/pedal-'+model+'-'+panel+'.html&gt;;\n')
+	canvas.append('    mod:templateData &lt;modgui/data-'+slug+'.json&gt;;\n')
+	canvas.append('    mod:screenshot &lt;modgui/screenshot-'+slug+'.png&gt;;\n')
+	canvas.append('    mod:thumbnail &lt;modgui/thumb-'+slug+'.png&gt;;\n')
 	canvas.append('].')
     },
 
@@ -288,7 +289,7 @@ JqueryClass('wizard', {
 		 data: param,
 		 success: function(result) {
 		     if (result.ok) {
-			 var img = $('<img class="icon">').appendTo(canvas).attr('src', 'data:image/png;base64,'+result.icon)
+			 var img = $('<img class="screenshot">').appendTo(canvas).attr('src', 'data:image/png;base64,'+result.screenshot)
 		     } else {
 			 alert('Could not generate thumbnail')
 		     }
@@ -308,7 +309,7 @@ JqueryClass('wizard', {
 	var slug = self.wizard('slug')
 	$('<li>').html('modgui/pedal-'+model+'-'+panel+'.html').appendTo(canvas)
  	$('<li>').html('modgui/data-'+slug+'.json').appendTo(canvas)
- 	$('<li>').html('modgui/icon-'+slug+'.png').appendTo(canvas)
+ 	$('<li>').html('modgui/screenshot-'+slug+'.png').appendTo(canvas)
  	$('<li>').html('modgui/thumb-'+slug+'.png').appendTo(canvas)
     },
 

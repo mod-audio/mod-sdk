@@ -129,15 +129,15 @@ class Screenshot(web.RequestHandler):
         loop.add_handler(proc.stdout.fileno(), proc_callback, 16)
 
     def handle_image(self, fh):
-        icon_data = fh.read()
+        screenshot_data = fh.read()
         fh.seek(0)
         thumb_data = self.thumbnail(fh).read()
 
-        self.save_icon(icon_data, thumb_data)
+        self.save_icon(screenshot_data, thumb_data)
 
         result = {
             'ok': True,
-            'icon': base64.b64encode(icon_data),
+            'screenshot': base64.b64encode(screenshot_data),
             'thumbnail': base64.b64encode(thumb_data),
             }
 
@@ -161,7 +161,7 @@ class Screenshot(web.RequestHandler):
         os.remove(fname)
         return fh
 
-    def save_icon(self, icon_data, thumb_data):
+    def save_icon(self, screenshot_data, thumb_data):
         path = os.path.join(WORKSPACE, self.bundle)
         package = lv2.Bundle(path, units_file=UNITS_FILE)
         effect = package.data['plugins'][self.effect]
@@ -174,10 +174,10 @@ class Screenshot(web.RequestHandler):
         if not os.path.exists(basedir):
             os.mkdir(basedir)
 
-        icon_path = os.path.join(basedir, '%s-%s.png' % ('icon', slug))
+        screenshot_path = os.path.join(basedir, '%s-%s.png' % ('screenshot', slug))
         thumb_path = os.path.join(basedir, '%s-%s.png' % ('thumb', slug))
 
-        open(icon_path, 'w').write(icon_data)
+        open(screenshot_path, 'w').write(screenshot_data)
         open(thumb_path, 'w').write(thumb_data)
 
 class BundleInstall(web.RequestHandler):

@@ -20,26 +20,81 @@
     width: 30px;
 }
 
-.save-popup .box {
+.save-popup .box, .wizard-popup .box {
     width: 520px;
 }
-.save-popup .box label {
+.save-popup .box label, .wizard-popup .box label {
     width: 120px;
 }
-.save-popup .box input {
+.save-popup .box input, .wizard-popup .box input {
     width: 400px;
     margin-top: 2px;
 }
-.save-popup .box .controls {
+.save-popup .box .controls, .wizard-popup .box .controls {
     margin-bottom: 20px;
 }
-.save-popup .box .controls span {
+.save-popup .box .controls span, .wizard-popup .box .controls span {
     border: 1px solid #999;
     border-radius: 3px;
     cursor: pointer;
     margin: 5px 5px 5px 0;
     padding: 5px;
 }
+
+/* save-popup class duplicated for wizard-popup
+   This is necessary because save-popup comes from dashboard and we have no control
+   over it, while the wizard-popup must ensure that style for the pedal is preserved.
+*/
+
+.wizard-popup {
+    background:rgba(0,0,0,.75);
+    bottom:0;
+    left:0;
+    position:absolute;
+    right:0;
+    top:0;
+    z-index:1000;
+}
+
+.wizard-popup .box {
+    background:white;
+    border-radius:9px;
+    left:50%;
+    margin:-150px -168px;
+    padding:18px;
+    position:absolute;
+    top:50%;
+    width:300px;
+}
+
+.wizard-popup h1.box-title{
+    font-size:18px;
+    line-height:1;
+    margin:0 0 18px 0;
+    padding:0;
+    text-transform:uppercase;
+}
+
+.wizard-popup .actions {
+    border-color:#ddd;
+    border-style:solid;
+    border-width:1px 0 0 0;
+    margin:9px 0 0 0;
+    padding:18px 0 0 0;
+    text-align:right;
+}
+
+.wizard-popup label {
+    display:inline-block;
+    float:left;
+    line-height:2;
+    width:96px;
+}
+
+.wizard-popup input[type="text"] {
+    width:190px;
+}
+
 
 /* Wizard - basic layout */
 
@@ -142,7 +197,7 @@
 }
 
 #ttl-body {
-    height: 177px;
+    height: 192px;
 }
 
 

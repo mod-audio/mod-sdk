@@ -440,7 +440,7 @@ svg .light { fill:none; stroke:#444; stroke-width:1; z-index:0; -webkit-transfor
     width:300px;
 }
 
-.save-popup h1 {
+.save-popup h1{
     font-size:18px;
     line-height:1;
     margin:0 0 18px 0;
@@ -467,5 +467,3 @@ svg .light { fill:none; stroke:#444; stroke-width:1; z-index:0; -webkit-transfor
 .save-popup input[type="text"] {
     width:190px;
 }
-
-
