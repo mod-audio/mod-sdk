@@ -171,6 +171,7 @@ function showEffect() {
 	options.icon.template = default_template
     window.location.hash = bundle + ',' + options.url
     var element = $(Mustache.render(options.icon.template, getTemplateData(options)))
+    element.find('[mod-button-type=knob]').knob()
 
     var handle = element.find('[mod-role=drag-handle]')
     if (handle.length > 0)
