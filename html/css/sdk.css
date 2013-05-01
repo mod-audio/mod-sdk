@@ -99,16 +99,18 @@
 /* Wizard - basic layout */
 
 #wizard-window .box { 
-    height: 565px;
-    margin-left: -450px;
+    height: 605px;
+    margin-left: -470px;
     top: 200px;
-    width: 900px;
+    width: 940px;
 }
 
 .wizard-icon {
-    border: 1px dashed red;
+    background-color: #292929;
+    border-radius: 5px;
     float: left;
     height: 530px;
+    padding: 20px;
     width: 420px;
 }
 
@@ -132,7 +134,6 @@
 /* Step box */
 
 .step {
-    border: 1px dashed red;
     float: right;
     width: 450px
 }

@@ -64,7 +64,7 @@
 }
 
 .pedal .pedal-input-image {
-    background:url(../../../img/input.png) no-repeat right top;
+    background:url(input.png) no-repeat right top;
     background-size:auto 45px;
     height:56px;
     position:absolute;
@@ -126,7 +126,7 @@
 }
 
 .pedal .pedal-output-image {
-    background:url(../../../img/output.png) no-repeat right top;
+    background:url(output.png) no-repeat right top;
     background-size:auto 45px;
     height:56px;
     position:relative;
