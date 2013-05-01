@@ -1,3 +1,5 @@
+var DRAG_PRECISION = 1
+
 JqueryClass('knob', {
     init: function() {
 	var self = $(this)
@@ -17,7 +19,6 @@ JqueryClass('knob', {
 	}
 	
 	self.mousedown(function(e) {
-	    console.log(self.find('.image').attr('id'))
 	    self.knob('mouseDown', e)
 	    $(document).bind('mouseup', upHandler)
 	    $(document).bind('mousemove', moveHandler)
@@ -58,6 +59,7 @@ JqueryClass('knob', {
     mouseMove: function(e) {
 	var self = $(this)
 	var diff = self.data('lastY') - e.pageY
+	diff = parseInt(diff / DRAG_PRECISION)
 	var rotation = self.data('rotation')
 	var steps = self.data('steps')
 	rotation = (rotation + diff - steps) % steps
@@ -68,7 +70,6 @@ JqueryClass('knob', {
 
     setRotation: function(rotation) {
 	var self = $(this)
-	console.log(rotation)
 	rotation *=  self.data('size')
 	rotation += 'px 0px'
 	self.find('.image').css('background-position', rotation)
