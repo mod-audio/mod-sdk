@@ -1,0 +1,77 @@
+@prefix lv2:   <http://lv2plug.in/ns/lv2core#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix mod:   <http://portalmod.com/ns/mod#> .
+
+<http://portalmod.com/ns/mod>
+	a lv2:Specification ;
+	lv2:documentation """
+<p>This extension defines a standard for generating web-based interfaces for
+plugins. The goal of this interface is to allow, in a web-based environment,
+an interface in which each plugin will have a representation, designed to look
+like a real device, and they'll be connected to each other by cables, to make
+pedalboards. Plugins implementing this standard will be compatible with the MOD device
+and MOD host software.</p>
+
+<p>In this interface, each plugin has:</p>
+<ul>
+  <li>A pedal-like design;</li>
+  <li>A footswitch that will bypass it;</li>
+  <li>A light indicating the bypass state;</li>
+  <li>Buttons that will control some most important parameters;</li>
+  <li>Inputs and outputs in which cables will be connected;</li>
+  <li>A clickable area to drag the pedal around.</li>
+</ul>
+
+<p>To provide the interface, the following resources can be used:</p>
+<ul>
+  <li>An HTML file defining the layout;</li>
+  <li>A directory with static media that will be served to browser to build the
+    interface;</li>
+  <li>Special markup is used inside the HTML to define element's roles and
+    funcionality;</li>
+  <li>A screenshot and thumbnail of the plugin interface.</li>
+</ul>
+
+<p>To help the creation of interfaces, several base layouts have been
+created. A set of backgrounds, knobs and slider images are available for
+the plugin without the need of packing it inside the bundle. Any host that
+implements this model should provide those resources. They're available in the
+MOD SDK, that provides tools for building plugin interfaces.</p>
+""".
+
+mod:Icon
+	a rdfs:Class ;
+	rdfs:label "Icon" ;
+	lv2:documentation """
+        <p>The layout definition of the icon of this plugin.</p>
+        """ .
+
+mod:template
+    a rdf:Property ;
+    rdfs:range owl:Thing ;
+    rdfs:label "template" ;
+    rdfs:seeAlso <http://mustache.github.io/> ;
+    lv2:documentation """
+<p>A template that will be used to render the HTML icon of this plugin. The
+value of this property must be a URI that resolves to a Mustache template.</p>
+""" .
+
+mod:templateData
+    a rdf:Property;
+    rdf:range owl:Thing ;
+    rdf:label "template data"
+    lv2:documentation """
+<p>The data that will be used to render the template defined in mod:template.
+The value of this property must be a URI that resolves to a json serialized
+object.</p>
+
+<p>This parameter isn't strictly necessary to build a plugin layout, as the
+template can hold the final HTML file, but it's very useful to allow developers
+to customize templates from the SDK in a simple way.</p>
+""".
+mod:baseDir
+
+mod:screenshot
+
+mod:thumbnail
