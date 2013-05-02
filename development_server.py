@@ -63,26 +63,48 @@ class EffectSave(web.RequestHandler):
         path = os.path.join(WORKSPACE, bundle)
         if not os.path.exists(os.path.join(path, 'manifest.ttl')):
             raise web.HTTPError(404)
-        basedir = os.path.join(path, 'modgui')
-        if not os.path.exists(basedir):
-            os.mkdir(basedir)
+        self.basedir = os.path.join(path, 'modgui')
+        if not os.path.exists(self.basedir):
+            os.mkdir(self.basedir)
 
-        template_name = 'pedal-%s-%s.html' % (param['model'], param['panel'])
+        self.make_template(param['model'], param['panel'])
+        self.make_datafile(param)
+        self.make_empty_screenshot(param)
+
+        self.set_header('Content-type', 'application/json')
+        self.write(json.dumps(True))
+
+    def make_template(self, model, panel):
+        template_name = 'pedal-%s-%s.html' % (model, panel)
         source = os.path.join(TEMPLATE_DIR, template_name)
-        dest = os.path.join(basedir, template_name)
+        dest = os.path.join(self.basedir, template_name)
         shutil.copy(source, dest)
 
+    def make_datafile(self, param):
         data = {
             'color': param['color'],
             'label': param['label'],
             'author': param['author'],
             'controls': [ c['symbol'] for c in param['controls'] ],
             }
-        datafile = os.path.join(basedir, 'data-%s.json' % slugify(param['effect']['name']))
+        datafile = os.path.join(self.basedir, 'data-%s.json' % slugify(param['effect']['name']))
         open(datafile, 'w').write(json.dumps(data, sort_keys=True, indent=4))
 
-        self.set_header('Content-type', 'application/json')
-        self.write(json.dumps(True))
+    def make_empty_screenshot(self, param):
+        slug = slugify(param['effect']['name'])
+
+        screenshot_path = os.path.join(self.basedir, '%s-%s.png' % ('screenshot', slug))
+        thumb_path = os.path.join(self.basedir, '%s-%s.png' % ('thumb', slug))
+
+        img = Image.new('RGBA', (1, 1), (255, 0, 0, 0))
+
+        if not os.path.exists(screenshot_path):
+            img.save(screenshot_path)
+        if not os.path.exists(thumb_path):
+            img.save(thumb_path)
+
+
+
 
 class Index(web.RequestHandler):
     def get(self, path):
