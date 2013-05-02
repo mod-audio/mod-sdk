@@ -112,6 +112,13 @@ function getBundles(callback) {
 	     success: function(data) {
 		 dashboard.html('')
 		 menu.hide()
+		 if (data.length == 0) {
+		     bundles.hide()
+		     $('#no-bundles').show()
+		     return
+		 }
+		 $('#no-bundles').hide()
+		 bundles.show()
 		 bundles.find('option').remove()
 		 $('<option>').val('').html('-- Select Bundle --').appendTo(bundles)
 		 for (var i in data) {

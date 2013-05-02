@@ -37,11 +37,14 @@ def slugify(name):
 
 class BundleList(web.RequestHandler):
     def get(self):
+        self.set_header('Content-type', 'application/json')
         bundles = []
+        if not os.path.isdir(WORKSPACE):
+            self.write(json.dumps(bundles))
+            return
         for bundle in os.listdir(WORKSPACE):
             if os.path.exists(os.path.join(WORKSPACE, bundle, 'manifest.ttl')):
                 bundles.append(bundle)
-        self.set_header('Content-type', 'application/json')
         self.write(json.dumps(bundles))
 
 class EffectList(web.RequestHandler):
@@ -63,6 +66,7 @@ class EffectSave(web.RequestHandler):
         basedir = os.path.join(path, 'modgui')
         if not os.path.exists(basedir):
             os.mkdir(basedir)
+
         template_name = 'pedal-%s-%s.html' % (param['model'], param['panel'])
         source = os.path.join(TEMPLATE_DIR, template_name)
         dest = os.path.join(basedir, template_name)

@@ -7,6 +7,11 @@
 #effect-menu { position: absolute; top: 50px; left: 10px; }
 #effect-menu div { display: block; background-color: #444444; border-radius: 4px; border: 2px solid #151515; padding: 3px 6px; font-size: 15px; color: white; font-weight: bold; cursor: pointer; margin: 10px }
 
+#no-bundles {
+    color: white;
+    margin: 40px 0 0 10px;
+}
+
 #settings {
     background-image:url(../img/icn-settings.png);
     background-repeat:no-repeat;
