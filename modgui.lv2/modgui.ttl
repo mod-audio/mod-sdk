@@ -1,0 +1,172 @@
+@prefix lv2: <http://lv2plug.in/ns/lv2core#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix mod: <http://portalmod.com/ns/mod#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+<http://portalmod.com/ns/mod>
+	a lv2:Specification ;
+	lv2:documentation """
+<p>This extension defines a standard for generating web-based interfaces for
+plugins. The goal of this interface is to allow, in a web-based environment,
+an interface in which each plugin will have a representation, designed to look
+like a real device, and they'll be connected to each other by cables, to make
+pedalboards. Plugins implementing this standard will be compatible with the MOD device
+and MOD host software.</p>
+
+<p>In this interface, each plugin has:</p>
+<ul>
+  <li>A pedal-like design;</li>
+  <li>A footswitch that will bypass it;</li>
+  <li>A light indicating the bypass state;</li>
+  <li>Buttons that will control some most important parameters;</li>
+  <li>Inputs and outputs in which cables will be connected;</li>
+  <li>A clickable area to drag the pedal around.</li>
+</ul>
+
+<p>To provide the interface, the following resources can be used:</p>
+<ul>
+  <li>An HTML file defining the layout;</li>
+  <li>A directory with static media that will be served to browser to build the
+    interface;</li>
+  <li>Special markup is used inside the HTML to define element's roles and
+    funcionality;</li>
+  <li>A screenshot and thumbnail of the plugin interface.</li>
+</ul>
+
+<p>To help the creation of interfaces, several base layouts have been
+created. A set of backgrounds, knobs and slider images are available for
+the plugin without the need of packing it inside the bundle. Any host that
+implements this model should provide those resources. They're available in the
+MOD SDK, that provides tools for building plugin interfaces.</p>
+""" .
+
+mod:Icon
+	a rdfs:Class ;
+	rdfs:label "Icon" ;
+	lv2:documentation """
+        <p>The layout definition of the icon of this plugin.</p>
+        """ .
+
+mod:template
+	a rdf:Property ;
+	rdfs:range owl:Thing ;
+	rdfs:label "template" ;
+	rdfs:seeAlso <http://mustache.github.io/> ;
+	lv2:documentation """
+<p>A template that will be used to render the HTML icon of this plugin. The
+value of this property must be a URI that resolves to a Mustache template.</p>
+""" .
+
+mod:templateData
+	a rdf:Property ;
+	rdf:range owl:Thing ;
+	rdf:label "template data" ;
+	lv2:documentation """
+<p>The data that will be used to render the template defined in mod:template.
+The value of this property must be a URI that resolves to a json serialized
+object.</p>
+
+<p>This parameter isn't strictly necessary to build a plugin layout, as the
+template can hold the final HTML file, but it's very useful to allow developers
+to customize layout using templates provided by the SDK, instead of editing
+HTML files.</p>
+
+<p>The data in this file must be a dictionary. Two keys have an special treatment: 
+<em>controls</em> and <em>ns</em>.</p>
+
+<h3>controls</h3>
+<p>This is expected to hold a list of control ports that will have a knob quickly
+available at the pedal interface. Each control port should be a dictionary containing
+at least a symbol and name. But since writing a list of dictionary is boring, you can
+simply use a string with the control port symbols instead of the whole dictionary, and
+then the parser will substitute this by a dictionary obtained from the effect ttl. If
+you would like to change the displayed name of some control (for example, because the
+full name is too big for the pedal), you can use a complete dictionary.</p>
+
+<p>For example, if you have:</p>
+<pre>
+{
+    "controls": [
+        "level", 
+        "tone", 
+        "drive"
+    ]
+}
+</pre>
+<p>The data that will actually be available for the template would be something like:</p>
+<pre>
+{
+    "controls": [
+        { 
+           "symbol": "level", 
+           "name": "Level",
+           "index": 0,
+           "default": 1,
+           "minimum": 0,
+           // here follows several control input properties declared
+        }, {
+           "symbol": "tone",
+           "name": "Tone",
+           // you get the idea
+        }
+    ]
+}
+</pre>
+<p>If you want to customize one displayed name, for example, you can do something like:</p>
+<pre>
+{
+    "controls": [
+        "level",
+        { "symbol": "level", "name": "The Level" },
+        "drive"
+    ]
+}
+</pre>
+
+<h3>ns</h3>
+<p>All static files in folder defined by mod:resourcesDirectory will be available to the
+interface, in path /resources of the webserver. To know where to look, the webserver
+needs a ?url=EFFECT_URL parameter.</p>
+
+<p>To make this job easier, the <em>ns</em> variable will hold the correct url parameter,
+so if you want to customize your template (say, have your brand image in the pedal),
+you can refer to it like this:
+<img alt="Brand image example" src="/resources/brand.png{{ns}}"/></p>
+
+<p>In the example above, the brand.png file inside the mod:resourcesDirectory would be
+served</p>
+""" .
+
+mod:resourcesDirectory
+	a rdf:Property ;
+	rdf:range owl:Thing ;
+	rdf:label "resources directory" ;
+	lv2:documentation """
+<p>This is a URI that resolves to a directory inside the bundle. Any file inside this
+directory will be statically served to browser, and will be available at the /resources
+path.</p>
+
+<p>For the webserver to properly identify where to look, any request for media inside
+this directory must have an ?url=EFFECT_URL parameter</p>         
+""" .
+
+mod:screenshot
+	a rdf:Property ;
+	rdf:range owl:Thing ;
+	rdf:label "screenshot" ;
+	lv2:documentation """
+<p>An image with a real size screenshot of the rendered plugin interface.
+The value of this property must be a URI that resolves to an image.</p>
+""" .
+
+mod:thumbnail
+	a rdf:Property ;
+	rdf:range owl:Thing ;
+	rdf:label "screenshot" ;
+	lv2:documentation """
+<p>An image with a small representation of the rendered plugin interface.
+The value of this property must be a URI that resolves to an image with maximum
+size of 64x64px.
+</p>
+""" .
