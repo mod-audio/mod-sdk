@@ -136,7 +136,7 @@ you can refer to it like this:</p>
 
 <p>In the example above, the brand.png file inside the mod:resourcesDirectory would be
 served</p>
-""".
+""" .
 
 mod:resourcesDirectory
     a rdf:Property;
@@ -149,7 +149,7 @@ path.</p>
 
 </p>For the webserver to properly identify where to look, any request for media inside
 this directory must have an ?url=EFFECT_URL parameter</p>         
-"""
+""" .
 
 mod:screenshot
     a rdf:Property;
@@ -158,7 +158,7 @@ mod:screenshot
     lv2:documentation """
 <p>An image with a real size screenshot of the rendered plugin interface.
 The value of this property must be a URI that resolves to an image.</p>
-"""
+""" .
 
 mod:thumbnail
     a rdf:Property;
@@ -169,4 +169,4 @@ mod:thumbnail
 The value of this property must be a URI that resolves to an image with maximum
 size of 64x64px.
 </p>
-"""
+""" .
