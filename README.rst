@@ -52,4 +52,4 @@ Run the server::
 
     $ ./development_server.py
 
-Open your webkit based browser (I use Chromium) and point to <http://localhost:9000>.
+Open your webkit based browser (I use Chromium) and point to http://localhost:9000.

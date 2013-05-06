@@ -194,7 +194,7 @@ class Screenshot(web.RequestHandler):
         slug = slugify(effect['name'])
 
         try:
-            basedir = effect['icon']['basedir']
+            basedir = effect['icon']['resourcesDirectory']
         except:
             basedir = os.path.join(path, 'modgui')
         if not os.path.exists(basedir):

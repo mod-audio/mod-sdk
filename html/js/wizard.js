@@ -152,7 +152,7 @@ JqueryClass('wizard', {
 	    var template = TEMPLATES['pedal-' + model + '-' + panel]
 	    effect.icon = {
 		template: template,
-		template_data: {
+		templateData: {
 		    color: color,
 		    controls: controls,
 		    label: label,
@@ -246,14 +246,14 @@ JqueryClass('wizard', {
 
 	var canvas = $('#ttl-body')
 	canvas.text('')
-	canvas.append('mod:icon [\n')
-	canvas.append('    a mod:Icon;\n')
-	canvas.append('    mod:resourcesDirectory &lt;modgui&gt;;\n')
-	canvas.append('    mod:template &lt;modgui/pedal-'+model+'-'+panel+'.html&gt;;\n')
-	canvas.append('    mod:templateData &lt;modgui/data-'+slug+'.json&gt;;\n')
-	canvas.append('    mod:screenshot &lt;modgui/screenshot-'+slug+'.png&gt;;\n')
-	canvas.append('    mod:thumbnail &lt;modgui/thumb-'+slug+'.png&gt;;\n')
-	canvas.append('].')
+	canvas.append('    mod:icon [\n')
+	canvas.append('        a mod:Icon;\n')
+	canvas.append('        mod:resourcesDirectory &lt;modgui&gt;;\n')
+	canvas.append('        mod:template &lt;modgui/pedal-'+model+'-'+panel+'.html&gt;;\n')
+	canvas.append('        mod:templateData &lt;modgui/data-'+slug+'.json&gt;;\n')
+	canvas.append('        mod:screenshot &lt;modgui/screenshot-'+slug+'.png&gt;;\n')
+	canvas.append('        mod:thumbnail &lt;modgui/thumb-'+slug+'.png&gt;;\n')
+	canvas.append('    ].')
     },
 
     save_template: function() {
