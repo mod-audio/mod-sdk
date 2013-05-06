@@ -45,8 +45,6 @@ JqueryClass('knob', {
 		    height = bgImg.height()
 		self.data('steps', height * bgImg.width() / (self.width() * bgImg.height()))
 		self.data('size', self.width())
-		console.log(self.width())
-		console.log(bgImg.height())
 		bgImg.remove()
 	    });
 	    self.append(bgImg);

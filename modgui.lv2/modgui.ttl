@@ -127,7 +127,7 @@ full name is too big for the pedal), you can use a complete dictionary.</p>
 <h3>ns</h3>
 <p>All static files in folder defined by mod:resourcesDirectory will be available to the
 interface, in path /resources of the webserver. To know where to look, the webserver
-needs a ?url=EFFECT_URL parameter.</p>
+needs a ?bundle=BUNDLE&url=EFFECT_URL parameter.</p>
 
 <p>To make this job easier, the <em>ns</em> variable will hold the correct url parameter,
 so if you want to customize your template (say, have your brand image in the pedal),
