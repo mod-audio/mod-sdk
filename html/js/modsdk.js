@@ -178,7 +178,7 @@ function showEffect() {
 	options.icon.template = default_template
     window.location.hash = bundle + ',' + options.url
     var element = $(Mustache.render(options.icon.template, getTemplateData(options)))
-    element.find('[mod-role=icon-control-knob]').each(function() {
+    element.find('[mod-role=input-control-port]').each(function() {
 	$(this).knob()
     })
 
