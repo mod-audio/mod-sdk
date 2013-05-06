@@ -5,6 +5,7 @@ import Image
 
 from tornado import web, options, ioloop, template, httpclient, escape
 from modcommon import lv2
+from modsdk.cache import WorkspaceCache
 
 PORT = 9000
 ROOT = os.path.dirname(os.path.realpath(__file__))
@@ -19,6 +20,7 @@ SCREENSHOT_SCRIPT = os.path.join(ROOT, 'screenshot.js')
 MAX_THUMB_WIDTH = 64
 MAX_THUMB_HEIGHT = 64
 PHANTOM_BINARY = os.path.join(ROOT, 'phantomjs-1.9.0-macosx/bin/phantomjs')
+
 if not os.path.exists(PHANTOM_BINARY):
     PHANTOM_BINARY = os.path.join(ROOT, 'phantomjs-1.9.0-linux-x86_64/bin/phantomjs')
 
@@ -28,6 +30,18 @@ def get_config(key, default=None):
         return config[key]
     except:
         return default
+
+BUNDLE_CACHE = WorkspaceCache(WORKSPACE)
+
+def get_bundle_data(bundle):
+    if BUNDLE_CACHE.get(bundle):
+        return BUNDLE_CACHE[bundle]
+    path = os.path.join(WORKSPACE, bundle)
+    if not os.path.exists(os.path.join(path, 'manifest.ttl')):
+        raise web.HTTPError(404)
+    package = lv2.Bundle(path, units_file=UNITS_FILE)
+    BUNDLE_CACHE[bundle] = package.data
+    return BUNDLE_CACHE[bundle]
 
 def slugify(name):
     slug = name.lower()
@@ -49,12 +63,9 @@ class BundleList(web.RequestHandler):
 
 class EffectList(web.RequestHandler):
     def get(self, bundle):
-        path = os.path.join(WORKSPACE, bundle)
-        if not os.path.exists(os.path.join(path, 'manifest.ttl')):
-            raise web.HTTPError(404)
-        package = lv2.Bundle(path, units_file=UNITS_FILE)
+        data = get_bundle_data(bundle)
         self.set_header('Content-type', 'application/json')
-        self.write(package.data)
+        self.write(data)
 
 class EffectSave(web.RequestHandler):
     def post(self):
@@ -188,18 +199,17 @@ class Screenshot(web.RequestHandler):
         return fh
 
     def save_icon(self, screenshot_data, thumb_data):
-        path = os.path.join(WORKSPACE, self.bundle)
-        package = lv2.Bundle(path, units_file=UNITS_FILE)
-        effect = package.data['plugins'][self.effect]
-        slug = slugify(effect['name'])
+        data = get_bundle_data(self.bundle)
+        effect = data['plugins'][self.effect]
 
         try:
             basedir = effect['icon']['resourcesDirectory']
         except:
-            basedir = os.path.join(path, 'modgui')
+            basedir = os.path.join(WORKSPACE, self.bundle, 'modgui')
         if not os.path.exists(basedir):
             os.mkdir(basedir)
 
+        slug = slugify(effect['name'])
         screenshot_path = os.path.join(basedir, '%s-%s.png' % ('screenshot', slug))
         thumb_path = os.path.join(basedir, '%s-%s.png' % ('thumb', slug))
 
@@ -286,6 +296,39 @@ class BulkTemplateLoader(web.RequestHandler):
                           )
                        )
 
+class EffectResource(web.StaticFileHandler):
+
+    def initialize(self):
+        # Overrides StaticFileHandler initialize
+        pass
+
+    def get(self, path):
+        try:
+            bundle = self.get_argument('bundle')
+            effect = self.get_argument('effect')
+        except:
+            return self.shared_resource(path)
+
+        try:
+            data = get_bundle_data(self.get_argument('bundle'))
+            effect = data['plugins'][self.get_argument('effect')]
+
+            try:
+                document_root = effect['icon']['resourcesDirectory']
+            except:
+                raise web.HTTPError(404)
+
+            super(EffectResource, self).initialize(document_root)
+            super(EffectResource, self).get(path)
+        except web.HTTPError as e:
+            if (not e.status_code == 404):
+                raise e
+            self.shared_resource(path)
+
+    def shared_resource(self, path):
+        super(EffectResource, self).initialize(os.path.join(HTML_DIR, 'resources'))
+        super(EffectResource, self).get(path)
+
 def run():
     application = web.Application([
             (r"/bundles", BundleList),
@@ -297,12 +340,18 @@ def run():
             (r"/screenshot", Screenshot),
             (r"/install/(.+)/?", BundleInstall),
             (r"/js/templates.js$", BulkTemplateLoader),
+            (r"/resources/(.*)", EffectResource),
             (r"/(.*)", web.StaticFileHandler, {"path": HTML_DIR}),
             ],
                                   debug=True)
     
     application.listen(PORT)
     options.parse_command_line()
+
+    def monitor_loop():
+        BUNDLE_CACHE.cycle()
+        ioloop.IOLoop.instance().add_callback(monitor_loop)
+    monitor_loop()
     ioloop.IOLoop.instance().start()
 
 if __name__ == "__main__":
