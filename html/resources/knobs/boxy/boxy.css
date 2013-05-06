@@ -103,8 +103,8 @@
     background-repeat:no-repeat;
     background-size:auto 70px;
     height:70px;
-    margin:0 auto;
-    width:66px;
+    margin:0 -2px;
+    width:70px;
 }
 
 /* THREE KNOBS */

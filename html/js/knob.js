@@ -7,6 +7,8 @@ JqueryClass('knob', {
 	self.knob('getSize')
 	self.data('rotation', 0)
 
+	self.on('dragstart', function(event) { event.preventDefault() })
+
 	var moveHandler = function(e) {
 	    self.knob('mouseMove', e)
 	}
@@ -29,17 +31,21 @@ JqueryClass('knob', {
     getSize: function() {
 	var self = $(this)
 	setTimeout(function() {
-	    var img = self.find('.image')
-	    var url = img.css('background-image').replace('url(', '').replace(')', '').replace("'", '').replace('"', '');
-	    var height = img.css('background-size').split(/ /)[1]
+	    var url = self.css('background-image').replace('url(', '').replace(')', '').replace("'", '').replace('"', '');
+	    var height = self.css('background-size').split(/ /)[1]
 	    if (height)
 		height = parseInt(height.replace(/\D/, ''))
 	    var bgImg = $('<img />');
 	    bgImg.css('max-width', '999999999px')
 	    bgImg.hide();
+	    console.log(height)
 	    bgImg.bind('load', function() {
-		self.data('steps', bgImg.width() / bgImg.height())
-		self.data('size', height || bgImg.height())
+		if (!height)
+		    height = bgImg.height()
+		self.data('steps', height * bgImg.width() / (self.width() * bgImg.height()))
+		self.data('size', self.width())
+		console.log(self.width())
+		console.log(bgImg.height())
 		bgImg.remove()
 	    });
 	    self.append(bgImg);
@@ -70,8 +76,8 @@ JqueryClass('knob', {
 
     setRotation: function(rotation) {
 	var self = $(this)
-	rotation *=  self.data('size')
+	rotation *= self.data('size')
 	rotation += 'px 0px'
-	self.find('.image').css('background-position', rotation)
+	self.css('background-position', rotation)
     }
 })
