@@ -21,10 +21,12 @@ JqueryClass('knob', {
 	}
 	
 	self.mousedown(function(e) {
-	    self.knob('mouseDown', e)
-	    $(document).bind('mouseup', upHandler)
-	    $(document).bind('mousemove', moveHandler)
-	    self.trigger('knobstart')
+	    if (e.which == 1) { // left button
+		self.knob('mouseDown', e)
+		$(document).bind('mouseup', upHandler)
+		$(document).bind('mousemove', moveHandler)
+		self.trigger('knobstart')
+	    }
 	})
     },
 
@@ -38,7 +40,6 @@ JqueryClass('knob', {
 	    var bgImg = $('<img />');
 	    bgImg.css('max-width', '999999999px')
 	    bgImg.hide();
-	    console.log(height)
 	    bgImg.bind('load', function() {
 		if (!height)
 		    height = bgImg.height()
