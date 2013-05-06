@@ -1,5 +1,7 @@
 /* GENERAL PEDAL STYLE */
 
+.pedal { padding: 0 15px 0 15px }
+
 /* = ACTIONS - Icons above: settings, remove, etc
 ================================================ */
 .pedal .actions { position:relative; }
@@ -35,7 +37,7 @@
 ================================================ */
 .pedal .pedal-input {
     height:170px;
-    left:-43px;
+    left:-28px;
     position:absolute;
     top:106px;
     width:45px;
@@ -90,7 +92,7 @@
 .pedal .pedal-output {
     height:170px;
     position:absolute;
-    right:-42px;
+    right:-27px;
     top:106px;
     width:45px;
 }
