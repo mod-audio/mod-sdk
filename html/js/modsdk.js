@@ -185,8 +185,6 @@ function showEffect() {
     var handle = element.find('[mod-role=drag-handle]')
     if (handle.length > 0)
 	element.draggable({ handle: handle })
-    else
-	console.log('no handle')
     element.find('[mod-role=bypass]').click(function() {
 	var light = element.find('[mod-role=bypass-light]')
 	if (light.hasClass('on')) {
@@ -197,24 +195,6 @@ function showEffect() {
 	    light.removeClass('off')
 	}
     })
-
-    var max_inputs = 4
-    var num_inputs = options.ports.audio.input.length
-    for (var i=0; i < max_inputs; i++) {
-	var cls = '.pedal-input-'+i
-	var input = element.find(cls)
-	if (i >= num_inputs)
-	    input.remove()
-    }
-    
-    var max_outputs = 4
-    var num_outputs = options.ports.audio.output.length
-    for (var i=0; i < max_outputs; i++) {
-	var cls = '.pedal-output-'+i
-	var output = element.find(cls)
-	if (i >= num_outputs) 
-	    output.remove()
-    }
 
     dashboard.append(element)
     menu.show()

@@ -1,6 +1,6 @@
 /* GENERAL PEDAL STYLE */
 
-.pedal { padding: 0 15px 0 15px }
+.pedal { padding: 1px 15px 1px 15px }
 
 /* = ACTIONS - Icons above: settings, remove, etc
 ================================================ */
@@ -43,17 +43,7 @@
     width:45px;
 }
 
-.pedal .pedal-input .input { width:45px; }
-
-.pedal .pedal-input-0,
-.pedal .pedal-input-1,
-.pedal .pedal-input-2,
-.pedal .pedal-input-3 { height:45px; position:absolute; }
-
-.pedal .pedal-input-0 { top:0; }
-.pedal .pedal-input-1 { top:55px; }
-.pedal .pedal-input-2 { top:110px; }
-.pedal .pedal-input-3 { top:165px; }
+.pedal .pedal-input .input { width:45px; height: 45px; margin-bottom: 10px }
 
 .pedal .pedal-input-control {
 /*    background:url(../../../img/icn-input-output.png) no-repeat right top;*/
@@ -75,10 +65,7 @@
     z-index:2;
 }
 
-.pedal .pedal-input-0 .jack-connected,
-.pedal .pedal-input-1 .jack-connected,
-.pedal .pedal-input-2 .jack-connected,
-.pedal .pedal-input-3 .jack-connected {
+.pedal .pedal-input .input .jack-connected {
     left:-16px; top:14px;
 }
 
@@ -97,17 +84,12 @@
     width:45px;
 }
 
-.pedal .pedal-output .output { cursor:pointer; width:45px; }
-
-.pedal .pedal-output-0,
-.pedal .pedal-output-1,
-.pedal .pedal-output-2,
-.pedal .pedal-output-3 { height:45px; position:absolute; }
-
-.pedal .pedal-output-0 { top:0; }
-.pedal .pedal-output-1 { top:55px; }
-.pedal .pedal-output-2 { top:110px; }
-.pedal .pedal-output-3 { top:165px; }
+.pedal .pedal-output .output { 
+    cursor: pointer; 
+    height: 45px;
+    margin-bottom: 10px;
+    width: 45px;
+}
 
 .pedal .pedal-output-control {
 /*    background-image:url(../../../img/icn-input-output.png);*/
@@ -136,10 +118,7 @@
     z-index:2;
 }
 
-.pedal .pedal-output-0 .jack-connected,
-.pedal .pedal-output-1 .jack-connected,
-.pedal .pedal-output-2 .jack-connected,
-.pedal .pedal-output-3 .jack-connected {
+.pedal .pedal-output .output .jack-connected {
     right:-16px; top:14px;
 }
 
