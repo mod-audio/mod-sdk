@@ -207,7 +207,7 @@ function getTemplateData(options) {
     var i, port, control, symbol
     var data = $.extend({}, options.icon.templateData)
     data.effect = options
-    data.ns = 'bundle=' + options.package + '&url=' + escape(options.url)
+    data.ns = '?bundle=' + options.package + '&url=' + escape(options.url)
     if (!data.controls)
 	return data
     var controlIndex = {}

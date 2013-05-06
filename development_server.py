@@ -305,13 +305,13 @@ class EffectResource(web.StaticFileHandler):
     def get(self, path):
         try:
             bundle = self.get_argument('bundle')
-            effect = self.get_argument('effect')
+            effect = self.get_argument('url')
         except:
             return self.shared_resource(path)
 
         try:
-            data = get_bundle_data(self.get_argument('bundle'))
-            effect = data['plugins'][self.get_argument('effect')]
+            data = get_bundle_data(bundle)
+            effect = data['plugins'][effect]
 
             try:
                 document_root = effect['icon']['resourcesDirectory']
