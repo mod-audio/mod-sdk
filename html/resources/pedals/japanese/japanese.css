@@ -129,3 +129,14 @@
     position:absolute;
     right:13px;
 }
+
+/* = DRAG HANDLE
+================================================ */
+.pedal-japanese .drag-handle {
+    cursor:move;
+    height:320px;
+    left:13px;
+    position:absolute;
+    right:13px;
+    top: 10px;
+}
