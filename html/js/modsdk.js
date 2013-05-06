@@ -225,7 +225,7 @@ function showEffect() {
 
 function getTemplateData(options) {
     var i, port, control, symbol
-    var data = $.extend({}, options.icon.template_data)
+    var data = $.extend({}, options.icon.templateData)
     data.effect = options
     data.ns = 'url=' + escape(options.url)
     if (!data.controls)

@@ -248,7 +248,7 @@ JqueryClass('wizard', {
 	canvas.text('')
 	canvas.append('mod:icon [\n')
 	canvas.append('    a mod:Icon;\n')
-	canvas.append('    mod:basedir &lt;modgui&gt;;\n')
+	canvas.append('    mod:resourcesDirectory &lt;modgui&gt;;\n')
 	canvas.append('    mod:template &lt;modgui/pedal-'+model+'-'+panel+'.html&gt;;\n')
 	canvas.append('    mod:templateData &lt;modgui/data-'+slug+'.json&gt;;\n')
 	canvas.append('    mod:screenshot &lt;modgui/screenshot-'+slug+'.png&gt;;\n')
