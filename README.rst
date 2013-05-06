@@ -23,6 +23,11 @@ The following packages will be required:
 
     $ sudo apt-get install python-virtualenv python-pip git zlib1g:amd64
 
+Start by cloning the repository::
+
+    $ git clone https://github.com/portalmod/mod-sdk.git
+    $ cd mod-sdk
+
 Create a python virtualenv::
 
     $ virtualenv modsdk-env
@@ -47,4 +52,4 @@ Run the server::
 
     $ ./development_server.py
 
-Open your webkit based browser (I use Chromium) and point to __http://localhost:9000__
+Open your webkit based browser (I use Chromium) and point to <http://localhost:9000>.
