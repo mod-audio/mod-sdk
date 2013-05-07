@@ -42,7 +42,7 @@ Install PIL (it needs this symlink to be compiled with zlib support) and tornado
     $ sudo ln -s /usr/lib/x86_64-linux-gnu/libz.so /usr/lib/
     $ pip install PIL tornado
 
-If you use Linux, install pyinotify. This is used to expire bundle cached data when ttl files are changed. Without pyinotify no cache will be used.
+If you use Linux, install pyinotify. This is used to expire bundle cached data when ttl files are changed. Without pyinotify no cache will be used. To install it::
 
     $ pip install pyinotify
 
