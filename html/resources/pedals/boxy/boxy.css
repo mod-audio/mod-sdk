@@ -213,10 +213,11 @@
     background-position:center center;
     background-repeat:no-repeat;
     background-size:auto 65px;
-    bottom:56px;
+    bottom: 95px;
     cursor:pointer;
-    height:155px;
+    height:66px;
     left:13px;
     position:absolute;
     right:13px;
+    z-index:30;
 }

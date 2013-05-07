@@ -1,6 +1,9 @@
 /* GENERAL PEDAL STYLE */
 
-.pedal { padding: 1px 15px 1px 15px }
+.pedal { 
+    padding:1px 15px 1px 15px;
+    z-index:100;
+}
 
 /* = ACTIONS - Icons above: settings, remove, etc
 ================================================ */
@@ -69,6 +72,20 @@
     left:-16px; top:14px;
 }
 
+.pedal .pedal-input .input-connected .pedal-input-image {
+    background-image:url(../../../img/input-connected.png);
+    background-position:right top;
+    background-repeat:no-repeat;
+    background-size:auto 45px;
+    width:56px;
+}
+
+.pedal .pedal-input .input-connected .output-jack {
+    background:none;
+    position:relative;
+    z-index:100;
+}
+
 .pedal .input-disconnected {}
 .pedal .input-connecting {}
 .pedal .input-connected {}
@@ -76,6 +93,22 @@
 
 /* = OUTPUT
 ================================================ */
+.pedal .output-jack {
+    background-image:url(../../img/jack-p10.png);
+    background-position:right center;
+    background-repeat:no-repeat;
+    cursor:pointer;
+    height:18px;
+    left:2px;
+    position:absolute;
+    top:14px;
+    width:87px;
+}
+
+.pedal .output-jack.jack-connecting {
+    width:129px;
+}
+
 .pedal .pedal-output {
     height:170px;
     position:absolute;
@@ -88,6 +121,7 @@
     cursor: pointer; 
     height: 45px;
     margin-bottom: 10px;
+    position: relative;
     width: 45px;
 }
 
@@ -102,7 +136,7 @@
     width:28px;
 }
 .pedal .pedal-output-control:hover {
-    background-image:url(../../../img/jack-p10.png);
+/*    background-image:url(../../../img/jack-p10.png);*/
     height:18px;
     left:3px;
     top:14px;

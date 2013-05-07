@@ -4,7 +4,9 @@
 ================================================ */
 .pedal-boxy .knob-group {
     margin:20px;
+    position:relative;
     text-align:center;
+    z-index:30;
 }
 
 .pedal-boxy .knob-group .knob > span.title {
@@ -117,7 +119,7 @@
 }
 
 .pedal-boxy.three-knobs .light { 
-    top:230px;
+    top:270px;
 }
 
 .pedal-boxy.three-knobs .footswitch { 

@@ -43,6 +43,7 @@
     position:absolute;
     right:13px;
     top:18px;
+    z-index:2;
 }
 .pedal-japanese .knob-group .knob {
     height:70px;
@@ -74,6 +75,7 @@
 
 /* 4 KNOBS */
 .pedal-japanese.four-knobs .knob-group {
+    height:70px;
     top:49px;
 }
 
