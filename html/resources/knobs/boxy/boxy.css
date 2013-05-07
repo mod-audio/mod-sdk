@@ -119,11 +119,11 @@
 }
 
 .pedal-boxy.three-knobs .light { 
-    top:270px;
+    top:230px;
 }
 
 .pedal-boxy.three-knobs .footswitch { 
-    top:230px;
+    top:275px;
 }
 
 /* FIVE KNOBS */
@@ -153,11 +153,11 @@
 }
 
 .pedal-boxy.six-knobs .light { 
-    top:253px;
+    top:250px;
 }
 
 .pedal-boxy.six-knobs .footswitch { 
-    top:240px;
+    top:285px;
 }
 
 /* SEVEN KNOBS */
