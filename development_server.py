@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import os, json, random, subprocess, re, base64, shutil
+import os, json, random, subprocess, re, base64, shutil, time
 from hashlib import sha1
 import Image
 
@@ -116,9 +116,6 @@ class EffectSave(web.RequestHandler):
         if not os.path.exists(thumb_path):
             img.save(thumb_path)
 
-
-
-
 class Index(web.RequestHandler):
     def get(self, path):
         if not path:
@@ -128,6 +125,8 @@ class Index(web.RequestHandler):
         context = {
             'default_template': escape.squeeze(default_template.replace("'", "\\'")),
             'wizard_db': json.dumps(json.loads(open(WIZARD_DB).read())),
+            'default_developer': os.environ['USER'],
+            'default_privkey': os.path.join(os.environ['HOME'], '.ssh', 'id_rsa'),
             }
         self.write(loader.load(path).generate(**context))
 
@@ -246,17 +245,17 @@ class BundlePost(web.RequestHandler):
     def sign_bundle_package(self, bundle, package):
         private_key = get_config('private_key', 
                                  os.path.join(os.environ['HOME'], '.ssh', 'id_rsa'))
-        developer_id = get_config('developer_id', os.environ['HOME'])
+        developer_id = get_config('developer_id', os.environ['USER'])
 
         command = json.dumps({
-                'developer': self.developer_id,
+                'developer': developer_id,
                 'plugin': bundle,
                 'checksum': sha1(package.read()).hexdigest(),
                 'tstamp': time.time(),
                 })
         package.seek(0)
         checksum = sha1(command).hexdigest()
-        signature = crypto.Sender(self.privkey, checksum).pack()
+        signature = crypto.Sender(private_key, checksum).pack()
         return {
             'command': command,
             'signature': signature,
@@ -276,7 +275,7 @@ class BundlePost(web.RequestHandler):
     def handle_response(self, response):
         self.set_header('Content-type', 'application/json')
         if (response.code == 200):
-            self.write(json.dumps({ 'ok': json.loads(response.body) }))
+            self.write(response.body)
         else:
             self.write(json.dumps({ 'ok': False,
                                     'error': response.body,

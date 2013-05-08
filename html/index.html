@@ -69,6 +69,7 @@
 	      <div id="wizard">Interface wizard</div>
 	      <div id="screenshot">Generate icon images</div>
 	      <div id="install">Install in webserver</div>
+	      <div id="publish">Publish at cloud</div>
 	    </div>
 	    <div id="no-bundles">
 	      <h2>No bundles found!</h2>
@@ -87,15 +88,25 @@
             <h1>Settings</h1>
             <form class="bottom">
               <div class="controls clearfix">
-		<label>Device Address</label>
+		<label>Device address</label>
 		<input id="device" type="text"/>
 		<span id="device-local" data="http://localhost:8888">local</span>
 		<span id="device-quadra" data="http://192.168.50.1">quadra</span>
               </div>
               <div class="controls clearfix">
-		<label>Cloud Address</label>
+		<label>Cloud address</label>
 		<input id="cloud" type="text"/>
+		<span id="cloud-local" data="http://localhost:8000">local</span>
+		<span id="cloud-official" data="http://cloud.portalmod.com">cloud</span>
               </div>
+	      <div class="controls clearfix">
+		<label>Cloud developer username</label>
+		<input id="developer" type="text" value="{{default_developer}}"/>
+	      </div>
+	      <div class="controls clearfix">
+		<label>Cloud developer RSA key file</label>
+		<input id="developer" type="text" value="{{default_privkey}}"/>
+	      </div>
               <div class="controls actions">
 		<button id="settings-cancel" class="js-cancel-saving btn btn-danger">Cancel</button>
 		<button id="settings-save" class="btn btn-success">Save</button>
