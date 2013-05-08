@@ -38,7 +38,7 @@ $(document).ready(function() {
     })
 
     $('#install').click(function() {
-	$.ajax({ url: '/install/' + bundles.val(),
+	$.ajax({ url: '/post/device/' + bundles.val(),
 		 success: function(result) {
 		     if (result.ok)
 			 alert("Effect installed")
