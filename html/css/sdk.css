@@ -12,6 +12,14 @@
     margin: 40px 0 0 10px;
 }
 
+#version {
+    color: white;
+    display: inline;
+    font-size: 18px;
+    font-weight: bold;
+    margin-left: 10px;    
+}
+
 #settings {
     background-image:url(../img/icn-settings.png);
     background-repeat:no-repeat;

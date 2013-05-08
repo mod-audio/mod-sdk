@@ -1,4 +1,4 @@
-var dashboard, bundles, effects, reload, menu, icon, settings, settingsWindow
+var dashboard, bundles, effects, reload, menu, icon, settings, settingsWindow, version
 var default_template // loaded in index.html
 $(document).ready(function() {
     dashboard = $('#pedalboard-dashboard')
@@ -8,8 +8,10 @@ $(document).ready(function() {
     menu = $('#effect-menu')
     settings = $('#settings')
     settingsWindow = $('#settings-window')
+    version = $('#version')
 
     effects.hide()
+    version.hide()
 
     bundles.change(function() { getEffects() })
     effects.change(function() { showEffect() })
@@ -149,6 +151,7 @@ function getBundles(callback) {
 function getEffects(callback) {
     var bundle = bundles.val()
     window.location.hash = bundle
+    version.hide()
     if (!bundle) {
 	effects.hide()
 	return
@@ -181,6 +184,12 @@ function showEffect() {
 	return
     }
     var options = effects.find('option:selected').data()
+
+    if (options.version) {
+	version.html('v' + options.version + ' (' + options.stability + ')')
+	version.show()
+    } else
+	version.hide()
     if (!options.url) {
 	window.location.hash = bundle
 	return
