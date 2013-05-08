@@ -38,12 +38,12 @@ $(document).ready(function() {
     })
 
     $('#install').click(function() {
-	$.ajax({ url: '/install/' + bundles.val(),
+	$.ajax({ url: '/post/device/' + bundles.val(),
 		 success: function(result) {
 		     if (result.ok)
 			 alert("Effect installed")
 		     else
-			 alert(result.msg)
+			 alert("Host said: " + result.error)
 		 },
 		 error: function(resp) {
 		     alert("Error: Can't install bundle. Is your server running? Check the logs.")
@@ -51,10 +51,23 @@ $(document).ready(function() {
 	       })
     })
 
+    $('#publish').click(function() {
+	$.ajax({ url: '/post/cloud/' + bundles.val(),
+		 success: function(result) {
+		     if (result.ok)
+			 alert("Effect published")
+		     else
+			 alert("Cloud said: " + result.error)
+		 },
+		 error: function(resp) {
+		     alert("Error: Can't publish bundle. Is your server running? Check the logs.")
+		 }
+	       })
+    })
+
     $('#settings').click(function() {
 	$.ajax({ url: '/config/get',
 		 success: function(config) {
-		     settingsWindow.find('input').val('')
 		     var key
 		     for (key in config)
 			 settingsWindow.find('#'+key).val(config[key])

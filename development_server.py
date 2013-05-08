@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 
-import os, json, random, subprocess, re, base64, shutil
+import os, json, random, subprocess, re, base64, shutil, time
+from hashlib import sha1
 import Image
 
 from tornado import web, options, ioloop, template, httpclient, escape
 from modcommon import lv2
+from modcommon.communication import crypto
 from modsdk.cache import WorkspaceCache
 
 PORT = 9000
@@ -114,9 +116,6 @@ class EffectSave(web.RequestHandler):
         if not os.path.exists(thumb_path):
             img.save(thumb_path)
 
-
-
-
 class Index(web.RequestHandler):
     def get(self, path):
         if not path:
@@ -126,6 +125,8 @@ class Index(web.RequestHandler):
         context = {
             'default_template': escape.squeeze(default_template.replace("'", "\\'")),
             'wizard_db': json.dumps(json.loads(open(WIZARD_DB).read())),
+            'default_developer': os.environ['USER'],
+            'default_privkey': os.path.join(os.environ['HOME'], '.ssh', 'id_rsa'),
             }
         self.write(loader.load(path).generate(**context))
 
@@ -216,41 +217,80 @@ class Screenshot(web.RequestHandler):
         open(screenshot_path, 'w').write(screenshot_data)
         open(thumb_path, 'w').write(thumb_data)
 
-class BundleInstall(web.RequestHandler):
+class BundlePost(web.RequestHandler):
     @web.asynchronous
-    def get(self, bundle):
+    def get(self, destination, bundle):
         path = os.path.join(WORKSPACE, bundle)
         package = lv2.BundlePackage(path, units_file=UNITS_FILE)
-        content_type, body = self.encode_multipart_formdata(package)
 
+        if destination == 'device':
+            address = self.get_address('device', 'sdk/install', 'http://localhost:8888')
+            return self.send_bundle(package, address)
+
+        if destination == 'cloud':
+            address = self.get_address('cloud', 'sdk/publish', 'http://cloud.portalmod.com')
+            fields = self.sign_bundle_package(bundle, package)
+            return self.send_bundle(package, address, fields)
+
+    def get_address(self, key, uri, default):
+        addr = get_config(key, default)
+        if not addr.startswith('http://') and not addr.startswith('https://'):
+            addr = 'http://%s' % addr
+        if addr.endswith('/'):
+            addr = addr[:-1]
+        if uri.startswith('/'):
+            uri = uri[1:]
+        return '%s/%s' % (addr, uri)
+
+    def sign_bundle_package(self, bundle, package):
+        private_key = get_config('private_key', 
+                                 os.path.join(os.environ['HOME'], '.ssh', 'id_rsa'))
+        developer_id = get_config('developer_id', os.environ['USER'])
+
+        command = json.dumps({
+                'developer': developer_id,
+                'plugin': bundle,
+                'checksum': sha1(package.read()).hexdigest(),
+                'tstamp': time.time(),
+                })
+        package.seek(0)
+        checksum = sha1(command).hexdigest()
+        signature = crypto.Sender(private_key, checksum).pack()
+        return {
+            'command': command,
+            'signature': signature,
+            }
+
+    def send_bundle(self, package, address, fields={}):
+        content_type, body = self.encode_multipart_formdata(package, fields)
         headers = {
             'Content-Type': content_type,
             'Content-Length': str(len(body)),
             }
 
         client = httpclient.AsyncHTTPClient()
-        addr = get_config('device', 'http://localhost:8888')
-        if not addr.startswith('http://') and not addr.startswith('https://'):
-            addr = 'http://%s' % addr
-        if addr.endswith('/'):
-            addr = addr[:-1]
-        client.fetch('%s/sdk/install' % addr,
-                     self.handle_response,
-                     method='POST', headers=headers, body=body)
-
+        client.fetch(address, self.handle_response, method='POST',
+                     headers=headers, body=body)
+        
     def handle_response(self, response):
         self.set_header('Content-type', 'application/json')
         if (response.code == 200):
-            self.write(json.dumps({ 'ok': json.loads(response.body) }))
+            self.write(response.body)
         else:
             self.write(json.dumps({ 'ok': False,
                                     'error': response.body,
                                     }))
         self.finish()
         
-    def encode_multipart_formdata(self, package):
+    def encode_multipart_formdata(self, package, fields={}):
         boundary = '----------%s' % ''.join([ random.choice('0123456789abcdef') for i in range(22) ])
         body = []
+
+        for (key, value) in fields.items():
+            body.append('--%s' % boundary)
+            body.append('Content-Disposition: form-data; name="%s"' % key)
+            body.append('')
+            body.append(value)
 
         body.append('--%s' % boundary)
         body.append('Content-Disposition: form-data; name="package"; filename="%s.tgz"' % package.uid)
@@ -338,7 +378,7 @@ def run():
             (r"/config/set", ConfigurationSet),
             (r"/(icon.html)?", Index),
             (r"/screenshot", Screenshot),
-            (r"/install/(.+)/?", BundleInstall),
+            (r"/post/(device|cloud)/(.+)/?", BundlePost),
             (r"/js/templates.js$", BulkTemplateLoader),
             (r"/resources/(.*)", EffectResource),
             (r"/(.*)", web.StaticFileHandler, {"path": HTML_DIR}),
