@@ -7,10 +7,6 @@ $(document).ready(function() {
     $('#wizard-next').click(function() { wizard.wizard('next') })
     $('#wizard-previous').click(function() { wizard.wizard('previous') })
     $('#wizard-generate-thumbnail').click(function() { wizard.wizard('generate_thumbnail') })
-    wizard.data({ model: 'japanese',
-		  color: 'orange',
-		  panel: '4-knobs'
-		})
 })
 
 JqueryClass('wizard', {
@@ -32,6 +28,14 @@ JqueryClass('wizard', {
 
 	self.data('effect', effect)
 	self.data('label', effect.name)
+
+	if (effect.icon.templateData) {
+	    var data = effect.icon.templateData
+	    if (data.label)
+		self.data('label', data.label)
+	    if (data.author)
+		self.data('author', data.author)
+	}
 
 	self.show()
 	self.wizard('step', 0)

@@ -19,9 +19,9 @@ Install
 
 These are instructions for installing in 64-bit Debian based Linux environment. It will work in x86 and Mac, but you might need to adjust the instructions.
 
-The following packages will be required:
+The following packages will be required::
 
-    $ sudo apt-get install python-virtualenv python-pip git zlib1g:amd64
+    $ sudo apt-get install python-virtualenv python-pip python-dev git zlib1g:amd64 build-essential
 
 Start by cloning the repository::
 
@@ -52,8 +52,16 @@ Download PhantomJS::
     $ tar jxf phantomjs-1.9.0-linux-x86_64.tar.bz2
     $ rm phantomjs-1.9.0-linux-x86_64.tar.bz2
 
+Run
+---
+
+Before running the server, you need to activate your virtualenv (if you have just done that during installation, you can skip this step, but you'll need to do this again when you open a new shell)::
+
+    $ source modsdk-env/bin/activate
+
 Run the server::
 
     $ ./development_server.py
 
 Open your webkit based browser (I use Chromium) and point to http://localhost:9000.
+

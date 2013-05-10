@@ -10,8 +10,15 @@ try:
         when any modification to that bundle is done in filesystem.
         """
         def __init__(self, basedir):
-            assert os.path.isdir(basedir)
             self.basedir = os.path.realpath(basedir)
+            self.monitoring = False
+            self.monitor()
+
+        def monitor(self):
+            if not os.path.isdir(self.basedir) or self.monitoring:
+                return
+
+            self.monitoring = True
 
             self.wm = pyinotify.WatchManager()
             self.mask = pyinotify.IN_DELETE | pyinotify.IN_CREATE  | pyinotify.IN_CLOSE_WRITE
@@ -35,9 +42,14 @@ try:
                 pass
 
         def cycle(self):
-            self.notifier.process_events()
-            if self.notifier.check_events():
-                self.notifier.read_events()
+            if self.monitoring:
+                self.notifier.process_events()
+                if self.notifier.check_events():
+                    self.notifier.read_events()
+            else:
+                for key in self.keys():
+                    self.pop(key)
+                self.monitor()
 
         def notify(self, path):
             path = path[len(self.basedir)+1:]

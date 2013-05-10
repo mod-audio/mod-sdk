@@ -192,7 +192,8 @@ class Screenshot(web.RequestHandler):
         if height > MAX_THUMB_HEIGHT:
             height = MAX_THUMB_HEIGHT
             width = width * MAX_THUMB_HEIGHT / height
-        img.thumbnail((width, height))
+        img.convert('RGB')
+        img.thumbnail((width, height), Image.ANTIALIAS)
         fname = self.tmp_filename()
         img.save(fname)
         fh = open(fname)
