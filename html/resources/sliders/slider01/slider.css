@@ -1,0 +1,89 @@
+/* SLIDER */
+.pedal .slider:first-child {
+    margin-left:8px;
+}
+
+.pedal .slider {
+    color:black;
+    float:left;
+    font-size:11px;
+    height:140px;
+    margin-bottom:2px;
+    margin-right:2px;
+    overflow:hidden;
+    position:relative;
+    text-align:center;
+    width:33px;
+}
+
+.pedal .slider .title {
+    display:block;
+    font-size:11px;
+    font-weight:bold;
+    line-height:1;
+    margin-bottom:11px;
+    padding:7px 0 5px;
+}
+
+.pedal .slider .image {
+    background-image:url(_strip.png);
+    background-position:center center;
+    background-repeat:no-repeat;
+    background-size:auto 110px;
+    height:110px;
+    left:50%;
+    position:absolute;
+    margin-left:-9px;
+    top:25px;
+    width:18px;
+    z-index:2;
+}
+
+.pedal .slider .image:hover {
+    cursor:pointer;
+}
+
+.pedal.three-sliders .slider {
+    margin:0;
+    width:33%;
+}
+
+.pedal.four-sliders .slider {
+    margin:0;
+    width:25%;
+}
+
+.pedal.five-sliders .slider {
+    margin:0;
+    width:20%;
+}
+
+.pedal.six-sliders .slider {
+    margin:0;
+    width:16.5%;
+}
+
+.pedal.seven-sliders .slider {
+    margin:0;
+    width:14.2%;
+}
+
+.pedal.eight-sliders .slider {
+    margin:0;
+    width:12.5%;
+}
+
+.pedal.nine-sliders .slider {
+    margin:0;
+    width:11.11%;
+}
+
+/* JAPANESE */
+.pedal-japanese.sliders .knob-group {
+    top:18px;
+}
+
+.pedal-japanese.sliders .slider {
+    color:white;
+    top:0;
+}
