@@ -1,10 +1,3 @@
-/* STYLES FOR THE LATA PEDAL */
-
-@import url(../../../fonts/epf/stylesheet.css);
-@import url(../../../fonts/nexa/stylesheet.css);
-@import url(../../../fonts/pirulen/stylesheet.css);
-@import url(../../../fonts/questrial/stylesheet.css);
-
 /* = CONTAINER
 ================================================ */
 .pedal-lata {
@@ -106,57 +99,6 @@
 .pedal-lata.yellow .name h1 {
     color:rgb(118,95,25);
 }
-
-/* = KNOBS
-================================================ */
-.pedal-lata .knob-group .knob .image { background-image:url(_strip.png); }
-
-.pedal-lata .knob-group {
-    height:141px;
-    left:40px;
-    position:absolute;
-    right:40px;
-    top:36px;
-}
-.pedal-lata .knob-group .knob {
-    height:100px;
-    float:left;
-    text-align:center;
-    width:79.5px;
-}
-
-.pedal-lata.blue .knob-group .knob > span.title { color:black; }
-.pedal-lata.brown .knob-group .knob > span.title { color:white; }
-.pedal-lata.cream .knob-group .knob > span.title { color:black; }
-.pedal-lata.darkblue .knob-group .knob > span.title { color:white; }
-.pedal-lata.gray .knob-group .knob > span.title { color:black; }
-.pedal-lata.green .knob-group .knob > span.title { color:white; }
-.pedal-lata.orange .knob-group .knob > span.title { color:black; }
-.pedal-lata.purple .knob-group .knob > span.title { color:white; }
-.pedal-lata.red .knob-group .knob > span.title { color:black; }
-.pedal-lata.white .knob-group .knob > span.title { color:black; }
-.pedal-lata.yellow .knob-group .knob > span.title { color:black; }
-
-.pedal-lata .knob-group .knob > span.title {
-    display:block;
-    font-size:10px;
-    font-weight:bold;
-    height:12px;
-    line-height:1;
-    margin:0;
-    padding:0;
-    text-transform:uppercase;
-}
-.pedal-lata .knob-group .knob .image { 
-    background-position:left center;
-    background-repeat:no-repeat;
-    background-size:auto 79.5px;
-    height:79.5px;
-    position:relative;
-    overflow:hidden;
-    width:79.5px;
-}
-
 
 /* = LIGHT ON/OFF
 ================================================ */

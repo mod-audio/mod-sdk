@@ -1,0 +1,102 @@
+/* STYLES FOR THE BOXY KNOB */
+
+/* = KNOBS
+================================================ */
+.pedal-lata .knob-group {
+    height:141px;
+    left:0;
+    position:absolute;
+    right:0;
+    text-align:center;
+    top:36px;
+}
+
+.pedal-lata .knob-group .knob {
+    display:inline-block;
+    height:100px;
+    text-align:center;
+    width:79.5px;
+}
+
+.pedal-lata .knob-group .knob .image { 
+    background-image:url(lata.png);
+    background-position:left center;
+    background-repeat:no-repeat;
+    background-size:auto 79.5px;
+    height:79.5px;
+    position:relative;
+    overflow:hidden;
+    width:79.5px;
+}
+
+.pedal-lata.blue .knob-group .knob > span.title { 
+    color:black;
+}
+
+.pedal-lata.brown .knob-group .knob > span.title {
+    color:white;
+}
+
+.pedal-lata.cream .knob-group .knob > span.title {
+    color:black;
+}
+
+.pedal-lata.darkblue .knob-group .knob > span.title {
+    color:white;
+}
+
+.pedal-lata.gray .knob-group .knob > span.title {
+    color:black;
+}
+
+.pedal-lata.green .knob-group .knob > span.title {
+    color:white;
+}
+
+.pedal-lata.orange .knob-group .knob > span.title {
+    color:black;
+}
+
+.pedal-lata.purple .knob-group .knob > span.title {
+    color:white;
+}
+
+.pedal-lata.red .knob-group .knob > span.title {
+    color:black;
+}
+
+.pedal-lata.white .knob-group .knob > span.title {
+    color:black;
+}
+
+.pedal-lata.yellow .knob-group .knob > span.title {
+    color:black;
+}
+
+.pedal-lata .knob-group .knob > span.title {
+    display:block;
+    font-size:11px;
+    font-weight:bold;
+    height:12px;
+    line-height:1;
+    margin:0;
+    padding:0;
+    text-transform:uppercase;
+}
+
+.pedal-lata .knob-group {
+    margin:20px;
+    position:relative;
+    text-align:center;
+    z-index:30;
+}
+
+.pedal-lata.seven-knobs .knob-group,
+.pedal-lata.eight-knobs .knob-group {
+    margin:20px 6px;
+}
+
+.pedal-lata.seven-knobs .knob-group .knob,
+.pedal-lata.eight-knobs .knob-group .knob {
+    display:inline-block;
+}
