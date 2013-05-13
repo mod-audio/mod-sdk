@@ -125,6 +125,7 @@
     left:13px;
     position:absolute;
     right:13px;
+    z-index:30;
 }
 
 /* = INPUTS/OUTPUTS
