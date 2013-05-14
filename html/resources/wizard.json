@@ -36,7 +36,7 @@
         },
         "colors": [ "blue", "brown", "cream", "darkblue", "gray", "green", "orange", "purple", "red", "white", "yellow" ]
     },
-    "marshall" : {
+    "british" : {
         "panels" : {
             "4-knobs" : 4
         },

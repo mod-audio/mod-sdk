@@ -1,10 +1,10 @@
-/* STYLES FOR THE marshall PEDAL */
+/* STYLES FOR THE british PEDAL */
 
 @import url(../../../fonts/england-hand/stylesheet.css);
 
 /* = CONTAINER
 ================================================ */
-.pedal-marshall {
+.pedal-british {
     background-position:center center;
     background-repeat:no-repeat;
     height:520px;
@@ -14,13 +14,13 @@
 
 /* = BACKGROUND IMAGES - Colour of the pedal
 ================================================ */
-.pedal-marshall.metallic {
+.pedal-british.metallic {
     background-image:url(metallic.png);
 }
 
 /* = PLUGIN'S AUTHOR
 ================================================ */
-.pedal-marshall .author {
+.pedal-british .author {
     left:30px;
     position:absolute;
     right:30px;
@@ -28,7 +28,7 @@
     top:390px;
 }
 
-.pedal-marshall .author h1 {
+.pedal-british .author h1 {
     color:#777471;
     font-family:"EnglandHand";
     font-size:48px;
@@ -37,7 +37,7 @@
 
 /* = PLUGIN'S NAME
 ================================================ */
-.pedal-marshall .name {
+.pedal-british .name {
     left:30px;
     overflow:hidden;
     position:absolute;
@@ -46,7 +46,7 @@
     top:230px;
 }
 
-.pedal-marshall .name h1 {
+.pedal-british .name h1 {
     font-family:"Questrial";
     font-size:24px;
     line-height:1;
@@ -54,7 +54,7 @@
 
 /* = LIGHT ON/OFF
 ================================================ */
-.pedal-marshall .light {
+.pedal-british .light {
     height:32px;
     left:140px;
     position:absolute;
@@ -64,7 +64,7 @@
 
 /* = FOOTSWITCH
 ================================================ */
-.pedal-marshall .footswitch {
+.pedal-british .footswitch {
     bottom:46px;
     cursor:pointer;
     height:155px;
@@ -76,7 +76,7 @@
 
 /* = DRAG HANDLE
 ================================================ */
-.pedal-marshall .drag-handle {
+.pedal-british .drag-handle {
     cursor:move;
     height:320px;
     left:13px;

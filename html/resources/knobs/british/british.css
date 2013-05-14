@@ -2,7 +2,7 @@
 
 /* = KNOBS
 ================================================ */
-.pedal-marshall .knob-group {
+.pedal-british .knob-group {
     height:141px;
     left:0;
     position:absolute;
@@ -11,17 +11,17 @@
     top:36px;
 }
 
-.pedal-marshall .knob-group .knob {
+.pedal-british .knob-group .knob {
     display:inline-block;
     height:100px;
     overflow:hidden;
     position:relative;
     text-align:center;
-    width:60px;
+    width:64px;
 }
 
-.pedal-marshall .knob-group .knob .image { 
-    background-image:url(marshall.png);
+.pedal-british .knob-group .knob .image { 
+    background-image:url(british.png);
     background-position:left center;
     background-repeat:no-repeat;
     background-size:auto 64px;
@@ -29,10 +29,10 @@
     margin:0 auto;
     overflow:hidden;
     position:relative;
-    width:48px;
+    width:64px;
 }
 
-.pedal-marshall .knob-group .knob > span.title {
+.pedal-british .knob-group .knob > span.title {
     display:block;
     font-size:11px;
     font-weight:bold;
@@ -43,19 +43,19 @@
     text-transform:uppercase;
 }
 
-.pedal-marshall .knob-group {
+.pedal-british .knob-group {
     margin:0;
     position:relative;
     text-align:center;
     z-index:30;
 }
 
-.pedal-marshall.seven-knobs .knob-group,
-.pedal-marshall.eight-knobs .knob-group {
+.pedal-british.seven-knobs .knob-group,
+.pedal-british.eight-knobs .knob-group {
     margin:0 6px;
 }
 
-.pedal-marshall.seven-knobs .knob-group .knob,
-.pedal-marshall.eight-knobs .knob-group .knob {
+.pedal-british.seven-knobs .knob-group .knob,
+.pedal-british.eight-knobs .knob-group .knob {
     display:inline-block;
 }
