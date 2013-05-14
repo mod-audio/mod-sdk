@@ -1,0 +1,85 @@
+/* STYLES FOR THE marshall PEDAL */
+
+/* = CONTAINER
+================================================ */
+.pedal-marshall {
+    background-position:center center;
+    background-repeat:no-repeat;
+    height:520px;
+    position:absolute;
+    width:279px;
+}
+
+/* = BACKGROUND IMAGES - Colour of the pedal
+================================================ */
+.pedal-marshall.metallic {
+    background-image:url(metallic.png);
+}
+
+/* = PLUGIN'S AUTHOR
+================================================ */
+.pedal-marshall .author {
+    left:30px;
+    position:absolute;
+    right:30px;
+    text-align:center;
+    text-transform:uppercase;
+    top:430px;
+}
+
+.pedal-marshall .author h1 {
+    color:#777471;
+    font-family:"Nexa";
+    font-size:36px;
+    text-shadow:1px 1px 1px rgba(255,255,255,.1), -1px -1px 1px rgba(0,0,0,0.6);
+}
+
+/* = PLUGIN'S NAME
+================================================ */
+.pedal-marshall .name {
+    left:30px;
+    overflow:hidden;
+    position:absolute;
+    right:30px;
+    text-align:right;
+    top:230px;
+}
+
+.pedal-marshall .name h1 {
+    font-family:"Questrial";
+    font-size:24px;
+    line-height:1;
+}
+
+/* = LIGHT ON/OFF
+================================================ */
+.pedal-marshall .light {
+    height:32px;
+    left:140px;
+    position:absolute;
+    top:20px;
+    width:32px;
+}
+
+/* = FOOTSWITCH
+================================================ */
+.pedal-marshall .footswitch {
+    bottom:46px;
+    cursor:pointer;
+    height:155px;
+    left:13px;
+    position:absolute;
+    right:13px;
+    z-index:3;
+}
+
+/* = DRAG HANDLE
+================================================ */
+.pedal-marshall .drag-handle {
+    cursor:move;
+    height:320px;
+    left:13px;
+    position:absolute;
+    right:13px;
+    top: 10px;
+}

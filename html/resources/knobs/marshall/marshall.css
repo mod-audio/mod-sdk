@@ -1,0 +1,61 @@
+/* STYLES FOR THE BOXY KNOB */
+
+/* = KNOBS
+================================================ */
+.pedal-marshall .knob-group {
+    height:141px;
+    left:0;
+    position:absolute;
+    right:0;
+    text-align:center;
+    top:36px;
+}
+
+.pedal-marshall .knob-group .knob {
+    display:inline-block;
+    height:100px;
+    overflow:hidden;
+    position:relative;
+    text-align:center;
+    width:60px;
+}
+
+.pedal-marshall .knob-group .knob .image { 
+    background-image:url(marshall.png);
+    background-position:left center;
+    background-repeat:no-repeat;
+    background-size:auto 64px;
+    height:64px;
+    margin:0 auto;
+    overflow:hidden;
+    position:relative;
+    width:48px;
+}
+
+.pedal-marshall .knob-group .knob > span.title {
+    display:block;
+    font-size:11px;
+    font-weight:bold;
+    height:12px;
+    line-height:1;
+    margin:0;
+    padding:0;
+    text-transform:uppercase;
+}
+
+.pedal-marshall .knob-group {
+    margin:0;
+    position:relative;
+    text-align:center;
+    z-index:30;
+}
+
+.pedal-marshall.seven-knobs .knob-group,
+.pedal-marshall.eight-knobs .knob-group {
+    margin:0 6px;
+}
+
+.pedal-marshall.seven-knobs .knob-group .knob,
+.pedal-marshall.eight-knobs .knob-group .knob {
+    display:inline-block;
+}

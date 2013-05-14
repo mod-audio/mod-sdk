@@ -35,5 +35,11 @@
             "8-knobs" : 8
         },
         "colors": [ "blue", "brown", "cream", "darkblue", "gray", "green", "orange", "purple", "red", "white", "yellow" ]
+    },
+    "marshall" : {
+        "panels" : {
+            "4-knobs" : 4
+        },
+        "colors": [ "metallic" ]
     }
 }
