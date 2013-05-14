@@ -111,6 +111,8 @@ class EffectSave(web.RequestHandler):
             'author': param['author'],
             'controls': [ c['symbol'] for c in param['controls'] ],
             }
+        if param.get('knob'):
+            data['knob'] = param['knob']
         datafile = os.path.join(self.basedir, 'data-%s.json' % slugify(param['effect']['name']))
         open(datafile, 'w').write(json.dumps(data, sort_keys=True, indent=4))
 

@@ -17,9 +17,13 @@ JqueryClass('wizard', {
 	var model_list = Object.keys(models).sort()
 	self.data('model_index', models)
 	self.data('model_list', model_list)
+
 	self.find('.previous').click(function() { self.wizard('shiftModel', -1) })
 	self.find('.next').click(function() { self.wizard('shiftModel', 1) })
 
+	self.data('model', model_list[0])
+	self.data('color', null)
+	self.data('panel', null)
 	self.data('label', 'Label here')
 	self.data('author', 'brand')
     },
@@ -56,6 +60,7 @@ JqueryClass('wizard', {
 		      'docs',
 		      'finish'
 		    ]
+
 	if (step < 0 || step >= steps.length)
 	    return
 
@@ -63,7 +68,6 @@ JqueryClass('wizard', {
 	self.find('#wizard-step-'+step).show()
 	self.data('step', step)
 
-	console.log(step)
 	if (step == 0)
 	    self.find('#wizard-previous').hide()
 	else
@@ -105,48 +109,109 @@ JqueryClass('wizard', {
 	var self = $(this)
 	var list = self.data('model_list')
 	var len = list.length;
-	if (i == null)
-	    i = 0
-	i = (i + len) % len
-	var model = list[i]
-
-	self.data('model', model)
-	self.data('color', null)
-	self.data('panel', null)
+	var model
+	if (i == null) {
+	    model = self.data('model')
+	    i = list.indexOf(model)
+	} else {
+	    i = (i + len) % len
+	    model = list[i]
+	    self.data('model', model)
+	    self.data('color', null)
+	    self.data('panel', null)
+	    self.data('knob', null)
+	}
 
 	self.find('#model-choice h3').html(model)
 
-	var canvas, factory
+	var factory
 
 	var data = self.data('model_index')[model]
-	canvas = self.find('#color-options')
-	canvas.html('')
+	var colorCanvas = self.find('#color-options')
+	colorCanvas.html('')
 	var colors = data.colors.sort()
-	factory = function(color) { return function() { self.wizard('chooseColor', color) } }
-	for (var j in colors)
-	    $('<img>').attr('src', '/resources/pedals/'+model+'/'+colors[j]+'.png').height(64).click(factory(colors[j])).appendTo(canvas)
+	factory = function(color) { 
+	    return function() { 
+		colorCanvas.find('.selected').removeClass('selected')
+		$(this).addClass('selected')
+		self.data('color', color)
+		self.wizard('render')
+	    }
+	}
+	for (var j in colors) {
+	    var img = $('<img>')
+	    img.attr('src', '/resources/pedals/'+model+'/'+colors[j]+'.png')
+	    img.height(64)
+	    img.click(factory(colors[j]))
+	    if (colors[j] == self.data('color'))
+		img.addClass('selected')
+	    img.appendTo(colorCanvas)
+	}
 
-	canvas = self.find('#panel-options')
-	canvas.html('')
+	var panelCanvas = self.find('#panel-options')
+	panelCanvas.html('')
 	var panels = Object.keys(data.panels).sort()
-	factory = function(panel) { return function() { self.wizard('choosePanel', panel) } }
-	for (var j in panels)
-	    $('<li>').html(panels[j].replace(/-/, ' ')).click(factory(panels[j])).appendTo(canvas)
+	factory = function(panel) { 
+	    return function() { 
+		panelCanvas.find('.selected').removeClass('selected')
+		$(this).addClass('selected')
+		self.data('panel', panel)
+		self.data('controls', null)
+		self.wizard('render')
+	    }
+	}
+	for (var j in panels) {
+	    var li = $('<li>')
+	    li.html(panels[j].replace(/-/, ' '))
+	    li.click(factory(panels[j]))
+	    if (panels[j] == self.data('panel'))
+		li.addClass('selected')
+	    li.appendTo(panelCanvas)
+	}
+
+	var knobs = data.knobs
+	if (!knobs) {
+	    self.find('#knob-choice').hide()
+	    self.wizard('render')
+	    return
+	}
+	knobs = knobs.sort()
+	self.find('#knob-choice').show()
+
+	var knobCanvas = self.find('#knob-options')
+	knobCanvas.html('')
+	factory = function(knob) { 
+	    return function() { 
+		knobCanvas.find('.selected').removeClass('selected')
+		$(this).addClass('selected')
+		self.data('knob', knob)
+		self.wizard('render')
+	    }
+	}
+	var height = 64
+	var width = height * (data.knobProportion || 1)
+	for (var j in knobs) {
+	    var div = $('<div>')
+	    div.css('backgroundImage', 'url('+ '/resources/knobs/'+model+'/'+knobs[j]+'.png)')
+	    div.height(height)
+	    div.width(width)
+	    div.css('backgroundSize', 'auto '+height+'px')
+	    div.css('backgroundRepeat', 'no-repeat')
+	    div.click(factory(knobs[j]))
+	    if (knobs[j] == self.data('knob'))
+		div.addClass('selected')
+	    div.appendTo(knobCanvas)
+	}
 
 	self.wizard('render')
     },
 
     chooseColor: function(color) {
 	var self = $(this)
-	self.data('color', color)
-	self.wizard('render')
     },
 
     choosePanel: function(panel) {
 	var self = $(this)
-	self.data('panel', panel)
-	self.data('controls', null)
-	self.wizard('render')
     },
 
     render: function() {
@@ -154,7 +219,8 @@ JqueryClass('wizard', {
 	var effect = self.data('effect')
 	var model = self.data('model')
 	var panel = self.data('panel')
-	var color = self.data('color') || 'none'
+	var color = self.data('color')
+	var knob = self.data('knob')
 	var label = self.data('label') 
 	var author = self.data('author') 
 	var db = self.data('model_index')
@@ -164,26 +230,28 @@ JqueryClass('wizard', {
 	var icon = self.find('.wizard-icon')
 	icon.html('')
 
-	var element
-	if (!panel) { // no template yet
-	    element = $('<img>').attr('src', '/resources/pedals/'+model+'/'+color+'.png')
-	} else {
-	    var template = TEMPLATES['pedal-' + model + '-' + panel]
-	    effect.icon = {
-		template: template,
-		templateData: {
-		    color: color,
-		    controls: controls,
-		    label: label,
-		    author: author
-		}
+	var ok = true
+	ok = ok && panel
+	ok = ok && color
+	ok = ok && (knob || !self.data('model_index')[model].knobs)
+
+	self.wizard('ok', ok)
+
+	if (!ok)
+	    return
+
+	var template = TEMPLATES['pedal-' + model + '-' + panel]
+	effect.icon = {
+	    template: template,
+	    templateData: {
+		color: color,
+		knob: knob,
+		controls: controls,
+		label: label,
+		author: author
 	    }
-	    element = $(Mustache.render(template, getTemplateData(effect)))
 	}
-
-	element.appendTo(icon)
-
-	self.wizard('ok', model && panel && self.data('color'))
+	renderIcon(template, effect).appendTo(icon)
     },
 
     configure: function() {

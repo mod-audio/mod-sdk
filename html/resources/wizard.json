@@ -27,7 +27,8 @@
 	    "7-b-knobs": 7,
 	    "8-knobs": 8
 	},
-	"colors": [ "blue", "brown", "cream", "darkblue", "gray", "green", "orange", "purple", "red", "white", "yellow" ]
+	"colors": [ "blue", "brown", "cream", "darkblue", "gray", "green", "orange", "purple", "red", "white", "yellow" ],
+	"knobs": [ "blue", "brown", "cream", "darkblue", "gray", "green", "orange", "purple", "red", "white", "yellow" ]
     },
     "lata" : {
         "panels" : {

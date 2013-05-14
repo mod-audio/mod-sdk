@@ -179,8 +179,13 @@
 }
 
 #color-options img {
-    margin: 5px;
+    padding: 5px;
     cursor: pointer;
+}
+
+#color-options img.selected {
+    border: 1px solid red;
+    padding: 4px;
 }
 
 #panel-options {
@@ -192,7 +197,36 @@
 #panel-options li {
     cursor: pointer;
     list-style-type: none;
-    text-align: left;
+    margin: 0 5px;
+    padding: 5px;
+    text-align: center;
+    display: inline-block;
+    width: 90px;
+}
+
+#panel-options li.selected {
+    border: 1px solid red;
+    padding: 4px;
+}
+
+#knob-choice {
+    display: block;
+    margin-top: 10px;
+}
+
+#knob-choice h4 {
+    display: block;
+}
+
+#knob-options div {
+    padding: 5px;
+    display: inline-block;
+}
+
+#knob-options .selected {
+    border: 1px solid red;
+    padding: 4px;
+    display: inline-block;
 }
 
 #wizard-thumbnail {

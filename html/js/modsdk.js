@@ -208,7 +208,16 @@ function showEffect() {
     if (!options.icon.template)
 	options.icon.template = default_template
     window.location.hash = bundle + ',' + options.url
-    var element = $(Mustache.render(options.icon.template, getTemplateData(options)))
+
+    element = renderIcon(options.icon.template, options)
+
+    dashboard.append(element)
+    menu.show()
+    icon = element
+}
+
+function renderIcon(template, data) {
+    var element = $(Mustache.render(template, getTemplateData(data)))
     element.find('[mod-role=input-control-port]').each(function() {
 	$(this).knob()
     })
@@ -227,11 +236,8 @@ function showEffect() {
 	}
     })
 
-    dashboard.append(element)
-    menu.show()
-    icon = element
+    return element
 }
-
 
 
 function getTemplateData(options) {
