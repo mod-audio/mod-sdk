@@ -15,18 +15,18 @@
     display:inline-block;
     height:100px;
     text-align:center;
-    width:79.5px;
+    width:79px;
 }
 
 .pedal-lata .knob-group .knob .image { 
     background-image:url(lata.png);
     background-position:left center;
     background-repeat:no-repeat;
-    background-size:auto 79.5px;
-    height:79.5px;
+    background-size:auto 79px;
+    height:79px;
     position:relative;
     overflow:hidden;
-    width:79.5px;
+    width:79px;
 }
 
 .pedal-lata.blue .knob-group .knob > span.title { 
