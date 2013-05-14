@@ -49,6 +49,7 @@ def slugify(name):
     slug = name.lower()
     slug = re.sub('\s+', '-', slug)
     slug = re.sub('[^a-z0-9-]', '', slug)
+    slug = re.sub('-+', '-', slug)
     return slug
 
 class BundleList(web.RequestHandler):
@@ -65,9 +66,19 @@ class BundleList(web.RequestHandler):
 
 class EffectList(web.RequestHandler):
     def get(self, bundle):
-        data = get_bundle_data(bundle)
         self.set_header('Content-type', 'application/json')
-        self.write(data)
+        try:
+            data = get_bundle_data(bundle)
+        except lv2.BadSyntax as e:
+            error = unicode(e).split('\n')
+            error[0] = 'Error parsing ttl file:\n'
+            self.write(json.dumps({ 'ok': False,
+                                    'error': '\n'.join(error),
+                                    }))
+            return
+        self.write(json.dumps({ 'ok': True,
+                                'data': data,
+                                }))
 
 class EffectSave(web.RequestHandler):
     def post(self):

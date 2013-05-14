@@ -63,7 +63,7 @@ JqueryClass('knob', {
 
     mouseMove: function(e) {
 	var self = $(this)
-	var diff = self.data('lastY') - e.pageY
+	var diff = e.pageY - self.data('lastY')
 	diff = parseInt(diff / DRAG_PRECISION)
 	var rotation = self.data('rotation')
 	var steps = self.data('steps')

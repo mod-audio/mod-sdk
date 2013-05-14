@@ -157,7 +157,12 @@ function getEffects(callback) {
 	return
     }
     $.ajax({ url: '/effects/' + bundle,
-	     success: function(data) {
+	     success: function(result) {
+		 if (!result.ok) {
+		     alert(result.error)
+		     return
+		 }
+		 var data = result.data
 		 effects.find('option').remove()
 		 $('<option>').html('-- Select Effect --').appendTo(effects)
 		 plugins = data.plugins

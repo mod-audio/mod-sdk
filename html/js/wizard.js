@@ -233,7 +233,7 @@ JqueryClass('wizard', {
     },
 
     slug: function() {
-	return $(this).data('effect')['name'].toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
+	return $(this).data('effect')['name'].toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '').replace(/-+/g, '-')
     },
     
     edit_ttl: function() {
