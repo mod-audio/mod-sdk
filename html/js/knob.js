@@ -63,11 +63,13 @@ JqueryClass('knob', {
 
     mouseMove: function(e) {
 	var self = $(this)
-	var diff = e.pageY - self.data('lastY')
+	var diff = self.data('lastY') - e.pageY
 	diff = parseInt(diff / DRAG_PRECISION)
 	var rotation = self.data('rotation')
 	var steps = self.data('steps')
-	rotation = (rotation + diff - steps) % steps
+	rotation += diff
+	rotation = Math.min(rotation, steps-1)
+	rotation = Math.max(rotation, 0)
 	self.data('rotation', rotation)
 	self.data('lastY', e.pageY)
 	self.knob('setRotation', rotation)
@@ -75,7 +77,7 @@ JqueryClass('knob', {
 
     setRotation: function(rotation) {
 	var self = $(this)
-	rotation *= self.data('size')
+	rotation *= -self.data('size')
 	rotation += 'px 0px'
 	self.css('background-position', rotation)
     }
