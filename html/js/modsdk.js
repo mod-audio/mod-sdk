@@ -171,6 +171,10 @@ function getEffects(callback) {
 		     $('<option>').val(effect.url).html(effect.name).data(effect).appendTo(effects)
 		 }
 		 effects.show()
+		 if (effects.children().length == 2) {
+		     effects.children().first().remove()
+		     showEffect()
+		 }		 
 		 if (callback != null)
 		     callback()
 	     },
