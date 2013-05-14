@@ -36,7 +36,7 @@ JqueryClass('knob', {
 	    var url = self.css('background-image').replace('url(', '').replace(')', '').replace("'", '').replace('"', '');
 	    var height = self.css('background-size').split(/ /)[1]
 	    if (height)
-		height = parseInt(height.replace(/\D/, ''))
+		height = parseInt(height.replace(/\D+$/, ''))
 	    var bgImg = $('<img />');
 	    bgImg.css('max-width', '999999999px')
 	    bgImg.hide();
