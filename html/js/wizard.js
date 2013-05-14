@@ -3,15 +3,17 @@ $(document).ready(function() {
     var wizard = $('#wizard-window')
     wizard.wizard(wizard_db)
     $('#wizard').click(function() { wizard.wizard('open') })
-    $('#wizard-cancel').click(function() { wizard.wizard('close') })
-    $('#wizard-next').click(function() { wizard.wizard('next') })
-    $('#wizard-previous').click(function() { wizard.wizard('previous') })
-    $('#wizard-generate-thumbnail').click(function() { wizard.wizard('generate_thumbnail') })
 })
 
 JqueryClass('wizard', {
     init: function(models) {
 	var self = $(this)
+
+	self.find('#wizard-cancel').click(function() { self.wizard('close') })
+	self.find('#wizard-next').click(function() { self.wizard('next') })
+	self.find('#wizard-previous').click(function() { self.wizard('previous') })
+	self.find('#wizard-generate-thumbnail').click(function() { self.wizard('generate_thumbnail') })
+
 	var model_list = Object.keys(models).sort()
 	self.data('model_index', models)
 	self.data('model_list', model_list)
@@ -54,10 +56,23 @@ JqueryClass('wizard', {
 		      'docs',
 		      'finish'
 		    ]
+	if (step < 0 || step >= steps.length)
+	    return
 
 	self.find('.step').hide()
 	self.find('#wizard-step-'+step).show()
 	self.data('step', step)
+
+	console.log(step)
+	if (step == 0)
+	    self.find('#wizard-previous').hide()
+	else
+	    self.find('#wizard-previous').show()
+	if (step == steps.length-1)
+	    self.find('#wizard-next').hide()
+	else
+	    self.find('#wizard-next').show()
+
 	self.wizard(steps[step])
     },
 
