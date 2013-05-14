@@ -1,5 +1,7 @@
 /* STYLES FOR THE marshall PEDAL */
 
+@import url(../../../fonts/england-hand/stylesheet.css);
+
 /* = CONTAINER
 ================================================ */
 .pedal-marshall {
@@ -23,15 +25,14 @@
     position:absolute;
     right:30px;
     text-align:center;
-    text-transform:uppercase;
-    top:430px;
+    top:390px;
 }
 
 .pedal-marshall .author h1 {
     color:#777471;
-    font-family:"Nexa";
-    font-size:36px;
-    text-shadow:1px 1px 1px rgba(255,255,255,.1), -1px -1px 1px rgba(0,0,0,0.6);
+    font-family:"EnglandHand";
+    font-size:48px;
+    text-shadow:-1px -1px -1px rgba(255,255,255,.1), 1px 1px 1px rgba(0,0,0,0.5);
 }
 
 /* = PLUGIN'S NAME
