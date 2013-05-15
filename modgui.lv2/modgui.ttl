@@ -72,20 +72,20 @@ value of this property must be a URI that resolves to a Mustache template.</p>
 <p>Some elements in your layout are just informative for the user, like the effect name, branding and background img. Others are functional, like the knobs and footswitch. A functional element is marked as so by the "mod-role" attribute, and other mod-* attributes may be used as parameters. The following functional elements may be indicated:</p>
 
 <h4>Bypass</h4>
-MOD compatible hosts MUST implement a bypass in each plugin loaded. Two elements are responsible for this, the bypass footswitch and bypass light indicator.
+<p>MOD compatible hosts MUST implement a bypass in each plugin loaded. Two elements are responsible for this, the bypass footswitch and bypass light indicator.</p>
 
-The footswitch is an element identified by the mod-role="<em>bypass</em>" attribute. Once clicked, the effect bypass will be turned on or off, and the light indicator will be changed as so.
+<p>The footswitch is an element identified by the mod-role="<em>bypass</em>" attribute. Once clicked, the effect bypass will be turned on or off, and the light indicator will be changed as so.</p>
 
-The light indicator is identified by mod-role="<em>bypass-light</em>". It will automatically receive the class <em>on</em> or <em>off</em>, so designers are expected to implement a background image for each of these classes, or equivalent.
+<p>The light indicator is identified by mod-role="<em>bypass-light</em>". It will automatically receive the class <em>on</em> or <em>off</em>, so designers are expected to implement a background image for each of these classes, or equivalent.</p>
 
 <h4>Control buttons</h4>
-Each plugin can have buttons to control plugin's parameters. Each button is identified by the attribute mod-role="<em>input-control-port</em>" and configured by <em>mod-port-symbol</em> attribute, which must hold the port's symbol.
+<p>Each plugin can have buttons to control plugin's parameters. Each button is identified by the attribute mod-role="<em>input-control-port</em>" and configured by <em>mod-port-symbol</em> attribute, which must hold the port's symbol.</p>
 
-This element is expected to have a background-image style, with one big horizontal <a href="http://www.w3schools.com/css/css_image_sprites.asp">sprite</a> as background. User will be able to change that parameter by clicking on the control button and dragging the mouse up or down. As this is done, the background image will be moved to reflect the new state.
+<p>This element is expected to have a background-image style, with one big horizontal <a href="http://www.w3schools.com/css/css_image_sprites.asp">sprite</a> as background. User will be able to change that parameter by clicking on the control button and dragging the mouse up or down. As this is done, the background image will be moved to reflect the new state.</p>
 
-For the feedback, the minimum value of that port will be assigned for the first position of the sprite and the maximum value for the last one. The number of steps will be calculated by dividing the background width by the element's width, considering the background-size style. The actual number of steps will be the minimum between the number of images in sprite and the steps limited by lv2 definition (by <a href="http://lv2plug.in/ns/ext/port-props/#rangeSteps">rangeSteps</a>, <a href="http://lv2plug.in/ns/lv2core/#enumeration">enumeration</a> or <a href="http://lv2plug.in/ns/lv2core/#toggled">toggled</a>.
+<p>The minimum value of that port will be represented by the first position of the sprite and the maximum value by the last one. The number of steps will be calculated by dividing the background width by the element's width, considering the background-size style. The actual number of steps will be the minimum between the number of images in sprite and the steps limited by lv2 definition (by <a href="http://lv2plug.in/ns/ext/port-props/#rangeSteps">rangeSteps</a>, <a href="http://lv2plug.in/ns/lv2core/#enumeration">enumeration</a> or <a href="http://lv2plug.in/ns/lv2core/#toggled">toggled</a>.</p>
 
-For example, suppose you want to build a horizontal slider that can hold 10 different positions occupies an area of 150x30 pixels, to control the drive parameter of your plugin. For that, you could:
+<p>For example, suppose you want to build a horizontal slider that can hold 10 different positions occupies an area of 150x30 pixels, to control the drive parameter of your plugin. For that, you could:</p>
 <ul>
   <li>Design an image of 1500x30 pixels, each piece of 150x30 representing one position of the slider;</li>
   <li>Save it inside the mod:resourcesDirectory directory, in your bundle, as slider.png</li>
@@ -94,12 +94,12 @@ For example, suppose you want to build a horizontal slider that can hold 10 diff
 </ul>
 
 <h4>Audio ports</h4>
-Each plugin has audio input and output ports. They are identified by mod-role="<em>input-control-port</em>" and mod-role="<em>output-control-port<em>" attributes respectively, and both must have a mod-port-symbol property containing the port symbol.
+<p>Each plugin has audio input and output ports. They are identified by mod-role="<em>input-control-port</em>" and mod-role="<em>output-control-port</em>" attributes respectively, and both must have a mod-port-symbol property containing the port symbol.</p>
 
-For implementing the connections, each output will receive a &lt;div&gt; element inside, representing a jack (this will be automatically inserted). This jack can be dragged by user and dropped inside an input, and so a connection will be made.
+<p>For implementing the connections, each output will receive a &lt;div&gt; element inside, representing a jack (this will be automatically inserted). This jack can be dragged by user and dropped inside an input, and so a connection will be made.</p>
 
 <h4>Drag handle</h4>
-Plugins can be dragged around the pedalboard dashboard. To define which area of the plugin can be clicked for dragging, an element with the attribute mod-role="<em>drag-handle</em>" can be defined.
+<p>Plugins can be dragged around the pedalboard dashboard. To define which area of the plugin can be clicked for dragging, an element with the attribute mod-role="<em>drag-handle</em>" can be defined.</p>
 """ .
 
 mod:templateData
