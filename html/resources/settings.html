@@ -1,0 +1,85 @@
+<div class="pedal-settings" style="left:180px;top:120px">
+    <h1>{{name}}</h1>
+    <div class="controls clearfix">
+      
+        <div class="control-group clearfix">
+            <div class="enumerated hidden">
+                <span class="title">Model</span>
+                <div class="address"></div>
+                <ul>
+                    <li>basswoman</li>
+                    <li class="selected">twin</li>
+                    <li>wookie</li>
+                    <li>DC 30</li>
+                    <li>juice 800</li>
+                    <li>stanford</li>
+                    <li>HK 20</li>
+                    <li>nihon ace</li>
+                    <li>porky</li>
+                </ul>
+            </div>
+        </div>
+      
+        <div class="control-group clearfix">
+          {{#ports.control.input}}
+            <div class="knob">
+                <span class="title">{{name}}</span>
+                <span class="min-value">{{minimum}}</span>
+                <span class="max-value">{{maximum}}</span>
+                <span class="current-value" mod-role="input-control-value" mod-port-symbol="{{symbol}}"></span>
+                <div class="image" mod-role="input-control-port" mod-port-symbol="{{symbol}}"></div>
+                <div class="address" mod-role="input-control-address" mod-port-symbol="{{symbol}}"></div>
+            </div>
+	  {{/ports.control.input}}
+	</div>
+    </div>
+    
+    <div class="actions">
+        <button class="btn btn-danger">Cancel</button>
+        <button class="btn btn-success">Save</button>
+    </div>
+</div>
+<!--
+<div class="pedal-settings-address hidden">
+    <div class="box">
+        <h1>C* AmpVTS - Trebble</h1>
+        <form class="bottom">
+            <div class="control-group clearfix">
+                <label class="control-label">Label</label>
+                <div class="controls">
+                    <input type="text"/>
+                </div>
+            </div>
+            <div class="range control-group clearfix">
+                <label class="control-label">Range</label>
+                <div class="controls">
+                    <input type="number"/> - <input type="number"/>
+                </div>
+            </div>
+            <div class="mod control-group clearfix">
+                <label class="control-label">MOD</label>
+                <div class="controls">
+                    <select>
+                        <option>Select</option>
+                        <option>Rotary 1</option>
+                        <option>Rotary 2</option>
+                        <option>Rotary 3</option>
+                        <option>Rotary 4</option>
+                        <option>Foot 1</option>
+                        <option>Foot 2</option>
+                        <option>Foot 3</option>
+                        <option>Foot 4</option>
+                        <option>Expression Pedal #1</option>
+                        <option>Expression Pedal #2</option>
+                        <option>Expression Pedal #3</option>
+                    </select>
+                </div>
+            </div>
+            <div class="textright clearfix">
+                <button class="btn btn-danger">Cancel</button>
+                <button class="btn btn-success">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+-->

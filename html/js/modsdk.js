@@ -1,20 +1,23 @@
-var dashboard, bundles, effects, reload, menu, icon, settings, settingsWindow, version
+var bundles, effects, content, icon, settings, settingsWindow, version
 var default_template // loaded in index.html
 var DEBUG // holds template debugging info
 $(document).ready(function() {
-    dashboard = $('#pedalboard-dashboard')
+    makeTabs()
     bundles = $('#bundle-select')
     effects = $('#effect-select')
-    reload = $('#reload')
-    menu = $('#effect-menu')
-    settings = $('#settings')
+    content = $('#content-wrapper')
+
+    iconCanvas = $('#content-icon .canvas')
+    screenshotCanvas = $('#content-screenshot .canvas')
+    
+    settingsButton = $('#settings')
     settingsWindow = $('#settings-window')
     version = $('#version')
 
     effects.hide()
     version.hide()
 
-    bundles.change(function() { getEffects() })
+    bundles.change(function() { loadEffects() })
     effects.change(function() { showEffect() })
     $('#screenshot').click(function() {
 	var iconImg = $('<img>')
@@ -23,13 +26,13 @@ $(document).ready(function() {
 		      width: icon.width(),
 		      height: icon.height()
 		    }
-	dashboard.find('img').remove()
+	screenshotCanvas.find('img').remove()
 	$.ajax({ url: '/screenshot',
 		 data: param,
 		 success: function(result) {
 		     if (result.ok) {
-			 $('<img class="thumb">').appendTo(dashboard).attr('src', 'data:image/png;base64,'+result.thumbnail)
-			 $('<img class="screenshot">').appendTo(dashboard).attr('src', 'data:image/png;base64,'+result.screenshot)
+			 $('<img class="thumb">').appendTo(screenshotCanvas).attr('src', 'data:image/png;base64,'+result.thumbnail)
+			 $('<img class="screenshot">').appendTo(screenshotCanvas).attr('src', 'data:image/png;base64,'+result.screenshot)
 		     } else {
 			 alert('Could not generate thumbnail')
 		     }
@@ -68,7 +71,7 @@ $(document).ready(function() {
 	       })
     })
 
-    $('#settings').click(function() {
+    settingsButton.click(function() {
 	$.ajax({ url: '/config/get',
 		 success: function(config) {
 		     var key
@@ -115,27 +118,13 @@ $(document).ready(function() {
 	$('#debug-window').hide()
     })	
 
-    var hash = window.location.hash.replace(/^#/, '')
-    getBundles(function() {
-	if (hash) {
-	    var bundle = hash.split(/,/)[0]
-	    var effect = hash.split(/,/)[1]
-	    bundles.val(bundle)
-	    getEffects(function() {
-		if (effect) {
-		    effects.val(effect)
-		    showEffect()
-		}
-	    })
-	}
-    })
+    loadBundles()
 })
 
-function getBundles(callback) {
+function loadBundles() {
     $.ajax({ url: '/bundles',
 	     success: function(data) {
-		 dashboard.html('')
-		 menu.hide()
+		 content.hide()
 		 if (data.length == 0) {
 		     bundles.hide()
 		     $('#no-bundles').show()
@@ -148,8 +137,19 @@ function getBundles(callback) {
 		 for (var i in data) {
 		     $('<option>').val(data[i]).html(data[i]).appendTo(bundles)
 		 }
-		 if (callback != null)
-		     callback()
+
+		 var hash = window.location.hash.replace(/^#/, '')
+		 if (hash) {
+		     var bundle = hash.split(/,/)[0]
+		     var effect = hash.split(/,/)[1]
+		     bundles.val(bundle)
+		     loadEffects(function() {
+			 if (effect) {
+			     effects.val(effect)
+			     showEffect()
+			 }
+		     })
+		 }
 	     },
 	     error: function(resp) {
 		 alert("Error: Can't get list of bundles. Is your server running? Check the logs.")
@@ -157,45 +157,28 @@ function getBundles(callback) {
 	   })
 }
 
-function getEffects(callback) {
+function loadEffects(callback) {
     var bundle = bundles.val()
-    window.location.hash = bundle
     version.hide()
-    if (!bundle) {
-	effects.hide()
-	return
-    }
-    $.ajax({ url: '/effects/' + bundle,
-	     success: function(result) {
-		 if (!result.ok) {
-		     alert(result.error)
-		     return
-		 }
-		 var data = result.data
-		 effects.find('option').remove()
-		 $('<option>').html('-- Select Effect --').appendTo(effects)
-		 plugins = data.plugins
-		 for (var url in plugins) {
-		     var effect = plugins[url]
-		     $('<option>').val(effect.url).html(effect.name).data(effect).appendTo(effects)
-		 }
-		 effects.show()
-		 if (effects.children().length == 2) {
-		     effects.children().first().remove()
-		     showEffect()
-		 }		 
-		 if (callback != null)
-		     callback()
-	     },
-	     error: function(resp) {
-		 alert("Error: Can't get list of effects. Is your server running? Check the logs.")
-	     }
-	   })
+    getEffects(bundle, function(plugins) {
+	effects.find('option').remove()
+	$('<option>').html('-- Select Effect --').appendTo(effects)
+	for (var url in plugins) {
+	    var effect = plugins[url]
+	    $('<option>').val(effect.url).html(effect.name).data(effect).appendTo(effects)
+	}
+	effects.show()
+	if (effects.children().length == 2) {
+	    effects.children().first().remove()
+	    showEffect()
+	}		 
+	if (callback != null)
+	    callback()
+    })    
 }
 
 function showEffect() {
-    dashboard.html('')
-    menu.hide()
+    content.hide()
     var bundle = bundles.val()
     if (!bundle) {
 	window.location.hash = ''
@@ -220,56 +203,27 @@ function showEffect() {
 
     element = renderIcon(options.icon.template, options)
 
-    dashboard.append(element)
-    menu.show()
+    iconCanvas.html('')
+    iconCanvas.append(element)
+    content.show()
     icon = element
 }
 
-function renderIcon(template, data) {
-    var element = $(Mustache.render(template, getTemplateData(data)))
-    element.find('[mod-role=input-control-port]').each(function() {
-	$(this).knob()
+function makeTabs() {
+    $('ul#menu li').each(function() {
+	var item = $(this)
+	item.click(function() {
+	    var section = item.attr('id').replace(/^tab-/, '')
+	    $('.content').hide()
+	    $('ul#menu li.selected').removeClass('selected')
+	    item.addClass('selected')
+	    $('#content-'+section).show()
+	})
     })
 
-    var handle = element.find('[mod-role=drag-handle]')
-    if (handle.length > 0)
-	element.draggable({ handle: handle })
-    element.find('[mod-role=bypass]').click(function() {
-	var light = element.find('[mod-role=bypass-light]')
-	if (light.hasClass('on')) {
-	    light.addClass('off')
-	    light.removeClass('on')
-	} else {
-	    light.addClass('on')
-	    light.removeClass('off')
-	}
-    })
+    $('.content').hide()
 
-    return element
-}
-
-
-function getTemplateData(options) {
-    var i, port, control, symbol
-    var data = $.extend({}, options.icon.templateData)
-    data.effect = options
-    data.ns = '?bundle=' + options.package + '&url=' + escape(options.url)
-    if (!data.controls)
-	return data
-    var controlIndex = {}
-    for (i in options.ports.control.input) {
-	port = options.ports.control.input[i]
-	controlIndex[port.symbol] = port
-    }
-    for (var i in data.controls) {
-	control = data.controls[i]
-	if (typeof control == "string") {
-	    control = controlIndex[control]
-	} else {
-	    control = $.extend({}, controlIndex[control.symbol], control)
-	}
-	data.controls[i] = control
-    }
-    DEBUG = JSON.stringify(data, undefined, 4)
-    return data
+    $('ul#menu li').first().addClass('selected')
+    $('.content').first().show()
+	
 }
