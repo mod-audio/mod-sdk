@@ -56,6 +56,50 @@ mod:template
 	lv2:documentation """
 <p>A template that will be used to render the HTML icon of this plugin. The
 value of this property must be a URI that resolves to a Mustache template.</p>
+
+<h3>General guidelines</h3>
+
+<p>To build the interface, follow these guidelines:</p>
+<ul>
+  <li>Start with a basic HTML template and use the MOD SDK to test it. Feel free to link any resource available in the SDK without packing them in the Bundle. Any host implementing this extension MUST provide those resources.</li>
+  <li>Use the {{ns}} tag inside the template to access images and media inside the bundle. More explanation on this at mod:templateData.</li>
+  <li>If you need new styles, always prefix them with the name of your bundle (the .lv2 extension is not necessary). In HTML all css classes are global, so this is necessary to avoid messing with the general interface.</li>
+  <li>Use the <em>mod-role</em> attribute to mark elements that are functional for the plugin (see below).</li>
+</ul>
+
+<h3>Funcionality</h3>
+
+<p>Some elements in your layout are just informative for the user, like the effect name, branding and background img. Others are functional, like the knobs and footswitch. A functional element is marked as so by the "mod-role" attribute, and other mod-* attributes may be used as parameters. The following functional elements may be indicated:</p>
+
+<h4>Bypass</h4>
+MOD compatible hosts MUST implement a bypass in each plugin loaded. Two elements are responsible for this, the bypass footswitch and bypass light indicator.
+
+The footswitch is an element identified by the mod-role="<em>bypass</em>" attribute. Once clicked, the effect bypass will be turned on or off, and the light indicator will be changed as so.
+
+The light indicator is identified by mod-role="<em>bypass-light</em>". It will automatically receive the class <em>on</em> or <em>off</em>, so designers are expected to implement a background image for each of these classes, or equivalent.
+
+<h4>Control buttons</h4>
+Each plugin can have buttons to control plugin's parameters. Each button is identified by the attribute mod-role="<em>input-control-port</em>" and configured by <em>mod-port-symbol</em> attribute, which must hold the port's symbol.
+
+This element is expected to have a background-image style, with one big horizontal <a href="http://www.w3schools.com/css/css_image_sprites.asp">sprite</a> as background. User will be able to change that parameter by clicking on the control button and dragging the mouse up or down. As this is done, the background image will be moved to reflect the new state.
+
+For the feedback, the minimum value of that port will be assigned for the first position of the sprite and the maximum value for the last one. The number of steps will be calculated by dividing the background width by the element's width, considering the background-size style. The actual number of steps will be the minimum between the number of images in sprite and the steps limited by lv2 definition (by <a href="http://lv2plug.in/ns/ext/port-props/#rangeSteps">rangeSteps</a>, <a href="http://lv2plug.in/ns/lv2core/#enumeration">enumeration</a> or <a href="http://lv2plug.in/ns/lv2core/#toggled">toggled</a>.
+
+For example, suppose you want to build a horizontal slider that can hold 10 different positions occupies an area of 150x30 pixels, to control the drive parameter of your plugin. For that, you could:
+<ul>
+  <li>Design an image of 1500x30 pixels, each piece of 150x30 representing one position of the slider;</li>
+  <li>Save it inside the mod:resourcesDirectory directory, in your bundle, as slider.png</li>
+  <li>Put the following code into your HTML: &lt;div mod-role="input-control-port" mod-port-symbol="drive" style="width: 150px; height: 30px; background-image: url(/resources/slider.png{{ns}}"&gt;</li>
+  <li>Suppose you wanted to use the same sprite for a half sized version of the slider, you could instead use the style "width: 75px; height: 15px; background-image: url(/resources/slider.png{{ns}}; background-size: auto 15px;"</li>
+</ul>
+
+<h4>Audio ports</h4>
+Each plugin has audio input and output ports. They are identified by mod-role="<em>input-control-port</em>" and mod-role="<em>output-control-port<em>" attributes respectively, and both must have a mod-port-symbol property containing the port symbol.
+
+For implementing the connections, each output will receive a &lt;div&gt; element inside, representing a jack (this will be automatically inserted). This jack can be dragged by user and dropped inside an input, and so a connection will be made.
+
+<h4>Drag handle</h4>
+Plugins can be dragged around the pedalboard dashboard. To define which area of the plugin can be clicked for dragging, an element with the attribute mod-role="<em>drag-handle</em>" can be defined.
 """ .
 
 mod:templateData
@@ -65,15 +109,18 @@ mod:templateData
 	lv2:documentation """
 <p>The data that will be used to render the template defined in mod:template.
 The value of this property must be a URI that resolves to a json serialized
-object.</p>
+object and its data can be inspected using the SDK's debug interface.</p>
 
 <p>This parameter isn't strictly necessary to build a plugin layout, as the
 template can hold the final HTML file, but it's very useful to allow developers
 to customize layout using templates provided by the SDK, instead of editing
 HTML files.</p>
 
-<p>The data in this file must be a dictionary. Two keys have an special treatment: 
-<em>controls</em> and <em>ns</em>.</p>
+<p>The data in this file must be a dictionary. Three keys have an special treatment: 
+<em>effect, <em>controls</em> and <em>ns</em>.</p>
+
+<h3>effect</h3>
+<p>This will be automatically assigned and will hold the effect's data parsed from ttl files. The effect data format is an arbitrary structure that organizes the rdf triples in a simple way. To see that structure, use the SDK's debugging interface</p>
 
 <h3>controls</h3>
 <p>This is expected to hold a list of control ports that will have a knob quickly

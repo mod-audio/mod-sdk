@@ -59,7 +59,7 @@
    over it, while the wizard-popup must ensure that style for the pedal is preserved.
 */
 
-.wizard-popup {
+.wizard-popup, .debug-popup {
     background:rgba(0,0,0,.75);
     bottom:0;
     left:0;
@@ -69,7 +69,7 @@
     z-index:1000;
 }
 
-.wizard-popup .box {
+.wizard-popup .box, .debug-popup .box {
     background:white;
     border-radius:9px;
     left:50%;
@@ -80,7 +80,7 @@
     width:300px;
 }
 
-.wizard-popup h1.box-title{
+.wizard-popup h1.box-title, .debug-popup h1.box-title {
     font-size:18px;
     line-height:1;
     margin:0 0 18px 0;
@@ -127,7 +127,7 @@
     width: 420px;
 }
 
-#wizard-cancel {
+#wizard-cancel, #debug-cancel {
     position: absolute;
     right: 10px;
     top: 10px;
@@ -248,4 +248,10 @@
     height: 192px;
 }
 
-
+#debug-window .box {
+    height: 605px;
+    margin-left: -470px;
+    overflow: auto;
+    top: 170px;
+    width: 940px;
+}

@@ -1,5 +1,6 @@
 var dashboard, bundles, effects, reload, menu, icon, settings, settingsWindow, version
 var default_template // loaded in index.html
+var DEBUG // holds template debugging info
 $(document).ready(function() {
     dashboard = $('#pedalboard-dashboard')
     bundles = $('#bundle-select')
@@ -105,6 +106,14 @@ $(document).ready(function() {
 	var self = $(this)
 	self.parent().find('input').val(self.attr('data'))
     })
+
+    $('#debug').click(function() {
+	$('#debug-window pre').text(DEBUG)
+	$('#debug-window').show()	
+    })
+    $('#debug-cancel').click(function() {
+	$('#debug-window').hide()
+    })	
 
     var hash = window.location.hash.replace(/^#/, '')
     getBundles(function() {
@@ -261,6 +270,6 @@ function getTemplateData(options) {
 	}
 	data.controls[i] = control
     }
+    DEBUG = JSON.stringify(data, undefined, 4)
     return data
 }
-

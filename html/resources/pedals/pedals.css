@@ -144,7 +144,7 @@
 }
 
 .pedal .pedal-output-image {
-    background:url(output.png) no-repeat right top;
+    background:url(output.png) no-repeat 0 top;
     background-size:auto 45px;
     height:56px;
     position:relative;
