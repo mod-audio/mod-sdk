@@ -30,7 +30,7 @@ and MOD host software.</p>
   <li>A directory with static media that will be served to browser to build the
     interface;</li>
   <li>Special markup is used inside the HTML to define element's roles and
-    funcionality;</li>
+    functionality;</li>
   <li>A screenshot and thumbnail of the plugin interface.</li>
 </ul>
 
@@ -67,7 +67,7 @@ value of this property must be a URI that resolves to a Mustache template.</p>
   <li>Use the <em>mod-role</em> attribute to mark elements that are functional for the plugin (see below).</li>
 </ul>
 
-<h3>Funcionality</h3>
+<h3>Functionality</h3>
 
 <p>Some elements in your layout are just informative for the user, like the effect name, branding and background img. Others are functional, like the knobs and footswitch. A functional element is marked as so by the "mod-role" attribute, and other mod-* attributes may be used as parameters. The following functional elements may be indicated:</p>
 
