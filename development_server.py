@@ -80,6 +80,26 @@ class EffectList(web.RequestHandler):
                                 'data': data,
                                 }))
 
+class EffectImage(web.RequestHandler):
+    def get(self, image):
+        bundle = self.get_argument('bundle')
+        effect = self.get_argument('url')
+
+        bundle = get_bundle_data(bundle)
+        effect = bundle['plugins'][effect]
+
+        try:
+            path = effect['icon'][image]
+        except:
+            raise web.HTTPError(404)
+            
+        if not os.path.exists(path):
+            raise web.HTTPError(404)
+            
+        self.set_header('Content-type', 'image/png')
+        self.write(open(path).read())
+            
+
 class EffectSave(web.RequestHandler):
     def post(self):
         param = json.loads(self.request.body)
@@ -387,6 +407,7 @@ def run():
     application = web.Application([
             (r"/bundles", BundleList),
             (r"/effects/(.+)", EffectList),
+            (r"/effect/image/(screenshot|thumbnail).png", EffectImage),
             (r"/effect/save", EffectSave),
             (r"/config/get", ConfigurationGet),
             (r"/config/set", ConfigurationSet),

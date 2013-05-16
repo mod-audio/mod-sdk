@@ -9,9 +9,19 @@ $(document).ready(function() {
 
     iconCanvas = $('#content-icon .canvas')
     screenshotCanvas = $('#content-screenshot .canvas')
+    settingsWindow = $('#content-publish')
     
-    settingsButton = $('#settings')
-    settingsWindow = $('#settings-window')
+    $.ajax({ url: '/config/get',
+	     success: function(config) {
+		 var key
+		 for (key in config)
+		     settingsWindow.find('#'+key).val(config[key])
+	     },
+	     error: function() {
+		 alert("Error: Can't get current configuration. Is your server running? Check the logs.")
+	     }
+	   })
+
     version = $('#version')
 
     effects.hide()
@@ -44,73 +54,43 @@ $(document).ready(function() {
     })
 
     $('#install').click(function() {
-	$.ajax({ url: '/post/device/' + bundles.val(),
-		 success: function(result) {
-		     if (result.ok)
-			 alert("Effect installed")
-		     else
-			 alert("Host said: " + result.error)
-		 },
-		 error: function(resp) {
-		     alert("Error: Can't install bundle. Is your server running? Check the logs.")
-		 }
-	       })
+	savePublishConfiguration(function() {
+	    $.ajax({ url: '/post/device/' + bundles.val(),
+		     success: function(result) {
+			 if (result.ok)
+			     alert("Effect installed")
+			 else
+			     alert("Host said: " + result.error)
+		     },
+		     error: function(resp) {
+			 alert("Error: Can't install bundle. Is your server running? Check the logs.")
+		     }
+		   })
+	})
     })
 
     $('#publish').click(function() {
-	$.ajax({ url: '/post/cloud/' + bundles.val(),
-		 success: function(result) {
-		     if (result.ok)
-			 alert("Effect published")
-		     else
-			 alert("Cloud said: " + result.error)
-		 },
-		 error: function(resp) {
-		     alert("Error: Can't publish bundle. Is your server running? Check the logs.")
-		 }
-	       })
+	savePublishConfiguration(function() {
+	    $.ajax({ url: '/post/cloud/' + bundles.val(),
+		     success: function(result) {
+			 if (result.ok)
+			     alert("Effect published")
+			 else
+			     alert("Cloud said: " + result.error)
+		     },
+		     error: function(resp) {
+			 alert("Error: Can't publish bundle. Is your server running? Check the logs.")
+		     }
+		   })
+	})
     })
 
-    settingsButton.click(function() {
-	$.ajax({ url: '/config/get',
-		 success: function(config) {
-		     var key
-		     for (key in config)
-			 settingsWindow.find('#'+key).val(config[key])
-		     settingsWindow.show()
-		 },
-		 error: function() {
-		     alert("Error: Can't get current configuration. Is your server running? Check the logs.")
-		 }
-	       })
-    })
-    $('#settings-cancel').click(function() {
-	settingsWindow.hide()
-	return false
-    })
-    $('#settings-save').click(function() {
-	var config = {}
-	settingsWindow.find('input').each(function() {
-	    config[this.id] = $(this).val()
-	});
-	$.ajax({ url: '/config/set',
-		 type: 'POST',
-		 data: JSON.stringify(config),
-		 success: function() {
-		     settingsWindow.hide()
-		 },
-		 error: function() {
-		     alert("Error: Can't set configuration. Is your server running? Check the logs.")
-		 }
-	       })
-	return false
-    })
     settingsWindow.find('.controls span').click(function() {
 	var self = $(this)
 	self.parent().find('input').val(self.attr('data'))
     })
 
-    $('#debug').click(function() {
+    $('button.debug').click(function() {
 	$('#debug-window pre').text(DEBUG)
 	$('#debug-window').show()	
     })
@@ -207,6 +187,19 @@ function showEffect() {
     iconCanvas.append(element)
     content.show()
     icon = element
+
+    screenshotCanvas.html('')
+    var param = '?bundle=' + options.package + '&url=' + escape(options.url)
+    if (options.icon.thumbnail) {
+	var thumb = $('<img class="thumb">')
+	thumb.attr('src', '/effect/image/thumbnail.png'+param)
+	thumb.appendTo(screenshotCanvas)
+    }
+    if (options.icon.screenshot) {
+	var shot = $('<img class="screenshot">')
+	shot.attr('src', '/effect/image/screenshot.png'+param)
+	shot.appendTo(screenshotCanvas)
+    }
 }
 
 function makeTabs() {
@@ -226,4 +219,22 @@ function makeTabs() {
     $('ul#menu li').first().addClass('selected')
     $('.content').first().show()
 	
+}
+
+function savePublishConfiguration(callback) {
+    var config = {}
+    settingsWindow.find('input').each(function() {
+	config[this.id] = $(this).val()
+    });
+    $.ajax({ url: '/config/set',
+	     type: 'POST',
+	     data: JSON.stringify(config),
+	     success: function() {
+		 callback()
+	     },
+	     error: function() {
+		 alert("Error: Can't set configuration. Is your server running? Check the logs.")
+	     }
+	   })
+    return false
 }

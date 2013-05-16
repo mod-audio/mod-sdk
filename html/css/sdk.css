@@ -53,6 +53,10 @@ ul#menu li.selected {
     width: 300px;
 }
 
+.debug {
+    position: absolute; right: -50px; bottom: 0;
+}
+
 #effect-menu { position: absolute; top: 50px; left: 10px; }
 #effect-menu div { display: block; background-color: #444444; border-radius: 4px; border: 2px solid #151515; padding: 3px 6px; font-size: 15px; color: white; font-weight: bold; cursor: pointer; margin: 10px }
 

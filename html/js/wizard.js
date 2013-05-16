@@ -57,7 +57,7 @@ JqueryClass('wizard', {
 		      'configure',
 		      'edit_ttl',
 		      'save_template',
-		      'docs',
+		      //'docs',
 		      'finish'
 		    ]
 
@@ -349,7 +349,7 @@ JqueryClass('wizard', {
 		 type: 'POST',
 		 data: JSON.stringify(self.data()),
 		 success: function() {
-		     self.wizard('generate_thumbnail')
+		     //self.wizard('generate_thumbnail')
 		 },
 		 error: function() {
 		     self.wizard('previous')
