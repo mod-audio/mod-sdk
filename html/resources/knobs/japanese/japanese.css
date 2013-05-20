@@ -39,17 +39,19 @@
 
 .pedal-japanese .knob-group {
     height:141px;
-    left:13px;
+    left:32px;
     position:absolute;
-    right:13px;
+    right:32px;
     top:18px;
     z-index:2;
 }
 .pedal-japanese .knob-group .knob {
     height:70px;
     float:left;
+    overflow:hidden;
+    position:relative;
     text-align:center;
-    width:62px;
+    width:60px;
 }
 .pedal-japanese .knob-group .knob > span.title {
     color:white;
@@ -65,11 +67,12 @@
 .pedal-japanese .knob-group .knob .image {
     background-position:left center;
     background-repeat:no-repeat;
-    background-size:auto 64px;
-    height:58px;
+    background-size:auto 52px;
+    height:52px;
+    margin:0 auto;
     position:relative;
     overflow:hidden;
-    width:56px;
+    width:52px;
 }
 
 
