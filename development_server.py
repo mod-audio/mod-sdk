@@ -91,17 +91,18 @@ class EffectSave(web.RequestHandler):
         if not os.path.exists(self.basedir):
             os.mkdir(self.basedir)
 
-        self.make_template(param['model'], param['panel'])
+        self.make_template(param['model'], param['panel'], slugify(param['effect']['name']))
         self.make_datafile(param)
         self.make_empty_screenshot(param)
 
         self.set_header('Content-type', 'application/json')
         self.write(json.dumps(True))
 
-    def make_template(self, model, panel):
-        template_name = 'pedal-%s-%s.html' % (model, panel)
-        source = os.path.join(TEMPLATE_DIR, template_name)
-        dest = os.path.join(self.basedir, template_name)
+    def make_template(self, model, panel, slug):
+        source_name = 'pedal-%s-%s.html' % (model, panel)
+        dest_name = '%s.html' % slug
+        source = os.path.join(TEMPLATE_DIR, source_name)
+        dest = os.path.join(self.basedir, dest_name)
         shutil.copy(source, dest)
 
     def make_datafile(self, param):
