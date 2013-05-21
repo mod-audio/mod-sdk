@@ -13,6 +13,7 @@ JqueryClass('wizard', {
 	self.find('#wizard-next').click(function() { self.wizard('next') })
 	self.find('#wizard-previous').click(function() { self.wizard('previous') })
 	self.find('#wizard-generate-thumbnail').click(function() { self.wizard('generate_thumbnail') })
+	self.find('#wizard-skip-thumbnail').click(function() { self.wizard('next') })
 
 	var model_list = Object.keys(models).sort()
 	self.data('model_index', models)
@@ -57,7 +58,7 @@ JqueryClass('wizard', {
 		      'configure',
 		      'edit_ttl',
 		      'save_template',
-		      //'docs',
+		      'docs',
 		      'finish'
 		    ]
 

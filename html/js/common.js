@@ -19,7 +19,8 @@ function getEffects(bundle, callback) {
 }
 
 function renderIcon(template, data) {
-    var element = $(Mustache.render(template, getTemplateData(data)))
+    var element = $('<strong>') // TODO this container must be <div class="pedal">
+    element.html(Mustache.render(template, getTemplateData(data)))
     element.find('[mod-role=input-control-port]').each(function() {
 	$(this).knob()
     })
