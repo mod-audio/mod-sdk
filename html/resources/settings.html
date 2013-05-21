@@ -3,33 +3,31 @@
     <div class="controls clearfix">
       
         <div class="control-group clearfix">
-            <div class="enumerated hidden">
-                <span class="title">Model</span>
-                <div class="address"></div>
-                <ul>
-                    <li>basswoman</li>
-                    <li class="selected">twin</li>
-                    <li>wookie</li>
-                    <li>DC 30</li>
-                    <li>juice 800</li>
-                    <li>stanford</li>
-                    <li>HK 20</li>
-                    <li>nihon ace</li>
-                    <li>porky</li>
-                </ul>
-            </div>
         </div>
       
         <div class="control-group clearfix">
           {{#effect.ports.control.input}}
-            <div class="knob">
-                <span class="title">{{name}}</span>
-                <span class="min-value" mod-role="input-control-minimum" mod-port-symbol="{{symbol}}"></span>
-                <span class="max-value" mod-role="input-control-maximum" mod-port-symbol="{{symbol}}"></span>
-                <span class="current-value" mod-role="input-control-value" mod-port-symbol="{{symbol}}"></span>
-                <div class="image" mod-role="input-control-port" mod-port-symbol="{{symbol}}"></div>
-                <div class="address" mod-role="input-control-address" mod-port-symbol="{{symbol}}"></div>
-            </div>
+	    {{#enumeration}}
+              <div class="enumerated">
+		<span class="title">{{name}}</span>
+		<div class="address"></div>
+		<ul mod-role="input-control-port" mod-port-symbol="{{symbol}}" mod-widget="select">
+		  {{#scalePoints}}
+		    <li mod-role="enumeration-option" mod-port-value="{{value}}">{{label}}</li>
+		  {{/scalePoints}}
+		</ul>
+              </div>
+	    {{/enumeration}}
+	    {{^enumeration}}
+              <div class="knob">
+		<span class="title">{{name}}</span>
+		<span class="min-value" mod-role="input-control-minimum" mod-port-symbol="{{symbol}}"></span>
+		<span class="max-value" mod-role="input-control-maximum" mod-port-symbol="{{symbol}}"></span>
+		<span class="current-value" mod-role="input-control-value" mod-port-symbol="{{symbol}}"></span>
+		<div class="image" mod-role="input-control-port" mod-port-symbol="{{symbol}}"></div>
+		<div class="address" mod-role="input-control-address" mod-port-symbol="{{symbol}}"></div>
+              </div>
+	    {{/enumeration}}
 	  {{/effect.ports.control.input}}
 	</div>
     </div>
