@@ -17,7 +17,8 @@ WIZARD_DB = os.path.join(HTML_DIR, 'resources/wizard.json')
 UNITS_FILE = os.path.join(ROOT, 'units.ttl')
 CONFIG_FILE = os.path.join(ROOT, 'config.json')
 TEMPLATE_DIR = os.path.join(HTML_DIR, 'resources/templates')
-DEFAULT_TEMPLATE = os.path.join(ROOT, 'html/resources/templates/default.html')
+DEFAULT_ICON_TEMPLATE = os.path.join(ROOT, 'html/resources/templates/default.html')
+DEFAULT_SETTINGS_TEMPLATE = os.path.join(ROOT, 'html/resources/settings.html')
 SCREENSHOT_SCRIPT = os.path.join(ROOT, 'screenshot.js')
 MAX_THUMB_WIDTH = 64
 MAX_THUMB_HEIGHT = 64
@@ -155,9 +156,11 @@ class Index(web.RequestHandler):
         if not path:
             path = 'index.html'
         loader = template.Loader(HTML_DIR)
-        default_template = open(DEFAULT_TEMPLATE).read()
+        default_icon_template = open(DEFAULT_ICON_TEMPLATE).read()
+        default_settings_template = open(DEFAULT_SETTINGS_TEMPLATE).read()
         context = {
-            'default_template': escape.squeeze(default_template.replace("'", "\\'")),
+            'default_icon_template': escape.squeeze(default_icon_template.replace("'", "\\'")),
+            'default_settings_template': escape.squeeze(default_settings_template.replace("'", "\\'")),
             'wizard_db': json.dumps(json.loads(open(WIZARD_DB).read())),
             'default_developer': os.environ['USER'],
             'default_privkey': os.path.join(os.environ['HOME'], '.ssh', 'id_rsa'),

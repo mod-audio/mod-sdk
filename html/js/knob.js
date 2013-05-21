@@ -1,9 +1,9 @@
 var DRAG_PRECISION = 1
 
 JqueryClass('knob', {
-    init: function() {
+    init: function(effect) {
 	var self = $(this)
-
+	self.data('effect', effect)
 	self.knob('getSize')
 	self.data('rotation', 0)
 

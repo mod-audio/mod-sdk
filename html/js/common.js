@@ -21,9 +21,42 @@ function getEffects(bundle, callback) {
 function renderIcon(template, data) {
     var element = $('<strong>') // TODO this container must be <div class="pedal">
     element.html(Mustache.render(template, getTemplateData(data)))
+    return assignFunctionality(element, data)
+}
+
+function renderSettings(template, data) {
+    var element = $('<div>')
+    element.html(Mustache.render(template, getTemplateData(data)))
+    return assignFunctionality(element, data)
+}
+
+function assignFunctionality(element, effect) {
+    var controls = makePortIndex(effect.ports.control.input)
+
     element.find('[mod-role=input-control-port]').each(function() {
-	$(this).knob()
-    })
+	$(this).knob(effect)
+    });
+
+    element.find('[mod-role=input-control-minimum]').each(function() {
+	var symbol = $(this).attr('mod-port-symbol')
+	if (!symbol) {
+	    $(this).html('missing mod-port-symbol attribute')
+	    return
+	}
+	var content = controls[symbol].minimum
+	var format = controls[symbol].unit ? controls[symbol].unit.render : '%.2f'
+	$(this).html(sprintf(format, controls[symbol].minimum))
+    });
+    element.find('[mod-role=input-control-maximum]').each(function() {
+	var symbol = $(this).attr('mod-port-symbol')
+	if (!symbol) {
+	    $(this).html('missing mod-port-symbol attribute')
+	    return
+	}
+	var content = controls[symbol].maximum
+	var format = controls[symbol].unit ? controls[symbol].unit.render : '%.2f'
+	$(this).html(sprintf(format, controls[symbol].maximum))
+    });
 
     var handle = element.find('[mod-role=drag-handle]')
     if (handle.length > 0)
@@ -40,6 +73,15 @@ function renderIcon(template, data) {
     })
 
     return element
+}
+
+function makePortIndex(ports) {
+    var index = {}
+    for (var i in ports) {
+	var port = ports[i]
+	index[port.symbol] = port
+    }
+    return index
 }
 
 

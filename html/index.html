@@ -37,6 +37,7 @@
 
     <script src="js/jquery-1.9.1.min.js"></script>
     <script src="js/jquery-ui-1.10.1.custom.min.js"></script>
+    <script src="js/sprintf-0.6.js"></script>
     <script src="js/mustache.js"></script>
     <script src="js/common.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/modsdk.js" type="text/javascript" charset="utf-8"></script>
@@ -45,7 +46,9 @@
     <script>
       {% autoescape None %}
       var TEMPLATES = {}
-      default_template = '{{default_template}}'
+      defaultIconTemplate = '{{default_icon_template}}'
+      defaultSettingsTemplate = '{{default_settings_template}}'
+      
       wizard_db = JSON.parse('{{wizard_db}}')
     </script>
     <script src="js/templates.js" type="text/javascript" charset="utf-8"></script>
@@ -104,6 +107,7 @@
 
 	      <div id="content-settings" class="content">
 		<p>Reserved for full plugin setup interface</p>
+		<div class="canvas"></div>
 	      </div>
 
 	      <div id="content-publish" class="content">

@@ -1,5 +1,5 @@
-<div class="pedal-settings" style="left:180px;top:120px">
-    <h1>{{name}}</h1>
+<div class="pedal-settings">
+    <h1>{{effect.name}}</h1>
     <div class="controls clearfix">
       
         <div class="control-group clearfix">
@@ -21,23 +21,25 @@
         </div>
       
         <div class="control-group clearfix">
-          {{#ports.control.input}}
+          {{#effect.ports.control.input}}
             <div class="knob">
                 <span class="title">{{name}}</span>
-                <span class="min-value">{{minimum}}</span>
-                <span class="max-value">{{maximum}}</span>
+                <span class="min-value" mod-role="input-control-minimum" mod-port-symbol="{{symbol}}"></span>
+                <span class="max-value" mod-role="input-control-maximum" mod-port-symbol="{{symbol}}"></span>
                 <span class="current-value" mod-role="input-control-value" mod-port-symbol="{{symbol}}"></span>
                 <div class="image" mod-role="input-control-port" mod-port-symbol="{{symbol}}"></div>
                 <div class="address" mod-role="input-control-address" mod-port-symbol="{{symbol}}"></div>
             </div>
-	  {{/ports.control.input}}
+	  {{/effect.ports.control.input}}
 	</div>
     </div>
     
+    <!--
     <div class="actions">
         <button class="btn btn-danger">Cancel</button>
         <button class="btn btn-success">Save</button>
     </div>
+    -->
 </div>
 <!--
 <div class="pedal-settings-address hidden">

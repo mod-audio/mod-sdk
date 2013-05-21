@@ -1,3 +1,4 @@
+var defaultIconTemplate
 $(document).ready(function() {
     var hash = window.location.hash.replace(/^#/, '')
     var bundle = hash.split(/,/)[0]
@@ -5,7 +6,7 @@ $(document).ready(function() {
     if (bundle && effect) {
 	getEffects(bundle, function(plugins) {
 	    effect = plugins[effect]
-	    var element = renderIcon(effect.icon.template, effect)
+	    var element = renderIcon(effect.icon.iconTemplate || defaultIconTemplate, effect)
 	    $('#pedalboard-dashboard').append(element)
 	})
     }

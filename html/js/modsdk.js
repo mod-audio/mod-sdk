@@ -1,7 +1,9 @@
-var bundles, effects, content, icon, settings, settingsWindow, version
-var default_template // loaded in index.html
+var bundles, effects, content, iconCanvas, settingsCanvas, publishWindow, icon, version, section
+var defaultIconTemplate, defaultSettingsTemplate // loaded in index.html
 var DEBUG // holds template debugging info
 $(document).ready(function() {
+    var firstSection = $('ul#menu li').first().attr('id').replace(/^tab-/, '')
+    section = window.location.hash.split(/,/)[2] || firstSection
     makeTabs()
     bundles = $('#bundle-select')
     effects = $('#effect-select')
@@ -9,13 +11,14 @@ $(document).ready(function() {
 
     iconCanvas = $('#content-icon .canvas')
     screenshotCanvas = $('#content-screenshot .canvas')
-    settingsWindow = $('#content-publish')
-    
+    settingsCanvas = $('#content-settings .canvas')
+    publishWindow = $('#content-publish')
+
     $.ajax({ url: '/config/get',
 	     success: function(config) {
 		 var key
 		 for (key in config)
-		     settingsWindow.find('#'+key).val(config[key])
+		     publishWindow.find('#'+key).val(config[key])
 	     },
 	     error: function() {
 		 alert("Error: Can't get current configuration. Is your server running? Check the logs.")
@@ -85,7 +88,7 @@ $(document).ready(function() {
 	})
     })
 
-    settingsWindow.find('.controls span').click(function() {
+    publishWindow.find('.controls span').click(function() {
 	var self = $(this)
 	self.parent().find('input').val(self.attr('data'))
     })
@@ -177,16 +180,18 @@ function showEffect() {
     }
     if (!options.icon)
 	options.icon = {}
-    if (!options.icon.template)
-	options.icon.template = default_template
-    window.location.hash = bundle + ',' + options.url
+    if (!options.icon.iconTemplate)
+	options.icon.iconTemplate = defaultIconTemplate
+    if (!options.icon.settingsTemplate)
+	options.icon.settingsTemplate = defaultSettingsTemplate
+    window.location.hash = bundle + ',' + options.url + ',' + section
 
-    element = renderIcon(options.icon.template, options)
+    icon = renderIcon(options.icon.iconTemplate, options)
+    iconCanvas.html('').append(icon)
 
-    iconCanvas.html('')
-    iconCanvas.append(element)
+    settingsCanvas.html('').append(renderSettings(options.icon.settingsTemplate, options))
+
     content.show()
-    icon = element
 
     screenshotCanvas.html('')
     var param = '?bundle=' + options.package + '&url=' + escape(options.url)
@@ -206,24 +211,32 @@ function makeTabs() {
     $('ul#menu li').each(function() {
 	var item = $(this)
 	item.click(function() {
-	    var section = item.attr('id').replace(/^tab-/, '')
-	    $('.content').hide()
-	    $('ul#menu li.selected').removeClass('selected')
-	    item.addClass('selected')
-	    $('#content-'+section).show()
+	    selectTab(item.attr('id').replace(/^tab-/, ''))
 	})
     })
 
     $('.content').hide()
 
-    $('ul#menu li').first().addClass('selected')
-    $('.content').first().show()
-	
+    selectTab(section)
+}
+
+function selectTab(newSection) {
+    section = newSection
+    var tab = $('#tab-'+section)
+    var path = window.location.hash.split(/,/)
+    if (path[2] != section) {
+	path[2] = section
+	window.location.hash = path.join(',')
+    }	    
+    $('.content').hide()
+    $('ul#menu li.selected').removeClass('selected')
+    tab.addClass('selected')
+    $('#content-'+section).show()
 }
 
 function savePublishConfiguration(callback) {
     var config = {}
-    settingsWindow.find('input').each(function() {
+    publishWindow.find('input').each(function() {
 	config[this.id] = $(this).val()
     });
     $.ajax({ url: '/config/set',
