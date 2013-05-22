@@ -155,7 +155,7 @@ JqueryClass('knob', {
 
 	var value = min + rotation * (max - min) / (portSteps - 1)
 	if (self.data('logarithm'))
-	    value = value ** 2
+	    value *= value
 
 	if (self.data('integer'))
 	    value = Math.round(value)
