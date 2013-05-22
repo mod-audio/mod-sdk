@@ -34,7 +34,10 @@ function assignFunctionality(element, effect) {
     var controls = makePortIndex(effect.ports.control.input)
 
     element.find('[mod-role=input-control-port]').each(function() {
-	$(this).knob(effect)
+	var symbol = $(this).attr('mod-port-symbol')
+	$(this).knob({ port: controls[symbol],
+		       container: element
+		     })
     });
 
     element.find('[mod-role=input-control-minimum]').each(function() {
