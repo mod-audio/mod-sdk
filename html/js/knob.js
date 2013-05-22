@@ -58,11 +58,11 @@ JqueryClass('knob', {
 	self.data('toggle', port.toggle)
 
 	if (port.logarithm) {
-	    self.data('scaleMin', Math.log(port.minimum) / Math.log(2))
-	    self.data('scaleMax', Math.log(port.maximum) / Math.log(2))
+	    self.data('scaleMinimum', Math.log(port.minimum) / Math.log(2))
+	    self.data('scaleMaximum', Math.log(port.maximum) / Math.log(2))
 	} else {
-	    self.data('scaleMin', port.minimum)
-	    self.data('scaleMax', port.maximum)
+	    self.data('scaleMinimum', port.minimum)
+	    self.data('scaleMaximum', port.maximum)
 	}
 
 	var format
