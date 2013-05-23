@@ -38,6 +38,7 @@ JqueryClass('knob', {
 	    portSteps = 2
 	} else if (port.enumeration) {
 	    portSteps = port.scalePoints.length
+	    port.scalePoints.sort(function(a, b) { return a.value - b.value })
 	} else {
 	    portSteps = self.data('knobSteps')
 	}
@@ -53,11 +54,11 @@ JqueryClass('knob', {
 	self.data('integer', port.integer)
 	self.data('maximum', port.maximum)
 	self.data('minimum', port.minimum)
-	self.data('logarithm', port.logarithm)
-	self.data('scalePoints', port.scalePoints)
+	self.data('logarithmic', port.logarithmic)
 	self.data('toggle', port.toggle)
+	self.data('scalePoints', port.scalePoints)
 
-	if (port.logarithm) {
+	if (port.logarithmic) {
 	    self.data('scaleMinimum', Math.log(port.minimum) / Math.log(2))
 	    self.data('scaleMaximum', Math.log(port.maximum) / Math.log(2))
 	} else {
@@ -73,6 +74,14 @@ JqueryClass('knob', {
 	if (port.integer)
 	    format = format.replace(/%\.\d+f/, '%d')
 	self.data('format', format)
+
+	if (port.scalePoints) {
+	    var index = {}
+	    for (var i in port.scalePoints) {
+		index[sprintf(format, port.scalePoints[i].value)] = port.scalePoints[i]
+	    }
+	    self.data('scalePointsIndex', index)
+	}
 
 	self.data('portSteps', portSteps)
 	self.data('dragPrecision', Math.ceil(50/portSteps))
@@ -123,15 +132,21 @@ JqueryClass('knob', {
 	self.knob('setRotation', rotation)
     },
 
-    setRotation: function(rotation) {
+    setRotation: function(steps) {
 	var self = $(this)
 
 	var knobSteps = self.data('knobSteps')
 	var portSteps = self.data('portSteps')
+	var rotation
+	steps = Math.min(steps, portSteps-1)
+	steps = Math.max(steps, 0)
+
 	if (portSteps == 1)
+	    // this is very dummy, a control with only one possible. let's just avoid zero division
+	    // in this theoric case.
 	    rotation = Math.round(knobSteps/2)
 	else if (portSteps != null)
-	    rotation *= Math.round(knobSteps / (portSteps-1))
+	    rotation = steps * Math.round(knobSteps / (portSteps-1))
 
 	rotation = Math.min(rotation, knobSteps-1)
 	rotation = Math.max(rotation, 0)
@@ -140,10 +155,10 @@ JqueryClass('knob', {
 	bgShift += 'px 0px'
 	self.css('background-position', bgShift)
 
-	self.knob('valueFromRotation', rotation)
+	self.knob('valueFromSteps', steps)
     },
 
-    valueFromRotation: function(rotation) {
+    valueFromSteps: function(steps) {
 	var self = $(this)
 	var container = self.data('container')
 	var format = self.data('format')
@@ -153,13 +168,23 @@ JqueryClass('knob', {
 
 	var portSteps = self.data('portSteps')
 
-	var value = min + rotation * (max - min) / (portSteps - 1)
-	if (self.data('logarithm'))
-	    value *= value
+	console.log(steps)
+
+	var value = min + steps * (max - min) / (portSteps - 1)
+	if (self.data('logarithmic'))
+	    value = Math.pow(2, value)
 
 	if (self.data('integer'))
 	    value = Math.round(value)
 
-	container.find('[mod-role=input-control-value][mod-port-symbol='+symbol+']').text(sprintf(format, value))
+	if (self.data('enumeration'))
+	    value = self.data('scalePoints')[steps].value
+
+	var label = sprintf(format, value)
+
+	if (self.data('scalePoints') && self.data('scalePointsIndex')[label])
+	    label = self.data('scalePointsIndex')[label].label
+
+	container.find('[mod-role=input-control-value][mod-port-symbol='+symbol+']').text(label)
     }
 })
