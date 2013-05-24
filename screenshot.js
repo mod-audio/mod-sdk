@@ -2,8 +2,8 @@ var page = require('webpage').create(),
     system = require('system'),
     address, output, size;
 
-if (system.args.length < 3 || system.args.length > 5) {
-    console.log('Usage: rasterize.js URL filename [paperwidth*paperheight|paperformat] [zoom]');
+if (system.args.length != 5) {
+    console.log('Usage: screenshot.js URL filename [paperwidth*paperheight|paperformat] [zoom]');
     console.log('  paper (pdf output) examples: "5in*7.5in", "10cm*20cm", "A4", "Letter"');
     phantom.exit(1);
 } else {
