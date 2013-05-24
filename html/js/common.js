@@ -35,7 +35,7 @@ function assignFunctionality(element, effect) {
 
     element.find('[mod-role=input-control-port]').each(function() {
 	var symbol = $(this).attr('mod-port-symbol')
-	$(this).knob({ port: controls[symbol],
+	$(this).widget({ port: controls[symbol],
 		       container: element
 		     })
     });
@@ -114,7 +114,12 @@ function getTemplateData(options) {
 }
 
 
-function JqueryClass(name, methods) {
+function JqueryClass() {
+    var name = arguments[0]
+    var methods = {}
+    for (var i=1; i<arguments.length; i++) {
+	$.extend(methods, arguments[i])
+    }
     (function($) {
 	$.fn[name] = function(method) {
 	    if (methods[method]) {

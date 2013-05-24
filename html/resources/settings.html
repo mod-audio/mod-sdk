@@ -8,16 +8,25 @@
         <div class="control-group clearfix">
           {{#effect.ports.control.input}}
 	    {{#enumeration}}
+	  <!--
+	      <select mod-role="input-control-port" mod-port-symbol="{{symbol}}" mod-widget="select">
+		{{#scalePoints}}
+		<option value="{{value}}">{{label}}</option>
+		{{/scalePoints}}
+	      </select>
+          -->
               <div class="enumerated">
 		<span class="title">{{name}}</span>
 		<div class="address"></div>
-		<ul mod-role="input-control-port" mod-port-symbol="{{symbol}}" mod-widget="select">
+		<ul mod-role="input-control-port" mod-port-symbol="{{symbol}}" mod-widget="custom-select">
 		  {{#scalePoints}}
 		    <li mod-role="enumeration-option" mod-port-value="{{value}}">{{label}}</li>
 		  {{/scalePoints}}
 		</ul>
               </div>
 	    {{/enumeration}}
+          {{/effect.ports.control.input}}
+          {{#effect.ports.control.input}}
 	    {{^enumeration}}
               <div class="knob">
 		<span class="title">{{name}}</span>
@@ -25,7 +34,7 @@
 		<span class="max-value" mod-role="input-control-maximum" mod-port-symbol="{{symbol}}"></span>
 		<span class="current-value" mod-role="input-control-value" mod-port-symbol="{{symbol}}"></span>
 		<div class="image" mod-role="input-control-port" mod-port-symbol="{{symbol}}"></div>
-		<div class="address" mod-role="input-control-address" mod-port-symbol="{{symbol}}"></div>
+		<div class="address" mod-role="input-control-address" mod-port-symbol="{{symbol}}" mod-widget="film"></div>
               </div>
 	    {{/enumeration}}
 	  {{/effect.ports.control.input}}
