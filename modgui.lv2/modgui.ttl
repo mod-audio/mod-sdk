@@ -8,13 +8,18 @@
 	a lv2:Specification ;
 	lv2:documentation """
 <p>This extension defines a standard for generating web-based interfaces for
-plugins. The goal of this interface is to allow, in a web-based environment,
-an interface in which each plugin will have a representation, designed to look
-like a real device, and they'll be connected to each other by cables, to make
-pedalboards. Plugins implementing this standard will be compatible with the MOD device
+plugins. Plugins implementing this standard will be compatible with the MOD device
 and MOD host software.</p>
 
-<p>In this interface, each plugin has:</p>
+<p>The goal of this interface is to allow user to have an overview of
+several connected plugins and quickly access main controls of each one, while
+still being able to fully configure each one individually, all this in a web-based
+environment. So, each plugin has two interfaces, one for its Icon and another for
+the Settings.</p>
+
+<p>The Icon is a representation designed to look like a real device, and will be connected
+to other plugin icons by cables to make pedalboards. Ideally, each icon will have:</p>
+
 <ul>
   <li>A pedal-like design;</li>
   <li>A footswitch that will bypass it;</li>
@@ -24,9 +29,12 @@ and MOD host software.</p>
   <li>A clickable area to drag the pedal around.</li>
 </ul>
 
-<p>To provide the interface, the following resources can be used:</p>
+<p>The Settings interface is a panel with all controls of this plugin that can be designed
+to occupy the whole screen.</p>
+
+<p>To provide this interface for Icon and Settings, the following resources can be used:</p>
 <ul>
-  <li>An HTML file defining the layout;</li>
+  <li>HTML files defining the layout, one for each interface;</li>
   <li>A directory with static media that will be served to browser to build the
     interface;</li>
   <li>Special markup is used inside the HTML to define element's roles and
@@ -41,21 +49,34 @@ implements this model should provide those resources. They're available in the
 MOD SDK, that provides tools for building plugin interfaces.</p>
 """ .
 
-mod:Icon
+mod:GUI
 	a rdfs:Class ;
-	rdfs:label "Icon" ;
+	rdfs:label "Graphical User Interface" ;
 	lv2:documentation """
-        <p>The layout definition of the icon of this plugin.</p>
+        <p>The web interface definition for this plugin. It's defined by html templates for icon
+	and settings panel, css, images and other media, that's contained in the plugin bundle.
+	</p>
         """ .
 
-mod:template
+mod:gui
+	a rdf:Property ,
+	owl:ObjectProperty ;
+	rdfs:domain lv2:Plugin ;
+	rdfs:range mod:GUI ;
+	rdfs:comment "Relates a plugin to the its MOD Graphical User Interface" .
+
+mod:iconTemplate
 	a rdf:Property ;
 	rdfs:range owl:Thing ;
-	rdfs:label "template" ;
+	rdfs:domain mod:GUI ;
+	rdfs:label "icon template" ;
 	rdfs:seeAlso <http://mustache.github.io/> ;
 	lv2:documentation """
 <p>A template that will be used to render the HTML icon of this plugin. The
 value of this property must be a URI that resolves to a Mustache template.</p>
+
+<p>The syntax and guidelines for templates are the same for iconTemplate and <a href="#settingsTemplate">settingsTemplate</a>,
+so this documentation applies to both.</p>
 
 <h3>General guidelines</h3>
 
@@ -79,9 +100,11 @@ value of this property must be a URI that resolves to a Mustache template.</p>
 <p>The light indicator is identified by mod-role="<em>bypass-light</em>". It will automatically receive the class <em>on</em> or <em>off</em>, so designers are expected to implement a background image for each of these classes, or equivalent.</p>
 
 <h4>Control buttons</h4>
-<p>Each plugin can have buttons to control plugin's parameters. Each button is identified by the attribute mod-role="<em>input-control-port</em>" and configured by <em>mod-port-symbol</em> attribute, which must hold the port's symbol.</p>
+<p>Each plugin can have buttons to control plugin's parameters. Each button is identified by the attribute mod-role="<em>input-control-port</em>" and configured by <em>mod-port-symbol</em> attribute, which must hold the port's symbol, and <em>mod-widget</em> attribute, that defines which widget to use. The available widgets are <em>film</em>, <em>select</em> and <em>custom-select</em>, and each of them expects a certain HTML structure in this element.</p>
 
-<p>This element is expected to have a background-image style, with one big horizontal <a href="http://www.w3schools.com/css/css_image_sprites.asp">sprite</a> as background. User will be able to change that parameter by clicking on the control button and dragging the mouse up or down. As this is done, the background image will be moved to reflect the new state.</p>
+<h5>Film widget</h5>
+
+<p>The film widget works like a movie film: it uses a big stripe of images and roll it to choose a scene, giving the impression of an animation. So, if you use mod-widget="film", this element is expected to have a background-image style, with one big horizontal <a href="http://www.w3schools.com/css/css_image_sprites.asp">sprite</a> as background. User will be able to change that parameter by clicking on the control button and dragging the mouse up or down. As this is done, the background image will be moved to reflect the new state.</p>
 
 <p>The minimum value of that port will be represented by the first position of the sprite and the maximum value by the last one. The number of steps will be calculated by dividing the background width by the element's width, considering the background-size style. The actual number of steps will be the minimum between the number of images in sprite and the steps limited by lv2 definition (by <a href="http://lv2plug.in/ns/ext/port-props/#rangeSteps">rangeSteps</a>, <a href="http://lv2plug.in/ns/lv2core/#enumeration">enumeration</a> or <a href="http://lv2plug.in/ns/lv2core/#toggled">toggled</a>.</p>
 
@@ -93,18 +116,55 @@ value of this property must be a URI that resolves to a Mustache template.</p>
   <li>Suppose you wanted to use the same sprite for a half sized version of the slider, you could instead use the style "width: 75px; height: 15px; background-image: url(/resources/slider.png{{ns}}; background-size: auto 15px;"</li>
 </ul>
 
+<h5>Select widget</h5>
+
+<p>The select widget is a simple &lt;select&gt; html element will available options, each one representing one value for this control port. It's mainly intended to be used for ports with the lv2:enumeration property, but can be used for any case in which picking values from a limited set is desired.</p>
+
+<p>So, if you use mod-widget="select", this element is expected to be a &lt;select&gt; and contain several options, each of them must have the <em>value</em> attribute reflecting the float value of this property.</p>
+
+<h5>Custom select widget</h5>
+
+<p>This widget is similar in functionality to select widget, but instead of a select html element holding options, you can choose any element types to represent the widget and the options. If you use mod-role="custom-select", this element is expected to have children elements with the attributes mod-role="<em>enumeration-option</em>" and mod-port-value="(float value)". The selected element will receive the <em>selected</em> class, and so you can define your CSS as to highlight it as desired.</p>
+
+<h4>Control values</h4>
+
+<p>To allow user to see the minimum, maximum and current value of a plugin, three mod-roles are available: <em>input-control-minimum</em>, <em>input-control-maximum</em> and <em>input-control-value</em>. All of them expect a mod-port-symbol attribute containing the symbol of the port.</p>
+
+<p>The <em>input-control-minimum</em>, <em>input-control-maximum</em> will have have it's text content set to be the formatted minimum and maximum values accepted by this control, as defined by the <a href="http://lv2plug.in/ns/lv2core#minimum">lv2:minimum</a> and <a href="http://lv2plug.in/ns/lv2core#maximum">lv2:maximum</a> properties respectively. The <em>input-control-value</em> will be dinamically changed everytime the value of the control port changes.</p>
+
+<p>All values are formatted according to the <a href="http://lv2plug.in/ns/extensions/units#unit">units:unit</a>'s <a href="http://lv2plug.in/ns/extensions/units#render">render</a> property of this port, with some considerations. First, any %f will be rendered as %.2f, otherwise interface is messed up with huge representations. Second, if <a href="http://lv2plug.in/ns/lv2core#integer">integer</a> property is declared, then any %f, %.Xf or so will be substituted by %d.</p>
+
 <h4>Audio ports</h4>
+
 <p>Each plugin has audio input and output ports. They are identified by mod-role="<em>input-control-port</em>" and mod-role="<em>output-control-port</em>" attributes respectively, and both must have a mod-port-symbol property containing the port symbol.</p>
 
 <p>For implementing the connections, each output will receive a &lt;div&gt; element inside, representing a jack (this will be automatically inserted). This jack can be dragged by user and dropped inside an input, and so a connection will be made.</p>
 
+<p>This does not apply to Settings template</p>
+
 <h4>Drag handle</h4>
 <p>Plugins can be dragged around the pedalboard dashboard. To define which area of the plugin can be clicked for dragging, an element with the attribute mod-role="<em>drag-handle</em>" can be defined.</p>
+
+<p>This does not apply to Settings template</p>
 """ .
+
+mod:settingsTemplate
+	a rdf:Property ;
+	rdf:range owl:Thing ;
+	rdfs:domain mod:GUI ;
+	rdf:label "settings template" ;
+	lv2:documentation """
+<p>A template that will be used to render the HTML settings panel of this plugin. The
+value of this property must be a URI that resolves to a Mustache template.</p>
+
+<p>To develop this, use the same guidelines and markup as described in <a href="#iconTemplate">mod:iconTemplate</a>.
+The only difference is that the audio ports here are irrelevant
+""" .       
 
 mod:templateData
 	a rdf:Property ;
 	rdf:range owl:Thing ;
+	rdfs:domain mod:GUI ;
 	rdf:label "template data" ;
 	lv2:documentation """
 <p>The data that will be used to render the template defined in mod:template.
@@ -188,6 +248,7 @@ served</p>
 mod:resourcesDirectory
 	a rdf:Property ;
 	rdf:range owl:Thing ;
+	rdfs:domain mod:GUI ;
 	rdf:label "resources directory" ;
 	lv2:documentation """
 <p>This is a URI that resolves to a directory inside the bundle. Any file inside this
@@ -201,6 +262,7 @@ this directory must have an ?url=EFFECT_URL parameter</p>
 mod:screenshot
 	a rdf:Property ;
 	rdf:range owl:Thing ;
+	rdfs:domain mod:GUI ;
 	rdf:label "screenshot" ;
 	lv2:documentation """
 <p>An image with a real size screenshot of the rendered plugin interface.
@@ -210,6 +272,7 @@ The value of this property must be a URI that resolves to an image.</p>
 mod:thumbnail
 	a rdf:Property ;
 	rdf:range owl:Thing ;
+	rdfs:domain mod:GUI ;
 	rdf:label "screenshot" ;
 	lv2:documentation """
 <p>An image with a small representation of the rendered plugin interface.

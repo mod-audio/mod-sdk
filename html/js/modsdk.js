@@ -178,29 +178,29 @@ function showEffect() {
 	window.location.hash = bundle
 	return
     }
-    if (!options.icon)
-	options.icon = {}
-    if (!options.icon.iconTemplate)
-	options.icon.iconTemplate = defaultIconTemplate
-    if (!options.icon.settingsTemplate)
-	options.icon.settingsTemplate = defaultSettingsTemplate
+    if (!options.gui)
+	options.gui = {}
+    if (!options.gui.iconTemplate)
+	options.gui.iconTemplate = defaultIconTemplate
+    if (!options.gui.settingsTemplate)
+	options.gui.settingsTemplate = defaultSettingsTemplate
     window.location.hash = bundle + ',' + options.url + ',' + section
 
-    icon = renderIcon(options.icon.iconTemplate, options)
+    icon = renderIcon(options.gui.iconTemplate, options)
     iconCanvas.html('').append(icon)
 
-    settingsCanvas.html('').append(renderSettings(options.icon.settingsTemplate, options))
+    settingsCanvas.html('').append(renderSettings(options.gui.settingsTemplate, options))
 
     content.show()
 
     screenshotCanvas.html('')
     var param = '?bundle=' + options.package + '&url=' + escape(options.url)
-    if (options.icon.thumbnail) {
+    if (options.gui.thumbnail) {
 	var thumb = $('<img class="thumb">')
 	thumb.attr('src', '/effect/image/thumbnail.png'+param)
 	thumb.appendTo(screenshotCanvas)
     }
-    if (options.icon.screenshot) {
+    if (options.gui.screenshot) {
 	var shot = $('<img class="screenshot">')
 	shot.attr('src', '/effect/image/screenshot.png'+param)
 	shot.appendTo(screenshotCanvas)

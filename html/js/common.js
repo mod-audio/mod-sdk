@@ -90,7 +90,7 @@ function makePortIndex(ports) {
 
 function getTemplateData(options) {
     var i, port, control, symbol
-    var data = $.extend({}, options.icon.templateData)
+    var data = $.extend({}, options.gui.templateData)
     data.effect = options
     data.ns = '?bundle=' + options.package + '&url=' + escape(options.url)
     if (!data.controls)
