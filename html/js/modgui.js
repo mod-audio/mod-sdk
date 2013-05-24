@@ -319,12 +319,13 @@ JqueryClass('film', baseWidget, {
 	    bgImg.bind('load', function() {
 		if (!height)
 		    height = bgImg.height()
+		console.log(bgImg.width())
 		self.data('filmSteps', height * bgImg.width() / (self.width() * bgImg.height()))
 		self.data('size', self.width())
 		bgImg.remove()
 		callback()
 	    });
-	    self.append(bgImg);
+	    $('body').append(bgImg);
 	    bgImg.attr('src', url);    
 	}, 1)
     },
