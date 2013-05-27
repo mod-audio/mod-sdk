@@ -90,7 +90,7 @@ class EffectImage(web.RequestHandler):
         effect = bundle['plugins'][effect]
 
         try:
-            path = effect['icon'][image]
+            path = effect['gui'][image]
         except:
             raise web.HTTPError(404)
             
@@ -242,7 +242,7 @@ class Screenshot(web.RequestHandler):
         effect = data['plugins'][self.effect]
 
         try:
-            basedir = effect['icon']['resourcesDirectory']
+            basedir = effect['gui']['resourcesDirectory']
         except:
             basedir = os.path.join(WORKSPACE, self.bundle, 'modgui')
         if not os.path.exists(basedir):
@@ -392,7 +392,7 @@ class EffectResource(web.StaticFileHandler):
             effect = data['plugins'][effect]
 
             try:
-                document_root = effect['icon']['resourcesDirectory']
+                document_root = effect['gui']['resourcesDirectory']
             except:
                 raise web.HTTPError(404)
 

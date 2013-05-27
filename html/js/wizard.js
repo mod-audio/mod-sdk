@@ -36,8 +36,8 @@ JqueryClass('wizard', {
 	self.data('effect', effect)
 	self.data('label', effect.name)
 
-	if (effect.icon.templateData) {
-	    var data = effect.icon.templateData
+	if (effect.gui.templateData) {
+	    var data = effect.gui.templateData
 	    if (data.label)
 		self.data('label', data.label)
 	    if (data.author)
@@ -242,7 +242,7 @@ JqueryClass('wizard', {
 	    return
 
 	var template = TEMPLATES['pedal-' + model + '-' + panel]
-	effect.icon = {
+	effect.gui = {
 	    template: template,
 	    templateData: {
 		color: color,
@@ -334,8 +334,8 @@ JqueryClass('wizard', {
 
 	var canvas = $('#ttl-body')
 	canvas.text('')
-	canvas.append('    mod:icon [\n')
-	canvas.append('        a mod:Icon;\n')
+	canvas.append('    mod:gui [\n')
+	canvas.append('        a mod:Gui;\n')
 	canvas.append('        mod:resourcesDirectory &lt;modgui&gt;;\n')
 	canvas.append('        mod:iconTemplate &lt;modgui/'+slug+'.html&gt;;\n')
 	canvas.append('        mod:templateData &lt;modgui/data-'+slug+'.json&gt;;\n')
