@@ -6,7 +6,7 @@ $(document).ready(function() {
     if (bundle && effect) {
 	getEffects(bundle, function(plugins) {
 	    effect = plugins[effect]
-	    var element = renderIcon(effect.gui.iconTemplate || defaultIconTemplate, effect)
+	    var element = new GUI(effect).renderIcon(effect.gui.iconTemplate || defaultIconTemplate)
 	    $('#pedalboard-dashboard').append(element)
 	})
     }

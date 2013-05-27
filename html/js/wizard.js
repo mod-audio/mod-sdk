@@ -252,7 +252,7 @@ JqueryClass('wizard', {
 		author: author
 	    }
 	}
-	renderIcon(template, effect).appendTo(icon)
+	new GUI(effect).renderIcon(template).appendTo(icon)
     },
 
     configure: function() {

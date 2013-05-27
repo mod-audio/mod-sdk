@@ -186,10 +186,12 @@ function showEffect() {
 	options.gui.settingsTemplate = defaultSettingsTemplate
     window.location.hash = bundle + ',' + options.url + ',' + section
 
-    icon = renderIcon(options.gui.iconTemplate, options)
+    var gui = new GUI(options)
+
+    icon = gui.renderIcon()
     iconCanvas.html('').append(icon)
 
-    settingsCanvas.html('').append(renderSettings(options.gui.settingsTemplate, options))
+    settingsCanvas.html('').append(gui.renderSettings())
 
     content.show()
 

@@ -1,73 +1,116 @@
+function GUI(effect, options) {
+    var self = this
 
-function renderIcon(template, data) {
-    var element = $('<strong>') // TODO this container must be <div class="pedal">
-    element.html(Mustache.render(template, getTemplateData(data)))
-    return assignFunctionality(element, data)
-}
+    options = $.extend({
+	'change': new Function(),
+	'dragStart': new Function(),
+	'drag': new Function(),
+	'dragStop': new Function()
+    }, options)
 
-function renderSettings(template, data) {
-    var element = $('<div>')
-    element.html(Mustache.render(template, getTemplateData(data)))
-    return assignFunctionality(element, data)
-}
+    self.effect = effect
 
-function assignFunctionality(element, effect) {
-    var controls = makePortIndex(effect.ports.control.input)
-
-    element.find('[mod-role=input-control-port]').each(function() {
-	var symbol = $(this).attr('mod-port-symbol')
-	$(this).widget({ port: controls[symbol],
-		       container: element
-		     })
-    });
-
-    element.find('[mod-role=input-control-minimum]').each(function() {
-	var symbol = $(this).attr('mod-port-symbol')
-	if (!symbol) {
-	    $(this).html('missing mod-port-symbol attribute')
-	    return
+    this.makePortIndex = function() {
+	var ports = self.effect.ports.control.input
+	var index = {}
+	for (var i in ports) {
+	    var port = { 
+		widgets: [],
+		value: null
+	    }
+	    $.extend(port, ports[i])
+	    index[port.symbol] = port
 	}
-	var content = controls[symbol].minimum
-	var format = controls[symbol].unit ? controls[symbol].unit.render : '%.2f'
-	$(this).html(sprintf(format, controls[symbol].minimum))
-    });
-    element.find('[mod-role=input-control-maximum]').each(function() {
-	var symbol = $(this).attr('mod-port-symbol')
-	if (!symbol) {
-	    $(this).html('missing mod-port-symbol attribute')
-	    return
-	}
-	var content = controls[symbol].maximum
-	var format = controls[symbol].unit ? controls[symbol].unit.render : '%.2f'
-	$(this).html(sprintf(format, controls[symbol].maximum))
-    });
-
-    var handle = element.find('[mod-role=drag-handle]')
-    if (handle.length > 0)
-	element.draggable({ handle: handle })
-    element.find('[mod-role=bypass]').click(function() {
-	var light = element.find('[mod-role=bypass-light]')
-	if (light.hasClass('on')) {
-	    light.addClass('off')
-	    light.removeClass('on')
-	} else {
-	    light.addClass('on')
-	    light.removeClass('off')
-	}
-    })
-
-    return element
-}
-
-function makePortIndex(ports) {
-    var index = {}
-    for (var i in ports) {
-	var port = ports[i]
-	index[port.symbol] = port
+	return index
     }
-    return index
-}
 
+    self.controls = self.makePortIndex(effect.ports.control.input)
+
+    this.setPortValue = function(symbol, value, source) {
+	var port = self.controls[symbol]
+	if (port.value == value)
+	    return
+	port.value = value
+	for (var i in port.widgets) {
+	    if (port.widgets[i] == source)
+		continue
+	    port.widgets[i].controlWidget('setValue', value)
+	}
+	options.change(symbol, value)
+    }
+    
+    this.renderIcon = function(template) {
+	var element = $('<div class="pedal">')
+	element.html(Mustache.render(template || effect.gui.iconTemplate, getTemplateData(effect)))
+	self.assignIconFunctionality(element)
+	self.assignControlFunctionality(element)
+	return element
+    }
+
+    this.renderSettings = function(template) {
+	var element = $('<div>')
+	element.html(Mustache.render(template || effect.gui.settingsTemplate, getTemplateData(effect)))
+	self.assignControlFunctionality(element)
+	return element
+    }
+
+    this.assignIconFunctionality = function(element) {
+	var handle = element.find('[mod-role=drag-handle]')
+	var drag_options = {
+	    handle: handle,
+	    start: options.dragStart,
+	    drag: options.drag,
+	    stop: options.dragStop
+	}
+	if (handle.length > 0)
+	    element.draggable(drag_options)
+    }
+
+    this.assignControlFunctionality = function(element) {
+	element.find('[mod-role=input-control-port]').each(function() {
+	    var symbol = $(this).attr('mod-port-symbol')
+	    var control = $(this)
+	    control.controlWidget({ port: self.controls[symbol],
+				    container: element,
+				    change: function(e, value) {
+					self.setPortValue(symbol, value, control)
+				    }
+				  })
+	    self.controls[symbol].widgets.push(control)
+	});
+	element.find('[mod-role=input-control-minimum]').each(function() {
+	    var symbol = $(this).attr('mod-port-symbol')
+	    if (!symbol) {
+		$(this).html('missing mod-port-symbol attribute')
+		return
+	    }
+	    var content = self.controls[symbol].minimum
+	    var format = self.controls[symbol].unit ? self.controls[symbol].unit.render : '%.2f'
+	    $(this).html(sprintf(format, self.controls[symbol].minimum))
+	});
+	element.find('[mod-role=input-control-maximum]').each(function() {
+	    var symbol = $(this).attr('mod-port-symbol')
+	    if (!symbol) {
+		$(this).html('missing mod-port-symbol attribute')
+		return
+	    }
+	    var content = self.controls[symbol].maximum
+	    var format = self.controls[symbol].unit ? self.controls[symbol].unit.render : '%.2f'
+	    $(this).html(sprintf(format, self.controls[symbol].maximum))
+	});
+	element.find('[mod-role=bypass]').click(function() {
+	    var light = element.find('[mod-role=bypass-light]')
+	    if (light.hasClass('on')) {
+		light.addClass('off')
+		light.removeClass('on')
+	    } else {
+		light.addClass('on')
+		light.removeClass('off')
+	    }
+	})
+    }
+
+}
 
 function getTemplateData(options) {
     var i, port, control, symbol
@@ -113,25 +156,19 @@ function JqueryClass() {
     })(jQuery);
 }
 
-JqueryClass('widget', {
-    init: function(options) {
+(function($) {
+    $.fn['controlWidget'] = function() {
 	var self = $(this)
-	switch(self.attr('mod-widget')) {
-	case 'film':
-	    self.film(options)
-	    break
-	case 'select':
-	    self.selectWidget(options)
-	    break
-	case 'custom-select':
-	    self.customSelect(options)
-	    break
-	default:
-	    self.film(options)
-	    break
+	var widgets = {
+	    'film': 'film',
+	    'select': 'selectWidget',
+	    'custom-select': 'customSelect'
 	}
+	var name = self.attr('mod-widget') || 'film'
+	name = widgets[name]
+	$.fn[name].apply(this, arguments)
     }
-})
+})(jQuery);
 
 var baseWidget = {
     config: function(port) {
@@ -197,6 +234,10 @@ var baseWidget = {
 	alert('not implemented')
     },
 
+    getValue: function() {
+	return $(this).data('value')
+    },
+
     valueFromSteps: function(steps) {
 	var self = $(this)
 	var min = self.data('scaleMinimum')
@@ -256,12 +297,20 @@ var baseWidget = {
 	var symbol = self.data('symbol')
 	var format = self.data('format')
 
+	self.data('value', value)
+
 	var label = sprintf(format, value)
 
 	if (self.data('scalePoints') && self.data('scalePointsIndex')[label])
 	    label = self.data('scalePointsIndex')[label].label
 
 	container.find('[mod-role=input-control-value][mod-port-symbol='+symbol+']').text(label)
+
+	self.trigger('controlchange', value)
+    },
+
+    bindEvents: function(opt) {
+	if (opt.change) $(this).bind('controlchange', opt.change)
     }
 }
 
@@ -269,6 +318,7 @@ JqueryClass('film', baseWidget, {
     init: function(options) {
 	var self = $(this)
 	self.data('container', options.container)
+	self.film('bindEvents', options)
 	self.film('getSize', function() { 
 	    self.film('config', options.port)
 	    self.film('setValue', options.port.default)
@@ -319,7 +369,6 @@ JqueryClass('film', baseWidget, {
 	    bgImg.bind('load', function() {
 		if (!height)
 		    height = bgImg.height()
-		console.log(bgImg.width())
 		self.data('filmSteps', height * bgImg.width() / (self.width() * bgImg.height()))
 		self.data('size', self.width())
 		bgImg.remove()
@@ -382,6 +431,7 @@ JqueryClass('selectWidget', baseWidget, {
     init: function(options) {
 	var self = $(this)
 	self.data('container', options.container)
+	self.selectWidget('bindEvents', options)
 	self.selectWidget('config', options.port)
 	self.change(function() {
 	    self.selectWidget('reportValue', parseFloat(self.val()))
@@ -400,6 +450,7 @@ JqueryClass('customSelect', baseWidget, {
     init: function(options) {
 	var self = $(this)
 	self.data('container', options.container)
+	self.customSelect('bindEvents', options)
 	self.customSelect('config', options.port)
 	self.find('[mod-role=enumeration-option]').each(function() {
 	    var opt = $(this)
@@ -418,3 +469,9 @@ JqueryClass('customSelect', baseWidget, {
 	self.customSelect('reportValue', parseFloat(value))
     }
 })
+
+function renderShell(template, data) {
+    var element = $('<strong>') // TODO this container must be <div class="pedal">
+    element.html(Mustache.render(template, getTemplateData(data)))
+    return element
+}

@@ -1,6 +1,7 @@
 /* GENERAL PEDAL STYLE */
 
 .pedal { 
+    display: inline-block;
     padding:1px 15px 1px 15px;
     z-index:100;
 }
