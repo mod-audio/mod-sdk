@@ -1,0 +1,74 @@
+<div class="mod-combo-model-001 mod-combo-model-001-0650">
+    <!-- HANDLE -->
+    <div mod-role="drag-handle" class="mod-drag-handle"></div>
+    <!-- END HANDLE -->
+    
+    <!-- PLUGIN'S AUTHOR -->
+    <div class="mod-author">{{author}}</div>
+    <!-- END PLUGIN'S AUTHOR -->
+
+    <!-- PLUGIN'S NAME -->
+    <div class="mod-name">{{label}}</div>
+    <!-- END PLUGIN'S NAME -->
+
+    <!-- MOD-CONTROLS -->
+    <div class="mod-controls clearfix">
+        <div class="mod-enumerated clearfix">
+            <div>pre 12AU7/ push-pull 6V6</div>
+            <div>6V6</div>
+            <div>12AU7</div>
+            <div>pre 12AU7/ master 6V6</div>
+            <div>pre 12ax7/ master 6V6</div>
+            <div>pre 6DJ8/ push-pull 6V6</div>
+            <div>pre 12ax7/ push-pull 6V6</div>
+            <div>pre 12AU7/ push-pull 6V6</div>
+            <div>12ax7 feedback</div>
+            <div>6DJ8</div>
+            <div>12AU7 feedback</div>
+            <div>pre 6DJ8/ master 6V6</div>
+            <div>6DJ8 feedback</div>
+            <div>12AT7</div>
+            <div>pre 12AT7/ master 6V6</div>
+            <div>pre 12AT7/ push pull 6V6</div>
+            <div>12AT7 feedback</div>
+            <div>6C16</div>
+        </div>
+        
+        <div class="mod-switch" mod-role="bypass">
+            <div class="mod-switch-image" mod-role="bypass-light"></div>
+        </div>
+        
+        <div class="mod-separator"></div>
+
+        {{#controls}}
+        <div class="mod-knob-chicken-head">
+            <div class="image" mod-role="input-control-port" mod-port-symbol="{{symbol}}"></div>
+            <span class="title">{{name}}</span>
+        </div>
+        <div class="mod-knob-chicken-head">
+            <div class="image" mod-role="input-control-port" mod-port-symbol="{{symbol}}"></div>
+            <span class="title">{{name}}</span>
+        </div>
+        <div class="mod-knob-chicken-head">
+            <div class="image" mod-role="input-control-port" mod-port-symbol="{{symbol}}"></div>
+            <span class="title">{{name}}</span>
+        </div>
+        {{/controls}}
+
+        <div class="mod-separator"></div>
+
+        {{#controls}}
+        <div class="mod-knob-chicken-head">
+            <div class="image" mod-role="input-control-port" mod-port-symbol="{{symbol}}"></div>
+            <span class="title">{{name}}</span>
+        </div>
+        <div class="mod-knob-chicken-head">
+            <div class="image" mod-role="input-control-port" mod-port-symbol="{{symbol}}"></div>
+            <span class="title">{{name}}</span>
+        </div>
+        {{/controls}}
+
+    </div>
+    <!-- END MOD-CONTROLS -->
+
+</div>
