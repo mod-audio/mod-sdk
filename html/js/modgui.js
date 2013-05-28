@@ -12,6 +12,9 @@ function GUI(effect, options) {
 	'defaultSettingsTemplate': 'Template missing'
     }, options)
 
+    if (!effect.gui)
+	effect.gui = {}
+
     self.effect = effect
     self.bypassed = false
 
@@ -118,13 +121,17 @@ function GUI(effect, options) {
 	element.find('[mod-role=input-control-port]').each(function() {
 	    var symbol = $(this).attr('mod-port-symbol')
 	    var control = $(this)
-	    control.controlWidget({ port: self.controls[symbol],
-				    container: element,
-				    change: function(e, value) {
-					self.setPortValue(symbol, value, control)
-				    }
-				  })
-	    self.controls[symbol].widgets.push(control)
+	    if (self.controls[symbol]) {
+		control.controlWidget({ port: self.controls[symbol],
+					container: element,
+					change: function(e, value) {
+					    self.setPortValue(symbol, value, control)
+					}
+				      })
+		self.controls[symbol].widgets.push(control)
+	    } else {
+		control.text('No such symbol: '+symbol)
+	    }
 	});
 	element.find('[mod-role=input-control-minimum]').each(function() {
 	    var symbol = $(this).attr('mod-port-symbol')
