@@ -151,10 +151,8 @@ JqueryClass('wizard', {
 		    img.addClass('selected')
 		img.appendTo(colorCanvas)
 	    }
-	    self.data('colorRequired', true)
 	    $('#color-select-title').show()
 	} else {
-	    self.data('colorRequired', false)
 	    $('#color-select-title').hide()
 	}
 
@@ -229,12 +227,7 @@ JqueryClass('wizard', {
 	var effect = self.data('effect')
 	var model = self.data('model')
 	var panel = self.data('panel')
-	var color = self.data('color')
-	var knob = self.data('knob')
-	var label = self.data('label') 
-	var author = self.data('author') 
 	var db = self.data('model_index')
-	var controls = self.data('controls') || effect.ports.control.input.slice(0, db[model].panels[panel])
 
 	var step = self.data('step')
 	var icon = self.find('.wizard-icon')
@@ -242,27 +235,62 @@ JqueryClass('wizard', {
 
 	var ok = true
 	ok = ok && panel
-	if (self.data('colorRequired'))
-	    ok = ok && color
-	ok = ok && (knob || !self.data('model_index')[model].knobs)
+	ok = ok && (self.data('color') || !db[model].colors)
+	ok = ok && (self.data('knob') || !db[model].knobs)
 
 	self.wizard('ok', ok)
 
 	if (!ok)
 	    return
 
-	var template = TEMPLATES['pedal-' + model + '-' + panel]
+	var template = self.wizard('getTemplate')
+	var templateData = self.wizard('getTemplateData')
 	effect.gui = {
 	    template: template,
-	    templateData: {
-		color: color,
-		knob: knob,
-		controls: controls,
-		label: label,
-		author: author
-	    }
+	    templateData: templateData,
 	}
 	new GUI(effect).renderIcon(template).appendTo(icon)
+    },
+
+    getTemplate: function() {
+	return TEMPLATES['pedal-' + $(this).data('model') + '-' + $(this).data('panel')]
+    },
+
+    getTemplateData: function() {
+	var self = $(this)
+	var color = self.data('color')
+	var knob = self.data('knob')
+
+	var controls = self.data('controls')
+
+	if (!controls) {
+	    var db = self.data('model_index')
+	    var effect = self.data('effect')
+	    var model = self.data('model')
+	    var panel = self.data('panel')
+	    controls =  effect.ports.control.input.slice(0, db[model].panels[panel])
+	}
+
+	var data =  {
+	    label: self.data('label'),
+	    author: self.data('author'),
+	    controls: []
+	}
+
+	if (color)
+	    data.color = color
+	if (knob)
+	    data.knob = knob
+
+	for (var i in controls) {
+	    var control = controls[i]
+	    data.controls.push({
+		name: control.name,
+		symbol: control.symbol
+	    })
+	}
+
+	return data	
     },
 
     configure: function() {
@@ -276,9 +304,7 @@ JqueryClass('wizard', {
 
 	var i
 	if (!controls) {
-	    controls = []
-	    for (i in effect.ports.control.input.slice(0, db[self.data('model')].panels[panel]))
-		controls.push(effect.ports.control.input[i].symbol)
+	    controls = effect.ports.control.input.slice(0, db[self.data('model')].panels[panel])
 	    self.data('controls', controls)
 	}
 
@@ -294,14 +320,16 @@ JqueryClass('wizard', {
 	var controlPorts = effect.ports.control.input
 	var select = $('<select>')
 	$('<option>').val('').html('-- Select control --').appendTo(select)
+	var controlIndex = {}
 	for (i in controlPorts) {
 	    control = controlPorts[i]
+	    controlIndex[control.symbol] = control
 	    $('<option>').val(control.symbol).html(control.name).appendTo(select)
 	}
 
 	var factory = function(sel, i) {
 	    return function() {
-		controls[i] = sel.val()
+		controls[i] = controlIndex[sel.val()]
 		self.wizard('render')
 	    }
 	}
@@ -356,9 +384,14 @@ JqueryClass('wizard', {
 
     save_template: function() {
 	var self = $(this)
-	$.ajax({ url: '/effect/save',
+	var data = {
+	    slug: self.wizard('slug'),
+	    data: self.wizard('getTemplateData'),
+	    template: self.wizard('getTemplate')	    
+	}
+	$.ajax({ url: '/effect/save/' + self.data('effect').package,
 		 type: 'POST',
-		 data: JSON.stringify(self.data()),
+		 data: JSON.stringify(data),
 		 success: function() {
 		     //self.wizard('generate_thumbnail')
 		 },
@@ -380,7 +413,8 @@ JqueryClass('wizard', {
 	var param = { bundle: effect['package'],
 		      effect: effect.url,
 		      width: icon.width(),
-		      height: icon.height()
+		      height: icon.height(),
+		      slug: self.wizard('slug')
 		    }
 
 	$.ajax({ url: '/screenshot',

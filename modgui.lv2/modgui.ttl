@@ -176,60 +176,11 @@ template can hold the final HTML file, but it's very useful to allow developers
 to customize layout using templates provided by the SDK, instead of editing
 HTML files.</p>
 
-<p>The data in this file must be a dictionary. Three keys have an special treatment: 
-<em>effect, <em>controls</em> and <em>ns</em>.</p>
+<p>The data in this file must be a dictionary. Two keys are automatically set:
+<em>effect, <em>ns</em>.</p>
 
 <h3>effect</h3>
-<p>This will be automatically assigned and will hold the effect's data parsed from ttl files. The effect data format is an arbitrary structure that organizes the rdf triples in a simple way. To see that structure, use the SDK's debugging interface</p>
-
-<h3>controls</h3>
-<p>This is expected to hold a list of control ports that will have a knob quickly
-available at the pedal interface. Each control port should be a dictionary containing
-at least a symbol and name. But since writing a list of dictionary is boring, you can
-simply use a string with the control port symbols instead of the whole dictionary, and
-then the parser will substitute this by a dictionary obtained from the effect ttl. If
-you would like to change the displayed name of some control (for example, because the
-full name is too big for the pedal), you can use a complete dictionary.</p>
-
-<p>For example, if you have:</p>
-<pre>
-{
-    "controls": [
-        "level", 
-        "tone", 
-        "drive"
-    ]
-}
-</pre>
-<p>The data that will actually be available for the template would be something like:</p>
-<pre>
-{
-    "controls": [
-        { 
-           "symbol": "level", 
-           "name": "Level",
-           "index": 0,
-           "default": 1,
-           "minimum": 0,
-           // here follows several control input properties declared
-        }, {
-           "symbol": "tone",
-           "name": "Tone",
-           // you get the idea
-        }
-    ]
-}
-</pre>
-<p>If you want to customize one displayed name, for example, you can do something like:</p>
-<pre>
-{
-    "controls": [
-        "level",
-        { "symbol": "level", "name": "The Level" },
-        "drive"
-    ]
-}
-</pre>
+<p>This will always hold the effect's data parsed from ttl files. The effect data format is an arbitrary structure that organizes the rdf triples in a simple way. To see that structure, use the SDK's debugging interface</p>
 
 <h3>ns</h3>
 <p>All static files in folder defined by mod:resourcesDirectory will be available to the
@@ -256,7 +207,14 @@ directory will be statically served to browser, and will be available at the /re
 path.</p>
 
 <p>For the webserver to properly identify where to look, any request for media inside
-this directory must have an ?url=EFFECT_URL parameter</p>         
+this directory must have an ?bundle=BUNDLE&url=EFFECT_URL parameter.</p>
+
+<p><em>Note</em>: using a static url with ?bundle=BUNDLE parameter in any template would be a violation of
+<a href="http://lv2plug.in/wiki/Bundle_Definition">LV2 Bundle Definition</a> guidelines. So hosts should
+not require the bundle parameter to load the resources. This parameter is used mostly by the SDK, since
+speed of reloading for testing interface is an issue there and no bundle index is made. Anyway, this parameter
+should be dynamic, as described in <a href="#templateData">mod:templateData</a>.
+</p>
 """ .
 
 mod:screenshot

@@ -37,7 +37,8 @@ $(document).ready(function() {
 	var param = { bundle: bundles.val(),
 		      effect: effects.val(),
 		      width: icon.width(),
-		      height: icon.height()
+		      height: icon.height(),
+		      slug: slug()
 		    }
 	screenshotCanvas.find('img').remove()
 	$.ajax({ url: '/screenshot',
@@ -251,3 +252,10 @@ function savePublishConfiguration(callback) {
 	   })
     return false
 }
+
+function slug() {
+    var effect = effects.find('option:selected').data()
+    return effect['name'].toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '').replace(/-+/g, '-')
+}
+    
+
