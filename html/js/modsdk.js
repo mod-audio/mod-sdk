@@ -178,15 +178,13 @@ function showEffect() {
 	window.location.hash = bundle
 	return
     }
-    if (!options.gui)
-	options.gui = {}
-    if (!options.gui.iconTemplate)
-	options.gui.iconTemplate = defaultIconTemplate
-    if (!options.gui.settingsTemplate)
-	options.gui.settingsTemplate = defaultSettingsTemplate
+
     window.location.hash = bundle + ',' + options.url + ',' + section
 
-    var gui = new GUI(options)
+    var gui = new GUI(options, {
+	defaultIconTemplate: defaultIconTemplate, 
+	defaultSettingsTemplate: defaultSettingsTemplate
+    })
 
     icon = gui.renderIcon()
     iconCanvas.html('').append(icon)

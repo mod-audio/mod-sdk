@@ -5,10 +5,15 @@ function GUI(effect, options) {
 	'change': new Function(),
 	'dragStart': new Function(),
 	'drag': new Function(),
-	'dragStop': new Function()
+	'dragStop': new Function(),
+	'bypass': new Function(),
+	'address': new Function(),
+	'defaultIconTemplate': 'Template missing',
+	'defaultSettingsTemplate': 'Template missing'
     }, options)
 
     self.effect = effect
+    self.bypassed = false
 
     this.makePortIndex = function() {
 	var ports = self.effect.ports.control.input
@@ -16,6 +21,7 @@ function GUI(effect, options) {
 	for (var i in ports) {
 	    var port = { 
 		widgets: [],
+		enabled: true,
 		value: null
 	    }
 	    $.extend(port, ports[i])
@@ -27,8 +33,10 @@ function GUI(effect, options) {
     self.controls = self.makePortIndex(effect.ports.control.input)
 
     this.setPortValue = function(symbol, value, source) {
+	if (isNaN(value)) 
+	    throw "Invalid NaN value for " + symbol
 	var port = self.controls[symbol]
-	if (port.value == value)
+	if (!port.enabled || port.value == value)
 	    return
 	port.value = value
 	for (var i in port.widgets) {
@@ -38,19 +46,59 @@ function GUI(effect, options) {
 	}
 	options.change(symbol, value)
     }
+
+    this.disable = function(symbol) {
+	var port = self.controls[symbol]
+	port.enabled = false
+	for (var i in port.widgets)
+	    port.widgets[i].controlWidget('disable')
+    }
+    this.enable = function(symbol) {
+	var port = self.controls[symbol]
+	port.enabled = true
+	for (var i in port.widgets)
+	    port.widgets[i].controlWidget('enable')
+    }
+
+    this.bypassIndicators = []
+
+    this.bypass = function() {
+	self.bypassed = !self.bypassed
+	for (var i in this.bypassIndicators) {
+	    var light = this.bypassIndicators[i]
+	    if (self.bypassed) {
+		light.addClass('off')
+		light.removeClass('on')
+	    } else {
+		light.addClass('on')
+		light.removeClass('off')
+	    }
+	}
+
+	options.bypass(self.bypassed)
+    }
     
     this.renderIcon = function(template) {
 	var element = $('<div class="pedal">')
-	element.html(Mustache.render(template || effect.gui.iconTemplate, getTemplateData(effect)))
+	element.html(Mustache.render(template || effect.gui.iconTemplate || options.defaultIconTemplate,
+				     self.getTemplateData(effect)))
 	self.assignIconFunctionality(element)
 	self.assignControlFunctionality(element)
 	return element
     }
 
     this.renderSettings = function(template) {
-	var element = $('<div>')
-	element.html(Mustache.render(template || effect.gui.settingsTemplate, getTemplateData(effect)))
+	var element = $('<div class="settings">')
+	element.html(Mustache.render(template || effect.gui.settingsTemplate || options.defaultSettingsTemplate,
+				     self.getTemplateData(effect)))
 	self.assignControlFunctionality(element)
+	return element
+    }
+
+    this.renderDummy = function(template) {
+	var element = $('<div class="pedal dummy">')
+	element.html(Mustache.render(template || effect.gui.iconTemplate || options.defaultIconTemplate,
+				     self.getTemplateData(effect)))
 	return element
     }
 
@@ -99,42 +147,41 @@ function GUI(effect, options) {
 	    $(this).html(sprintf(format, self.controls[symbol].maximum))
 	});
 	element.find('[mod-role=bypass]').click(function() {
-	    var light = element.find('[mod-role=bypass-light]')
-	    if (light.hasClass('on')) {
-		light.addClass('off')
-		light.removeClass('on')
-	    } else {
-		light.addClass('on')
-		light.removeClass('off')
-	    }
-	})
+	    self.bypass()
+	});
+	element.find('[mod-role=bypass-light]').each(function() {
+	    self.bypassIndicators.push($(this))
+	});
+	element.find('[mod-role=input-control-address]').click(function() {
+	    options.address($(this).attr('mod-port-symbol'))
+	});
+	   
     }
 
-}
-
-function getTemplateData(options) {
-    var i, port, control, symbol
-    var data = $.extend({}, options.gui.templateData)
-    data.effect = options
-    data.ns = '?bundle=' + options.package + '&url=' + escape(options.url)
-    if (!data.controls)
-	return data
-    var controlIndex = {}
-    for (i in options.ports.control.input) {
-	port = options.ports.control.input[i]
-	controlIndex[port.symbol] = port
-    }
-    for (var i in data.controls) {
-	control = data.controls[i]
-	if (typeof control == "string") {
-	    control = controlIndex[control]
-	} else {
-	    control = $.extend({}, controlIndex[control.symbol], control)
+    this.getTemplateData = function(options) {
+	var i, port, control, symbol
+	var data = $.extend({}, options.gui.templateData)
+	data.effect = options
+	data.ns = '?bundle=' + options.package + '&url=' + escape(options.url)
+	if (!data.controls)
+	    return data
+	var controlIndex = {}
+	for (i in options.ports.control.input) {
+	    port = options.ports.control.input[i]
+	    controlIndex[port.symbol] = port
 	}
-	data.controls[i] = control
+	for (var i in data.controls) {
+	    control = data.controls[i]
+	    if (typeof control == "string") {
+		control = controlIndex[control]
+	    } else {
+		control = $.extend({}, controlIndex[control.symbol], control)
+	    }
+	    data.controls[i] = control
+	}
+	DEBUG = JSON.stringify(data, undefined, 4)
+	return data
     }
-    DEBUG = JSON.stringify(data, undefined, 4)
-    return data
 }
 
 function JqueryClass() {
@@ -234,9 +281,8 @@ var baseWidget = {
 	alert('not implemented')
     },
 
-    getValue: function() {
-	return $(this).data('value')
-    },
+    disable: function() { $(this).addClass('disabled').data('enabled', false)  },
+    enable: function() { $(this).removeClass('disabled').data('enabled', true)  },
 
     valueFromSteps: function(steps) {
 	var self = $(this)
@@ -318,6 +364,7 @@ JqueryClass('film', baseWidget, {
     init: function(options) {
 	var self = $(this)
 	self.data('container', options.container)
+	self.data('enabled', true)
 	self.film('bindEvents', options)
 	self.film('getSize', function() { 
 	    self.film('config', options.port)
@@ -327,6 +374,7 @@ JqueryClass('film', baseWidget, {
 	self.on('dragstart', function(event) { event.preventDefault() })
 
 	var moveHandler = function(e) {
+	    if (!self.data('enabled')) return
 	    self.film('mouseMove', e)
 	}
 	
@@ -338,6 +386,7 @@ JqueryClass('film', baseWidget, {
 	}
 	
 	self.mousedown(function(e) {
+	    if (!self.data('enabled')) return
 	    if (e.which == 1) { // left button
 		self.film('mouseDown', e)
 		$(document).bind('mouseup', upHandler)
@@ -439,6 +488,18 @@ JqueryClass('selectWidget', baseWidget, {
 	self.selectWidget('setValue', options.port.default)
     },
 
+    disable: function() {
+	var self = $(this)
+	self.attr('disabled', true)
+	self.data('enabled', false)
+    },
+
+    enable: function() {
+	var self = $(this)
+	self.attr('disabled', false)
+	self.data('enabled', true)
+    },
+
     setValue: function(value) {
 	var self = $(this)
 	self.val(value)
@@ -456,7 +517,8 @@ JqueryClass('customSelect', baseWidget, {
 	    var opt = $(this)
 	    var value = opt.attr('mod-port-value')
 	    opt.click(function() {
-		self.customSelect('setValue', value)
+		if (self.data('enabled'))
+		    self.customSelect('setValue', value)
 	    })
 	})
 	self.customSelect('setValue', options.port.default)
@@ -470,8 +532,3 @@ JqueryClass('customSelect', baseWidget, {
     }
 })
 
-function renderShell(template, data) {
-    var element = $('<strong>') // TODO this container must be <div class="pedal">
-    element.html(Mustache.render(template, getTemplateData(data)))
-    return element
-}
