@@ -235,6 +235,6 @@ mod:thumbnail
 	lv2:documentation """
 <p>An image with a small representation of the rendered plugin interface.
 The value of this property must be a URI that resolves to an image with maximum
-size of 64x64px.
+size of 256x64px.
 </p>
 """ .
