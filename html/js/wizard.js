@@ -130,23 +130,32 @@ JqueryClass('wizard', {
 	var data = self.data('model_index')[model]
 	var colorCanvas = self.find('#color-options')
 	colorCanvas.html('')
-	var colors = data.colors.sort()
-	factory = function(color) { 
-	    return function() { 
-		colorCanvas.find('.selected').removeClass('selected')
-		$(this).addClass('selected')
-		self.data('color', color)
-		self.wizard('render')
+
+	var colors
+	if (data.colors) {
+	    colors = data.colors.sort()
+	    factory = function(color) { 
+		return function() { 
+		    colorCanvas.find('.selected').removeClass('selected')
+		    $(this).addClass('selected')
+		    self.data('color', color)
+		    self.wizard('render')
+		}
 	    }
-	}
-	for (var j in colors) {
-	    var img = $('<img>')
-	    img.attr('src', '/resources/pedals/'+model+'/'+colors[j]+'.png')
-	    img.height(64)
-	    img.click(factory(colors[j]))
-	    if (colors[j] == self.data('color'))
-		img.addClass('selected')
-	    img.appendTo(colorCanvas)
+	    for (var j in colors) {
+		var img = $('<img>')
+		img.attr('src', '/resources/pedals/'+model+'/'+colors[j]+'.png')
+		img.height(64)
+		img.click(factory(colors[j]))
+		if (colors[j] == self.data('color'))
+		    img.addClass('selected')
+		img.appendTo(colorCanvas)
+	    }
+	    self.data('colorRequired', true)
+	    $('#color-select-title').show()
+	} else {
+	    self.data('colorRequired', false)
+	    $('#color-select-title').hide()
 	}
 
 	var panelCanvas = self.find('#panel-options')
@@ -233,7 +242,8 @@ JqueryClass('wizard', {
 
 	var ok = true
 	ok = ok && panel
-	ok = ok && color
+	if (self.data('colorRequired'))
+	    ok = ok && color
 	ok = ok && (knob || !self.data('model_index')[model].knobs)
 
 	self.wizard('ok', ok)
