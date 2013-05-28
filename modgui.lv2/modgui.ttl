@@ -167,9 +167,9 @@ mod:templateData
 	rdfs:domain mod:GUI ;
 	rdf:label "template data" ;
 	lv2:documentation """
-<p>The data that will be used to render the template defined in mod:template.
-The value of this property must be a URI that resolves to a json serialized
-object and its data can be inspected using the SDK's debug interface.</p>
+<p>The data that will be used to render the templates defined in mod:iconTemplate 
+and mod:settingsTemplate. The value of this property must be a URI that resolves to 
+a json serialized object and its data can be inspected using the SDK's debug interface.</p>
 
 <p>This parameter isn't strictly necessary to build a plugin layout, as the
 template can hold the final HTML file, but it's very useful to allow developers
