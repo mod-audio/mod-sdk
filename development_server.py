@@ -20,7 +20,7 @@ TEMPLATE_DIR = os.path.join(HTML_DIR, 'resources/templates')
 DEFAULT_ICON_TEMPLATE = os.path.join(ROOT, 'html/resources/templates/default.html')
 DEFAULT_SETTINGS_TEMPLATE = os.path.join(ROOT, 'html/resources/settings.html')
 SCREENSHOT_SCRIPT = os.path.join(ROOT, 'screenshot.js')
-MAX_THUMB_WIDTH = 64
+MAX_THUMB_WIDTH = 256
 MAX_THUMB_HEIGHT = 64
 PHANTOM_BINARY = os.path.join(ROOT, 'phantomjs-1.9.0-macosx/bin/phantomjs')
 

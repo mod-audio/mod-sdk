@@ -4,19 +4,19 @@
     background-position:center center;
     background-repeat:no-repeat;
     font-family:Helvetica,Arial,Sans-serif;
-    height:260px;
+    height:259px;
     position:relative;
     width:550px;
 }
 
-.mod-combo-model-001-0650 {
-    background-image:url(model-0650.png);
+.mod-combo-model-001-0700 {
+    background-image:url(model-0700.png);
     background-position:center center;
     background-repeat:no-repeat;
     font-family:Helvetica,Arial,Sans-serif;
     height:260px;
     position:relative;
-    width:650px;
+    width:700px;
 }
 
 .mod-combo-model-001-0800 {
@@ -54,6 +54,7 @@
 /* THE AUTHOR */
 .mod-combo-model-001 .mod-author {
     bottom:90px;
+	color:#fff;
     font-size:18px;
     left:45px;
     position:absolute;
@@ -63,6 +64,7 @@
 /* PLUGIN'S NAME */
 .mod-combo-model-001 .mod-name {
     bottom:60px;
+	color:#fff;
     font-size:36px;
     left:45px;
     position:absolute;
@@ -117,8 +119,8 @@
     width:145px;
 }
 
-/* SWITCH ON/OFF - 0650 */
-.mod-combo-model-001-0650 .mod-switch {
+/* SWITCH ON/OFF - 0700 */
+.mod-combo-model-001-0700 .mod-switch {
     width:160px;
 }
 
@@ -156,6 +158,9 @@
 }
 
 .mod-combo-model-001 .mod-knob-chicken-head .title {
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size:10px;
+    font-weight:bold;
     left:0;
     position:absolute;
     right:0;
