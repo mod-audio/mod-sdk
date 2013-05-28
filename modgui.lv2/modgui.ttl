@@ -3,6 +3,8 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix mod: <http://portalmod.com/ns/modgui#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix pprops: <http://lv2plug.in/ns/ext/port-props/#> .
+@prefix units: <http://lv2plug.in/ns/extensions/units#> .
 
 <http://portalmod.com/ns/modgui>
 	a lv2:Specification ;
@@ -75,7 +77,7 @@ mod:iconTemplate
 <p>A template that will be used to render the HTML icon of this plugin. The
 value of this property must be a URI that resolves to a Mustache template.</p>
 
-<p>The syntax and guidelines for templates are the same for iconTemplate and <a href="#settingsTemplate">settingsTemplate</a>,
+<p>The syntax and guidelines for templates are the same for mod:iconTemplate and mod:settingsTemplate,
 so this documentation applies to both.</p>
 
 <h3>General guidelines</h3>
@@ -106,7 +108,7 @@ so this documentation applies to both.</p>
 
 <p>The film widget works like a movie film: it uses a big stripe of images and roll it to choose a scene, giving the impression of an animation. So, if you use mod-widget="film", this element is expected to have a background-image style, with one big horizontal <a href="http://www.w3schools.com/css/css_image_sprites.asp">sprite</a> as background. User will be able to change that parameter by clicking on the control button and dragging the mouse up or down. As this is done, the background image will be moved to reflect the new state.</p>
 
-<p>The minimum value of that port will be represented by the first position of the sprite and the maximum value by the last one. The number of steps will be calculated by dividing the background width by the element's width, considering the background-size style. The actual number of steps will be the minimum between the number of images in sprite and the steps limited by lv2 definition (by <a href="http://lv2plug.in/ns/ext/port-props/#rangeSteps">rangeSteps</a>, <a href="http://lv2plug.in/ns/lv2core/#enumeration">enumeration</a> or <a href="http://lv2plug.in/ns/lv2core/#toggled">toggled</a>.</p>
+<p>The minimum value of that port will be represented by the first position of the sprite and the maximum value by the last one. The number of steps will be calculated by dividing the background width by the element's width, considering the background-size style. The actual number of steps will be the minimum between the number of images in sprite and the steps limited by lv2 definition (by pprops:rangeSteps, lv2:enumeration or lv2:toggled.</p>
 
 <p>For example, suppose you want to build a horizontal slider that can hold 10 different positions occupies an area of 150x30 pixels, to control the drive parameter of your plugin. For that, you could:</p>
 <ul>
@@ -130,9 +132,9 @@ so this documentation applies to both.</p>
 
 <p>To allow user to see the minimum, maximum and current value of a plugin, three mod-roles are available: <em>input-control-minimum</em>, <em>input-control-maximum</em> and <em>input-control-value</em>. All of them expect a mod-port-symbol attribute containing the symbol of the port.</p>
 
-<p>The <em>input-control-minimum</em>, <em>input-control-maximum</em> will have have it's text content set to be the formatted minimum and maximum values accepted by this control, as defined by the <a href="http://lv2plug.in/ns/lv2core#minimum">lv2:minimum</a> and <a href="http://lv2plug.in/ns/lv2core#maximum">lv2:maximum</a> properties respectively. The <em>input-control-value</em> will be dinamically changed everytime the value of the control port changes.</p>
+<p>The <em>input-control-minimum</em>, <em>input-control-maximum</em> will have have it's text content set to be the formatted minimum and maximum values accepted by this control, as defined by the lv2:minimum and lv2:maximum properties respectively. The <em>input-control-value</em> will be dinamically changed everytime the value of the control port changes.</p>
 
-<p>All values are formatted according to the <a href="http://lv2plug.in/ns/extensions/units#unit">units:unit</a>'s <a href="http://lv2plug.in/ns/extensions/units#render">render</a> property of this port, with some considerations. First, any %f will be rendered as %.2f, otherwise interface is messed up with huge representations. Second, if <a href="http://lv2plug.in/ns/lv2core#integer">integer</a> property is declared, then any %f, %.Xf or so will be substituted by %d.</p>
+<p>All values are formatted according to the units:unit's and units:render property of this port, with some considerations. First, any %f will be rendered as %.2f, otherwise interface is messed up with huge representations. Second, if lv2:integer property is declared, then any %f, %.Xf or so will be substituted by %d.</p>
 
 <h4>Audio ports</h4>
 
@@ -157,7 +159,7 @@ mod:settingsTemplate
 <p>A template that will be used to render the HTML settings panel of this plugin. The
 value of this property must be a URI that resolves to a Mustache template.</p>
 
-<p>To develop this, use the same guidelines and markup as described in <a href="#iconTemplate">mod:iconTemplate</a>.
+<p>To develop this, use the same guidelines and markup as described in mod:iconTemplate.
 The only difference is that the audio ports here are irrelevant
 """ .       
 
@@ -167,69 +169,20 @@ mod:templateData
 	rdfs:domain mod:GUI ;
 	rdf:label "template data" ;
 	lv2:documentation """
-<p>The data that will be used to render the template defined in mod:template.
-The value of this property must be a URI that resolves to a json serialized
-object and its data can be inspected using the SDK's debug interface.</p>
+<p>The data that will be used to render the templates defined in mod:iconTemplate 
+and mod:settingsTemplate. The value of this property must be a URI that resolves to 
+a json serialized object and its data can be inspected using the SDK's debug interface.</p>
 
 <p>This parameter isn't strictly necessary to build a plugin layout, as the
 template can hold the final HTML file, but it's very useful to allow developers
 to customize layout using templates provided by the SDK, instead of editing
 HTML files.</p>
 
-<p>The data in this file must be a dictionary. Three keys have an special treatment: 
-<em>effect, <em>controls</em> and <em>ns</em>.</p>
+<p>The data in this file must be a dictionary. Two keys are automatically set:
+<em>effect, <em>ns</em>.</p>
 
 <h3>effect</h3>
-<p>This will be automatically assigned and will hold the effect's data parsed from ttl files. The effect data format is an arbitrary structure that organizes the rdf triples in a simple way. To see that structure, use the SDK's debugging interface</p>
-
-<h3>controls</h3>
-<p>This is expected to hold a list of control ports that will have a knob quickly
-available at the pedal interface. Each control port should be a dictionary containing
-at least a symbol and name. But since writing a list of dictionary is boring, you can
-simply use a string with the control port symbols instead of the whole dictionary, and
-then the parser will substitute this by a dictionary obtained from the effect ttl. If
-you would like to change the displayed name of some control (for example, because the
-full name is too big for the pedal), you can use a complete dictionary.</p>
-
-<p>For example, if you have:</p>
-<pre>
-{
-    "controls": [
-        "level", 
-        "tone", 
-        "drive"
-    ]
-}
-</pre>
-<p>The data that will actually be available for the template would be something like:</p>
-<pre>
-{
-    "controls": [
-        { 
-           "symbol": "level", 
-           "name": "Level",
-           "index": 0,
-           "default": 1,
-           "minimum": 0,
-           // here follows several control input properties declared
-        }, {
-           "symbol": "tone",
-           "name": "Tone",
-           // you get the idea
-        }
-    ]
-}
-</pre>
-<p>If you want to customize one displayed name, for example, you can do something like:</p>
-<pre>
-{
-    "controls": [
-        "level",
-        { "symbol": "level", "name": "The Level" },
-        "drive"
-    ]
-}
-</pre>
+<p>This will always hold the effect's data parsed from ttl files. The effect data format is an arbitrary structure that organizes the rdf triples in a simple way. To see that structure, use the SDK's debugging interface</p>
 
 <h3>ns</h3>
 <p>All static files in folder defined by mod:resourcesDirectory will be available to the
@@ -256,7 +209,14 @@ directory will be statically served to browser, and will be available at the /re
 path.</p>
 
 <p>For the webserver to properly identify where to look, any request for media inside
-this directory must have an ?url=EFFECT_URL parameter</p>         
+this directory must have an ?bundle=BUNDLE&url=EFFECT_URL parameter.</p>
+
+<p><em>Note</em>: using a static url with ?bundle=BUNDLE parameter in any template would be a violation of
+<a href="http://lv2plug.in/wiki/Bundle_Definition">LV2 Bundle Definition</a> guidelines. So hosts should
+not require the bundle parameter to load the resources. This parameter is used mostly by the SDK, since
+speed of reloading for testing interface is an issue there and no bundle index is made. Anyway, this parameter
+should be dynamic, as described in mod:templateData.
+</p>
 """ .
 
 mod:screenshot
@@ -277,6 +237,6 @@ mod:thumbnail
 	lv2:documentation """
 <p>An image with a small representation of the rendered plugin interface.
 The value of this property must be a URI that resolves to an image with maximum
-size of 64x64px.
+size of 256x64px.
 </p>
 """ .

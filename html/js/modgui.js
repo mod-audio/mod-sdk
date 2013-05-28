@@ -172,20 +172,6 @@ function GUI(effect, options) {
 	data.ns = '?bundle=' + options.package + '&url=' + escape(options.url)
 	if (!data.controls)
 	    return data
-	var controlIndex = {}
-	for (i in options.ports.control.input) {
-	    port = options.ports.control.input[i]
-	    controlIndex[port.symbol] = port
-	}
-	for (var i in data.controls) {
-	    control = data.controls[i]
-	    if (typeof control == "string") {
-		control = controlIndex[control]
-	    } else {
-		control = $.extend({}, controlIndex[control.symbol], control)
-	    }
-	    data.controls[i] = control
-	}
 	DEBUG = JSON.stringify(data, undefined, 4)
 	return data
     }

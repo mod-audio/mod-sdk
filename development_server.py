@@ -46,13 +46,6 @@ def get_bundle_data(bundle):
     BUNDLE_CACHE[bundle] = package.data
     return BUNDLE_CACHE[bundle]
 
-def slugify(name):
-    slug = name.lower()
-    slug = re.sub('\s+', '-', slug)
-    slug = re.sub('[^a-z0-9-]', '', slug)
-    slug = re.sub('-+', '-', slug)
-    return slug
-
 class BundleList(web.RequestHandler):
     def get(self):
         self.set_header('Content-type', 'application/json')
@@ -102,9 +95,8 @@ class EffectImage(web.RequestHandler):
             
 
 class EffectSave(web.RequestHandler):
-    def post(self):
+    def post(self, bundle):
         param = json.loads(self.request.body)
-        bundle = param['effect']['package']
         path = os.path.join(WORKSPACE, bundle)
         if not os.path.exists(os.path.join(path, 'manifest.ttl')):
             raise web.HTTPError(404)
@@ -112,35 +104,23 @@ class EffectSave(web.RequestHandler):
         if not os.path.exists(self.basedir):
             os.mkdir(self.basedir)
 
-        self.make_template(param['model'], param['panel'], slugify(param['effect']['name']))
-        self.make_datafile(param)
-        self.make_empty_screenshot(param)
+        self.make_template(param['slug'], param['template'])
+        self.make_datafile(param['slug'], param['data'])
+        self.make_empty_screenshot(param['slug'])
 
         self.set_header('Content-type', 'application/json')
         self.write(json.dumps(True))
 
-    def make_template(self, model, panel, slug):
-        source_name = 'pedal-%s-%s.html' % (model, panel)
+    def make_template(self, slug, template):
         dest_name = '%s.html' % slug
-        source = os.path.join(TEMPLATE_DIR, source_name)
         dest = os.path.join(self.basedir, dest_name)
-        shutil.copy(source, dest)
+        open(dest, 'w').write(template)
 
-    def make_datafile(self, param):
-        data = {
-            'color': param['color'],
-            'label': param['label'],
-            'author': param['author'],
-            'controls': [ c['symbol'] for c in param['controls'] ],
-            }
-        if param.get('knob'):
-            data['knob'] = param['knob']
-        datafile = os.path.join(self.basedir, 'data-%s.json' % slugify(param['effect']['name']))
+    def make_datafile(self, slug, data):
+        datafile = os.path.join(self.basedir, 'data-%s.json' % slug)
         open(datafile, 'w').write(json.dumps(data, sort_keys=True, indent=4))
-
-    def make_empty_screenshot(self, param):
-        slug = slugify(param['effect']['name'])
-
+        
+    def make_empty_screenshot(self, slug):
         screenshot_path = os.path.join(self.basedir, '%s-%s.png' % ('screenshot', slug))
         thumb_path = os.path.join(self.basedir, '%s-%s.png' % ('thumb', slug))
 
@@ -174,6 +154,7 @@ class Screenshot(web.RequestHandler):
         self.effect = self.get_argument('effect')
         self.width = self.get_argument('width')
         self.height = self.get_argument('height')
+        self.slug = self.get_argument('slug')
 
         self.make_screenshot()
 
@@ -248,9 +229,8 @@ class Screenshot(web.RequestHandler):
         if not os.path.exists(basedir):
             os.mkdir(basedir)
 
-        slug = slugify(effect['name'])
-        screenshot_path = os.path.join(basedir, '%s-%s.png' % ('screenshot', slug))
-        thumb_path = os.path.join(basedir, '%s-%s.png' % ('thumb', slug))
+        screenshot_path = os.path.join(basedir, '%s-%s.png' % ('screenshot', self.slug))
+        thumb_path = os.path.join(basedir, '%s-%s.png' % ('thumb', self.slug))
 
         open(screenshot_path, 'w').write(screenshot_data)
         open(thumb_path, 'w').write(thumb_data)
@@ -412,7 +392,7 @@ def run():
             (r"/bundles", BundleList),
             (r"/effects/(.+)", EffectList),
             (r"/effect/image/(screenshot|thumbnail).png", EffectImage),
-            (r"/effect/save", EffectSave),
+            (r"/effect/save/(.+?)", EffectSave),
             (r"/config/get", ConfigurationGet),
             (r"/config/set", ConfigurationSet),
             (r"/(icon.html)?", Index),
