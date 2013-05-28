@@ -1,5 +1,5 @@
 /* SKINS */
-.mod-combo-model-001-0550 {
+.mod-head-model-001-0550 {
     background-image:url(model-0550.png);
     background-position:center center;
     background-repeat:no-repeat;
@@ -9,7 +9,7 @@
     width:550px;
 }
 
-.mod-combo-model-001-0700 {
+.mod-head-model-001-0700 {
     background-image:url(model-0700.png);
     background-position:center center;
     background-repeat:no-repeat;
@@ -19,7 +19,7 @@
     width:700px;
 }
 
-.mod-combo-model-001-0800 {
+.mod-head-model-001-0800 {
     background-image:url(model-0800.png);
     background-position:center center;
     background-repeat:no-repeat;
@@ -29,7 +29,7 @@
     width:800px;
 }
 
-.mod-combo-model-001-0950 {
+.mod-head-model-001-0950 {
     background-image:url(model-0950.png);
     background-position:center center;
     background-repeat:no-repeat;
@@ -41,7 +41,7 @@
 
 
 /* HANDLE */
-.mod-combo-model-001 .mod-drag-handle {
+.mod-head-model-001 .mod-drag-handle {
     bottom:0;
     cursor:pointer;
     left:0;
@@ -52,7 +52,7 @@
 }
 
 /* THE AUTHOR */
-.mod-combo-model-001 .mod-author {
+.mod-head-model-001 .mod-author {
     bottom:90px;
 	color:#fff;
     font-size:18px;
@@ -62,7 +62,7 @@
 }
 
 /* PLUGIN'S NAME */
-.mod-combo-model-001 .mod-name {
+.mod-head-model-001 .mod-name {
     bottom:60px;
 	color:#fff;
     font-size:36px;
@@ -72,7 +72,7 @@
 }
 
 /* CONTROLS */
-.mod-combo-model-001 .mod-controls {
+.mod-head-model-001 .mod-controls {
     bottom:149px;
     color:#000;
     font-size:10px;
@@ -84,12 +84,12 @@
     z-index:3;
 }
 
-.mod-combo-model-001 .mod-controls > div {
+.mod-head-model-001 .mod-controls > div {
     margin-right:2px;
 }
 
 /* SWITCH ON/OFF GENERAL */
-.mod-combo-model-001 .mod-switch {
+.mod-head-model-001 .mod-switch {
     cursor:pointer;
     float:left;
     height:73px;
@@ -97,7 +97,7 @@
     width:90px;
 }
 
-.mod-combo-model-001 .mod-switch-image {
+.mod-head-model-001 .mod-switch-image {
     background-image:url(/resources/switches/switch-001.png);
     background-position:-9px 0px;
     background-repeat:no-repeat;
@@ -106,37 +106,37 @@
     width:73px;
 }
 
-.mod-combo-model-001 .mod-switch-image.on {
+.mod-head-model-001 .mod-switch-image.on {
     background-position:-82px 0px;
 }
 
-.mod-combo-model-001 .mod-switch-image.off {
+.mod-head-model-001 .mod-switch-image.off {
     background-position:-9px 0px;
 }
 
 /* SWITCH ON/OFF - 0550 */
-.mod-combo-model-001-0550 .mod-switch {
+.mod-head-model-001-0550 .mod-switch {
     width:145px;
 }
 
 /* SWITCH ON/OFF - 0700 */
-.mod-combo-model-001-0700 .mod-switch {
+.mod-head-model-001-0700 .mod-switch {
     width:160px;
 }
 
 /* SWITCH ON/OFF - 0800 */
-.mod-combo-model-001-0800 .mod-switch {
+.mod-head-model-001-0800 .mod-switch {
     width:150px;
 }
 
 /* SWITCH ON/OFF - 0950 */
-.mod-combo-model-001-0950 .mod-switch {
+.mod-head-model-001-0950 .mod-switch {
     width:130px;
 }
 
 
 /* CHICKEN HEAD */
-.mod-combo-model-001 .mod-knob-chicken-head {
+.mod-head-model-001 .mod-knob-chicken-head {
     float:left;
     height:73px;
     overflow:hidden;
@@ -145,7 +145,7 @@
     width:80px;
 }
 
-.mod-combo-model-001 .mod-knob-chicken-head .image {
+.mod-head-model-001 .mod-knob-chicken-head .image {
     background-image:url(/resources/knobs/chicken-head/_strip.png);
     background-position:left 0px;
     background-repeat:no-repeat;
@@ -157,7 +157,7 @@
     z-index:2;
 }
 
-.mod-combo-model-001 .mod-knob-chicken-head .title {
+.mod-head-model-001 .mod-knob-chicken-head .title {
     font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size:10px;
     font-weight:bold;
@@ -170,7 +170,7 @@
 }
 
 /* ENUMERATED LIST */
-.mod-combo-model-001 .mod-enumerated {
+.mod-head-model-001 .mod-enumerated {
     bottom:-85px;
     display:inline-block;
     height:36px;
@@ -181,7 +181,7 @@
     width:250px;
 }
 
-.mod-combo-model-001 .mod-enumerated > div {
+.mod-head-model-001 .mod-enumerated > div {
     background:rgba(0,0,0,.85);
     border-radius:4px;
     color:#fff;
@@ -194,7 +194,7 @@
 }
 
 /* SEPARATOR */
-.mod-combo-model-001 .mod-separator {
+.mod-head-model-001 .mod-separator {
     background:#000;
     display:inline-block;
     float:left;
