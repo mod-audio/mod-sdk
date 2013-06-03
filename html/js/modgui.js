@@ -8,6 +8,8 @@ function GUI(effect, options) {
 	'dragStop': new Function(),
 	'bypass': new Function(),
 	'address': new Function(),
+	'preset': {},
+	'bypassed': false,
 	'defaultIconTemplate': 'Template missing',
 	'defaultSettingsTemplate': 'Template missing'
     }, options)
@@ -16,7 +18,10 @@ function GUI(effect, options) {
 	effect.gui = {}
 
     self.effect = effect
-    self.bypassed = false
+    self.bypassed = options.bypassed
+
+    // Report the initial bypass state
+    options.bypass(self.bypassed)
 
     this.makePortIndex = function() {
 	var ports = self.effect.ports.control.input
@@ -28,6 +33,8 @@ function GUI(effect, options) {
 		value: null
 	    }
 	    $.extend(port, ports[i])
+	    if (options.preset[port.symbol] != null)
+		port.default = options.preset[port.symbol]
 	    index[port.symbol] = port
 	}
 	return index
@@ -50,6 +57,13 @@ function GUI(effect, options) {
 	options.change(symbol, value)
     }
 
+    this.serializePreset = function() {
+	var data = {}
+	for (var symbol in self.controls)
+	    data[symbol] = self.controls[symbol].value
+	return data
+    }
+
     this.disable = function(symbol) {
 	var port = self.controls[symbol]
 	port.enabled = false
@@ -65,20 +79,26 @@ function GUI(effect, options) {
 
     this.bypassIndicators = []
 
-    this.bypass = function() {
-	self.bypassed = !self.bypassed
+    this.bypass = function(bypassed) {
+	if (bypassed == null)
+	    bypassed = !self.bypassed
+	self.bypassed = bypassed
 	for (var i in this.bypassIndicators) {
 	    var light = this.bypassIndicators[i]
-	    if (self.bypassed) {
-		light.addClass('off')
-		light.removeClass('on')
-	    } else {
-		light.addClass('on')
-		light.removeClass('off')
-	    }
+	    self.setBypassState(light)
 	}
 
 	options.bypass(self.bypassed)
+    }
+
+    this.setBypassState = function(light) {
+	if (self.bypassed) {
+	    light.addClass('off')
+	    light.removeClass('on')
+	} else {
+	    light.addClass('on')
+	    light.removeClass('off')
+	}
     }
     
     this.renderIcon = function(template) {
@@ -158,6 +178,7 @@ function GUI(effect, options) {
 	});
 	element.find('[mod-role=bypass-light]').each(function() {
 	    self.bypassIndicators.push($(this))
+	    self.setBypassState($(this))
 	});
 	element.find('[mod-role=input-control-address]').click(function() {
 	    options.address($(this).attr('mod-port-symbol'))
@@ -172,6 +193,20 @@ function GUI(effect, options) {
 	data.ns = '?bundle=' + options.package + '&url=' + escape(options.url)
 	if (!data.controls)
 	    return data
+	var controlIndex = {}
+	for (i in options.ports.control.input) {
+	    port = options.ports.control.input[i]
+	    controlIndex[port.symbol] = port
+	}
+	for (var i in data.controls) {
+	    control = data.controls[i]
+	    if (typeof control == "string") {
+		control = controlIndex[control]
+	    } else {
+		control = $.extend({}, controlIndex[control.symbol], control)
+	    }
+	    data.controls[i] = control
+	}
 	DEBUG = JSON.stringify(data, undefined, 4)
 	return data
     }
