@@ -22,21 +22,21 @@
 
 /* THE AUTHOR */
 .mod-rack-model-001 .mod-author {
-	color:#fff;
+    color:#fff;
     font-size:14px;
     left:50px;
     position:absolute;
-	top:20px;
+    top:20px;
     z-index:1;
 }
 
 /* PLUGIN'S NAME */
 .mod-rack-model-001 .mod-name {
-	color:#fff;
+    color:#fff;
     font-size:18px;
     left:50px;
     position:absolute;
-	top:40px;
+    top:40px;
     z-index:1;
 }
 
@@ -119,28 +119,27 @@
 /* ENUMERATED LIST */
 .mod-rack-model-001 .mod-enumerated {
     display:inline-block;
-    height:34px;
     overflow:hidden;
     position:absolute;
-	top:-42px;
+    top:-42px;
 }
 
 .mod-rack-model-001 .mod-enumerated.mod-enumerated-1 {
-	left:135px;
-	width:326px;
+    left:135px;
+    width:326px;
 }
 
 .mod-rack-model-001 .mod-enumerated.mod-enumerated-2 {
-	left:476px;
-	width:326px;
+    left:476px;
+    width:326px;
 }
 
 .mod-rack-model-001 .mod-enumerated.mod-enumerated-3 {
-	left:820px;
-	width:98px;
+    left:820px;
+    width:98px;
 }
 
-.mod-rack-model-001 .mod-enumerated > div {
+.mod-rack-model-001 .mod-enumerated .mod-selected {
     background:rgba(0,0,0,.85);
     border-radius:4px;
     color:#fff;
@@ -152,12 +151,51 @@
     padding:0 9px;
 }
 
+/* WHEN IS HOVER */
+.mod-rack-model-001 .mod-enumerated:hover .mod-selected {
+    border-radius:4px 4px 0 0;
+}
+
+/* THE LIST OF OPTIONS */
+.mod-rack-model-001 .mod-enumerated .mod-list {
+    display:none;
+    font-weight:bold;
+}
+
+.mod-rack-model-001 .mod-enumerated .mod-list > div {
+    padding:3px 9px;
+}
+
+.mod-rack-model-001 .mod-enumerated .mod-list > div:hover {
+    background:rgba(255,255,255,.2);
+    cursor:pointer;
+}
+
+/* WHEN THE LIST IS SHOWING */
+.mod-rack-model-001 .mod-enumerated:hover .mod-list {
+    background:rgba(0,0,0,.9);
+    display:block;
+    height:85px;
+    overflow:auto;
+    position:relative;
+    z-index:3;
+}
+
+.mod-rack-model-001 .mod-enumerated.mod-enumerated-1:hover .mod-list,
+.mod-rack-model-001 .mod-enumerated.mod-enumerated-2:hover .mod-list {
+    width:318px;
+}
+
+.mod-rack-model-001 .mod-enumerated.mod-enumerated-3:hover .mod-list {
+    width:90px;
+}
+
 /* SEPARATOR */
 .mod-rack-model-001 .mod-separator {
     background:#bbb;
-	border-color:#000;
-	border-style:solid;
-	border-width:0 1px 0 0;
+    border-color:#000;
+    border-style:solid;
+    border-width:0 1px 0 0;
     display:inline-block;
     float:left;
     height:69px;
