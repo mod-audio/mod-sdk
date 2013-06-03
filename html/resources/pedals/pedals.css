@@ -47,7 +47,11 @@
     width:45px;
 }
 
-.pedal .pedal-input .input { width:45px; height: 45px; margin-bottom: 10px }
+.pedal .pedal-input .input {
+    width:45px;
+    height: 45px;
+    margin-bottom: 10px
+}
 
 .pedal .pedal-input-control {
 /*    background:url(../../../img/icn-input-output.png) no-repeat right top;*/
