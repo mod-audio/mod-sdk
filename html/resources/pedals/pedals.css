@@ -98,20 +98,21 @@
 
 /* = OUTPUT
 ================================================ */
-.pedal .output-jack {
+.pedal .output-jack,
+.pedal .output-connected .output-jack:hover {
     background-image:url(../../img/jack-p10.png);
     background-position:right center;
     background-repeat:no-repeat;
     cursor:pointer;
-    height:18px;
+    height: 18px;
     left:2px;
     position:absolute;
-    top:14px;
+    top:12px;
     width:87px;
 }
 
+.pedal .output-jack:hover,
 .pedal .output-jack.jack-connecting {
-    width:129px;
 }
 
 .pedal .pedal-output {
@@ -161,9 +162,10 @@
     right:-16px; top:14px;
 }
 
-.pedal .output-disconnected {}
+.pedal .output-disconnected .output-jack { }
 .pedal .output-connecting {}
-.pedal .output-connected {}
+.pedal .output-connected .output-jack { background:none; }
+
     
 /* = PEDAL SETTINGS - Pop Up Window
 ================================================ */
