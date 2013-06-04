@@ -1,4 +1,6 @@
 /* SLIDER */
+
+
 .pedal .slider:first-child {
     margin-left:8px;
 }
@@ -16,27 +18,26 @@
     width:33px;
 }
 
+
 .pedal .slider .title {
     display:block;
     font-size:11px;
     font-weight:bold;
+    height:7px;
     line-height:1;
-    margin-bottom:11px;
+    margin-bottom:3px;
+    overflow:hidden;
     padding:7px 0 5px;
+    position:relative;
 }
 
 .pedal .slider .image {
     background-image:url(_strip.png);
-    background-position:center center;
     background-repeat:no-repeat;
     background-size:auto 110px;
     height:110px;
-    left:50%;
-    position:absolute;
-    margin-left:-9px;
-    top:25px;
-    width:18px;
-    z-index:2;
+    margin:0 auto;
+    width:44px;
 }
 
 .pedal .slider .image:hover {

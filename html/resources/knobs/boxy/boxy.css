@@ -9,6 +9,11 @@
     z-index:30;
 }
 
+.pedal-boxy .knob-group .knob {
+    overflow:hidden;
+    position:relative;
+}
+
 .pedal-boxy .knob-group .knob > span.title {
     display:block;
     font-size:11px;
@@ -109,23 +114,6 @@
     width:70px;
 }
 
-/* THREE KNOBS */
-.pedal-boxy.three-knobs .author {
-    top:150px;
-}
-
-.pedal-boxy.three-knobs .name {
-    top:345px;
-}
-
-.pedal-boxy.three-knobs .light { 
-    top:230px;
-}
-
-.pedal-boxy.three-knobs .footswitch { 
-    top:275px;
-}
-
 /* FIVE KNOBS */
 .pedal-boxy.five-knobs .author {
     top:190px;
@@ -174,11 +162,15 @@
 }
 
 .pedal-boxy.seven-knobs .footswitch { 
-    top:240px;
+    top:284px;
 }
 
 
 /* EIGTH KNOBS */
+.pedal-boxy.eight-knobs .knob {
+    width:70px;
+}
+
 .pedal-boxy.eight-knobs .author {
     top:190px;
 }
@@ -192,5 +184,5 @@
 }
 
 .pedal-boxy.eight-knobs .footswitch { 
-    top:240px;
+    top:284px;
 }
