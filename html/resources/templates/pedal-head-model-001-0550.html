@@ -1,4 +1,4 @@
-<div class="mod-combo-model-001 mod-combo-model-001-0550">
+<div class="mod-head-model-001 mod-head-model-001-0550">
     <!-- HANDLE -->
     <div mod-role="drag-handle" class="mod-drag-handle"></div>
     <!-- END HANDLE -->
@@ -13,6 +13,29 @@
 
     <!-- MOD-CONTROLS -->
     <div class="mod-controls clearfix">
+        <div class="mod-enumerated clearfix">
+            <div class="mod-selected">pre 12AU7/ push-pull 6V6</div>
+            <div class="mod-list">
+                <div>pre 12AU7/ push-pull 6V6</div>
+                <div>6V6</div>
+                <div>12AU7</div>
+                <div>pre 12AU7/ master 6V6</div>
+                <div>pre 12ax7/ master 6V6</div>
+                <div>pre 6DJ8/ push-pull 6V6</div>
+                <div>pre 12ax7/ push-pull 6V6</div>
+                <div>pre 12AU7/ push-pull 6V6</div>
+                <div>12ax7 feedback</div>
+                <div>6DJ8</div>
+                <div>12AU7 feedback</div>
+                <div>pre 6DJ8/ master 6V6</div>
+                <div>6DJ8 feedback</div>
+                <div>12AT7</div>
+                <div>pre 12AT7/ master 6V6</div>
+                <div>pre 12AT7/ push pull 6V6</div>
+                <div>12AT7 feedback</div>
+                <div>6C16</div>
+            </div>
+        </div>
         
         <div class="mod-switch" mod-role="bypass">
             <div class="mod-switch-image" mod-role="bypass-light"></div>
@@ -20,33 +43,12 @@
         
         <div class="mod-separator"></div>
 
-        {{#controls.0}}
-        <div class="mod-knob-chicken-combo">
+        {{#controls}}
+        <div class="mod-knob-chicken-head">
             <div class="image" mod-role="input-control-port" mod-port-symbol="{{symbol}}"></div>
             <span class="title">{{name}}</span>
         </div>
-        {{/controls.0}}
-
-        {{#controls.1}}
-        <div class="mod-knob-chicken-combo">
-            <div class="image" mod-role="input-control-port" mod-port-symbol="{{symbol}}"></div>
-            <span class="title">{{name}}</span>
-        </div>
-        {{/controls.1}}
-
-        {{#controls.2}}
-        <div class="mod-knob-chicken-combo">
-            <div class="image" mod-role="input-control-port" mod-port-symbol="{{symbol}}"></div>
-            <span class="title">{{name}}</span>
-        </div>
-        {{/controls.2}}
-
-        {{#controls.3}}
-        <div class="mod-knob-chicken-combo">
-            <div class="image" mod-role="input-control-port" mod-port-symbol="{{symbol}}"></div>
-            <span class="title">{{name}}</span>
-        </div>
-        {{/controls.3}}
+        {{/controls}}
 
     </div>
     <!-- END MOD-CONTROLS -->

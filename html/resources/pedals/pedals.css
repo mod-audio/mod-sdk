@@ -47,7 +47,11 @@
     width:45px;
 }
 
-.pedal .pedal-input .input { width:45px; height: 45px; margin-bottom: 10px }
+.pedal .pedal-input .input {
+    width:45px;
+    height: 45px;
+    margin-bottom: 10px
+}
 
 .pedal .pedal-input-control {
 /*    background:url(../../../img/icn-input-output.png) no-repeat right top;*/
@@ -251,13 +255,13 @@
     background-image:url(../knobs/japanese/white.png);
     background-position:left center;
     background-repeat:no-repeat;
-    background-size:auto 80px;
-    height:66px;
-    left:32px;
+    background-size:auto 63px;
+    height:63px;
+    left:39px;
     position:absolute;
     overflow:hidden;
     top:27px;
-    width:80px;
+    width:63px;
 }
 
 /* ENUMERATED */
