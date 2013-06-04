@@ -118,6 +118,7 @@ function loadBundles() {
 		 bundles.show()
 		 bundles.find('option').remove()
 		 $('<option>').val('').html('-- Select Bundle --').appendTo(bundles)
+		 data.sort()
 		 for (var i in data) {
 		     $('<option>').val(data[i]).html(data[i]).appendTo(bundles)
 		 }
