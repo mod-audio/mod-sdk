@@ -2,7 +2,7 @@
 
 /* = KNOBS
 ================================================ */
-.pedal-lata .knob-group {
+.mod-pedal-lata .mod-control-group {
     height:141px;
     left:0;
     position:absolute;
@@ -11,14 +11,15 @@
     top:36px;
 }
 
-.pedal-lata .knob-group .knob {
+.mod-pedal-lata .mod-control-group .mod-knob {
     display:inline-block;
     height:100px;
+    position:relative;
     text-align:center;
     width:79px;
 }
 
-.pedal-lata .knob-group .knob .image { 
+.mod-pedal-lata .mod-control-group .mod-knob .mod-knob-image { 
     background-image:url(lata.png);
     background-position:left center;
     background-repeat:no-repeat;
@@ -29,74 +30,79 @@
     width:79px;
 }
 
-.pedal-lata.blue .knob-group .knob > span.title { 
+.mod-pedal-lata.mod-blue .mod-control-group .mod-knob > span.mod-knob-title { 
     color:black;
 }
 
-.pedal-lata.brown .knob-group .knob > span.title {
+.mod-pedal-lata.mod-brown .mod-control-group .mod-knob > span.mod-knob-title {
     color:white;
 }
 
-.pedal-lata.cream .knob-group .knob > span.title {
+.mod-pedal-lata.mod-cream .mod-control-group .mod-knob > span.mod-knob-title {
     color:black;
 }
 
-.pedal-lata.darkblue .knob-group .knob > span.title {
+.mod-pedal-lata.mod-darkblue .mod-control-group .mod-knob > span.mod-knob-title {
     color:white;
 }
 
-.pedal-lata.gray .knob-group .knob > span.title {
+.mod-pedal-lata.mod-gray .mod-control-group .mod-knob > span.mod-knob-title {
     color:black;
 }
 
-.pedal-lata.green .knob-group .knob > span.title {
+.mod-pedal-lata.mod-green .mod-control-group .mod-knob > span.mod-knob-title {
     color:white;
 }
 
-.pedal-lata.orange .knob-group .knob > span.title {
+.mod-pedal-lata.mod-orange .mod-control-group .mod-knob > span.mod-knob-title {
     color:black;
 }
 
-.pedal-lata.purple .knob-group .knob > span.title {
+.mod-pedal-lata.mod-purple .mod-control-group .mod-knob > span.mod-knob-title {
     color:white;
 }
 
-.pedal-lata.red .knob-group .knob > span.title {
+.mod-pedal-lata.mod-red .mod-control-group .mod-knob > span.mod-knob-title {
     color:black;
 }
 
-.pedal-lata.white .knob-group .knob > span.title {
+.mod-pedal-lata.mod-white .mod-control-group .mod-knob > span.mod-knob-title {
     color:black;
 }
 
-.pedal-lata.yellow .knob-group .knob > span.title {
+.mod-pedal-lata.mod-yellow .mod-control-group .mod-knob > span.mod-knob-title {
     color:black;
 }
 
-.pedal-lata .knob-group .knob > span.title {
+.mod-pedal-lata .mod-control-group .mod-knob > span.mod-knob-title {
+    bottom:6px;
     display:block;
     font-size:11px;
     font-weight:bold;
-    height:12px;
+    height:11px;
+    left:0;
     line-height:1;
     margin:0;
+    overflow:hidden;
     padding:0;
+    position:absolute;
+    right:0;
     text-transform:uppercase;
 }
 
-.pedal-lata .knob-group {
+.mod-pedal-lata .mod-control-group {
     margin:20px;
     position:relative;
     text-align:center;
     z-index:30;
 }
 
-.pedal-lata.seven-knobs .knob-group,
-.pedal-lata.eight-knobs .knob-group {
+.mod-pedal-lata.mod-seven-knobs .mod-control-group,
+.mod-pedal-lata.mod-eight-knobs .mod-control-group {
     margin:0 6px;
 }
 
-.pedal-lata.seven-knobs .knob-group .knob,
-.pedal-lata.eight-knobs .knob-group .knob {
+.mod-pedal-lata.mod-seven-knobs .mod-control-group .mod-knob,
+.mod-pedal-lata.mod-eight-knobs .mod-control-group .mod-knob {
     display:inline-block;
 }

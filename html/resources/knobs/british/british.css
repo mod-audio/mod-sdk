@@ -2,16 +2,18 @@
 
 /* = KNOBS
 ================================================ */
-.pedal-british .knob-group {
+.mod-pedal-british .mod-control-group {
     height:141px;
     left:0;
+    margin:0;
     position:absolute;
     right:0;
     text-align:center;
     top:36px;
+    z-index:30;
 }
 
-.pedal-british .knob-group .knob {
+.mod-pedal-british .mod-control-group .mod-knob {
     display:inline-block;
     height:100px;
     overflow:hidden;
@@ -20,7 +22,7 @@
     width:64px;
 }
 
-.pedal-british .knob-group .knob .image { 
+.mod-pedal-british .mod-control-group .mod-knob .mod-knob-image { 
     background-image:url(british.png);
     background-position:left center;
     background-repeat:no-repeat;
@@ -32,7 +34,7 @@
     width:64px;
 }
 
-.pedal-british .knob-group .knob > span.title {
+.mod-pedal-british .mod-control-group .mod-knob > span.mod-knob-title {
     display:block;
     font-size:11px;
     font-weight:bold;
@@ -43,19 +45,12 @@
     text-transform:uppercase;
 }
 
-.pedal-british .knob-group {
-    margin:0;
-    position:relative;
-    text-align:center;
-    z-index:30;
-}
-
-.pedal-british.seven-knobs .knob-group,
-.pedal-british.eight-knobs .knob-group {
+.mod-pedal-british.mod-seven-knobs .mod-control-group,
+.mod-pedal-british.mod-eight-knobs .mod-control-group {
     margin:0 6px;
 }
 
-.pedal-british.seven-knobs .knob-group .knob,
-.pedal-british.eight-knobs .knob-group .knob {
+.mod-pedal-british.mod-seven-knobs .mod-control-group .mod-knob,
+.mod-pedal-british.mod-eight-knobs .mod-control-group .mod-knob {
     display:inline-block;
 }

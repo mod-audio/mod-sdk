@@ -1,234 +1,238 @@
 /* SKINS */
 .mod-head-model-001-0550 {
-    background-image:url(model-0550.png);
-    background-position:center center;
-    background-repeat:no-repeat;
-    font-family:Helvetica,Arial,Sans-serif;
-    height:259px;
-    position:relative;
-    width:550px;
+    background-image: url(model-0550.png);
+    background-position: center center;
+    background-repeat: no-repeat;
+    font-family: Helvetica,Arial,Sans-serif;
+    height: 259px;
+    position: relative;
+    width: 550px;
 }
 
 .mod-head-model-001-0700 {
-    background-image:url(model-0700.png);
-    background-position:center center;
-    background-repeat:no-repeat;
-    font-family:Helvetica,Arial,Sans-serif;
-    height:260px;
-    position:relative;
-    width:700px;
+    background-image: url(model-0700.png);
+    background-position: center center;
+    background-repeat: no-repeat;
+    font-family: Helvetica,Arial,Sans-serif;
+    height: 260px;
+    position: relative;
+    width: 700px;
 }
 
 .mod-head-model-001-0800 {
-    background-image:url(model-0800.png);
-    background-position:center center;
-    background-repeat:no-repeat;
-    font-family:Helvetica,Arial,Sans-serif;
-    height:260px;
-    position:relative;
-    width:800px;
+    background-image: url(model-0800.png);
+    background-position: center center;
+    background-repeat: no-repeat;
+    font-family: Helvetica,Arial,Sans-serif;
+    height: 260px;
+    position: relative;
+    width: 800px;
 }
 
 .mod-head-model-001-0950 {
-    background-image:url(model-0950.png);
-    background-position:center center;
-    background-repeat:no-repeat;
-    font-family:Helvetica,Arial,Sans-serif;
-    height:260px;
-    position:relative;
-    width:950px;
+    background-image: url(model-0950.png);
+    background-position: center center;
+    background-repeat: no-repeat;
+    font-family: Helvetica,Arial,Sans-serif;
+    height: 260px;
+    position: relative;
+    width: 950px;
 }
 
 
 /* HANDLE */
 .mod-head-model-001 .mod-drag-handle {
-    bottom:0;
-    cursor:pointer;
-    left:0;
-    position:absolute;
-    right:0;
-    top:0;
-    z-index:2;
+    bottom: 0;
+    cursor: pointer;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 2;
 }
 
 /* THE AUTHOR */
-.mod-head-model-001 .mod-author {
-    bottom:90px;
-	color:#fff;
-    font-size:18px;
-    left:45px;
-    position:absolute;
-    z-index:1;
+.mod-head-model-001 .mod-plugin-author h1 {
+    bottom: 90px;
+    color: #fff;
+    font-size: 14px;
+    left: 45px;
+    line-height: 1;
+    margin: 0;
+    position: absolute;
+    z-index: 1;
 }
 
 /* PLUGIN'S NAME */
-.mod-head-model-001 .mod-name {
-    bottom:60px;
-	color:#fff;
-    font-size:36px;
-    left:45px;
-    position:absolute;
-    z-index:1;
+.mod-head-model-001 .mod-plugin-name h1 {
+    bottom: 60px;
+    color: #fff;
+    font-size: 18px;
+    left: 45px;
+    line-height: 1;
+    margin: 0;
+    position: absolute;
+    z-index: 1;
 }
 
 /* CONTROLS */
-.mod-head-model-001 .mod-controls {
-    bottom:149px;
-    color:#000;
-    font-size:10px;
-    height:73px;
-    left:34px;
-    position:absolute;
-    right:34px;
-    top:37px;
-    z-index:3;
+.mod-head-model-001 .mod-control-group {
+    bottom: 149px;
+    color: #000;
+    font-size: 10px;
+    height: 73px;
+    left: 34px;
+    position: absolute;
+    right: 34px;
+    top: 37px;
+    z-index: 3;
 }
 
-.mod-head-model-001 .mod-controls > div {
-    margin-right:2px;
+.mod-head-model-001 .mod-control-group > div {
+    margin-right: 2px;
 }
 
 /* SWITCH ON/OFF GENERAL */
 .mod-head-model-001 .mod-switch {
-    cursor:pointer;
-    float:left;
-    height:73px;
-    position:relative;
-    width:90px;
+    cursor: pointer;
+    float: left;
+    height: 73px;
+    position: relative;
+    width: 90px;
 }
 
 .mod-head-model-001 .mod-switch-image {
-    background-image:url(/resources/switches/switch-001.png);
-    background-position:-9px 0px;
-    background-repeat:no-repeat;
-    background-size:auto 73px;
-    height:73px;
-    width:73px;
+    background-image: url(/resources/switches/switch-001.png);
+    background-position: -9px 0px;
+    background-repeat: no-repeat;
+    background-size: auto 73px;
+    height: 73px;
+    width: 73px;
 }
 
 .mod-head-model-001 .mod-switch-image.on {
-    background-position:-82px 0px;
+    background-position: -82px 0px;
 }
 
 .mod-head-model-001 .mod-switch-image.off {
-    background-position:-9px 0px;
+    background-position: -9px 0px;
 }
 
 /* SWITCH ON/OFF - 0550 */
 .mod-head-model-001-0550 .mod-switch {
-    width:145px;
+    width: 145px;
 }
 
 /* SWITCH ON/OFF - 0700 */
 .mod-head-model-001-0700 .mod-switch {
-    width:160px;
+    width: 160px;
 }
 
 /* SWITCH ON/OFF - 0800 */
 .mod-head-model-001-0800 .mod-switch {
-    width:150px;
+    width: 150px;
 }
 
 /* SWITCH ON/OFF - 0950 */
 .mod-head-model-001-0950 .mod-switch {
-    width:130px;
+    width: 130px;
 }
 
 
 /* CHICKEN HEAD */
-.mod-head-model-001 .mod-knob-chicken-head {
-    float:left;
-    height:73px;
-    overflow:hidden;
-    position:relative;
-    text-align:center;
-    width:80px;
+.mod-head-model-001 .mod-chicken-head {
+    float: left;
+    height: 73px;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    width: 80px;
 }
 
-.mod-head-model-001 .mod-knob-chicken-head .image {
-    background-image:url(/resources/knobs/chicken-head/_strip.png);
-    background-position:left 0px;
-    background-repeat:no-repeat;
-    background-size:auto 80px;
-    height:73px;
-    margin-top:3px;
-    position:relative;
-    width:80px;
-    z-index:2;
+.mod-head-model-001 .mod-chicken-head .mod-chicken-head-image {
+    background-image: url(/resources/knobs/chicken-head/_strip.png);
+    background-position: left 0px;
+    background-repeat: no-repeat;
+    background-size: auto 80px;
+    height: 73px;
+    margin-top: 3px;
+    position: relative;
+    width: 80px;
+    z-index: 2;
 }
 
-.mod-head-model-001 .mod-knob-chicken-head .title {
-    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
-    font-size:10px;
-    font-weight:bold;
-    left:0;
-    position:absolute;
-    right:0;
-    text-transform:uppercase;
-    top:0;
-    z-index:1;
+.mod-head-model-001 .mod-chicken-head .mod-chicken-head-title {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 10px;
+    font-weight: bold;
+    left: 0;
+    position: absolute;
+    right: 0;
+    text-transform: uppercase;
+    top: 0;
+    z-index: 1;
 }
 
 /* ENUMERATED LIST */
 .mod-head-model-001 .mod-enumerated {
-    color:#fff;
-    display:inline-block;
-    margin-top:40px;
-    overflow:hidden;
-    position:absolute;
-    right:3px;
-    top:80px;
-    width:250px;
+    color: #fff;
+    display: inline-block;
+    margin-top: 40px;
+    overflow: hidden;
+    position: absolute;
+    right: 3px;
+    top: 80px;
+    width: 250px;
 }
 
-.mod-head-model-001 .mod-enumerated .mod-selected {
-    background:rgba(0,0,0,.85);
-    border-radius:4px;
-    font-size:14px;
-    height:34px;
-    line-height:2.5;
-    margin-right:8px;
-    overflow:hidden;
-    padding:0 9px;
+.mod-head-model-001 .mod-enumerated .mod-enumerated-selected {
+    background: rgba(0,0,0,.85);
+    border-radius: 4px;
+    font-size: 14px;
+    height: 34px;
+    line-height: 2.5;
+    margin-right: 8px;
+    overflow: hidden;
+    padding: 0 9px;
 }
 
 /* WHEN IS HOVER */
-.mod-head-model-001 .mod-enumerated:hover .mod-selected {
-    border-radius:4px 4px 0 0;
+.mod-head-model-001 .mod-enumerated:hover .mod-enumerated-selected {
+    border-radius: 4px 4px 0 0;
 }
 
 /* THE LIST OF OPTIONS */
-.mod-head-model-001 .mod-enumerated .mod-list {
-    display:none;
-    font-weight:bold;
-    width:242px;
+.mod-head-model-001 .mod-enumerated .mod-enumerated-list {
+    display: none;
+    font-weight: bold;
+    width: 242px;
 }
 
-.mod-head-model-001 .mod-enumerated .mod-list > div {
-    padding:3px 9px;
+.mod-head-model-001 .mod-enumerated .mod-enumerated-list > div {
+    padding: 3px 9px;
 }
 
-.mod-head-model-001 .mod-enumerated .mod-list > div:hover {
-    background:rgba(255,255,255,.2);
-    cursor:pointer;
+.mod-head-model-001 .mod-enumerated .mod-enumerated-list > div:hover {
+    background: rgba(255,255,255,.2);
+    cursor: pointer;
 }
 
 /* WHEN THE LIST IS SHOWING */
-.mod-head-model-001 .mod-enumerated:hover .mod-list {
-    background:rgba(0,0,0,.9);
-    display:block;
-    height:69px;
-    overflow:auto;
-    position:relative;
-    z-index:3;
+.mod-head-model-001 .mod-enumerated:hover .mod-enumerated-list {
+    background: rgba(0,0,0,.9);
+    display: block;
+    height: 69px;
+    overflow: auto;
+    position: relative;
+    z-index: 3;
 }
 
 /* SEPARATOR */
 .mod-head-model-001 .mod-separator {
-    background:#000;
-    display:inline-block;
-    float:left;
-    height:69px;
-    margin-top:2px;
-    width:1px;
+    background: #000;
+    display: inline-block;
+    float: left;
+    height: 69px;
+    margin-top: 2px;
+    width: 1px;
 }

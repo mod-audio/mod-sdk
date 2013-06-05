@@ -1,11 +1,9 @@
 /* SLIDER */
-
-
-.pedal .slider:first-child {
+.mod-pedal .mod-slider:first-child {
     margin-left:8px;
 }
 
-.pedal .slider {
+.mod-pedal .mod-slider {
     color:black;
     float:left;
     font-size:11px;
@@ -19,7 +17,7 @@
 }
 
 
-.pedal .slider .title {
+.mod-pedal .mod-slider .mod-slider-title {
     display:block;
     font-size:11px;
     font-weight:bold;
@@ -31,7 +29,7 @@
     position:relative;
 }
 
-.pedal .slider .image {
+.mod-pedal .mod-slider .mod-slider-image {
     background-image:url(_strip.png);
     background-repeat:no-repeat;
     background-size:auto 110px;
@@ -40,51 +38,51 @@
     width:44px;
 }
 
-.pedal .slider .image:hover {
+.mod-pedal .mod-slider .mod-slider-image:hover {
     cursor:pointer;
 }
 
-.pedal.three-sliders .slider {
+.mod-pedal.mod-three-sliders .mod-slider {
     margin:0;
     width:33%;
 }
 
-.pedal.four-sliders .slider {
+.mod-pedal.mod-four-sliders .mod-slider {
     margin:0;
     width:25%;
 }
 
-.pedal.five-sliders .slider {
+.mod-pedal.mod-five-sliders .mod-slider {
     margin:0;
     width:20%;
 }
 
-.pedal.six-sliders .slider {
+.mod-pedal.mod-six-sliders .mod-slider {
     margin:0;
     width:16.5%;
 }
 
-.pedal.seven-sliders .slider {
+.mod-pedal.mod-seven-sliders .mod-slider {
     margin:0;
     width:14.2%;
 }
 
-.pedal.eight-sliders .slider {
+.mod-pedal.mod-eight-sliders .mod-slider {
     margin:0;
     width:12.5%;
 }
 
-.pedal.nine-sliders .slider {
+.mod-pedal.mod-nine-sliders .mod-slider {
     margin:0;
     width:11.11%;
 }
 
 /* JAPANESE */
-.pedal-japanese.sliders .knob-group {
+.mod-pedal-japanese.mod-sliders .mod-control-group {
     top:18px;
 }
 
-.pedal-japanese.sliders .slider {
+.mod-pedal-japanese.mod-sliders .mod-slider {
     color:white;
     top:0;
 }

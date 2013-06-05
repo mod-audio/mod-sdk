@@ -1,6 +1,6 @@
 /* GENERAL PEDAL STYLE */
 
-.pedal { 
+.mod-pedal { 
     display: inline-block;
     padding:1px 15px 1px 15px;
     z-index:100;
@@ -8,8 +8,8 @@
 
 /* = ACTIONS - Icons above: settings, remove, etc
 ================================================ */
-.pedal .actions { position:relative; }
-.pedal .actions .settings {
+.mod-pedal .mod-actions { position:relative; }
+.mod-pedal .mod-actions .mod-settings {
     background:url(../../img/icn-settings-16x16.png) no-repeat bottom center;
     cursor:pointer;
     height:16px;
@@ -18,8 +18,8 @@
     top:-20px;
     width:16px;
 }
-.pedal .actions .settings:hover { background-position:top center; }
-.pedal .actions .remove {
+.mod-pedal .mod-actions .mod-settings:hover { background-position:top center; }
+.mod-pedal .mod-actions .mod-remove {
     background:url(../../img/icn-remove-16x16.png) no-repeat bottom center;
     cursor:pointer;
     height:16px;
@@ -28,18 +28,18 @@
     top:-20px;
     width:16px;
 }
-.pedal .actions .remove:hover { background-position:top center; }
+.mod-pedal .mod-actions .mod-remove:hover { background-position:top center; }
 
 
 /* = LIGHT ON/OFF
 ================================================ */
-.pedal .light.off { background-image:url(red-light-off.png); }
-.pedal .light.on  { background-image:url(red-light-on.png); }
+.mod-pedal .mod-light.off { background-image:url(red-light-off.png); }
+.mod-pedal .mod-light.on  { background-image:url(red-light-on.png); }
 
 
 /* = INPUT
 ================================================ */
-.pedal .pedal-input {
+.mod-pedal .mod-pedal-input {
     height:170px;
     left:-28px;
     position:absolute;
@@ -47,14 +47,13 @@
     width:45px;
 }
 
-.pedal .pedal-input .input {
+.mod-pedal .mod-pedal-input .mod-input {
     width:45px;
     height: 45px;
     margin-bottom: 10px
 }
 
-.pedal .pedal-input-control {
-/*    background:url(../../../img/icn-input-output.png) no-repeat right top;*/
+.mod-pedal .mod-pedal-input-control {
     height:28px;
     left:15px;
     position:absolute;
@@ -63,7 +62,7 @@
     z-index:1;
 }
 
-.pedal .pedal-input-image {
+.mod-pedal .mod-pedal-input-image {
     background:url(input.png) no-repeat right top;
     background-size:auto 45px;
     height:56px;
@@ -73,11 +72,11 @@
     z-index:2;
 }
 
-.pedal .pedal-input .input .jack-connected {
+.mod-pedal .mod-pedal-input .mod-input .mod-jack-connected {
     left:-16px; top:14px;
 }
 
-.pedal .pedal-input .input-connected .pedal-input-image {
+.mod-pedal .mod-pedal-input .mod-input-connected .mod-pedal-input-image {
     background-image:url(../../../img/input-connected.png);
     background-position:right top;
     background-repeat:no-repeat;
@@ -85,21 +84,21 @@
     width:56px;
 }
 
-.pedal .pedal-input .input-connected .output-jack {
+.mod-pedal .mod-pedal-input .mod-input-connected .mod-output-jack {
     background:none;
     position:relative;
     z-index:100;
 }
 
-.pedal .input-disconnected {}
-.pedal .input-connecting {}
-.pedal .input-connected {}
+.mod-pedal .mod-input-disconnected {}
+.mod-pedal .mod-input-connecting {}
+.mod-pedal .mod-input-connected {}
 
 
 /* = OUTPUT
 ================================================ */
-.pedal .output-jack,
-.pedal .output-connected .output-jack:hover {
+.mod-pedal .mod-output-jack,
+.mod-pedal .mod-output-connected .mod-output-jack:hover {
     background-image:url(../../img/jack-p10.png);
     background-position:right center;
     background-repeat:no-repeat;
@@ -111,11 +110,10 @@
     width:87px;
 }
 
-.pedal .output-jack:hover,
-.pedal .output-jack.jack-connecting {
-}
+.mod-pedal .mod-output-jack:hover,
+.mod-pedal .mod-output-jack.mod-jack-connecting {}
 
-.pedal .pedal-output {
+.mod-pedal .mod-pedal-output {
     height:170px;
     position:absolute;
     right:-27px;
@@ -123,7 +121,7 @@
     width:45px;
 }
 
-.pedal .pedal-output .output { 
+.mod-pedal .mod-pedal-output .mod-output { 
     cursor: pointer; 
     height: 45px;
     margin-bottom: 10px;
@@ -131,8 +129,7 @@
     width: 45px;
 }
 
-.pedal .pedal-output-control {
-/*    background-image:url(../../../img/icn-input-output.png);*/
+.mod-pedal .mod-pedal-output-control {
     background-position:left top;
     background-repeat:no-repeat;
     height:28px;
@@ -141,15 +138,14 @@
     top:8px;
     width:28px;
 }
-.pedal .pedal-output-control:hover {
-/*    background-image:url(../../../img/jack-p10.png);*/
+.mod-pedal .mod-pedal-output-control:hover {
     height:18px;
     left:3px;
     top:14px;
     width:87px;
 }
 
-.pedal .pedal-output-image {
+.mod-pedal .mod-pedal-output-image {
     background:url(output.png) no-repeat 0 top;
     background-size:auto 45px;
     height:56px;
@@ -158,18 +154,18 @@
     z-index:2;
 }
 
-.pedal .pedal-output .output .jack-connected {
+.mod-pedal .mod-pedal-output .mod-output .mod-jack-connected {
     right:-16px; top:14px;
 }
 
-.pedal .output-disconnected .output-jack { }
-.pedal .output-connecting {}
-.pedal .output-connected .output-jack { background:none; }
+.mod-pedal .mod-output-disconnected .mod-output-jack { }
+.mod-pedal .mod-output-connecting {}
+.mod-pedal .mod-output-connected .mod-output-jack { background:none; }
 
     
 /* = PEDAL SETTINGS - Pop Up Window
 ================================================ */
-.pedal-settings {
+.mod-pedal-settings {
     background:#000;
     border-radius:9px;
     color:#fff;
@@ -183,14 +179,14 @@
     z-index:10;
 }
 
-.pedal-settings h1 {
+.mod-pedal-settings h1 {
     font-size:18px;
     font-weight:bold;
     margin:0;
     padding:10px 10px 18px;
 }
 
-.pedal-settings .actions {
+.mod-pedal-settings .mod-actions {
     border-color:#2b2b2b;
     border-style:dotted;
     border-width:1px 0 0 0;
@@ -199,13 +195,13 @@
     text-align:right;
 }
 
-.pedal-settings .control-group {
+.mod-pedal-settings .mod-control-group {
     margin:0;
     padding:0 18px;
 }
 
 /* KNOB */
-.pedal-settings .knob {
+.mod-pedal-settings .mod-knob {
     background:rgba(255,255,255,.15);
     float:left;
     height:140px;
@@ -216,7 +212,7 @@
     width:140px;
 }
 
-.pedal-settings .knob > span.current-value {
+.mod-pedal-settings .mod-knob > span.mod-knob-current-value {
     bottom:20px;
     font-size:12px;
     font-weight:bold;
@@ -225,7 +221,7 @@
     text-align:center;
     right:0;
 }
-.pedal-settings .knob > span.max-value {
+.mod-pedal-settings .mod-knob > span.mod-knob-max-value {
     font-size:11px;
     font-weight:bold;
     left:100px;
@@ -233,7 +229,7 @@
     text-align:left;
     top:72px;
 }
-.pedal-settings .knob > span.min-value {
+.mod-pedal-settings .mod-knob > span.mod-knob-min-value {
     font-size:11px;
     font-weight:bold;
     position:absolute;
@@ -241,7 +237,7 @@
     right:100px;
     top:72px;
 }
-.pedal-settings .knob > span.title {
+.mod-pedal-settings .mod-knob > span.mod-knob-title {
     color:white;
     display:block;
     font-size:11px;
@@ -253,7 +249,7 @@
     text-transform:uppercase;
 }
 
-.pedal-settings .knob .image {
+.mod-pedal-settings .mod-knob .mod-knob-image {
     background-image:url(../knobs/japanese/white.png);
     background-position:left center;
     background-repeat:no-repeat;
@@ -267,7 +263,7 @@
 }
 
 /* ENUMERATED */
-.pedal-settings .enumerated {
+.mod-pedal-settings .mod-enumerated {
     background:rgba(255,255,255,.15);
     color:white;
     float:left;
@@ -280,7 +276,7 @@
     width:282px;
 }
 
-.pedal-settings .enumerated .title {
+.mod-pedal-settings .mod-enumerated .mod-title {
     border-color:rgba(255,255,255,.2);
     border-style:dotted;
     border-width:0 0 1px 0;
@@ -292,13 +288,13 @@
     text-transform:uppercase;
 }
 
-.pedal-settings .enumerated ul {
+.mod-pedal-settings .mod-enumerated ul {
     list-style:none;
     margin:0;
     padding:0;
 }
 
-.pedal-settings .enumerated ul li {
+.mod-pedal-settings .mod-enumerated ul li {
     border-color:rgba(255,255,255,.2);
     border-style:dotted;
     border-width:0 0 1px 0;
@@ -308,17 +304,17 @@
     padding:2px 0 2px 10px;
 }
 
-.pedal-settings .enumerated ul li.selected,
-.pedal-settings .enumerated ul li.selected:hover {
+.mod-pedal-settings .mod-enumerated ul li.mod-selected,
+.mod-pedal-settings .mod-enumerated ul li.mod-selected:hover {
     background:#0088cc;
 }
 
-.pedal-settings .enumerated ul li:hover {
+.mod-pedal-settings .mod-enumerated ul li:hover {
     background:rgba(255,255,255,.2);
 }
 
 /* SLIDER */
-.pedal-settings .slider {
+.mod-pedal-settings .mod-slider {
     background:rgba(255,255,255,.15);
     color:white;
     float:left;
@@ -332,7 +328,7 @@
     width:70px;
 }
 
-.pedal-settings .slider .title {
+.mod-pedal-settings .mod-slider .mod-slider-title {
     border-color:rgba(255,255,255,.2);
     border-style:dotted;
     border-width:0 0 1px 0;
@@ -345,7 +341,7 @@
     text-transform:uppercase;
 }
 
-.pedal-settings .slider .image {
+.mod-pedal-settings .mod-slider .mod-slider-image {
     background-image:url(../knobs/slider/slider.png);
     background-position:center center;
     background-repeat:no-repeat;
@@ -359,11 +355,11 @@
     z-index:2;
 }
 
-.pedal-settings .slider .image:hover {
+.mod-pedal-settings .mod-slider .mod-slider-image:hover {
     cursor:pointer;
 }
 
-.pedal-settings .slider .track {
+.mod-pedal-settings .mod-slider .mod-slider-track {
     background-color:black;
     border-radius:12px;
     height:106px;
@@ -376,8 +372,8 @@
 }
 
 /* ADDRESSING BUTTON */
-.pedal-settings .knob .address,
-.pedal-settings .enumerated .address {
+.mod-pedal-settings .mod-knob .mod-address,
+.mod-pedal-settings .mod-enumerated .mod-address {
     background-color:rgba(255,255,255,.1);
     background-image:url(../../img/icn-addressing.png);
     background-position:center center;
@@ -389,21 +385,21 @@
     width:24px;
 }
 
-.pedal-settings .knob .address:hover,
-.pedal-settings .enumerated .address:hover {
+.mod-pedal-settings .mod-knob .mod-address:hover,
+.mod-pedal-settings .mod-enumerated .mod-address:hover {
     background-color:#0088cc;
 }
 
-.pedal-settings .knob .address {
+.mod-pedal-settings .mod-knob .mod-address {
     bottom:0;
 }
 
-.pedal-settings .enumerated .address {
+.mod-pedal-settings .mod-enumerated .mod-address {
     top:0;
 }
 
 /* ADDRESSING POP-UP */
-.pedal-settings-address {
+.mod-pedal-settings-address {
     background:rgba(0,0,0,.75);
     bottom:0;
     left:0;
@@ -413,7 +409,7 @@
     z-index:1000;
 }
 
-.pedal-settings-address .box {
+.mod-pedal-settings-address .mod-box {
     background:white;
     border-radius:9px;
     left:50%;
@@ -424,7 +420,7 @@
     width:300px;
 }
 
-.pedal-settings-address h1 {
+.mod-pedal-settings-address h1 {
     font-size:18px;
     line-height:1;
     margin:0 0 18px 0;
@@ -432,29 +428,29 @@
     text-transform:uppercase;
 }
 
-.pedal-settings-address label {
+.mod-pedal-settings-address label {
     display:inline-block;
     float:left;
     line-height:2;
     width:96px;
 }
 
-.pedal-settings-address .controls {
+.mod-pedal-settings-address .mod-controls {
     float:left;
 }
 
-.pedal-settings-address input[type="text"] {
+.mod-pedal-settings-address input[type="text"] {
     width:190px;
 }
 
-.pedal-settings-address .value input[type="number"] {
+.mod-pedal-settings-address .mod-value input[type="number"] {
     width:190px;
 }
 
-.pedal-settings-address .range input[type="number"] {
+.mod-pedal-settings-address .mod-range input[type="number"] {
     width:81px;
 }
 
-.pedal-settings-address select {
+.mod-pedal-settings-address select {
     width:202px;
 }

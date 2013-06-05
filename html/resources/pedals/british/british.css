@@ -4,7 +4,7 @@
 
 /* = CONTAINER
 ================================================ */
-.pedal-british {
+.mod-pedal-british {
     background-position:center center;
     background-repeat:no-repeat;
     height:520px;
@@ -14,13 +14,13 @@
 
 /* = BACKGROUND IMAGES - Colour of the pedal
 ================================================ */
-.pedal-british.metallic {
+.mod-pedal-british.mod-metallic {
     background-image:url(metallic.png);
 }
 
 /* = PLUGIN'S AUTHOR
 ================================================ */
-.pedal-british .author {
+.mod-pedal-british .mod-plugin-author {
     left:30px;
     position:absolute;
     right:30px;
@@ -28,7 +28,7 @@
     top:390px;
 }
 
-.pedal-british .author h1 {
+.mod-pedal-british .mod-plugin-author h1 {
     color:#777471;
     font-family:"EnglandHand";
     font-size:48px;
@@ -37,7 +37,7 @@
 
 /* = PLUGIN'S NAME
 ================================================ */
-.pedal-british .name {
+.mod-pedal-british .mod-plugin-name {
     left:30px;
     overflow:hidden;
     position:absolute;
@@ -46,7 +46,7 @@
     top:230px;
 }
 
-.pedal-british .name h1 {
+.mod-pedal-british .mod-plugin-name h1 {
     font-family:"Questrial";
     font-size:24px;
     line-height:1;
@@ -54,7 +54,7 @@
 
 /* = LIGHT ON/OFF
 ================================================ */
-.pedal-british .light {
+.mod-pedal-british .mod-light {
     height:32px;
     left:140px;
     position:absolute;
@@ -64,7 +64,7 @@
 
 /* = FOOTSWITCH
 ================================================ */
-.pedal-british .footswitch {
+.mod-pedal-british .mod-footswitch {
     bottom:46px;
     cursor:pointer;
     height:155px;
@@ -76,7 +76,7 @@
 
 /* = DRAG HANDLE
 ================================================ */
-.pedal-british .drag-handle {
+.mod-pedal-british .mod-drag-handle {
     cursor:move;
     height:320px;
     left:13px;

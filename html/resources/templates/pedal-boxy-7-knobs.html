@@ -1,66 +1,33 @@
-<div class="pedal pedal-boxy seven-knobs boxy75 {{color}}">
-    <!-- HANDLE -->
-    <div mod-role="drag-handle" class="drag-handle"></div>
-    <!-- END HANDLE -->
-    
-    <!-- PLUGIN'S AUTHOR -->
-    <div class="author">
-        <h1>{{author}}</h1>
-    </div>
-    <!-- END PLUGIN'S AUTHOR -->
-
-    <!-- PLUGIN'S NAME -->
-    <div class="name">
-        <h1>{{label}}</h1>
-    </div>
-    <!-- END PLUGIN'S NAME -->
-
-
-    <!-- LIGHT -->
-    <div class="light on" mod-role="bypass-light"></div>
-    <!-- END LIGHT -->
-
-    <!-- KNOBS -->
-
-    <!-- 1 KNOB -->
-    <div class="knob-group clearfix">
-      {{#controls}}
-        <div class="knob">
-            <div class="image" mod-role="input-control-port" mod-port-symbol="{{symbol}}"></div>
-            <span class="title">{{name}}</span>
+<div class="mod-pedal mod-pedal-boxy mod-seven-knobs mod-boxy75 mod-{{color}}">
+    <div mod-role="drag-handle" class="mod-drag-handle"></div>
+    <div class="mod-plugin-author"><h1>{{author}}</h1></div>
+    <div class="mod-plugin-name"><h1>{{label}}</h1></div>
+    <div class="mod-light on" mod-role="bypass-light"></div>
+    <div class="mod-control-group clearfix">
+        {{#controls}}
+        <div class="mod-knob">
+            <div class="mod-knob-image" mod-role="input-control-port" mod-port-symbol="{{symbol}}"></div>
+            <span class="mod-knob-title">{{name}}</span>
         </div>
-      {{/controls}}
+        {{/controls}}
     </div>
-    <!-- END 1 BIG KNOB -->
-
-    <!-- END KNOBS -->
-    
-    <!-- FOOTSWITCH -->
-   <div class="footswitch" mod-role="bypass"></div>  
-   <!-- END FOOTSWITCH -->
-   
-   <!-- INPUT -->
-   <div class="pedal-input">
-     {{#effect.ports.audio.input}}
-       <div class="input input-disconnected ui-droppable" title="{{name}}" mod-role="input-audio-port" mod-port-symbol="{{symbol}}">
-           <div class="pedal-input-control"></div>
-           <div class="pedal-input-image"></div>
-           <div class="jack-disconnected"></div>
-       </div>
-     {{/effect.ports.audio.input}}
-   </div>
-   <!-- END INPUT -->
-   
-   <!-- OUTPUT -->
-   <div class="pedal-output">
-     {{#effect.ports.audio.output}}
-       <div class="output output-disconnected" title="{{name}}" mod-role="output-audio-port" mod-port-symbol="{{symbol}}">
-           <div class="pedal-output-control"></div>
-           <div class="pedal-output-image"></div>
-           <div class="jack-disconnected"></div>
-       </div>
-     {{/effect.ports.audio.output}}
-   </div>
-   <!-- END OUTPUT -->
-
+    <div class="mod-footswitch" mod-role="bypass"></div>
+    <div class="mod-pedal-input">
+        {{#effect.ports.audio.input}}
+        <div class="mod-input mod-input-disconnected ui-droppable" title="{{name}}" mod-role="input-audio-port" mod-port-symbol="{{symbol}}">
+            <div class="mod-pedal-input-control"></div>
+            <div class="mod-pedal-input-image"></div>
+            <div class="mod-jack-disconnected"></div>
+        </div>
+        {{/effect.ports.audio.input}}
+    </div>
+    <div class="mod-pedal-output">
+        {{#effect.ports.audio.output}}
+        <div class="mod-output mod-output-disconnected" title="{{name}}" mod-role="output-audio-port" mod-port-symbol="{{symbol}}">
+            <div class="mod-pedal-output-control"></div>
+            <div class="mod-pedal-output-image"></div>
+            <div class="mod-jack-disconnected"></div>
+        </div>
+        {{/effect.ports.audio.output}}
+    </div>
 </div>
