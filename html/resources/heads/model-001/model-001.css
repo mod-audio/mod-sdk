@@ -39,18 +39,6 @@
     width: 950px;
 }
 
-
-/* HANDLE */
-.mod-head-model-001 .mod-drag-handle {
-    bottom: 0;
-    cursor: pointer;
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-    z-index: 2;
-}
-
 /* THE AUTHOR */
 .mod-head-model-001 .mod-plugin-author h1 {
     bottom: 90px;
@@ -60,7 +48,6 @@
     line-height: 1;
     margin: 0;
     position: absolute;
-    z-index: 1;
 }
 
 /* PLUGIN'S NAME */
@@ -72,7 +59,6 @@
     line-height: 1;
     margin: 0;
     position: absolute;
-    z-index: 1;
 }
 
 /* CONTROLS */
@@ -85,7 +71,6 @@
     position: absolute;
     right: 34px;
     top: 37px;
-    z-index: 3;
 }
 
 .mod-head-model-001 .mod-control-group > div {

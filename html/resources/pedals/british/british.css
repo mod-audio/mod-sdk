@@ -71,16 +71,4 @@
     left:13px;
     position:absolute;
     right:13px;
-    z-index:3;
-}
-
-/* = DRAG HANDLE
-================================================ */
-.mod-pedal-british .mod-drag-handle {
-    cursor:move;
-    height:320px;
-    left:13px;
-    position:absolute;
-    right:13px;
-    top: 10px;
 }

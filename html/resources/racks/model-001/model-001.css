@@ -9,17 +9,6 @@
     width:1000px;
 }
 
-/* HANDLE */
-.mod-rack-model-001 .mod-drag-handle {
-    bottom:0;
-    cursor:pointer;
-    left:0;
-    position:absolute;
-    right:0;
-    top:0;
-    z-index:2;
-}
-
 /* THE AUTHOR */
 .mod-rack-model-001 .mod-plugin-author h1 {
     color:#fff;
@@ -29,7 +18,6 @@
     margin:0;
     position:absolute;
     top:20px;
-    z-index:1;
 }
 
 /* PLUGIN'S NAME */
@@ -41,7 +29,6 @@
     margin:0;
     position:absolute;
     top:40px;
-    z-index:1;
 }
 
 /* CONTROLS */
@@ -53,7 +40,6 @@
     left:40px;
     position:absolute;
     right:40px;
-    z-index:3;
 }
 
 .mod-rack-model-001 .mod-control-group > div {

@@ -242,7 +242,6 @@
     left:13px;
     position:absolute;
     right:13px;
-    z-index:30;
 }
 
 .mod-pedal-boxy.mod-five-knobs .mod-footswitch,
@@ -476,17 +475,4 @@
 .mod-pedal-boxy.mod-yellow .mod-enumerated {
     background-image:url(../../utils/dropdown-arrow-black.png);
     color:black;
-}
-
-
-/* = DRAG HANDLE
-================================================ */
-.mod-pedal-boxy .mod-drag-handle {
-    bottom:0;
-    cursor:move;
-    left:0;
-    position:absolute;
-    right:0;
-    top:0px;
-    z-index:10;
 }

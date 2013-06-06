@@ -36,17 +36,6 @@
 }
 
 
-/* HANDLE */
-.mod-combo-model-001 .mod-drag-handle {
-    bottom: 0;
-    cursor: pointer;
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-    z-index: 2;
-}
-
 /* THE AUTHOR */
 .mod-combo-model-001 .mod-plugin-author h1 {
     color: #333;
@@ -57,7 +46,6 @@
     margin: 0;
     position: absolute;
     top: 23px;
-    z-index: 1;
 }
 
 /* PLUGIN'S NAME */
@@ -70,7 +58,6 @@
     position: absolute;
     right: 65px;
     top: 23px;
-    z-index: 1;
 }
 
 /* CONTROLS */
@@ -87,7 +74,6 @@
     position: absolute;
     right: 60px;
     top: 47px;
-    z-index: 3;
 }
 
 .mod-combo-model-001 .mod-control-group > div {

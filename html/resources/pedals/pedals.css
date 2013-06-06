@@ -30,6 +30,44 @@
 }
 .mod-pedal .mod-actions .mod-remove:hover { background-position:top center; }
 
+/* = DRAG HANDLE
+================================================ */
+.mod-pedal .mod-drag-handle {
+    bottom:0;
+    cursor:move;
+    left:0;
+    position:absolute;
+    right:0;
+    top:0px;
+    z-index:20;
+}
+
+/* = AUTHOR AND PLUGIN'S NAME
+================================================ */
+.mod-pedal .mod-plugin-author,
+.mod-pedal .mod-plugin-title {
+    z-index:10;
+}
+
+/* = FOOTSWITCH
+================================================ */
+.mod-pedal .mod-footswitch {
+    z-index:20;
+}
+
+/* = CONTROLS
+================================================ */
+.mod-pedal .mod-control-group {
+    z-index:20;
+}
+
+/* = INPUT/OUTPUT
+================================================ */
+.mod-pedal .mod-pedal-input,
+.mod-pedal .mod-pedal-output {
+    z-index:30;
+}
+
 
 /* = LIGHT ON/OFF
 ================================================ */
