@@ -477,3 +477,16 @@
     background-image:url(../../utils/dropdown-arrow-black.png);
     color:black;
 }
+
+
+/* = DRAG HANDLE
+================================================ */
+.mod-pedal-boxy .mod-drag-handle {
+    bottom:0;
+    cursor:move;
+    left:0;
+    position:absolute;
+    right:0;
+    top:0px;
+    z-index:10;
+}
