@@ -10,7 +10,7 @@
 
 .mod-combo-model-001-0625 {
     background-image: url(model-0625.png);
-    background-position: left center;
+    background-position: center center;
     background-repeat: no-repeat;
     height: 200px;
     position: relative;
@@ -19,7 +19,7 @@
 
 .mod-combo-model-001-0778 {
     background-image: url(model-0778.png);
-    background-position: left center;
+    background-position: center center;
     background-repeat: no-repeat;
     height: 200px;
     position: relative;
@@ -28,7 +28,7 @@
 
 .mod-combo-model-001-0930 {
     background-image: url(model-0930.png);
-    background-position: left center;
+    background-position: center center;
     background-repeat: no-repeat;
     height: 200px;
     position: relative;
@@ -70,9 +70,9 @@
     font-size: 10px;
     font-weight: bold;
     height: 71px;
-    left: 74px;
+    left: 73px;
     position: absolute;
-    right: 74px;
+    right: 73px;
     top: 47px;
 }
 
