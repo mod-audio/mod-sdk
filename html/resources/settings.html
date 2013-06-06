@@ -1,94 +1,55 @@
-<div class="pedal-settings">
+<div class="mod-pedal-settings">
     <h1>{{effect.name}}</h1>
-    <div class="controls clearfix">
-      
-        <div class="control-group clearfix">
+    <div class="mod-controls clearfix">
+        <div class="mod-control-group clearfix">
+            {{#effect.ports.control.input}}
+                {{#enumeration}}
+                <div class="mod-enumerated">
+                    <span class="mod-enumerated-title">{{name}}</span>
+                    <div class="mod-address"></div>
+                    <div class="mod-enumerated-list" mod-role="mod-input-control-port" mod-port-symbol="{{symbol}}" mod-widget="custom-select">
+                        {{#scalePoints}}
+                        <div mod-role="enumeration-option" mod-port-value="{{value}}">{{label}}</div>
+                        {{/scalePoints}}
+                    </div>
+                </div>
+                {{/enumeration}}
+            {{/effect.ports.control.input}}
+
+            {{#effect.ports.control.input}}
+                {{^enumeration}}
+                <div class="mod-knob">
+                    <span class="mod-knob-title">{{name}}</span>
+                    <span class="mod-knob-min-value" mod-role="input-control-minimum" mod-port-symbol="{{symbol}}"></span>
+                    <span class="mod-knob-max-value" mod-role="input-control-maximum" mod-port-symbol="{{symbol}}"></span>
+                    <span class="mod-knob-current-value" mod-role="input-control-value" mod-port-symbol="{{symbol}}"></span>
+                    <div class="mod-knob-image" mod-role="input-control-port" mod-port-symbol="{{symbol}}"></div>
+                    <div class="mod-address" mod-role="input-control-address" mod-port-symbol="{{symbol}}" mod-widget="film"></div>
+                </div>
+
+                <!-- SLIDER
+                <div class="mod-slider">
+                    <span class="mod-slider-title">{{name}}</span>
+                    <span class="mod-slider-min-value" mod-role="input-control-minimum" mod-port-symbol="{{symbol}}"></span>
+                    <span class="mod-slider-max-value" mod-role="input-control-maximum" mod-port-symbol="{{symbol}}"></span>
+                    <span class="mod-slider-current-value" mod-role="input-control-value" mod-port-symbol="{{symbol}}"></span>
+                    <div class="mod-slider-image" mod-role="input-control-port" mod-port-symbol="{{symbol}}"></div>
+                    <div class="mod-address" mod-role="input-control-address" mod-port-symbol="{{symbol}}" mod-widget="film"></div>
+                </div>
+                -->
+
+                <!-- SWITCH
+                <div class="mod-switch">
+                    <span class="mod-switch-title">{{name}}</span>
+                    <span class="mod-switch-min-value" mod-role="input-control-minimum" mod-port-symbol="{{symbol}}"></span>
+                    <span class="mod-switch-max-value" mod-role="input-control-maximum" mod-port-symbol="{{symbol}}"></span>
+                    <span class="mod-switch-current-value" mod-role="input-control-value" mod-port-symbol="{{symbol}}"></span>
+                    <div class="mod-switch-image" mod-role="input-control-port" mod-port-symbol="{{symbol}}"></div>
+                    <div class="mod-address" mod-role="input-control-address" mod-port-symbol="{{symbol}}" mod-widget="film"></div>
+                </div>
+                -->
+                {{/enumeration}}
+            {{/effect.ports.control.input}}
         </div>
-      
-        <div class="control-group clearfix">
-          {{#effect.ports.control.input}}
-	    {{#enumeration}}
-	  <!--
-	      <select mod-role="input-control-port" mod-port-symbol="{{symbol}}" mod-widget="select">
-		{{#scalePoints}}
-		<option value="{{value}}">{{label}}</option>
-		{{/scalePoints}}
-	      </select>
-          -->
-              <div class="enumerated">
-		<span class="title">{{name}}</span>
-		<div class="address"></div>
-		<ul mod-role="input-control-port" mod-port-symbol="{{symbol}}" mod-widget="custom-select">
-		  {{#scalePoints}}
-		    <li mod-role="enumeration-option" mod-port-value="{{value}}">{{label}}</li>
-		  {{/scalePoints}}
-		</ul>
-              </div>
-	    {{/enumeration}}
-          {{/effect.ports.control.input}}
-          {{#effect.ports.control.input}}
-	    {{^enumeration}}
-              <div class="knob">
-		<span class="title">{{name}}</span>
-		<span class="min-value" mod-role="input-control-minimum" mod-port-symbol="{{symbol}}"></span>
-		<span class="max-value" mod-role="input-control-maximum" mod-port-symbol="{{symbol}}"></span>
-		<span class="current-value" mod-role="input-control-value" mod-port-symbol="{{symbol}}"></span>
-		<div class="image" mod-role="input-control-port" mod-port-symbol="{{symbol}}"></div>
-		<div class="address" mod-role="input-control-address" mod-port-symbol="{{symbol}}" mod-widget="film"></div>
-              </div>
-	    {{/enumeration}}
-	  {{/effect.ports.control.input}}
-	</div>
-    </div>
-    
-    <!--
-    <div class="actions">
-        <button class="btn btn-danger">Cancel</button>
-        <button class="btn btn-success">Save</button>
-    </div>
-    -->
-</div>
-<!--
-<div class="pedal-settings-address hidden">
-    <div class="box">
-        <h1>C* AmpVTS - Trebble</h1>
-        <form class="bottom">
-            <div class="control-group clearfix">
-                <label class="control-label">Label</label>
-                <div class="controls">
-                    <input type="text"/>
-                </div>
-            </div>
-            <div class="range control-group clearfix">
-                <label class="control-label">Range</label>
-                <div class="controls">
-                    <input type="number"/> - <input type="number"/>
-                </div>
-            </div>
-            <div class="mod control-group clearfix">
-                <label class="control-label">MOD</label>
-                <div class="controls">
-                    <select>
-                        <option>Select</option>
-                        <option>Rotary 1</option>
-                        <option>Rotary 2</option>
-                        <option>Rotary 3</option>
-                        <option>Rotary 4</option>
-                        <option>Foot 1</option>
-                        <option>Foot 2</option>
-                        <option>Foot 3</option>
-                        <option>Foot 4</option>
-                        <option>Expression Pedal #1</option>
-                        <option>Expression Pedal #2</option>
-                        <option>Expression Pedal #3</option>
-                    </select>
-                </div>
-            </div>
-            <div class="textright clearfix">
-                <button class="btn btn-danger">Cancel</button>
-                <button class="btn btn-success">Save</button>
-            </div>
-        </form>
     </div>
 </div>
--->

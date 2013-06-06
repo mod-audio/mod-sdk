@@ -1,12 +1,12 @@
 /* GENERAL PEDAL STYLE */
 
 .mod-pedal { 
-    display: inline-block;
+    display:inline-block;
     padding:1px 15px 1px 15px;
     z-index:100;
 }
 
-/* = ACTIONS - Icons above: settings, remove, etc
+/* = ACTIONS - Icons above:settings, remove, etc
 ================================================ */
 .mod-pedal .mod-actions { position:relative; }
 .mod-pedal .mod-actions .mod-settings {
@@ -49,8 +49,8 @@
 
 .mod-pedal .mod-pedal-input .mod-input {
     width:45px;
-    height: 45px;
-    margin-bottom: 10px
+    height:45px;
+    margin-bottom:10px
 }
 
 .mod-pedal .mod-pedal-input-control {
@@ -103,7 +103,7 @@
     background-position:right center;
     background-repeat:no-repeat;
     cursor:pointer;
-    height: 18px;
+    height:18px;
     left:2px;
     position:absolute;
     top:12px;
@@ -122,11 +122,11 @@
 }
 
 .mod-pedal .mod-pedal-output .mod-output { 
-    cursor: pointer; 
-    height: 45px;
-    margin-bottom: 10px;
-    position: relative;
-    width: 45px;
+    cursor:pointer; 
+    height:45px;
+    margin-bottom:10px;
+    position:relative;
+    width:45px;
 }
 
 .mod-pedal .mod-pedal-output-control {
@@ -200,20 +200,21 @@
     padding:0 18px;
 }
 
-/* KNOB */
+/* = KNOB
+================================================ */
 .mod-pedal-settings .mod-knob {
     background:rgba(255,255,255,.15);
     float:left;
-    height:140px;
+    height:160px;
     margin-bottom:2px;
     margin-right:2px;
     position:relative;
     text-align:center;
-    width:140px;
+    width:160px;
 }
 
 .mod-pedal-settings .mod-knob > span.mod-knob-current-value {
-    bottom:20px;
+    bottom:30px;
     font-size:12px;
     font-weight:bold;
     left:0;
@@ -224,28 +225,29 @@
 .mod-pedal-settings .mod-knob > span.mod-knob-max-value {
     font-size:11px;
     font-weight:bold;
-    left:100px;
+    left:110px;
     position:absolute;
     text-align:left;
-    top:72px;
+    top:90px;
 }
 .mod-pedal-settings .mod-knob > span.mod-knob-min-value {
     font-size:11px;
     font-weight:bold;
     position:absolute;
     text-align:right;
-    right:100px;
-    top:72px;
+    right:110px;
+    top:90px;
 }
 .mod-pedal-settings .mod-knob > span.mod-knob-title {
     color:white;
     display:block;
     font-size:11px;
     font-weight:bold;
-    height:12px;
+    height:11px;
     line-height:1;
     margin:9px 0;
-    padding:0;
+    position:relative;
+    overflow:hidden;
     text-transform:uppercase;
 }
 
@@ -255,129 +257,204 @@
     background-repeat:no-repeat;
     background-size:auto 63px;
     height:63px;
-    left:39px;
+    left:47px;
     position:absolute;
     overflow:hidden;
-    top:27px;
+    top:45px;
     width:63px;
 }
 
-/* ENUMERATED */
+/* = ENUMERATED
+================================================ */
 .mod-pedal-settings .mod-enumerated {
     background:rgba(255,255,255,.15);
-    color:white;
     float:left;
-    font-size:11px;
-    height:140px;
-    margin-bottom:2px;
-    margin-right:2px;
-    overflow:hidden;
+    height:160px;
+    margin:0 2px 2px 0;
     position:relative;
-    width:282px;
+    width:160px;
 }
 
-.mod-pedal-settings .mod-enumerated .mod-title {
-    border-color:rgba(255,255,255,.2);
-    border-style:dotted;
-    border-width:0 0 1px 0;
-    display:block;
-    font-size:12px;
+.mod-pedal-settings .mod-enumerated .mod-enumerated-list {
+    color:#fff;
+    height:111px;
+    overflow:auto;
+    position:relative;
+}
+
+.mod-pedal-settings .mod-enumerated .mod-enumerated-list > div {
+    font-size:11px;
     font-weight:bold;
+    padding:1px 9px;
+}
+
+.mod-pedal-settings .mod-enumerated .mod-enumerated-list > div:hover,
+.mod-pedal-settings .mod-enumerated .mod-enumerated-list > div.mod-selected:hover {
+    background:rgba(255,255,255,.2);
+    box-shadow:inset 0 0 4px rgba(0,0,0,.5);
+    cursor:pointer;
+}
+
+.mod-pedal-settings .mod-enumerated > span.mod-enumerated-title {
+    color:white;
+    display:block;
+    font-size:11px;
+    font-weight:bold;
+    height:11px;
     line-height:1;
-    padding:7px 0 5px 10px;
+    margin:9px 0;
+    position:relative;
+    overflow:hidden;
+    text-align:center;
     text-transform:uppercase;
 }
 
-.mod-pedal-settings .mod-enumerated ul {
-    list-style:none;
-    margin:0;
-    padding:0;
-}
 
-.mod-pedal-settings .mod-enumerated ul li {
-    border-color:rgba(255,255,255,.2);
-    border-style:dotted;
-    border-width:0 0 1px 0;
-    cursor:pointer;
-    line-height:1.5;
-    margin:0;
-    padding:2px 0 2px 10px;
-}
-
-.mod-pedal-settings .mod-enumerated ul li.mod-selected,
-.mod-pedal-settings .mod-enumerated ul li.mod-selected:hover {
-    background:#0088cc;
-}
-
-.mod-pedal-settings .mod-enumerated ul li:hover {
-    background:rgba(255,255,255,.2);
-}
-
-/* SLIDER */
+/* = SLIDER
+================================================ */
 .mod-pedal-settings .mod-slider {
     background:rgba(255,255,255,.15);
-    color:white;
     float:left;
     font-size:11px;
-    height:140px;
+    height:160px;
     margin-bottom:2px;
     margin-right:2px;
     overflow:hidden;
     position:relative;
     text-align:center;
-    width:70px;
+    width:80px;
 }
+
 
 .mod-pedal-settings .mod-slider .mod-slider-title {
-    border-color:rgba(255,255,255,.2);
-    border-style:dotted;
-    border-width:0 0 1px 0;
+    color:white;
     display:block;
-    font-size:12px;
+    font-size:11px;
     font-weight:bold;
+    height:11px;
     line-height:1;
-    margin-bottom:11px;
-    padding:7px 0 5px;
-    text-transform:uppercase;
-}
+    margin:9px 0;
+    position:relative;
+    overflow:hidden;
+    text-transform:uppercase;}
 
 .mod-pedal-settings .mod-slider .mod-slider-image {
-    background-image:url(../knobs/slider/slider.png);
-    background-position:center center;
+    background-image:url(../sliders/slider01/_strip.png);
     background-repeat:no-repeat;
-    background-size:18px auto;
-    height:36px;
-    left:50%;
-    position:absolute;
-    margin-left:-9px;
-    top:32px;
-    width:18px;
-    z-index:2;
+    background-size:auto 70px;
+    height:70px;
+    margin:14px auto 0;
+    width:28px;
 }
 
 .mod-pedal-settings .mod-slider .mod-slider-image:hover {
     cursor:pointer;
 }
 
-.mod-pedal-settings .mod-slider .mod-slider-track {
-    background-color:black;
-    border-radius:12px;
-    height:106px;
-    left:50%;
+.mod-pedal-settings .mod-slider > span.mod-slider-current-value {
+    bottom:24px;
+    font-size:12px;
+    font-weight:bold;
+    left:0;
     position:absolute;
-    margin-left:-3px;
-    top:30px;
-    width:6px;
-    z-index:1;
+    text-align:center;
+    right:0;
 }
+.mod-pedal-settings .mod-slider > span.mod-slider-max-value {
+    font-size:11px;
+    font-weight:bold;
+    left:0;
+    position:absolute;
+    right:0;
+    text-align:center;
+    top:18px;
+}
+.mod-pedal-settings .mod-slider > span.mod-slider-min-value {
+    bottom:38px;
+    font-size:11px;
+    font-weight:bold;
+    left:0;
+    position:absolute;
+    right:0;
+    text-align:center;
+}
+
+
+/* = SWITCH
+================================================ */
+.mod-pedal-settings .mod-switch {
+    background:rgba(255,255,255,.15);
+    float:left;
+    height:160px;
+    margin-bottom:2px;
+    margin-right:2px;
+    position:relative;
+    text-align:center;
+    width:160px;
+}
+
+.mod-pedal-settings .mod-switch > span.mod-switch-current-value {
+    bottom:30px;
+    font-size:12px;
+    font-weight:bold;
+    left:0;
+    position:absolute;
+    text-align:center;
+    right:0;
+}
+.mod-pedal-settings .mod-switch > span.mod-switch-max-value {
+    font-size:11px;
+    font-weight:bold;
+    left:110px;
+    position:absolute;
+    text-align:left;
+    top:90px;
+}
+.mod-pedal-settings .mod-switch > span.mod-switch-min-value {
+    font-size:11px;
+    font-weight:bold;
+    position:absolute;
+    text-align:right;
+    right:110px;
+    top:90px;
+}
+.mod-pedal-settings .mod-switch > span.mod-switch-title {
+    color:white;
+    display:block;
+    font-size:11px;
+    font-weight:bold;
+    height:11px;
+    line-height:1;
+    margin:9px 0;
+    position:relative;
+    overflow:hidden;
+    text-transform:uppercase;
+}
+
+.mod-pedal-settings .mod-switch .mod-switch-image {
+    background-image:url(../switches/switch-002.png);
+    background-position:left center;
+    background-repeat:no-repeat;
+    background-size:auto 63px;
+    height:63px;
+    left:47px;
+    position:absolute;
+    overflow:hidden;
+    top:45px;
+    width:63px;
+}
+
 
 /* ADDRESSING BUTTON */
 .mod-pedal-settings .mod-knob .mod-address,
-.mod-pedal-settings .mod-enumerated .mod-address {
+.mod-pedal-settings .mod-enumerated .mod-address,
+.mod-pedal-settings .mod-switch .mod-address,
+.mod-pedal-settings .mod-slider .mod-address {
     background-color:rgba(255,255,255,.1);
     background-image:url(../../img/icn-addressing.png);
     background-position:center center;
     background-repeat:no-repeat;
+    bottom:0;
     cursor:pointer;
     height:24px;
     position:absolute;
@@ -386,17 +463,12 @@
 }
 
 .mod-pedal-settings .mod-knob .mod-address:hover,
-.mod-pedal-settings .mod-enumerated .mod-address:hover {
+.mod-pedal-settings .mod-enumerated .mod-address:hover,
+.mod-pedal-settings .mod-switch .mod-address:hover,
+.mod-pedal-settings .mod-slider .mod-address:hover {
     background-color:#0088cc;
 }
 
-.mod-pedal-settings .mod-knob .mod-address {
-    bottom:0;
-}
-
-.mod-pedal-settings .mod-enumerated .mod-address {
-    top:0;
-}
 
 /* ADDRESSING POP-UP */
 .mod-pedal-settings-address {
