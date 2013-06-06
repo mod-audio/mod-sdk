@@ -115,6 +115,14 @@
     padding:3px 9px 0;
 }
 
+.mod-pedal-boxy.mod-five-knobs .mod-plugin-author,
+.mod-pedal-boxy.mod-six-knobs .mod-plugin-author,
+.mod-pedal-boxy.mod-seven-knobs .mod-plugin-author,
+.mod-pedal-boxy.mod-eight-knobs .mod-plugin-author {
+    top:190px;
+}
+
+
 /* = PLUGIN'S NAME
 ================================================ */
 .mod-pedal-boxy .mod-plugin-name {
@@ -132,65 +140,72 @@
     line-height:1;
 }
 
+.mod-pedal-boxy.mod-five-knobs .mod-plugin-name,
+.mod-pedal-boxy.mod-six-knobs .mod-plugin-name,
+.mod-pedal-boxy.mod-seven-knobs .mod-plugin-name,
+.mod-pedal-boxy.mod-eight-knobs .mod-plugin-name {
+    top:350px;
+}
+
 
 /* = PLUGIN'S AUTHO AND NAME COLOURS
 ================================================ */
-.mod-pedal-boxy.blue .mod-plugin-author h1,
-.mod-pedal-boxy.blue .mod-plugin-name h1 {
+.mod-pedal-boxy.mod-blue .mod-plugin-author h1,
+.mod-pedal-boxy.mod-blue .mod-plugin-name h1 {
     color:rgb(0,0,0);
 }
 
-.mod-pedal-boxy.brown .mod-plugin-author h1,
-.mod-pedal-boxy.brown .mod-plugin-name h1 {
+.mod-pedal-boxy.mod-brown .mod-plugin-author h1,
+.mod-pedal-boxy.mod-brown .mod-plugin-name h1 {
     border-color:rgb(255,255,255);
     color:rgb(255,255,255);
 }
 
-.mod-pedal-boxy.cream .mod-plugin-author h1,
-.mod-pedal-boxy.cream .mod-plugin-name h1 {
+.mod-pedal-boxy.mod-cream .mod-plugin-author h1,
+.mod-pedal-boxy.mod-cream .mod-plugin-name h1 {
     color:rgb(0,0,0);
 }
 
-.mod-pedal-boxy.darkblue .mod-plugin-author h1,
-.mod-pedal-boxy.darkblue .mod-plugin-name h1 {
+.mod-pedal-boxy.mod-darkblue .mod-plugin-author h1,
+.mod-pedal-boxy.mod-darkblue .mod-plugin-name h1 {
     border-color:rgb(255,255,255);
     color:rgb(255,255,255);
 }
 
-.mod-pedal-boxy.gray .mod-plugin-author h1,
-.mod-pedal-boxy.gray .mod-plugin-name h1 {
+.mod-pedal-boxy.mod-gray .mod-plugin-author h1,
+.mod-pedal-boxy.mod-gray .mod-plugin-name h1 {
     color:rgb(0,0,0);
 }
 
-.mod-pedal-boxy.green .mod-plugin-author h1,
-.mod-pedal-boxy.green .mod-plugin-name h1 {
+.mod-pedal-boxy.mod-green .mod-plugin-author h1,
+.mod-pedal-boxy.mod-green .mod-plugin-name h1 {
     border-color:rgb(255,255,255);
     color:rgb(255,255,255);
 }
 
-.mod-pedal-boxy.orange .mod-plugin-author h1,
-.mod-pedal-boxy.orange .mod-plugin-name h1 {
+.mod-pedal-boxy.mod-orange .mod-plugin-author h1,
+.mod-pedal-boxy.mod-orange .mod-plugin-name h1 {
     color:rgb(0,0,0);
 }
 
-.mod-pedal-boxy.purple .mod-plugin-author h1,
-.mod-pedal-boxy.purple .mod-plugin-name h1 {
+.mod-pedal-boxy.mod-purple .mod-plugin-author h1,
+.mod-pedal-boxy.mod-purple .mod-plugin-name h1 {
     border-color:rgb(255,255,255);
     color:rgb(255,255,255);
 }
 
-.mod-pedal-boxy.red .mod-plugin-author h1,
-.mod-pedal-boxy.red .mod-plugin-name h1 {
+.mod-pedal-boxy.mod-red .mod-plugin-author h1,
+.mod-pedal-boxy.mod-red .mod-plugin-name h1 {
     color:rgb(0,0,0);
 }
 
-.mod-pedal-boxy.white .mod-plugin-author h1,
-.mod-pedal-boxy.white .mod-plugin-name h1 {
+.mod-pedal-boxy.mod-white .mod-plugin-author h1,
+.mod-pedal-boxy.mod-white .mod-plugin-name h1 {
     color:rgb(0,0,0);
 }
 
-.mod-pedal-boxy.yellow .mod-plugin-author h1,
-.mod-pedal-boxy.yellow .mod-plugin-name h1 {
+.mod-pedal-boxy.mod-yellow .mod-plugin-author h1,
+.mod-pedal-boxy.mod-yellow .mod-plugin-name h1 {
     color:rgb(0,0,0);
 }
 
@@ -206,6 +221,14 @@
     top:235px;
 }
 
+.mod-pedal-boxy.mod-five-knobs .mod-light,
+.mod-pedal-boxy.mod-six-knobs .mod-light,
+.mod-pedal-boxy.mod-seven-knobs .mod-light,
+.mod-pedal-boxy.mod-eight-knobs .mod-light { 
+    top:253px;
+}
+
+
 /* = FOOTSWITCH
 ================================================ */
 .mod-pedal-boxy .mod-footswitch {
@@ -220,4 +243,224 @@
     position:absolute;
     right:13px;
     z-index:30;
+}
+
+.mod-pedal-boxy.mod-five-knobs .mod-footswitch,
+.mod-pedal-boxy.mod-six-knobs .mod-footswitch,
+.mod-pedal-boxy.mod-seven-knobs .mod-footswitch,
+.mod-pedal-boxy.mod-eight-knobs .mod-footswitch { 
+    top:285px;
+}
+
+
+/* = KNOBS
+================================================ */
+.mod-pedal-boxy .mod-control-group {
+    margin:20px;
+    position:relative;
+    text-align:center;
+    z-index:30;
+}
+
+.mod-pedal-boxy .mod-control-group .mod-knob {
+    overflow:hidden;
+    position:relative;
+}
+
+.mod-pedal-boxy .mod-control-group .mod-knob > span.mod-knob-title {
+    display:block;
+    font-size:11px;
+    font-weight:bold;
+    height:12px;
+    line-height:1;
+    margin:0;
+    padding:0;
+    text-transform:uppercase;
+}
+.mod-pedal-boxy.mod-blue .mod-control-group .mod-knob > span.mod-knob-title {
+    color:black;
+}
+.mod-pedal-boxy.mod-brown .mod-control-group .mod-knob > span.mod-knob-title {
+    color:white;
+}
+.mod-pedal-boxy.mod-cream .mod-control-group .mod-knob > span.mod-knob-title {
+    color:black;
+}
+.mod-pedal-boxy.mod-darkblue .mod-control-group .mod-knob > span.mod-knob-title {
+    color:white;
+}
+.mod-pedal-boxy.mod-gray .mod-control-group .mod-knob > span.mod-knob-title {
+    color:black;
+}
+.mod-pedal-boxy.mod-green .mod-control-group .mod-knob > span.mod-knob-title {
+    color:white;
+}
+.mod-pedal-boxy.mod-orange .mod-control-group .mod-knob > span.mod-knob-title {
+    color:black;
+}
+.mod-pedal-boxy.mod-purple .mod-control-group .mod-knob > span.mod-knob-title {
+    color:white;
+}
+.mod-pedal-boxy.mod-red .mod-control-group .mod-knob > span.mod-knob-title {
+    color:black;
+}
+.mod-pedal-boxy.mod-white .mod-control-group .mod-knob > span.mod-knob-title {
+    color:black;
+}
+.mod-pedal-boxy.mod-yellow .mod-control-group .mod-knob > span.mod-knob-title {
+    color:black;
+}
+
+/* ONE and TWO KNOBS */
+.mod-pedal-boxy.mod-one-knob .mod-control-group .mod-knob .mod-knob-image,
+.mod-pedal-boxy.mod-two-knobs .mod-control-group .mod-knob .mod-knob-image {
+    background-image:url(../../knobs/boxy/boxy.png);
+}
+.mod-pedal-boxy.mod-one-knob .mod-control-group  .mod-knob .mod-knob-image,
+.mod-pedal-boxy.mod-two-knobs .mod-control-group .mod-knob .mod-knob-image {
+    height:100px;
+    margin:0 auto;
+    width:100px;
+}
+
+/* TWO KNOBS */
+.mod-pedal-boxy.mod-two-knobs .mod-control-group {
+    margin:20px 10px;
+}
+
+.mod-pedal-boxy.mod-two-knobs .mod-control-group .mod-knob {
+    float:left;
+    width:50%;
+}
+
+/* THREE AND HIGHER KNOBS */
+.mod-pedal-boxy.mod-three-knobs .mod-control-group,
+.mod-pedal-boxy.mod-four-knobs .mod-control-group,
+.mod-pedal-boxy.mod-five-knobs .mod-control-group,
+.mod-pedal-boxy.mod-six-knobs .mod-control-group,
+.mod-pedal-boxy.mod-seven-knobs .mod-control-group,
+.mod-pedal-boxy.mod-eight-knobs .mod-control-group {
+    margin:20px 6px;
+}
+
+.mod-pedal-boxy.mod-three-knobs .mod-control-group .mod-knob,
+.mod-pedal-boxy.mod-four-knobs .mod-control-group .mod-knob,
+.mod-pedal-boxy.mod-five-knobs .mod-control-group .mod-knob,
+.mod-pedal-boxy.mod-six-knobs .mod-control-group .mod-knob,
+.mod-pedal-boxy.mod-seven-knobs .mod-control-group .mod-knob,
+.mod-pedal-boxy.mod-eight-knobs .mod-control-group .mod-knob {
+    display:inline-block;
+}
+
+.mod-pedal-boxy.mod-three-knobs .mod-control-group .mod-knob .mod-knob-image,
+.mod-pedal-boxy.mod-four-knobs .mod-control-group .mod-knob .mod-knob-image,
+.mod-pedal-boxy.mod-five-knobs .mod-control-group .mod-knob .mod-knob-image,
+.mod-pedal-boxy.mod-six-knobs .mod-control-group .mod-knob .mod-knob-image,
+.mod-pedal-boxy.mod-seven-knobs .mod-control-group .mod-knob .mod-knob-image,
+.mod-pedal-boxy.mod-eight-knobs .mod-control-group .mod-knob .mod-knob-image {
+    background-image:url(../../knobs/lata/lata.png);
+    background-repeat:no-repeat;
+    background-size:auto 70px;
+    height:70px;
+    margin:0 -2px;
+    width:70px;
+}
+
+/* EIGTH KNOBS */
+.mod-pedal-boxy.mod-eight-knobs .mod-knob {
+    width:70px;
+}
+
+/* = ENUMERATED LIST
+================================================ */
+.mod-pedal-boxy .mod-enumerated-group {
+    height:31px;
+    margin:20px auto 0 !important;
+    position:relative;
+    width:190px;
+    z-index:35;
+}
+
+.mod-pedal-boxy.mod-three-knobs .mod-enumerated-group {
+    margin-bottom:5px !important;
+}
+
+.mod-pedal-boxy .mod-enumerated {
+    font-size:11px;
+    font-weight:bold;
+    left:0;
+    line-height:2;
+    overflow:hidden;
+    position:absolute;
+    right:0;
+    text-align:left;
+}
+
+.mod-pedal-boxy .mod-enumerated .mod-enumerated-selected {
+    background-color:rgba(0,0,0,.3);
+    box-shadow:inset 0 0 4px rgba(0,0,0,.3);
+    border-radius:4px;
+    padding:3px 9px;
+    
+}
+
+.mod-pedal-boxy .mod-enumerated:hover .mod-enumerated-selected {
+    border-radius:4px 4px 0 0;
+}
+
+.mod-pedal-boxy .mod-enumerated .mod-enumerated-list {
+    display:none;
+    color:#fff;
+}
+
+.mod-pedal-boxy .mod-enumerated:hover .mod-enumerated-list {
+    background:rgba(0,0,0,.9);
+    display:block;
+    height:115px;
+    overflow:auto;
+    position:relative;
+}
+
+.mod-pedal-boxy .mod-enumerated .mod-enumerated-list > div {
+    padding:3px 9px;
+}
+
+.mod-pedal-boxy .mod-enumerated .mod-enumerated-list > div:hover {
+    background:rgba(255,255,255,.2);
+    cursor:pointer;
+}
+
+
+.mod-pedal-boxy.mod-blue .mod-enumerated {
+    color:black;
+}
+.mod-pedal-boxy.mod-brown .mod-enumerated {
+    color:white;
+}
+.mod-pedal-boxy.mod-cream .mod-enumerated {
+    color:black;
+}
+.mod-pedal-boxy.mod-darkblue .mod-enumerated {
+    color:white;
+}
+.mod-pedal-boxy.mod-gray .mod-enumerated {
+    color:black;
+}
+.mod-pedal-boxy.mod-green .mod-enumerated {
+    color:white;
+}
+.mod-pedal-boxy.mod-orange .mod-enumerated {
+    color:black;
+}
+.mod-pedal-boxy.mod-purple .mod-enumerated {
+    color:white;
+}
+.mod-pedal-boxy.mod-red .mod-enumerated {
+    color:black;
+}
+.mod-pedal-boxy.mod-white .mod-enumerated {
+    color:black;
+}
+.mod-pedal-boxy.mod-yellow .mod-enumerated {
+    color:black;
 }
