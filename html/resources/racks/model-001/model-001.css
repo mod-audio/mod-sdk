@@ -146,8 +146,12 @@
 }
 
 .mod-rack-model-001 .mod-enumerated .mod-enumerated-selected {
-    background:rgba(0,0,0,.85);
+    background-color:rgba(255,255,255,.2);
+    background-image:url(../../utils/dropdown-arrow-white.png);
+    background-position:right center;
+    background-repeat:no-repeat;
     border-radius:4px;
+    box-shadow:inset 1px 1px 5px #000;
     color:#fff;
     font-size:14px;
     height:34px;

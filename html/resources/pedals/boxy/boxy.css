@@ -386,6 +386,8 @@
 }
 
 .mod-pedal-boxy .mod-enumerated {
+    background-position:right center;
+    background-repeat:no-repeat;
     font-size:11px;
     font-weight:bold;
     left:0;
@@ -414,7 +416,7 @@
 }
 
 .mod-pedal-boxy .mod-enumerated:hover .mod-enumerated-list {
-    background:rgba(0,0,0,.9);
+    background-color:rgba(0,0,0,.9);
     display:block;
     height:115px;
     overflow:auto;
@@ -426,41 +428,52 @@
 }
 
 .mod-pedal-boxy .mod-enumerated .mod-enumerated-list > div:hover {
-    background:rgba(255,255,255,.2);
+    background-color:rgba(255,255,255,.2);
     cursor:pointer;
 }
 
 
 .mod-pedal-boxy.mod-blue .mod-enumerated {
+    background-image:url(../../utils/dropdown-arrow-black.png);
     color:black;
 }
 .mod-pedal-boxy.mod-brown .mod-enumerated {
+    background-image:url(../../utils/dropdown-arrow-white.png);
     color:white;
 }
 .mod-pedal-boxy.mod-cream .mod-enumerated {
+    background-image:url(../../utils/dropdown-arrow-black.png);
     color:black;
 }
 .mod-pedal-boxy.mod-darkblue .mod-enumerated {
+    background-image:url(../../utils/dropdown-arrow-white.png);
     color:white;
 }
 .mod-pedal-boxy.mod-gray .mod-enumerated {
+    background-image:url(../../utils/dropdown-arrow-black.png);
     color:black;
 }
 .mod-pedal-boxy.mod-green .mod-enumerated {
+    background-image:url(../../utils/dropdown-arrow-white.png);
     color:white;
 }
 .mod-pedal-boxy.mod-orange .mod-enumerated {
+    background-image:url(../../utils/dropdown-arrow-black.png);
     color:black;
 }
 .mod-pedal-boxy.mod-purple .mod-enumerated {
+    background-image:url(../../utils/dropdown-arrow-white.png);
     color:white;
 }
 .mod-pedal-boxy.mod-red .mod-enumerated {
+    background-image:url(../../utils/dropdown-arrow-black.png);
     color:black;
 }
 .mod-pedal-boxy.mod-white .mod-enumerated {
+    background-image:url(../../utils/dropdown-arrow-black.png);
     color:black;
 }
 .mod-pedal-boxy.mod-yellow .mod-enumerated {
+    background-image:url(../../utils/dropdown-arrow-black.png);
     color:black;
 }
