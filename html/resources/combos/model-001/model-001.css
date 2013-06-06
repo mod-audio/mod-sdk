@@ -41,7 +41,7 @@
     color: #333;
     font-size: 18px;
     font-weight: bold;
-    left: 65px;
+    left: 80px;
     line-height: 1;
     margin: 0;
     position: absolute;
@@ -56,7 +56,7 @@
     line-height: 1;
     margin: 0;
     position: absolute;
-    right: 65px;
+    right: 80px;
     top: 23px;
 }
 
@@ -70,9 +70,9 @@
     font-size: 10px;
     font-weight: bold;
     height: 71px;
-    left: 60px;
+    left: 74px;
     position: absolute;
-    right: 60px;
+    right: 74px;
     top: 47px;
 }
 
