@@ -110,11 +110,7 @@
     z-index:2;
 }
 
-.mod-pedal .mod-pedal-input .mod-input .mod-jack-connected {
-    left:-16px; top:14px;
-}
-
-.mod-pedal .mod-pedal-input .mod-input-connected .mod-pedal-input-image {
+.mod-pedal .mod-pedal-input .input-connected .mod-pedal-input-image {
     background-image:url(../../../img/input-connected.png);
     background-position:right top;
     background-repeat:no-repeat;
@@ -122,21 +118,21 @@
     width:56px;
 }
 
-.mod-pedal .mod-pedal-input .mod-input-connected .mod-output-jack {
+.mod-pedal .mod-pedal-input .input-connected .mod-output-jack {
     background:none;
     position:relative;
     z-index:100;
 }
 
-.mod-pedal .mod-input-disconnected {}
-.mod-pedal .mod-input-connecting {}
-.mod-pedal .mod-input-connected {}
+.mod-pedal .input-disconnected {}
+.mod-pedal .input-connecting {}
+.mod-pedal .input-connected {}
 
 
 /* = OUTPUT
 ================================================ */
 .mod-pedal .mod-output-jack,
-.mod-pedal .mod-output-connected .mod-output-jack:hover {
+.mod-pedal .output-connected .mod-output-jack:hover {
     background-image:url(../../img/jack-p10.png);
     background-position:right center;
     background-repeat:no-repeat;
@@ -149,7 +145,7 @@
 }
 
 .mod-pedal .mod-output-jack:hover,
-.mod-pedal .mod-output-jack.mod-jack-connecting {}
+.mod-pedal .mod-output-jack.jack-connecting {}
 
 .mod-pedal .mod-pedal-output {
     height:170px;
@@ -192,13 +188,9 @@
     z-index:2;
 }
 
-.mod-pedal .mod-pedal-output .mod-output .mod-jack-connected {
-    right:-16px; top:14px;
-}
-
-.mod-pedal .mod-output-disconnected .mod-output-jack { }
-.mod-pedal .mod-output-connecting {}
-.mod-pedal .mod-output-connected .mod-output-jack { background:none; }
+.mod-pedal .output-disconnected .mod-output-jack { }
+.mod-pedal .output-connecting {}
+.mod-pedal .output-connected .mod-output-jack { background:none; }
 
     
 /* = PEDAL SETTINGS - Pop Up Window
