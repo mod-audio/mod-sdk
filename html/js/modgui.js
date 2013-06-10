@@ -7,7 +7,6 @@ function GUI(effect, options) {
 	'drag': new Function(),
 	'dragStop': new Function(),
 	'bypass': new Function(),
-	'address': new Function(),
 	'preset': {},
 	'bypassed': false,
 	'defaultIconTemplate': 'Template missing',
@@ -35,6 +34,7 @@ function GUI(effect, options) {
 	    $.extend(port, ports[i])
 	    if (options.preset[port.symbol] != null)
 		port.default = options.preset[port.symbol]
+	    port.value = port.default
 	    index[port.symbol] = port
 	}
 	return index
@@ -48,6 +48,13 @@ function GUI(effect, options) {
 	var port = self.controls[symbol]
 	if (!port.enabled || port.value == value)
 	    return
+	if (port.trigger) {
+	    // Report the new value and return the widget to old value
+	    options.change(symbol, value)
+	    if (source)
+		source.controlWidget('setValue', port.value)
+	    return
+	}
 	port.value = value
 	for (var i in port.widgets) {
 	    if (port.widgets[i] == source)
@@ -55,6 +62,10 @@ function GUI(effect, options) {
 	    port.widgets[i].controlWidget('setValue', value)
 	}
 	options.change(symbol, value)
+    }
+
+    this.getPortValue = function(symbol) {
+	return self.controls[symbol].value
     }
 
     this.serializePreset = function() {
@@ -102,16 +113,25 @@ function GUI(effect, options) {
     }
     
     this.renderIcon = function(template) {
-	var element = $('<div class="pedal">')
+	var element = $('<div class="mod-pedal">')
 	element.html(Mustache.render(template || effect.gui.iconTemplate || options.defaultIconTemplate,
 				     self.getTemplateData(effect)))
 	self.assignIconFunctionality(element)
 	self.assignControlFunctionality(element)
+
+	// Take the width of the plugin. This is necessary because plugin may have position absolute.
+	// setTimeout is here because plugin has not yet been appended to anywhere, let's wait for
+	// all instructions to be executed.
+	setTimeout(function() {
+	    element.width(element.children().width())
+	    element.height(element.children().height())
+	}, 1)
+
 	return element
     }
 
     this.renderSettings = function(template) {
-	var element = $('<div class="settings">')
+	var element = $('<div class="mod-settings">')
 	element.html(Mustache.render(template || effect.gui.settingsTemplate || options.defaultSettingsTemplate,
 				     self.getTemplateData(effect)))
 	self.assignControlFunctionality(element)
@@ -119,7 +139,7 @@ function GUI(effect, options) {
     }
 
     this.renderDummy = function(template) {
-	var element = $('<div class="pedal dummy">')
+	var element = $('<div class="mod-pedal dummy">')
 	element.html(Mustache.render(template || effect.gui.iconTemplate || options.defaultIconTemplate,
 				     self.getTemplateData(effect)))
 	return element
@@ -146,6 +166,7 @@ function GUI(effect, options) {
 					container: element,
 					change: function(e, value) {
 					    self.setPortValue(symbol, value, control)
+					    options.change(symbol, value)
 					}
 				      })
 		self.controls[symbol].widgets.push(control)
@@ -180,10 +201,6 @@ function GUI(effect, options) {
 	    self.bypassIndicators.push($(this))
 	    self.setBypassState($(this))
 	});
-	element.find('[mod-role=input-control-address]').click(function() {
-	    options.address($(this).attr('mod-port-symbol'))
-	});
-	   
     }
 
     this.getTemplateData = function(options) {
@@ -379,13 +396,8 @@ var baseWidget = {
 	    label = self.data('scalePointsIndex')[label].label
 
 	container.find('[mod-role=input-control-value][mod-port-symbol='+symbol+']').text(label)
-
-	self.trigger('controlchange', value)
-    },
-
-    bindEvents: function(opt) {
-	if (opt.change) $(this).bind('controlchange', opt.change)
     }
+
 }
 
 JqueryClass('film', baseWidget, {
@@ -393,7 +405,6 @@ JqueryClass('film', baseWidget, {
 	var self = $(this)
 	self.data('container', options.container)
 	self.data('enabled', true)
-	self.film('bindEvents', options)
 	self.film('getSize', function() { 
 	    self.film('config', options.port)
 	    self.film('setValue', options.port.default)
@@ -508,7 +519,6 @@ JqueryClass('selectWidget', baseWidget, {
     init: function(options) {
 	var self = $(this)
 	self.data('container', options.container)
-	self.selectWidget('bindEvents', options)
 	self.selectWidget('config', options.port)
 	self.change(function() {
 	    self.selectWidget('reportValue', parseFloat(self.val()))
@@ -539,14 +549,14 @@ JqueryClass('customSelect', baseWidget, {
     init: function(options) {
 	var self = $(this)
 	self.data('container', options.container)
-	self.customSelect('bindEvents', options)
 	self.customSelect('config', options.port)
 	self.find('[mod-role=enumeration-option]').each(function() {
 	    var opt = $(this)
 	    var value = opt.attr('mod-port-value')
 	    opt.click(function() {
-		if (self.data('enabled'))
+		if (self.data('enabled')) {
 		    self.customSelect('setValue', value)
+		}
 	    })
 	})
 	self.customSelect('setValue', options.port.default)
@@ -559,4 +569,3 @@ JqueryClass('customSelect', baseWidget, {
 	self.customSelect('reportValue', parseFloat(value))
     }
 })
-
