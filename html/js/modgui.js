@@ -518,6 +518,7 @@ JqueryClass('film', baseWidget, {
 JqueryClass('selectWidget', baseWidget, {
     init: function(options) {
 	var self = $(this)
+	self.data('enabled', true)
 	self.data('container', options.container)
 	self.selectWidget('config', options.port)
 	self.change(function() {
@@ -548,6 +549,7 @@ JqueryClass('selectWidget', baseWidget, {
 JqueryClass('customSelect', baseWidget, {
     init: function(options) {
 	var self = $(this)
+	self.data('enabled', true)
 	self.data('container', options.container)
 	self.customSelect('config', options.port)
 	self.find('[mod-role=enumeration-option]').each(function() {
