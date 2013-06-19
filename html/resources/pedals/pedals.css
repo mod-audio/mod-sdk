@@ -91,15 +91,6 @@
     margin-bottom:10px
 }
 
-.mod-pedal .mod-pedal-input-control {
-    height:28px;
-    left:15px;
-    position:absolute;
-    top:8px;
-    width:28px;
-    z-index:1;
-}
-
 .mod-pedal .mod-pedal-input-image {
     background:url(input.png) no-repeat right top;
     background-size:auto 45px;
@@ -161,22 +152,6 @@
     margin-bottom:10px;
     position:relative;
     width:45px;
-}
-
-.mod-pedal .mod-pedal-output-control {
-    background-position:left top;
-    background-repeat:no-repeat;
-    height:28px;
-    right:14px;
-    position:absolute;
-    top:8px;
-    width:28px;
-}
-.mod-pedal .mod-pedal-output-control:hover {
-    height:18px;
-    left:3px;
-    top:14px;
-    width:87px;
 }
 
 .mod-pedal .mod-pedal-output-image {
