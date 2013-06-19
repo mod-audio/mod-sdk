@@ -266,14 +266,32 @@
     position:relative;
 }
 
+.mod-pedal-boxy .mod-control-group .mod-knob {
+    height:110px;
+}
+
+.mod-pedal-boxy.mod-three-knobs .mod-control-group .mod-knob,
+.mod-pedal-boxy.mod-four-knobs .mod-control-group .mod-knob,
+.mod-pedal-boxy.mod-five-knobs .mod-control-group .mod-knob,
+.mod-pedal-boxy.mod-six-knobs .mod-control-group .mod-knob,
+.mod-pedal-boxy.mod-seven-knobs .mod-control-group .mod-knob,
+.mod-pedal-boxy.mod-eight-knobs .mod-control-group .mod-knob {
+    height:81px;
+}
+
 .mod-pedal-boxy .mod-control-group .mod-knob > span.mod-knob-title {
+    bottom:0px;
     display:block;
     font-size:11px;
     font-weight:bold;
     height:12px;
+    left:0;
     line-height:1;
     margin:0;
+    overflow:hidden;
     padding:0;
+    position:absolute;
+    right:0;
     text-transform:uppercase;
 }
 .mod-pedal-boxy.mod-blue .mod-control-group .mod-knob > span.mod-knob-title {
