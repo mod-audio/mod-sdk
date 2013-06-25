@@ -428,7 +428,8 @@ JqueryClass('wizard', {
 		 },
 		 error: function(resp) {
 		     alert("Error: Can't generate thumbnail. Is your server running? Check the logs.")
-		 }
+		 },
+         dataType: "json"
 	       })
     },
 

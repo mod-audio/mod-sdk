@@ -53,7 +53,8 @@ $(document).ready(function() {
 		 },
 		 error: function(resp) {
 		     alert("Error: Can't generate thumbnail. Is your server running? Check the logs.")
-		 }
+		 },
+         dataType: "json"
 	       })
     })
 
@@ -68,7 +69,8 @@ $(document).ready(function() {
 		     },
 		     error: function(resp) {
 			 alert("Error: Can't install bundle. Is your server running? Check the logs.")
-		     }
+		     },
+             dataType: "json"
 		   })
 	})
     })
@@ -138,7 +140,8 @@ function loadBundles() {
 	     },
 	     error: function(resp) {
 		 alert("Error: Can't get list of bundles. Is your server running? Check the logs.")
-	     }
+	     },
+         dataType: "json"
 	   })
 }
 
