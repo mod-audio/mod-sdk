@@ -4,7 +4,7 @@ import os, json, random, subprocess, re, base64, shutil, time
 from hashlib import sha1
 import Image
 
-from tornado import web, options, ioloop, template, httpclient, escape
+from tornado import web, options, ioloop, template, httpclient
 from modcommon import lv2
 from modcommon.communication import crypto
 from modsdk.cache import WorkspaceCache
@@ -104,32 +104,30 @@ class EffectSave(web.RequestHandler):
         if not os.path.exists(self.basedir):
             os.mkdir(self.basedir)
 
-        self.make_template(param['slug'], param['template'])
-        self.make_datafile(param['slug'], param['data'])
-        self.make_empty_screenshot(param['slug'])
+        self.make_template('icon-' + param['slug'], param['iconTemplate'])
+        self.make_template('settings-' + param['slug'], param['settingsTemplate'])
+        self.make_datafile('data-' + param['slug'], param['data'])
+        self.make_empty_image('screenshot-' + param['slug'])
+        self.make_empty_image('thumb-' + param['slug'])
 
         self.set_header('Content-type', 'application/json')
         self.write(json.dumps(True))
 
-    def make_template(self, slug, template):
-        dest_name = '%s.html' % slug
+    def make_template(self, name, template):
+        dest_name = '%s.html' % name
         dest = os.path.join(self.basedir, dest_name)
         open(dest, 'w').write(template)
 
-    def make_datafile(self, slug, data):
-        datafile = os.path.join(self.basedir, 'data-%s.json' % slug)
+    def make_datafile(self, name, data):
+        datafile = os.path.join(self.basedir, '%s.json' % name)
         open(datafile, 'w').write(json.dumps(data, sort_keys=True, indent=4))
         
-    def make_empty_screenshot(self, slug):
-        screenshot_path = os.path.join(self.basedir, '%s-%s.png' % ('screenshot', slug))
-        thumb_path = os.path.join(self.basedir, '%s-%s.png' % ('thumb', slug))
+    def make_empty_image(self, name):
+        image_path = os.path.join(self.basedir, '%s-%s.png' % ('screenshot', name))
 
-        img = Image.new('RGBA', (1, 1), (255, 0, 0, 0))
-
-        if not os.path.exists(screenshot_path):
-            img.save(screenshot_path)
-        if not os.path.exists(thumb_path):
-            img.save(thumb_path)
+        if not os.path.exists(image_path):
+            img = Image.new('RGBA', (1, 1), (255, 0, 0, 0))
+            img.save(image_path)
 
 class Index(web.RequestHandler):
     def get(self, path):
@@ -139,8 +137,8 @@ class Index(web.RequestHandler):
         default_icon_template = open(DEFAULT_ICON_TEMPLATE).read()
         default_settings_template = open(DEFAULT_SETTINGS_TEMPLATE).read()
         context = {
-            'default_icon_template': escape.squeeze(default_icon_template.replace("'", "\\'")),
-            'default_settings_template': escape.squeeze(default_settings_template.replace("'", "\\'")),
+            'default_icon_template': default_icon_template.replace("'", "\\'").replace("\n", "\\n"),
+            'default_settings_template': default_settings_template.replace("'", "\\'").replace("\n", "\\n"),
             'wizard_db': json.dumps(json.loads(open(WIZARD_DB).read())),
             'default_developer': os.environ['USER'],
             'default_privkey': os.path.join(os.environ['HOME'], '.ssh', 'id_rsa'),
@@ -350,7 +348,7 @@ class BulkTemplateLoader(web.RequestHandler):
             template = template[:-5]
             self.write("TEMPLATES['%s'] = '%s';\n\n"
                        % (template, 
-                          escape.squeeze(contents.replace("'", "\\'"))
+                          contents.replace("'", "\\'").replace("\n", "\\n")
                           )
                        )
 

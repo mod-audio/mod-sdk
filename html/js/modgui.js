@@ -7,7 +7,6 @@ function GUI(effect, options) {
 	'drag': new Function(),
 	'dragStop': new Function(),
 	'bypass': new Function(),
-	'address': new Function(),
 	'preset': {},
 	'bypassed': false,
 	'defaultIconTemplate': 'Template missing',
@@ -18,10 +17,12 @@ function GUI(effect, options) {
 	effect.gui = {}
 
     self.effect = effect
+
     self.bypassed = options.bypassed
 
-    // Report the initial bypass state
-    options.bypass(self.bypassed)
+    // Report the initial bypass state.
+    // TODO is this necessary?
+    options.bypass(options.bypassed)
 
     this.makePortIndex = function() {
 	var ports = self.effect.ports.control.input
@@ -35,6 +36,7 @@ function GUI(effect, options) {
 	    $.extend(port, ports[i])
 	    if (options.preset[port.symbol] != null)
 		port.default = options.preset[port.symbol]
+	    port.value = port.default
 	    index[port.symbol] = port
 	}
 	return index
@@ -42,12 +44,34 @@ function GUI(effect, options) {
 
     self.controls = self.makePortIndex(effect.ports.control.input)
 
+    // Bypass needs to be represented as a port since it shares the hardware addressing
+    // structure with ports. We use the symbol ':bypass' that is an invalid lv2 symbol and
+    // so will cause no conflict
+    // Be aware that this is being acessed directly in pedalboard.js
+    self.controls[':bypass'] = {
+	name: 'Bypass',
+	symbol: ':bypass',
+	minimum: 0,
+	maximum: 1,
+	toggled: true,
+	widgets: [],
+	enabled: true,
+	value: options.bypassed
+    }	
+
     this.setPortValue = function(symbol, value, source) {
 	if (isNaN(value)) 
 	    throw "Invalid NaN value for " + symbol
 	var port = self.controls[symbol]
 	if (!port.enabled || port.value == value)
 	    return
+	if (port.trigger) {
+	    // Report the new value and return the widget to old value
+	    options.change(symbol, value)
+	    if (source)
+		source.controlWidget('setValue', port.value)
+	    return
+	}
 	port.value = value
 	for (var i in port.widgets) {
 	    if (port.widgets[i] == source)
@@ -55,6 +79,10 @@ function GUI(effect, options) {
 	    port.widgets[i].controlWidget('setValue', value)
 	}
 	options.change(symbol, value)
+    }
+
+    this.getPortValue = function(symbol) {
+	return self.controls[symbol].value
     }
 
     this.serializePreset = function() {
@@ -77,41 +105,26 @@ function GUI(effect, options) {
 	    port.widgets[i].controlWidget('enable')
     }
 
-    this.bypassIndicators = []
-
-    this.bypass = function(bypassed) {
-	if (bypassed == null)
-	    bypassed = !self.bypassed
-	self.bypassed = bypassed
-	for (var i in this.bypassIndicators) {
-	    var light = this.bypassIndicators[i]
-	    self.setBypassState(light)
-	}
-
-	options.bypass(self.bypassed)
-    }
-
-    this.setBypassState = function(light) {
-	if (self.bypassed) {
-	    light.addClass('off')
-	    light.removeClass('on')
-	} else {
-	    light.addClass('on')
-	    light.removeClass('off')
-	}
-    }
-    
     this.renderIcon = function(template) {
-	var element = $('<div class="pedal">')
+	var element = $('<div class="mod-pedal">')
 	element.html(Mustache.render(template || effect.gui.iconTemplate || options.defaultIconTemplate,
 				     self.getTemplateData(effect)))
 	self.assignIconFunctionality(element)
 	self.assignControlFunctionality(element)
+
+	// Take the width of the plugin. This is necessary because plugin may have position absolute.
+	// setTimeout is here because plugin has not yet been appended to anywhere, let's wait for
+	// all instructions to be executed.
+	setTimeout(function() {
+	    element.width(element.children().width())
+	    element.height(element.children().height())
+	}, 1)
+
 	return element
     }
 
     this.renderSettings = function(template) {
-	var element = $('<div class="settings">')
+	var element = $('<div class="mod-settings">')
 	element.html(Mustache.render(template || effect.gui.settingsTemplate || options.defaultSettingsTemplate,
 				     self.getTemplateData(effect)))
 	self.assignControlFunctionality(element)
@@ -119,7 +132,7 @@ function GUI(effect, options) {
     }
 
     this.renderDummy = function(template) {
-	var element = $('<div class="pedal dummy">')
+	var element = $('<div class="mod-pedal dummy">')
 	element.html(Mustache.render(template || effect.gui.iconTemplate || options.defaultIconTemplate,
 				     self.getTemplateData(effect)))
 	return element
@@ -139,16 +152,42 @@ function GUI(effect, options) {
 
     this.assignControlFunctionality = function(element) {
 	element.find('[mod-role=input-control-port]').each(function() {
-	    var symbol = $(this).attr('mod-port-symbol')
 	    var control = $(this)
-	    if (self.controls[symbol]) {
-		control.controlWidget({ port: self.controls[symbol],
-					container: element,
+	    var symbol = $(this).attr('mod-port-symbol')
+	    var port = self.controls[symbol]
+
+	    if (port) {
+		// Get the display formatting of this control
+		var format
+		if (port.unit)
+		    format = port.unit.render.replace('%f', '%.2f')
+		else
+		    format = '%.2f'
+		if (port.integer)
+		    format = format.replace(/%\.\d+f/, '%d')
+		
+		// Index the scalePoints
+		if (port.scalePoints) {
+		    var scalePointsIndex = {}
+		    for (var i in port.scalePoints) {
+			scalePointsIndex[sprintf(format, port.scalePoints[i].value)] = port.scalePoints[i]
+		    }
+		}
+		
+		control.controlWidget({ port: port,
 					change: function(e, value) {
+					    // When value is changed, let's use format and scalePoints to properly display
+					    // its value
+					    var label = sprintf(format, value)
+					    if (port.scalePoints && scalePointsIndex[label])
+						label = scalePointsIndex[label].label
+
+					    element.find('[mod-role=input-control-value][mod-port-symbol='+symbol+']').text(label)
+					    
 					    self.setPortValue(symbol, value, control)
 					}
 				      })
-		self.controls[symbol].widgets.push(control)
+		port.widgets.push(control)
 	    } else {
 		control.text('No such symbol: '+symbol)
 	    }
@@ -173,17 +212,22 @@ function GUI(effect, options) {
 	    var format = self.controls[symbol].unit ? self.controls[symbol].unit.render : '%.2f'
 	    $(this).html(sprintf(format, self.controls[symbol].maximum))
 	});
-	element.find('[mod-role=bypass]').click(function() {
-	    self.bypass()
-	});
-	element.find('[mod-role=bypass-light]').each(function() {
-	    self.bypassIndicators.push($(this))
-	    self.setBypassState($(this))
-	});
-	element.find('[mod-role=input-control-address]').click(function() {
-	    options.address($(this).attr('mod-port-symbol'))
-	});
-	   
+	element.find('[mod-role=bypass]').switchWidget({ port: self.controls[':bypass'],
+							 value: options.bypassed,
+							 change: function(e, value) {
+							     options.bypass(value)
+							     self.bypassed = value
+							     element.find('[mod-role=bypass-light]').each(function() {
+								 // NOTE
+								 // the element itself will get inverse class ("on" when light is "off"),
+								 // because of the switch widget.
+								 if (value == 1)
+								     $(this).addClass('off').removeClass('on')
+								 else
+								     $(this).addClass('on').removeClass('off')
+							     })
+							 }
+						       }).attr('mod-widget', 'switch')
     }
 
     this.getTemplateData = function(options) {
@@ -236,6 +280,7 @@ function JqueryClass() {
 	var self = $(this)
 	var widgets = {
 	    'film': 'film',
+	    'switch': 'switchWidget',
 	    'select': 'selectWidget',
 	    'custom-select': 'customSelect'
 	}
@@ -246,8 +291,12 @@ function JqueryClass() {
 })(jQuery);
 
 var baseWidget = {
-    config: function(port) {
+    config: function(options) {
 	var self = $(this)
+	self.data('enabled', true)
+	self.bind('valuechange', options.change)
+	
+	var port = options.port
 
 	var portSteps
 	if (port.toggle) {
@@ -282,23 +331,6 @@ var baseWidget = {
 	} else {
 	    self.data('scaleMinimum', port.minimum)
 	    self.data('scaleMaximum', port.maximum)
-	}
-
-	var format
-	if (port.unit)
-	    format = port.unit.render.replace('%f', '%.2f')
-	else
-	    format = '%.2f'
-	if (port.integer)
-	    format = format.replace(/%\.\d+f/, '%d')
-	self.data('format', format)
-
-	if (port.scalePoints) {
-	    var index = {}
-	    for (var i in port.scalePoints) {
-		index[sprintf(format, port.scalePoints[i].value)] = port.scalePoints[i]
-	    }
-	    self.data('scalePointsIndex', index)
 	}
 
 	self.data('portSteps', portSteps)
@@ -363,39 +395,14 @@ var baseWidget = {
 	    value = Math.round(value)
 
 	return parseInt((value - min) * (portSteps - 1) / (max - min))
-    },
-
-    reportValue: function(value) {
-	var self = $(this)
-	var container = self.data('container')
-	var symbol = self.data('symbol')
-	var format = self.data('format')
-
-	self.data('value', value)
-
-	var label = sprintf(format, value)
-
-	if (self.data('scalePoints') && self.data('scalePointsIndex')[label])
-	    label = self.data('scalePointsIndex')[label].label
-
-	container.find('[mod-role=input-control-value][mod-port-symbol='+symbol+']').text(label)
-
-	self.trigger('controlchange', value)
-    },
-
-    bindEvents: function(opt) {
-	if (opt.change) $(this).bind('controlchange', opt.change)
     }
 }
 
 JqueryClass('film', baseWidget, {
     init: function(options) {
 	var self = $(this)
-	self.data('container', options.container)
-	self.data('enabled', true)
-	self.film('bindEvents', options)
 	self.film('getSize', function() { 
-	    self.film('config', options.port)
+	    self.film('config', options)
 	    self.film('setValue', options.port.default)
 	})
 
@@ -423,6 +430,9 @@ JqueryClass('film', baseWidget, {
 	    }
 	})
 
+	self.click(function(e) { self.film('mouseClick', e) })
+
+	return self
     },
 
     setValue: function(value) {
@@ -430,7 +440,7 @@ JqueryClass('film', baseWidget, {
 	var position = self.film('stepsFromValue', value)
 	self.data('position', position)
 	self.film('setRotation', position)
-	self.film('reportValue', value)
+	self.trigger('valuechange', value)
     },
 
     getSize: function(callback) {
@@ -477,7 +487,20 @@ JqueryClass('film', baseWidget, {
 	    self.data('lastY', e.pageY)
 	self.film('setRotation', position)
 	var value = self.film('valueFromSteps', position)
-	self.film('reportValue', value)
+	self.trigger('valuechange', value)
+    },
+
+    mouseClick: function(e) {
+	// Advance one step, to go beginning if at end.
+	// Useful for fine tunning and toggle
+	var self = $(this)
+	var filmSteps = self.data('filmSteps')
+	var position = self.data('position')
+	position = (position + 1) % filmSteps
+	self.data('position', position)
+	self.film('setRotation', position)
+	var value = self.film('valueFromSteps', position)
+	self.trigger('valuechange', value)
     },
 
     setRotation: function(steps) {
@@ -507,13 +530,12 @@ JqueryClass('film', baseWidget, {
 JqueryClass('selectWidget', baseWidget, {
     init: function(options) {
 	var self = $(this)
-	self.data('container', options.container)
-	self.selectWidget('bindEvents', options)
-	self.selectWidget('config', options.port)
-	self.change(function() {
-	    self.selectWidget('reportValue', parseFloat(self.val()))
-	})
+	self.selectWidget('config', options)
 	self.selectWidget('setValue', options.port.default)
+	self.change(function() {
+	    self.trigger('valuechange', parseFloat(self.val()))
+	})
+	return self
     },
 
     disable: function() {
@@ -531,32 +553,57 @@ JqueryClass('selectWidget', baseWidget, {
     setValue: function(value) {
 	var self = $(this)
 	self.val(value)
-	self.selectWidget('reportValue', value)
+	self.trigger('valuechange', value)
     }
 })
+
+JqueryClass('switchWidget', baseWidget, {
+    init: function(options) {
+	var self = $(this)
+	self.switchWidget('config', options)
+	self.data('value', options.value)
+	self.click(function() {
+	    if (!self.data('enabled'))
+		return
+	    var value = self.data('value')
+	    if (value == self.data('minimum')) {
+		self.switchWidget('setValue', self.data('maximum'))
+		self.addClass('on').removeClass('off')
+	    } else {
+		self.switchWidget('setValue', self.data('minimum'))
+		self.addClass('off').removeClass('on')
+	    }
+	})
+	return self
+    },
+    setValue: function(value) {
+	var self = $(this)
+	self.data('value', value)
+	self.trigger('valuechange', value)
+    }
+})    
 
 JqueryClass('customSelect', baseWidget, {
     init: function(options) {
 	var self = $(this)
-	self.data('container', options.container)
-	self.customSelect('bindEvents', options)
-	self.customSelect('config', options.port)
+	self.customSelect('config', options)
+	self.customSelect('setValue', options.port.default)
 	self.find('[mod-role=enumeration-option]').each(function() {
 	    var opt = $(this)
 	    var value = opt.attr('mod-port-value')
 	    opt.click(function() {
-		if (self.data('enabled'))
+		if (self.data('enabled')) {
 		    self.customSelect('setValue', value)
+		}
 	    })
-	})
-	self.customSelect('setValue', options.port.default)
+	});
+	return self
     },
 
     setValue: function(value) {
 	var self = $(this)
 	self.find('[mod-role=enumeration-option]').removeClass('selected')
 	self.find('[mod-role=enumeration-option][mod-port-value="'+value+'"]').addClass('selected')
-	self.customSelect('reportValue', parseFloat(value))
+	self.trigger('valuechange', parseFloat(value))
     }
 })
-

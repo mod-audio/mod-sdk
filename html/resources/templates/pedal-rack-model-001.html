@@ -64,105 +64,58 @@
         </div>
         {{/controls.8}}
         {{#controls.9}}
-        <div class="mod-enumerated mod-enumerated-1">
-            <div class="mod-enumerated-selected">pre 12ax7/ push-pull 6V6</div>
-            <div class="mod-enumerated-list">
-                <div>12ax7</div>
-                <div>12AU7</div>
-                <div>12AT7</div>
-                <div>6DJ8</div>
-                <div>6C16</div>
-                <div>6V6</div>
-                <div>12ax7 feedback</div>
-                <div>12AU7 feedback</div>
-                <div>12AT7 feedback</div>
-                <div>6DJ8 feedback</div>
-                <div>pre 12ax7/ master 6V6</div>
-                <div>pre 12AU7/ master 6V6</div>
-                <div>pre 12AT7/ master 6V6</div>
-                <div>pre 6DJ8/ master 6V6</div>
-                <div>pre 12ax7/ push-pull 6V6</div>
-                <div>pre 12AU7/ push-pull 6V6</div>
-                <div>pre 12AT7/ push pull 6V6</div>
-                <div>pre 6DJ8/ push-pull 6V6</div>
-            </div>
+        <div class="mod-enumerated mod-enumerated-1" mod-role="input-control-port" mod-port-symbol="{{symbol}}" mod-widget="custom-select">
+          <div mod-role="input-control-value" mod-port-symbol="{{symbol}}" class="mod-enumerated-selected"></div>
+          <div class="mod-enumerated-list">
+            {{#scalePoints}}
+            <div mod-role="enumeration-option" mod-port-value="{{value}}">{{label}}</div>
+            {{/scalePoints}}
+          </div>
         </div>
         {{/controls.9}}
         {{#controls.10}}
-        <div class="mod-enumerated mod-enumerated-2">
-            <div class="mod-enumerated-selected">Hughes&Kettner</div>
-            <div class="mod-enumerated-list">
-                <div>default</div>
-                <div>Bassman</div>
-                <div>Twin Reverb</div>
-                <div>Princeton</div>
-                <div>JCM-800</div>
-                <div>JCM-2000</div>
-                <div>M-Lead</div>
-                <div>M2199</div>
-                <div>AC-30</div>
-                <div>Mesa Boogie</div>
-                <div>SOL 100</div>
-                <div>JTM-45</div>
-                <div>AC-15</div>
-                <div>Peavey</div>
-                <div>Ibanez</div>
-                <div>Roland</div>
-                <div>Ampeg</div>
-                <div>Rev.Rocket</div>
-                <div>MIG 100 H</div>
-                <div>Triple Giant</div>
-                <div>Trio Preamp</div>
-                <div>Hughes & Kettner</div>
-                <div>Fender Junior</div>
-                <div>Fender</div>
-                <div>Fender Deville</div>
-                <div>Gibsen</div>
-            </div>
+        <div class="mod-enumerated mod-enumerated-2" mod-role="input-control-port" mod-port-symbol="{{symbol}}" mod-widget="custom-select">
+          <div mod-role="input-control-value" mod-port-symbol="{{symbol}}" class="mod-enumerated-selected"></div>
+          <div class="mod-enumerated-list">
+            {{#scalePoints}}
+            <div mod-role="enumeration-option" mod-port-value="{{value}}">{{label}}</div>
+            {{/scalePoints}}
+          </div>
         </div>
         {{/controls.10}}
         {{#controls.11}}
-        <div class="mod-enumerated mod-enumerated-3">
-            <div class="mod-enumerated-selected">Princeton</div>
-            <div class="mod-enumerated-list">
-                <div>4x12</div>
-                <div>2x12</div>
-                <div>1x12</div>
-                <div>4x10</div>
-                <div>2x10</div>
-                <div>HighGain</div>
-                <div>Twin</div>
-                <div>Bassman</div>
-                <div>Marshall</div>
-                <div>AC30</div>
-                <div>Princeton</div>
-                <div>A2</div>
-                <div>1x15</div>
-                <div>Mesa</div>
-                <div>Briliant</div>
-                <div>Vitalize</div>
-                <div>Charisma</div>
-                <div>1x8</div>
-            </div>
+        <div class="mod-enumerated mod-enumerated-3" mod-role="input-control-port" mod-port-symbol="{{symbol}}" mod-widget="custom-select">
+          <div mod-role="input-control-value" mod-port-symbol="{{symbol}}" class="mod-enumerated-selected"></div>
+          <div class="mod-enumerated-list">
+            {{#scalePoints}}
+            <div mod-role="enumeration-option" mod-port-value="{{value}}">{{label}}</div>
+            {{/scalePoints}}
+          </div>
         </div>
         {{/controls.11}}
     </div>
     <div class="mod-pedal-input">
        {{#effect.ports.audio.input}}
-       <div class="mod-input mod-input-disconnected ui-droppable" title="{{name}}" mod-role="input-audio-port" mod-port-symbol="{{symbol}}">
-           <div class="mod-pedal-input-control"></div>
+       <div class="mod-input mod-input-disconnected" title="{{name}}" mod-role="input-audio-port" mod-port-symbol="{{symbol}}">
            <div class="mod-pedal-input-image"></div>
-           <div class="mod-jack-disconnected"></div>
        </div>
        {{/effect.ports.audio.input}}
+        {{#effect.ports.midi.input}}
+        <div class="mod-input mod-input-disconnected" title="{{name}}" mod-role="input-midi-port" mod-port-symbol="{{symbol}}">
+            <div class="mod-pedal-input-image"></div>
+        </div>
+        {{/effect.ports.midi.input}}
     </div>
     <div class="mod-pedal-output">
        {{#effect.ports.audio.output}}
        <div class="mod-output mod-output-disconnected" title="{{name}}" mod-role="output-audio-port" mod-port-symbol="{{symbol}}">
-           <div class="mod-pedal-output-control"></div>
            <div class="mod-pedal-output-image"></div>
-           <div class="mod-jack-disconnected"></div>
        </div>
        {{/effect.ports.audio.output}}
+        {{#effect.ports.midi.output}}
+        <div class="mod-output mod-output-disconnected" title="{{name}}" mod-role="output-midi-port" mod-port-symbol="{{symbol}}">
+            <div class="mod-pedal-input-image"></div>
+        </div>
+        {{/effect.ports.midi.output}}
     </div>
 </div>

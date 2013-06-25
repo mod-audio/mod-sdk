@@ -15,6 +15,6 @@ function getEffects(bundle, callback) {
 	     error: function(resp) {
 		 alert("Error: Can't get list of effects. Is your server running? Check the logs.")
 	     },
-         dataType: "json"
+	     dataType: 'json'
 	   })
 }

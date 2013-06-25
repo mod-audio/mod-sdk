@@ -18,6 +18,7 @@
 
             {{#effect.ports.control.input}}
                 {{^enumeration}}
+		  {{^toggled}}
                 <div class="mod-knob">
                     <span class="mod-knob-title">{{name}}</span>
                     <span class="mod-knob-min-value" mod-role="input-control-minimum" mod-port-symbol="{{symbol}}"></span>
@@ -26,6 +27,15 @@
                     <div class="mod-knob-image" mod-role="input-control-port" mod-port-symbol="{{symbol}}"></div>
                     <div class="mod-address" mod-role="input-control-address" mod-port-symbol="{{symbol}}" mod-widget="film"></div>
                 </div>
+		{{/toggled}}
+		{{#toggled}}
+                <div class="mod-switch">
+                    <span class="mod-switch-title">{{name}}</span>
+                    <div class="mod-switch-image" mod-role="input-control-port" mod-port-symbol="{{symbol}}"></div>
+                    <div class="mod-address" mod-role="input-control-address" mod-port-symbol="{{symbol}}" mod-widget="film"></div>
+                </div>
+		{{/toggled}}
+                {{/enumeration}}
 
                 <!-- SLIDER
                 <div class="mod-slider">
@@ -37,18 +47,6 @@
                     <div class="mod-address" mod-role="input-control-address" mod-port-symbol="{{symbol}}" mod-widget="film"></div>
                 </div>
                 -->
-
-                <!-- SWITCH
-                <div class="mod-switch">
-                    <span class="mod-switch-title">{{name}}</span>
-                    <span class="mod-switch-min-value" mod-role="input-control-minimum" mod-port-symbol="{{symbol}}"></span>
-                    <span class="mod-switch-max-value" mod-role="input-control-maximum" mod-port-symbol="{{symbol}}"></span>
-                    <span class="mod-switch-current-value" mod-role="input-control-value" mod-port-symbol="{{symbol}}"></span>
-                    <div class="mod-switch-image" mod-role="input-control-port" mod-port-symbol="{{symbol}}"></div>
-                    <div class="mod-address" mod-role="input-control-address" mod-port-symbol="{{symbol}}" mod-widget="film"></div>
-                </div>
-                -->
-                {{/enumeration}}
             {{/effect.ports.control.input}}
         </div>
     </div>

@@ -3,39 +3,20 @@
     <div class="mod-plugin-author"><h1>{{author}}</h1></div>
     <div class="mod-plugin-name"><h1>{{label}}</h1></div>
     <div class="mod-control-group clearfix">
-        <div class="mod-enumerated clearfix">
-            <div class="mod-enumerated-selected">pre 12AU7/ push-pull 6V6</div>
-            <div class="mod-enumerated-list">
-                <div>pre 12AU7/ push-pull 6V6</div>
-                <div>6V6</div>
-                <div>12AU7</div>
-                <div>pre 12AU7/ master 6V6</div>
-                <div>pre 12ax7/ master 6V6</div>
-                <div>pre 6DJ8/ push-pull 6V6</div>
-                <div>pre 12ax7/ push-pull 6V6</div>
-                <div>pre 12AU7/ push-pull 6V6</div>
-                <div>12ax7 feedback</div>
-                <div>6DJ8</div>
-                <div>12AU7 feedback</div>
-                <div>pre 6DJ8/ master 6V6</div>
-                <div>6DJ8 feedback</div>
-                <div>12AT7</div>
-                <div>pre 12AT7/ master 6V6</div>
-                <div>pre 12AT7/ push pull 6V6</div>
-                <div>12AT7 feedback</div>
-                <div>6C16</div>
-            </div>
+        {{#controls.0}}
+        <div class="mod-enumerated clearfix" mod-role="input-control-port" mod-port-symbol="{{symbol}}" mod-widget="custom-select">
+          <div mod-role="input-control-value" mod-port-symbol="{{symbol}}" class="mod-enumerated-selected"></div>
+          <div class="mod-enumerated-list">
+            {{#scalePoints}}
+            <div mod-role="enumeration-option" mod-port-value="{{value}}">{{label}}</div>
+            {{/scalePoints}}
+          </div>
         </div>
+        {{/controls.0}}
         <div class="mod-switch" mod-role="bypass">
             <div class="mod-switch-image" mod-role="bypass-light"></div>
         </div>
         <div class="mod-separator"></div>
-        {{#controls.0}}
-        <div class="mod-chicken-head">
-            <div class="mod-chicken-head-image" mod-role="input-control-port" mod-port-symbol="{{symbol}}"></div>
-            <span class="mod-chicken-head-title">{{name}}</span>
-        </div>
-        {{/controls.0}}
         {{#controls.1}}
         <div class="mod-chicken-head">
             <div class="mod-chicken-head-image" mod-role="input-control-port" mod-port-symbol="{{symbol}}"></div>
@@ -86,23 +67,35 @@
             <span class="mod-chicken-head-title">{{name}}</span>
         </div>
         {{/controls.8}}
+        {{#controls.9}}
+        <div class="mod-chicken-head">
+            <div class="mod-chicken-head-image" mod-role="input-control-port" mod-port-symbol="{{symbol}}"></div>
+            <span class="mod-chicken-head-title">{{name}}</span>
+        </div>
+        {{/controls.9}}
     </div>
     <div class="mod-pedal-input">
         {{#effect.ports.audio.input}}
-        <div class="mod-input mod-input-disconnected ui-droppable" title="{{name}}" mod-role="input-audio-port" mod-port-symbol="{{symbol}}">
-            <div class="mod-pedal-input-control"></div>
+        <div class="mod-input mod-input-disconnected" title="{{name}}" mod-role="input-audio-port" mod-port-symbol="{{symbol}}">
             <div class="mod-pedal-input-image"></div>
-            <div class="mod-jack-disconnected"></div>
         </div>
         {{/effect.ports.audio.input}}
+        {{#effect.ports.midi.input}}
+        <div class="mod-input mod-input-disconnected" title="{{name}}" mod-role="input-midi-port" mod-port-symbol="{{symbol}}">
+            <div class="mod-pedal-input-image"></div>
+        </div>
+        {{/effect.ports.midi.input}}
     </div>
     <div class="mod-pedal-output">
         {{#effect.ports.audio.output}}
         <div class="mod-output mod-output-disconnected" title="{{name}}" mod-role="output-audio-port" mod-port-symbol="{{symbol}}">
-            <div class="mod-pedal-output-control"></div>
             <div class="mod-pedal-output-image"></div>
-            <div class="mod-jack-disconnected"></div>
         </div>
         {{/effect.ports.audio.output}}
+        {{#effect.ports.midi.output}}
+        <div class="mod-output mod-output-disconnected" title="{{name}}" mod-role="output-midi-port" mod-port-symbol="{{symbol}}">
+            <div class="mod-pedal-input-image"></div>
+        </div>
+        {{/effect.ports.midi.output}}
     </div>
 </div>

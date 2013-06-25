@@ -243,16 +243,14 @@ JqueryClass('wizard', {
 	if (!ok)
 	    return
 
-	var template = self.wizard('getTemplate')
-	var templateData = self.wizard('getTemplateData')
 	effect.gui = {
-	    template: template,
-	    templateData: templateData,
+	    templateData: self.wizard('getTemplateData'),
+	    iconTemplate: self.wizard('getIconTemplate'),
 	}
-	new GUI(effect).renderIcon(template).appendTo(icon)
+	new GUI(effect).renderIcon().appendTo(icon)
     },
 
-    getTemplate: function() {
+    getIconTemplate: function() {
 	return TEMPLATES['pedal-' + $(this).data('model') + '-' + $(this).data('panel')]
     },
 
@@ -262,16 +260,17 @@ JqueryClass('wizard', {
 	var knob = self.data('knob')
 
 	var controls = self.data('controls')
+	var effect = self.data('effect')
 
 	if (!controls) {
 	    var db = self.data('model_index')
-	    var effect = self.data('effect')
 	    var model = self.data('model')
 	    var panel = self.data('panel')
 	    controls =  effect.ports.control.input.slice(0, db[model].panels[panel])
 	}
 
 	var data =  {
+	    effect: $.extend({ gui: null }, effect),
 	    label: self.data('label'),
 	    author: self.data('author'),
 	    controls: []
@@ -375,19 +374,23 @@ JqueryClass('wizard', {
 	canvas.append('    mod:gui [\n')
 	canvas.append('        a mod:Gui;\n')
 	canvas.append('        mod:resourcesDirectory &lt;modgui&gt;;\n')
-	canvas.append('        mod:iconTemplate &lt;modgui/'+slug+'.html&gt;;\n')
+	canvas.append('        mod:iconTemplate &lt;modgui/icon-'+slug+'.html&gt;;\n')
+	canvas.append('        mod:settingsTemplate &lt;modgui/settings-'+slug+'.html&gt;;\n')
 	canvas.append('        mod:templateData &lt;modgui/data-'+slug+'.json&gt;;\n')
 	canvas.append('        mod:screenshot &lt;modgui/screenshot-'+slug+'.png&gt;;\n')
 	canvas.append('        mod:thumbnail &lt;modgui/thumb-'+slug+'.png&gt;;\n')
-	canvas.append('    ].')
+	canvas.append('    ] .')
     },
 
     save_template: function() {
 	var self = $(this)
+	var templateData = self.wizard('getTemplateData')
+	var settingsTemplate = Mustache.render(defaultSettingsTemplate, templateData)
 	var data = {
 	    slug: self.wizard('slug'),
-	    data: self.wizard('getTemplateData'),
-	    template: self.wizard('getTemplate')	    
+	    data: templateData,
+	    iconTemplate: self.wizard('getIconTemplate'),
+	    settingsTemplate: settingsTemplate,
 	}
 	$.ajax({ url: '/effect/save/' + self.data('effect').package,
 		 type: 'POST',
@@ -429,7 +432,7 @@ JqueryClass('wizard', {
 		 error: function(resp) {
 		     alert("Error: Can't generate thumbnail. Is your server running? Check the logs.")
 		 },
-         dataType: "json"
+		 dataType: 'json'
 	       })
     },
 
@@ -449,5 +452,4 @@ JqueryClass('wizard', {
     finish: function() {
 	document.location.reload()
     }
-
 })

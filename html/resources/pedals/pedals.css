@@ -91,15 +91,6 @@
     margin-bottom:10px
 }
 
-.mod-pedal .mod-pedal-input-control {
-    height:28px;
-    left:15px;
-    position:absolute;
-    top:8px;
-    width:28px;
-    z-index:1;
-}
-
 .mod-pedal .mod-pedal-input-image {
     background:url(input.png) no-repeat right top;
     background-size:auto 45px;
@@ -161,22 +152,6 @@
     margin-bottom:10px;
     position:relative;
     width:45px;
-}
-
-.mod-pedal .mod-pedal-output-control {
-    background-position:left top;
-    background-repeat:no-repeat;
-    height:28px;
-    right:14px;
-    position:absolute;
-    top:8px;
-    width:28px;
-}
-.mod-pedal .mod-pedal-output-control:hover {
-    height:18px;
-    left:3px;
-    top:14px;
-    width:87px;
 }
 
 .mod-pedal .mod-pedal-output-image {
@@ -414,6 +389,7 @@
 ================================================ */
 .mod-pedal-settings .mod-switch {
     background:rgba(255,255,255,.15);
+    cursor:pointer;
     float:left;
     height:160px;
     margin-bottom:2px;
@@ -423,31 +399,6 @@
     width:160px;
 }
 
-.mod-pedal-settings .mod-switch > span.mod-switch-current-value {
-    bottom:30px;
-    font-size:12px;
-    font-weight:bold;
-    left:0;
-    position:absolute;
-    text-align:center;
-    right:0;
-}
-.mod-pedal-settings .mod-switch > span.mod-switch-max-value {
-    font-size:11px;
-    font-weight:bold;
-    left:110px;
-    position:absolute;
-    text-align:left;
-    top:90px;
-}
-.mod-pedal-settings .mod-switch > span.mod-switch-min-value {
-    font-size:11px;
-    font-weight:bold;
-    position:absolute;
-    text-align:right;
-    right:110px;
-    top:90px;
-}
 .mod-pedal-settings .mod-switch > span.mod-switch-title {
     color:white;
     display:block;
@@ -467,11 +418,11 @@
     background-repeat:no-repeat;
     background-size:auto 63px;
     height:63px;
-    left:47px;
+    left:17px;
     position:absolute;
     overflow:hidden;
-    top:45px;
-    width:63px;
+    top:55px;
+    width:126px;
 }
 
 
