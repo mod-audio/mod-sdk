@@ -430,6 +430,8 @@ JqueryClass('film', baseWidget, {
 	    }
 	})
 
+	self.click(function(e) { self.film('mouseClick', e) })
+
 	return self
     },
 
@@ -483,6 +485,19 @@ JqueryClass('film', baseWidget, {
 	self.data('position', position)
 	if (Math.abs(diff) > 0)
 	    self.data('lastY', e.pageY)
+	self.film('setRotation', position)
+	var value = self.film('valueFromSteps', position)
+	self.trigger('valuechange', value)
+    },
+
+    mouseClick: function(e) {
+	// Advance one step, to go beginning if at end.
+	// Useful for fine tunning and toggle
+	var self = $(this)
+	var filmSteps = self.data('filmSteps')
+	var position = self.data('position')
+	position = (position + 1) % filmSteps
+	self.data('position', position)
 	self.film('setRotation', position)
 	var value = self.film('valueFromSteps', position)
 	self.trigger('valuechange', value)
