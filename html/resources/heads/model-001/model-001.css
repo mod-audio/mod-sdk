@@ -160,7 +160,7 @@
 
 /* ENUMERATED LIST */
 .mod-head-model-001 .mod-enumerated {
-    color: #fff;
+    color: #000;
     display: inline-block;
     margin-top: 40px;
     overflow: hidden;
@@ -171,8 +171,9 @@
 }
 
 .mod-head-model-001 .mod-enumerated .mod-enumerated-selected {
-    background: rgba(0,0,0,.85);
+    background: rgba(255,255,255,.85);
     border-radius: 4px;
+    box-shadow:inset 1px 1px 10px #000;
     font-size: 14px;
     height: 34px;
     line-height: 2.5;
@@ -198,13 +199,13 @@
 }
 
 .mod-head-model-001 .mod-enumerated .mod-enumerated-list > div:hover {
-    background: rgba(255,255,255,.2);
+    background: rgba(0,0,0,.35);
     cursor: pointer;
 }
 
 /* WHEN THE LIST IS SHOWING */
 .mod-head-model-001 .mod-enumerated:hover .mod-enumerated-list {
-    background: rgba(0,0,0,.9);
+    background: rgba(255,255,255,.85);
     display: block;
     height: 69px;
     overflow: auto;
