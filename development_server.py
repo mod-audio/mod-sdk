@@ -123,7 +123,7 @@ class EffectSave(web.RequestHandler):
         open(datafile, 'w').write(json.dumps(data, sort_keys=True, indent=4))
         
     def make_empty_image(self, name):
-        image_path = os.path.join(self.basedir, '%s-%s.png' % ('screenshot', name))
+        image_path = os.path.join(self.basedir, '%s.png' % name)
 
         if not os.path.exists(image_path):
             img = Image.new('RGBA', (1, 1), (255, 0, 0, 0))
