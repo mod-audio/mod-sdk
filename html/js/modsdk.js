@@ -32,6 +32,10 @@ $(document).ready(function() {
 
     bundles.change(function() { loadEffects() })
     effects.change(function() { showEffect() })
+    $('#next-bundle').click(function() {
+	bundles.val(bundles.find(':selected').next().val())
+	loadEffects()
+    })
     $('#screenshot').click(function() {
 	var iconImg = $('<img>')
 	var param = { bundle: bundles.val(),
