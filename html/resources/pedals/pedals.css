@@ -184,11 +184,14 @@
     z-index:10;
 }
 
+.mod-pedal-settings header {
+    padding:10px 10px 18px;
+}
+
 .mod-pedal-settings h1 {
     font-size:18px;
     font-weight:bold;
     margin:0;
-    padding:10px 10px 18px;
 }
 
 .mod-pedal-settings .mod-actions {

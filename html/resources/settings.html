@@ -1,5 +1,8 @@
 <div class="mod-pedal-settings">
-    <h1>{{effect.name}}</h1>
+    <header class="clearfix">
+        <h1 class="alignleft">{{effect.name}}</h1>
+        <button class="js-close alignright btn btn-danger">Close</button>
+    </header>
     <div class="mod-controls clearfix">
         <div class="mod-control-group clearfix">
             {{#effect.ports.control.input}}
