@@ -5,6 +5,11 @@
     </header>
     <div class="mod-controls clearfix">
         <div class="mod-control-group clearfix">
+                <div class="mod-switch bypass">
+                    <span class="mod-switch-title">Bypass</span>
+                    <div class="mod-switch-image" mod-role="bypass"></div>
+                    <div class="mod-address" mod-role="bypass-address"></div>
+                </div>
             {{#effect.ports.control.input}}
                 {{#enumeration}}
                 <div class="mod-enumerated">
@@ -27,15 +32,15 @@
                     <span class="mod-knob-min-value" mod-role="input-control-minimum" mod-port-symbol="{{symbol}}"></span>
                     <span class="mod-knob-max-value" mod-role="input-control-maximum" mod-port-symbol="{{symbol}}"></span>
                     <span class="mod-knob-current-value" mod-role="input-control-value" mod-port-symbol="{{symbol}}"></span>
-                    <div class="mod-knob-image" mod-role="input-control-port" mod-port-symbol="{{symbol}}"></div>
-                    <div class="mod-address" mod-role="input-control-address" mod-port-symbol="{{symbol}}" mod-widget="film"></div>
+                    <div class="mod-knob-image" mod-role="input-control-port" mod-port-symbol="{{symbol}}" mod-widget="film"></div>
+                    <div class="mod-address" mod-role="input-control-address" mod-port-symbol="{{symbol}}"></div>
                 </div>
 		{{/toggled}}
 		{{#toggled}}
                 <div class="mod-switch">
                     <span class="mod-switch-title">{{name}}</span>
-                    <div class="mod-switch-image" mod-role="input-control-port" mod-port-symbol="{{symbol}}"></div>
-                    <div class="mod-address" mod-role="input-control-address" mod-port-symbol="{{symbol}}" mod-widget="film"></div>
+                    <div class="mod-switch-image" mod-role="input-control-port" mod-port-symbol="{{symbol}}" mod-widget="film"></div>
+                    <div class="mod-address" mod-role="input-control-address" mod-port-symbol="{{symbol}}"></div>
                 </div>
 		{{/toggled}}
                 {{/enumeration}}

@@ -417,7 +417,7 @@
 
 .mod-pedal-settings .mod-switch .mod-switch-image {
     background-image:url(../switches/switch-002.png);
-    background-position:left center;
+    background-position: left center;
     background-repeat:no-repeat;
     background-size:auto 63px;
     height:63px;
@@ -428,6 +428,24 @@
     width:126px;
 }
 
+/* This makes the switch works either with film of switch widget */
+.mod-pedal-settings .mod-switch .mod-switch-image.on {
+    background-position: right center;
+}
+.mod-pedal-settings .mod-switch .mod-switch-image.off {
+    background-position: left center;
+}
+
+/* Invert the display of bypass, so that we display ON when bypass is off */
+.mod-pedal-settings .bypass .mod-switch-image.on {
+    background-position: left center !important;
+}
+.mod-pedal-settings .bypass .mod-switch-image.off {
+    background-position: right center !important;
+}
+.mod-pedal-settings .bypass .mod-switch-image {
+    background-position: right center !important;
+}
 
 /* ADDRESSING BUTTON */
 .mod-pedal-settings .mod-knob .mod-address,
