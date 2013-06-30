@@ -105,7 +105,7 @@ class EffectSave(web.RequestHandler):
             os.mkdir(self.basedir)
 
         self.make_template('icon-' + param['slug'], param['iconTemplate'])
-        self.make_template('settings-' + param['slug'], param['settingsTemplate'])
+        #self.make_template('settings-' + param['slug'], param['settingsTemplate'])
         self.make_datafile('data-' + param['slug'], param['data'])
         self.make_empty_image('screenshot-' + param['slug'])
         self.make_empty_image('thumb-' + param['slug'])
@@ -244,7 +244,7 @@ class BundlePost(web.RequestHandler):
             return self.send_bundle(package, address)
 
         if destination == 'cloud':
-            address = self.get_address('cloud', 'sdk/publish', 'http://cloud.portalmod.com')
+            address = self.get_address('cloud', 'api/sdk/publish', 'http://cloud.portalmod.com')
             fields = self.sign_bundle_package(bundle, package)
             return self.send_bundle(package, address, fields)
 

@@ -375,7 +375,7 @@ JqueryClass('wizard', {
 	canvas.append('        a mod:Gui;\n')
 	canvas.append('        mod:resourcesDirectory &lt;modgui&gt;;\n')
 	canvas.append('        mod:iconTemplate &lt;modgui/icon-'+slug+'.html&gt;;\n')
-	canvas.append('        mod:settingsTemplate &lt;modgui/settings-'+slug+'.html&gt;;\n')
+	//canvas.append('        mod:settingsTemplate &lt;modgui/settings-'+slug+'.html&gt;;\n')
 	canvas.append('        mod:templateData &lt;modgui/data-'+slug+'.json&gt;;\n')
 	canvas.append('        mod:screenshot &lt;modgui/screenshot-'+slug+'.png&gt;;\n')
 	canvas.append('        mod:thumbnail &lt;modgui/thumb-'+slug+'.png&gt;;\n')
@@ -385,6 +385,7 @@ JqueryClass('wizard', {
     save_template: function() {
 	var self = $(this)
 	var templateData = self.wizard('getTemplateData')
+	delete templateData.effect
 	var settingsTemplate = Mustache.render(defaultSettingsTemplate, templateData)
 	var data = {
 	    slug: self.wizard('slug'),
