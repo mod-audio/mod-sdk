@@ -174,16 +174,26 @@
     
 /* = PEDAL SETTINGS - Pop Up Window
 ================================================ */
+body > .mod-settings {
+    background:rgba(20,20,20,.85);
+    bottom:0;
+    left:0;
+    position:absolute;
+    right:0;
+    top:0;
+}
+
 .mod-pedal-settings {
     background:#000;
     border-radius:9px;
+    bottom:38px;
     color:#fff;
-    left:0;
-    max-width:900px;
+    left:30px;
+    margin:0 auto;
     overflow:auto;
     padding:0;
     position:absolute;
-    right:0;
+    right:30px;
     top:38px;
     z-index:10;
 }
