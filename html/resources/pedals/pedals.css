@@ -8,7 +8,11 @@
 
 /* = ACTIONS - Icons above:settings, remove, etc
 ================================================ */
-.mod-pedal .mod-actions { position:relative; }
+.mod-pedal .mod-actions {
+    position:absolute;
+    right:0;
+    top:0;
+}
 .mod-pedal .mod-actions .mod-settings {
     background:url(../../img/icn-settings-16x16.png) no-repeat bottom center;
     cursor:pointer;
