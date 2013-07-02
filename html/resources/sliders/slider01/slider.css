@@ -86,6 +86,15 @@
     margin-left:-5px;
 }
 
+.mod-pedal.mod-twelve-sliders .mod-slider {
+    margin:0;
+    width:8.333333%;
+}
+
+.mod-pedal.mod-twelve-sliders .mod-slider .mod-slider-image {
+    margin-left:-5px;
+}
+
 
 /* JAPANESE */
 .mod-pedal-japanese.mod-sliders .mod-control-group {

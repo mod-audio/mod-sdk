@@ -25,6 +25,11 @@
     width:364px;
 }
 
+.mod-pedal-boxy.mod-boxy100 {
+    background-size:421px 431px;
+    width:421px;
+}
+
 /* = BACKGROUND IMAGES - Colour of the pedal
 ================================================ */
 /* NORMAL */
@@ -100,6 +105,11 @@
 /* BIGGER */
 .mod-pedal-boxy.mod-boxy85.mod-yellow {
     background-image:url(../boxy85/yellow.png);
+}
+
+/* HUGE */
+.mod-pedal-boxy.mod-boxy100.mod-yellow {
+    background-image:url(../boxy100/yellow.png);
 }
 
 
