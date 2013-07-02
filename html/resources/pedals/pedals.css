@@ -461,6 +461,22 @@ body > .mod-settings {
     background-position: right center !important;
 }
 
+.mod-pedal-settings .bypass .mod-light {
+    background-repeat:no-repeat;
+    background-size:auto 24px;
+    height:24px;
+    margin:20px auto 0;
+    width:24px;
+}
+.mod-pedal-settings .bypass .mod-light.off {
+    background-image:url(red-light-off.png);
+}
+.mod-pedal-settings .bypass .mod-light.on  {
+    background-image:url(red-light-on.png);
+}
+
+
+
 /* ADDRESSING BUTTON */
 .mod-pedal-settings .mod-knob .mod-address,
 .mod-pedal-settings .mod-enumerated .mod-address,
