@@ -81,6 +81,28 @@
 
 /* = INPUT
 ================================================ */
+.mod-pedal-input-wrapper {
+    background:#000;
+    border-radius:4px;
+    height:100px;
+    left:-32px;
+    position:absolute;
+    top:78px;
+    width:32px;
+    z-index:50;
+}
+
+.mod-pedal-input-wrapper .mod-pedal-input-arrow {
+    border-bottom:12px solid transparent;
+    border-left:12px solid #000;
+    border-top:12px solid transparent;
+    height:0; 
+    position:absolute;
+    right:-12px;
+    top:39px;
+    width:0; 
+}
+
 .mod-pedal .mod-pedal-input {
     height:170px;
     left:-28px;
@@ -126,6 +148,27 @@
 
 /* = OUTPUT
 ================================================ */
+.mod-pedal-output-wrapper {
+    background:#000;
+    border-radius:4px;
+    height:100px;
+    right:-32px;
+    position:absolute;
+    top:78px;
+    width:32px;
+    z-index:50;
+}
+
+.mod-pedal-output-wrapper .mod-pedal-output-arrow {
+    border-bottom:12px solid transparent;
+    border-right:12px solid #000;
+    border-top:12px solid transparent;
+    height:0; 
+    position:absolute;
+    left:-12px;
+    top:39px;
+    width:0; 
+}
 .mod-pedal .mod-output-jack,
 .mod-pedal .output-connected .mod-output-jack:hover {
     background-image:url(../../img/jack-p10.png);
@@ -431,7 +474,7 @@ body > .mod-settings {
 
 .mod-pedal-settings .mod-switch .mod-switch-image {
     background-image:url(../switches/switch-002.png);
-    background-position: left center;
+    background-position:left center;
     background-repeat:no-repeat;
     background-size:auto 63px;
     height:63px;
@@ -444,21 +487,21 @@ body > .mod-settings {
 
 /* This makes the switch works either with film of switch widget */
 .mod-pedal-settings .mod-switch .mod-switch-image.on {
-    background-position: right center;
+    background-position:right center;
 }
 .mod-pedal-settings .mod-switch .mod-switch-image.off {
-    background-position: left center;
+    background-position:left center;
 }
 
 /* Invert the display of bypass, so that we display ON when bypass is off */
 .mod-pedal-settings .bypass .mod-switch-image.on {
-    background-position: left center !important;
+    background-position:left center !important;
 }
 .mod-pedal-settings .bypass .mod-switch-image.off {
-    background-position: right center !important;
+    background-position:right center !important;
 }
 .mod-pedal-settings .bypass .mod-switch-image {
-    background-position: right center !important;
+    background-position:right center !important;
 }
 
 .mod-pedal-settings .bypass .mod-light {
