@@ -31,6 +31,17 @@
     top:40px;
 }
 
+/* INPUT/OUTPUT */
+.mod-rack-model-001 .mod-pedal-input {
+    left:-30px;
+    top:25px;
+}
+
+.mod-rack-model-001 .mod-pedal-output {
+    right:-30px;
+    top:25px;
+}
+
 /* CONTROLS */
 .mod-rack-model-001 .mod-control-group {
     bottom:15px;
