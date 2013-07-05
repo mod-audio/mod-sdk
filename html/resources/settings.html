@@ -15,8 +15,8 @@
                 {{#enumeration}}
                 <div class="mod-enumerated">
                     <span class="mod-enumerated-title">{{name}}</span>
-                    <div class="mod-address"></div>
-                    <div class="mod-enumerated-list" mod-role="mod-input-control-port" mod-port-symbol="{{symbol}}" mod-widget="custom-select">
+                    <div class="mod-address" mod-role="input-control-address" mod-port-symbol="{{symbol}}"></div>
+                    <div class="mod-enumerated-list" mod-role="input-control-port" mod-port-symbol="{{symbol}}" mod-widget="custom-select">
                         {{#scalePoints}}
                         <div mod-role="enumeration-option" mod-port-value="{{value}}">{{label}}</div>
                         {{/scalePoints}}
