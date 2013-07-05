@@ -334,7 +334,7 @@ var baseWidget = {
 	}
 
 	self.data('portSteps', portSteps)
-	self.data('dragPrecision', Math.ceil(50/portSteps))
+	self.data('dragPrecision', Math.ceil(100/portSteps))
     },
 
     setValue: function() {
