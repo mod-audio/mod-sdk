@@ -27,6 +27,7 @@ Start by cloning the repository::
 
     $ git clone https://github.com/portalmod/mod-sdk.git
     $ cd mod-sdk
+    $ git submodule update --init
 
 Create a python virtualenv::
 
@@ -35,7 +36,7 @@ Create a python virtualenv::
 
 Install the mod-python library::
 
-    $ pip install -e git+https://github.com/portalmod/mod-python.git@new_interface#egg=mod-python
+    $ pip install -e git+https://github.com/portalmod/mod-python.git#egg=mod-python
 
 Install PIL (it needs this symlink to be compiled with zlib support) and tornado::
 
