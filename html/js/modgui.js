@@ -1,8 +1,26 @@
+/*
+ * Copyright 2012-2013 AGR Audio, Industria e Comercio LTDA. <contato@portalmod.com>
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 function GUI(effect, options) {
     var self = this
 
     options = $.extend({
 	'change': new Function(),
+	'click': new Function(),
 	'dragStart': new Function(),
 	'drag': new Function(),
 	'dragStop': new Function(),
@@ -107,6 +125,7 @@ function GUI(effect, options) {
 
     this.renderIcon = function(template) {
 	var element = $('<div class="mod-pedal">')
+
 	element.html(Mustache.render(template || effect.gui.iconTemplate || options.defaultIconTemplate,
 				     self.getTemplateData(effect)))
 	self.assignIconFunctionality(element)
@@ -146,8 +165,10 @@ function GUI(effect, options) {
 	    drag: options.drag,
 	    stop: options.dragStop
 	}
-	if (handle.length > 0)
+	if (handle.length > 0) {
 	    element.draggable(drag_options)
+	    element.click(options.click)
+	}
     }
 
     this.assignControlFunctionality = function(element) {
@@ -173,7 +194,6 @@ function GUI(effect, options) {
 			scalePointsIndex[sprintf(format, port.scalePoints[i].value)] = port.scalePoints[i]
 		    }
 		}
-		
 		control.controlWidget({ port: port,
 					change: function(e, value) {
 					    // When value is changed, let's use format and scalePoints to properly display
@@ -430,6 +450,10 @@ JqueryClass('film', baseWidget, {
 	    }
 	})
 
+ 	self.bind('mousewheel', function(e) {
+	    self.film('mouseWheel', e)
+	})
+
 	self.click(function(e) { self.film('mouseClick', e) })
 
 	return self
@@ -454,6 +478,9 @@ JqueryClass('film', baseWidget, {
 	    bgImg.css('max-width', '999999999px')
 	    bgImg.hide();
 	    bgImg.bind('load', function() {
+		if (bgImg.width() == 0) {
+		    new Notification('error', 'Apparently your browser does not support all features you need. Install latest Chromium, Google Chrome or Safari')
+		}
 		if (!height)
 		    height = bgImg.height()
 		self.data('filmSteps', height * bgImg.width() / (self.width() * bgImg.height()))
@@ -498,6 +525,19 @@ JqueryClass('film', baseWidget, {
 	var position = self.data('position')
 	position = (position + 1) % filmSteps
 	self.data('position', position)
+	self.film('setRotation', position)
+	var value = self.film('valueFromSteps', position)
+	self.trigger('valuechange', value)
+    },
+
+    mouseWheel: function(e) {
+	var self = $(this)
+	var diff = e.originalEvent.wheelDelta / 30
+	var position = self.data('position')
+	position += diff
+	self.data('position', position)
+	if (Math.abs(diff) > 0)
+	    self.data('lastY', e.pageY)
 	self.film('setRotation', position)
 	var value = self.film('valueFromSteps', position)
 	self.trigger('valuechange', value)
