@@ -286,7 +286,7 @@ class BundlePost(web.RequestHandler):
 
         client = httpclient.AsyncHTTPClient()
         client.fetch(address, self.handle_response, method='POST',
-                     headers=headers, body=body)
+                     headers=headers, body=body, request_timeout=300)
         
     def handle_response(self, response):
         self.set_header('Content-type', 'application/json')
