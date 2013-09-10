@@ -74,6 +74,7 @@ $(document).ready(function() {
 		     error: function(resp) {
 			 alert("Error: Can't install bundle. Is your server running? Check the logs.")
 		     },
+		     timeout: 300000,
 		     dataType: 'json'
 		   })
 	})
@@ -91,6 +92,7 @@ $(document).ready(function() {
 		     error: function(resp) {
 			 alert("Error: Can't publish bundle. Is your server running? Check the logs.")
 		     },
+		     timeout: 300000,
 		     dataType: 'json'
 		   })
 	})
