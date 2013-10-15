@@ -1483,3 +1483,7 @@ body {
 ::selection {
     background:transparent;
 }
+
+pre::selection, pre b::selection {
+    background:#8888ff;
+}

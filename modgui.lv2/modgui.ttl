@@ -120,7 +120,7 @@ so this documentation applies to both.</p>
 
 <h5>Select widget</h5>
 
-<p>The select widget is a simple &lt;select&gt; html element will available options, each one representing one value for this control port. It's mainly intended to be used for ports with the lv2:enumeration property, but can be used for any case in which picking values from a limited set is desired.</p>
+<p>The select widget is a simple &lt;select&gt; html element with available options, each one representing one value for this control port. It's mainly intended to be used for ports with the lv2:enumeration property, but can be used for any case in which picking values from a limited set is desired.</p>
 
 <p>So, if you use mod-widget="select", this element is expected to be a &lt;select&gt; and contain several options, each of them must have the <em>value</em> attribute reflecting the float value of this property.</p>
 

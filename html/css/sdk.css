@@ -166,9 +166,9 @@ ul#menu li.selected {
 
 #wizard-window .box { 
     height: 605px;
-    margin-left: -470px;
+    margin-left: -540px;
     top: 200px;
-    width: 940px;
+    width: 1080px;
 }
 
 .wizard-icon {
@@ -201,7 +201,7 @@ ul#menu li.selected {
 
 .step {
     float: right;
-    width: 450px
+    width: 600px
 }
 
 .step h2 {
@@ -298,7 +298,7 @@ ul#menu li.selected {
 }
 
 #ttl-body {
-    height: 192px;
+    height: 200px;
 }
 
 #debug-window .box {
