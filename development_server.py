@@ -5,8 +5,8 @@ from hashlib import sha1
 import Image
 
 from tornado import web, options, ioloop, template, httpclient
-from modcommon import lv2
 from modcommon.communication import crypto
+from modcommon import lv2
 from modsdk.cache import WorkspaceCache
 
 PORT = 9000
@@ -42,7 +42,7 @@ def get_bundle_data(bundle):
     path = os.path.join(WORKSPACE, bundle)
     if not os.path.exists(os.path.join(path, 'manifest.ttl')):
         raise web.HTTPError(404)
-    package = lv2.Bundle(path, units_file=UNITS_FILE)
+    package = lv2.Bundle(path, units_file=UNITS_FILE, allow_inconsistency=True)
     BUNDLE_CACHE[bundle] = package.data
     return BUNDLE_CACHE[bundle]
 
@@ -104,22 +104,22 @@ class EffectSave(web.RequestHandler):
         if not os.path.exists(self.basedir):
             os.mkdir(self.basedir)
 
-        self.make_template('icon-' + param['slug'], param['iconTemplate'])
-        #self.make_template('settings-' + param['slug'], param['settingsTemplate'])
-        self.make_datafile('data-' + param['slug'], param['data'])
-        self.make_empty_image('screenshot-' + param['slug'])
-        self.make_empty_image('thumb-' + param['slug'])
+        ttl_data = param['ttlData']
+
+        self.make_template(ttl_data['iconTemplate'], param['iconTemplate'])
+        self.make_datafile(ttl_data['templateData'], param['data'])
+        self.make_empty_image(ttl_data['screenshot'])
+        self.make_empty_image(ttl_data['thumbnail'])
 
         self.set_header('Content-type', 'application/json')
         self.write(json.dumps(True))
 
     def make_template(self, name, template):
-        dest_name = '%s.html' % name
-        dest = os.path.join(self.basedir, dest_name)
+        dest = os.path.join(self.basedir, name)
         open(dest, 'w').write(template)
 
     def make_datafile(self, name, data):
-        datafile = os.path.join(self.basedir, '%s.json' % name)
+        datafile = os.path.join(self.basedir, name)
         open(datafile, 'w').write(json.dumps(data, sort_keys=True, indent=4))
         
     def make_empty_image(self, name):
@@ -152,7 +152,6 @@ class Screenshot(web.RequestHandler):
         self.effect = self.get_argument('effect')
         self.width = self.get_argument('width')
         self.height = self.get_argument('height')
-        self.slug = self.get_argument('slug')
 
         self.make_screenshot()
 
@@ -227,8 +226,8 @@ class Screenshot(web.RequestHandler):
         if not os.path.exists(basedir):
             os.mkdir(basedir)
 
-        screenshot_path = os.path.join(basedir, '%s-%s.png' % ('screenshot', self.slug))
-        thumb_path = os.path.join(basedir, '%s-%s.png' % ('thumb', self.slug))
+        screenshot_path = effect['gui']['screenshot']
+        thumb_path = effect['gui']['thumbnail']
 
         open(screenshot_path, 'w').write(screenshot_data)
         open(thumb_path, 'w').write(thumb_data)

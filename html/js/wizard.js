@@ -369,17 +369,40 @@ JqueryClass('wizard', {
 
 	var slug = self.wizard('slug')
 
+	
+	var data = {
+	    iconTemplate: 'icon-'+slug+'.html',
+	    templateData: 'data-'+slug+'.json',
+	    screenshot: 'screenshot-'+slug+'.png',
+	    thumbnail: 'thumb-'+slug+'.png'
+	}
+
 	var canvas = $('#ttl-body')
 	canvas.text('')
 	canvas.append('    mod:gui [\n')
 	canvas.append('        a mod:Gui;\n')
 	canvas.append('        mod:resourcesDirectory &lt;modgui&gt;;\n')
-	canvas.append('        mod:iconTemplate &lt;modgui/icon-'+slug+'.html&gt;;\n')
-	//canvas.append('        mod:settingsTemplate &lt;modgui/settings-'+slug+'.html&gt;;\n')
-	canvas.append('        mod:templateData &lt;modgui/data-'+slug+'.json&gt;;\n')
-	canvas.append('        mod:screenshot &lt;modgui/screenshot-'+slug+'.png&gt;;\n')
-	canvas.append('        mod:thumbnail &lt;modgui/thumb-'+slug+'.png&gt;;\n')
+
+	var current = effect.gui_structure
+	var changed = false
+	for (var key in data) {
+	    if (current[key]) {
+		data[key] = current[key].replace(/^.+\//, '')
+		canvas.append('        <b>mod:'+key+' &lt;modgui/'+data[key]+'&gt;;</b>\n')
+		changed = true
+	    } else {
+		canvas.append('        mod:'+key+' &lt;modgui/'+data[key]+'&gt;;\n')
+	    }
+	}
+
+	self.data('ttlData', data)
+
 	canvas.append('    ] .')
+
+	if (changed)
+	    $('#ttl-warning').show()
+	else
+	    $('#ttl-warning').hide()
     },
 
     save_template: function() {
@@ -388,10 +411,9 @@ JqueryClass('wizard', {
 	delete templateData.effect
 	var settingsTemplate = Mustache.render(defaultSettingsTemplate, templateData)
 	var data = {
-	    slug: self.wizard('slug'),
 	    data: templateData,
 	    iconTemplate: self.wizard('getIconTemplate'),
-	    settingsTemplate: settingsTemplate,
+	    ttlData: self.data('ttlData')
 	}
 	$.ajax({ url: '/effect/save/' + self.data('effect').package,
 		 type: 'POST',
@@ -443,11 +465,11 @@ JqueryClass('wizard', {
 	var model = self.data('model')
 	var panel = self.data('panel')
 	var canvas = $('#wizard-modifications')
-	var slug = self.wizard('slug')
-	$('<li>').html('modgui/'+slug+'.html').appendTo(canvas)
- 	$('<li>').html('modgui/data-'+slug+'.json').appendTo(canvas)
- 	$('<li>').html('modgui/screenshot-'+slug+'.png').appendTo(canvas)
- 	$('<li>').html('modgui/thumb-'+slug+'.png').appendTo(canvas)
+	var data = self.data('ttlData')
+	$('<li>').html('modgui/'+data.iconTemplate).appendTo(canvas)
+	$('<li>').html('modgui/'+data.templateData).appendTo(canvas)
+	$('<li>').html('modgui/'+data.screenshot).appendTo(canvas)
+	$('<li>').html('modgui/'+data.thumbnail).appendTo(canvas)
     },
 
     finish: function() {
