@@ -383,7 +383,7 @@ JqueryClass('wizard', {
 	canvas.append('        a mod:Gui;\n')
 	canvas.append('        mod:resourcesDirectory &lt;modgui&gt;;\n')
 
-	var current = effect.gui_structure
+	var current = effect.gui_structure || {}
 	var changed = false
 	for (var key in data) {
 	    if (current[key]) {
