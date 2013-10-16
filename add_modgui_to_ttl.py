@@ -55,9 +55,4 @@ def modfy(bundle):
             plugin.serialize(ttl_path, format='n3')
 
 for bundle in args.bundles:
-    try:
-        modfy(bundle)
-    except:
-        pass #raise
-    finally:
-        print bundle
+    modfy(bundle)
