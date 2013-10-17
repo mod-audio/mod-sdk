@@ -1,4 +1,7 @@
 import os
+from tornado import ioloop
+from modsdk.settings import UNITS_FILE
+from modcommon import lv2
 
 try:
     import pyinotify
@@ -12,7 +15,7 @@ try:
         def __init__(self, basedir):
             self.basedir = os.path.realpath(basedir)
             self.monitoring = False
-            self.monitor()
+            self.cycle()
 
         def monitor(self):
             if not os.path.isdir(self.basedir) or self.monitoring:
@@ -51,6 +54,8 @@ try:
                     self.pop(key)
                 self.monitor()
 
+            ioloop.IOLoop.instance().add_callback(self.cycle)
+
         def notify(self, path):
             path = path[len(self.basedir)+1:]
             bundle = path.split('/')[0]
@@ -80,6 +85,30 @@ except ImportError:
     class WorkspaceCache(dict):
         def __init__(self, basedir):
             super(WorkspaceCache, self).__init__()
+            self.cycle()
+
         def cycle(self):
             for key in self.keys():
                 self.pop(key)
+            ioloop.IOLoop.instance().add_callback(self.cycle)
+
+BUNDLE_CACHE = None
+
+#singleton
+def get_cache_instance(workspace):
+    global BUNDLE_CACHE
+    if BUNDLE_CACHE:
+        return BUNDLE_CACHE
+    BUNDLE_CACHE = WorkspaceCache(workspace)
+    return BUNDLE_CACHE
+    
+def get_bundle_data(workspace, bundle):
+    if BUNDLE_CACHE.get(bundle):
+        return BUNDLE_CACHE[bundle]
+    path = os.path.join(workspace, bundle)
+    open(os.path.join(path, 'manifest.ttl'))
+    package = lv2.Bundle(path, units_file=UNITS_FILE, allow_inconsistency=True)
+    BUNDLE_CACHE[bundle] = package.data
+    return BUNDLE_CACHE[bundle]
+
+

@@ -1,0 +1,109 @@
+#!/usr/bin/env python
+
+import os, glob, subprocess, random, argparse, Image
+from modsdk.webserver import make_application
+from modsdk.cache import get_bundle_data
+from modsdk.settings import (ROOT, PHANTOM_BINARY, SCREENSHOT_SCRIPT,
+                             MAX_THUMB_WIDTH, MAX_THUMB_HEIGHT)
+
+os.chdir(os.path.dirname(os.path.realpath(__file__)))
+
+parser = argparse.ArgumentParser(description='Generates screenshot of all effects inside a bundle')
+parser.add_argument('bundles', help="The bundle path (a directory containing manifest.ttl file", type=str, nargs='+')
+
+#maximum width and height
+WIDTH = 1920
+HEIGHT = 1080
+
+PORT = 9123
+
+args = parser.parse_args()
+WORKSPACE = None
+BUNDLES = []
+for bundle in args.bundles:
+    if bundle.endswith('/'):
+        bundle = bundle[:-1]
+    basedir = os.path.realpath(os.path.dirname(bundle))
+    if not WORKSPACE:
+        WORKSPACE = basedir
+    assert WORKSPACE == basedir, "All bundles must be contained in same directory"
+    BUNDLES.append(bundle.split('/')[-1])
+
+class BundleQueue(object):
+    def __init__(self, bundles):
+        self.bundle_queue = bundles
+        self.webserver = make_application(port=PORT, workspace=WORKSPACE)
+        self.webserver.add_callback(self.next_bundle)
+
+    def run(self):
+        self.webserver.start()
+
+    def next_bundle(self):
+        if len(self.bundle_queue) == 0:
+            self.webserver.stop()
+            return
+        self.current_bundle = self.bundle_queue.pop(0)
+        self.data = get_bundle_data(WORKSPACE, self.current_bundle)
+        self.effect_queue = self.data['plugins'].keys()
+        self.next_effect()
+
+    def next_effect(self):
+        if len(self.effect_queue) == 0:
+            return self.next_bundle()
+        self.current_effect = self.effect_queue.pop(0)
+
+        fname = '/tmp/%s.png' % ''.join([ random.choice('0123456789abcdef') for i in range(6) ])
+        proc = subprocess.Popen([ PHANTOM_BINARY, 
+                                  SCREENSHOT_SCRIPT,
+                                  'http://localhost:%d/icon.html#%s,%s' % (PORT, 
+                                                                           self.current_bundle, 
+                                                                           self.current_effect),
+                                  fname,
+                                  str(WIDTH),
+                                  str(HEIGHT),
+                                  ],
+                                stdout=subprocess.PIPE)
+
+        def proc_callback(fileno, event):
+            if proc.poll() is None:
+                return
+            self.webserver.remove_handler(fileno)
+            fh = open(fname)
+            os.remove(fname)
+            self.handle_image(fh)
+
+        self.webserver.add_handler(proc.stdout.fileno(), proc_callback, 16)
+
+    def handle_image(self, fh):
+        img = Image.open(fh)
+        self.crop(img)
+        import ipdb; ipdb.set_trace()
+        img.save(self.data['plugins'][self.current_effect]['gui']['screenshot'])
+        width, height = img.size
+        if width > MAX_THUMB_WIDTH:
+            width = MAX_THUMB_WIDTH
+            height = height * MAX_THUMB_WIDTH / width
+        if height > MAX_THUMB_HEIGHT:
+            height = MAX_THUMB_HEIGHT
+            width = width * MAX_THUMB_HEIGHT / height
+        img.convert('RGB')
+        img.thumbnail((width, height), Image.ANTIALIAS)
+        img.save(self.data['plugins'][self.current_effect]['gui']['thumbnail'])
+        self.next_effect()
+
+    def crop(self, img):
+        # first find latest non-transparent pixel in both width and height
+        width = 0
+        height = 0
+        for i, px in enumerate(img.getdata()):
+            if px[3] > 0:
+                width = i % img.size[0]
+                height = i / img.size[0]
+        # now crop
+        img.crop((0, 0, width, height))
+
+BundleQueue(BUNDLES).run()
+
+
+
+    
