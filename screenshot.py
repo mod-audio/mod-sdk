@@ -76,8 +76,7 @@ class BundleQueue(object):
 
     def handle_image(self, fh):
         img = Image.open(fh)
-        self.crop(img)
-        import ipdb; ipdb.set_trace()
+        img = self.crop(img)
         img.save(self.data['plugins'][self.current_effect]['gui']['screenshot'])
         width, height = img.size
         if width > MAX_THUMB_WIDTH:
@@ -93,14 +92,20 @@ class BundleQueue(object):
 
     def crop(self, img):
         # first find latest non-transparent pixel in both width and height
-        width = 0
-        height = 0
+        min_x = WIDTH
+        min_y = HEIGHT
+        max_x = 0
+        max_y = 0
         for i, px in enumerate(img.getdata()):
             if px[3] > 0:
                 width = i % img.size[0]
                 height = i / img.size[0]
+                min_x = min(min_x, width)
+                min_y = min(min_y, height)
+                max_x = max(max_x, width)
+                max_y = max(max_y, height)
         # now crop
-        img.crop((0, 0, width, height))
+        return img.crop((min_x, min_y, max_x, max_y))
 
 BundleQueue(BUNDLES).run()
 
