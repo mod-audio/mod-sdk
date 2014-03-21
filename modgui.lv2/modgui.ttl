@@ -85,7 +85,7 @@ so this documentation applies to both.</p>
 <p>To build the interface, follow these guidelines:</p>
 <ul>
   <li>Start with a basic HTML template and use the MOD SDK to test it. Feel free to link any resource available in the SDK without packing them in the Bundle. Any host implementing this extension MUST provide those resources.</li>
-  <li>Use the {{ns}} tag inside the template to access images and media inside the bundle. More explanation on this at mod:templateData.</li>
+  <li>Use the {{{ns}}} tag inside the template to access images and media inside the bundle. More explanation on this at mod:templateData.</li>
   <li>If you need new styles, always prefix them with the name of your bundle (the .lv2 extension is not necessary). In HTML all css classes are global, so this is necessary to avoid messing with the general interface.</li>
   <li>Use the <em>mod-role</em> attribute to mark elements that are functional for the plugin (see below).</li>
 </ul>
@@ -114,8 +114,8 @@ so this documentation applies to both.</p>
 <ul>
   <li>Design an image of 1500x30 pixels, each piece of 150x30 representing one position of the slider;</li>
   <li>Save it inside the mod:resourcesDirectory directory, in your bundle, as slider.png</li>
-  <li>Put the following code into your HTML: &lt;div mod-role="input-control-port" mod-port-symbol="drive" style="width: 150px; height: 30px; background-image: url(/resources/slider.png{{ns}}"&gt;</li>
-  <li>Suppose you wanted to use the same sprite for a half sized version of the slider, you could instead use the style "width: 75px; height: 15px; background-image: url(/resources/slider.png{{ns}}; background-size: auto 15px;"</li>
+  <li>Put the following code into your HTML: &lt;div mod-role="input-control-port" mod-port-symbol="drive" style="width: 150px; height: 30px; background-image: url(/resources/slider.png{{{ns}}}"&gt;</li>
+  <li>Suppose you wanted to use the same sprite for a half sized version of the slider, you could instead use the style "width: 75px; height: 15px; background-image: url(/resources/slider.png{{{ns}}}; background-size: auto 15px;"</li>
 </ul>
 
 <h5>Select widget</h5>
@@ -192,7 +192,7 @@ needs a ?bundle=BUNDLE&url=EFFECT_URL parameter.</p>
 <p>To make this job easier, the <em>ns</em> variable will hold the correct url parameter,
 so if you want to customize your template (say, have your brand image in the pedal),
 you can refer to it like this:
-&lt;img alt="Brand image example" src="/resources/brand.png{{ns}}"/&gt;</p>
+&lt;img alt="Brand image example" src="/resources/brand.png{{{ns}}}"/&gt;</p>
 
 <p>In the example above, the brand.png file inside the mod:resourcesDirectory would be
 served</p>
