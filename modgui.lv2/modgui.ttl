@@ -240,3 +240,14 @@ The value of this property must be a URI that resolves to an image with maximum
 size of 256x64px.
 </p>
 """ .
+
+mod:stylesheet
+	a rdf:Property ;
+	rdf:range owl:Thing ;
+	rdfs:domain mod:GUI ;
+	rdf:label "stylesheet" ;
+	lv2:documentation """
+<p>A CSS file that holds all styles used for this plugin. The CSS will be automatically loaded on request. For implementation reasons, only one CSS file per effect is supported.</p>
+<p>Remember that all class names must be preceded by the bundle's name to avoid conflicting with other plugins or general interface.</p>
+""" .
+

@@ -11,3 +11,4 @@ pymongo==2.5
 rdflib==3.4.0
 tornado==3.0.1
 wsgiref==0.1.2
+pystache==0.5.3
