@@ -38,10 +38,6 @@ function GUI(effect, options) {
 
     self.bypassed = options.bypassed
 
-    // Report the initial bypass state.
-    // TODO is this necessary?
-    options.bypass(options.bypassed)
-
     this.makePortIndex = function() {
 	var ports = self.effect.ports.control.input
 	var index = {}
@@ -87,16 +83,23 @@ function GUI(effect, options) {
 	    // Report the new value and return the widget to old value
 	    options.change(symbol, value)
 	    if (source)
+		setTimeout(function() {
 		source.controlWidget('setValue', port.value)
+		}, 500)
 	    return
 	}
 	port.value = value
+	self.setPortWidgetsValue(symbol, value, source)
+	options.change(symbol, value)
+    }
+
+    this.setPortWidgetsValue = function(symbol, value, source) {
+	var port = self.controls[symbol]
 	for (var i in port.widgets) {
 	    if (port.widgets[i] == source)
 		continue
 	    port.widgets[i].controlWidget('setValue', value)
 	}
-	options.change(symbol, value)
     }
 
     this.getPortValue = function(symbol) {
@@ -194,19 +197,53 @@ function GUI(effect, options) {
 			scalePointsIndex[sprintf(format, port.scalePoints[i].value)] = port.scalePoints[i]
 		    }
 		}
+		var valueField = element.find('[mod-role=input-control-value][mod-port-symbol='+symbol+']')
+		var setValue = function(value) {
+		    // When value is changed, let's use format and scalePoints to properly display
+		    // its value
+		    var label = sprintf(format, value)
+		    if (port.scalePoints && scalePointsIndex[label])
+			label = scalePointsIndex[label].label
+		    valueField.data('value', value)
+		    valueField.text(label)
+		    
+		    self.setPortValue(symbol, value, control)
+		}
 		control.controlWidget({ port: port,
 					change: function(e, value) {
-					    // When value is changed, let's use format and scalePoints to properly display
-					    // its value
-					    var label = sprintf(format, value)
-					    if (port.scalePoints && scalePointsIndex[label])
-						label = scalePointsIndex[label].label
-
-					    element.find('[mod-role=input-control-value][mod-port-symbol='+symbol+']').text(label)
-					    
-					    self.setPortValue(symbol, value, control)
+					    setValue(value)
 					}
 				      })
+		if (!port.enumeration) {
+		    // For ports that are not enumerated, we allow
+		    // editing the value directly
+		    valueField.attr('contenteditable', true)
+		    valueField.focus(function() {
+			valueField.text(valueField.data('value'))
+ 		    })
+		    valueField.keydown(function(e) {
+			if (e.keyCode == 13) {
+			    valueField.blur()
+			    return false
+			}
+			return true			
+		    })
+		    valueField.blur(function() {
+			var value = parseFloat(valueField.text())
+			setValue(value)
+			control.controlWidget('setValue', value)
+		    })
+		    valueField.keydown(function(e) {
+			return true
+			if (e.keyCode >= 48 && e.keyCode <= 57)
+			    // It's a number
+			    return true
+			if (e.keyCode == 13) {
+			}
+			return (e.keyCode == 46 || 
+				e.keyCode == 9)
+		    })
+		}
 		port.widgets.push(control)
 	    } else {
 		control.text('No such symbol: '+symbol)
@@ -232,22 +269,68 @@ function GUI(effect, options) {
 	    var format = self.controls[symbol].unit ? self.controls[symbol].unit.render : '%.2f'
 	    $(this).html(sprintf(format, self.controls[symbol].maximum))
 	});
-	element.find('[mod-role=bypass]').switchWidget({ port: self.controls[':bypass'],
-							 value: options.bypassed,
-							 change: function(e, value) {
-							     options.bypass(value)
-							     self.bypassed = value
-							     element.find('[mod-role=bypass-light]').each(function() {
-								 // NOTE
-								 // the element itself will get inverse class ("on" when light is "off"),
-								 // because of the switch widget.
-								 if (value == 1)
-								     $(this).addClass('off').removeClass('on')
-								 else
-								     $(this).addClass('on').removeClass('off')
-							     })
-							 }
-						       }).attr('mod-widget', 'switch')
+	element.find('[mod-role=bypass]').each(function() {
+	    var control = $(this)
+	    var port = self.controls[':bypass']
+	    port.widgets.push(control)
+	    control.switchWidget({ port: self.controls[':bypass'],
+				   value: options.bypassed,
+				   change: function(e, value) {
+				       options.bypass(value)
+				       self.bypassed = value
+				       self.setPortValue(':bypass', value, control)
+				       element.find('[mod-role=bypass-light]').each(function() {
+					   // NOTE
+					   // the element itself will get inverse class ("on" when light is "off"),
+					   // because of the switch widget.
+					   if (value == 1)
+					       $(this).addClass('off').removeClass('on')
+					   else
+					       $(this).addClass('on').removeClass('off')
+				       });
+				       if (value)
+					   control.addClass('on').removeClass('off')
+				       else
+					   control.addClass('off').removeClass('on')
+				   }
+				 }).attr('mod-widget', 'switch')
+	})
+	if (options.bypassed)
+	    element.find('[mod-role=bypass-light]').addClass('off').removeClass('on')
+	else
+	    element.find('[mod-role=bypass-light]').addClass('on').removeClass('off')	    
+	
+	// Gestures for tablet. When event starts, we check if it's centered in any widget and stores the widget if so.
+	// Following events will be forwarded to proper widget
+	element[0].addEventListener('gesturestart', function(ev) {
+	    ev.preventDefault()
+	    element.find('[mod-role=input-control-port]').each(function() {
+		var widget = $(this)
+		var top = widget.offset().top
+		var left = widget.offset().left
+		var right = left + widget.width()
+		var bottom = top + widget.height()
+		if (ev.pageX >= left && ev.pageX <= right && ev.pageY >= top && ev.pageY <= bottom) {
+		    element.data('gestureWidget', widget)
+		    widget.controlWidget('gestureStart')
+		}
+	    });
+	    ev.handled = true
+	})
+	element[0].addEventListener('gestureend', function(ev) {
+	    ev.preventDefault()
+	    element.data('gestureWidget').controlWidget('gestureEnd', ev.scale)
+	    element.data('gestureWidget', null)
+	    ev.handled = true
+	})
+	element[0].addEventListener('gesturechange',function(ev) {
+	    ev.preventDefault()
+	    var widget = element.data('gestureWidget')
+	    if (!widget)
+		return
+	    widget.controlWidget('gestureChange', ev.scale)
+	    ev.handled = true
+	})
     }
 
     this.getTemplateData = function(options) {
@@ -313,7 +396,11 @@ function JqueryClass() {
 var baseWidget = {
     config: function(options) {
 	var self = $(this)
-	self.data('enabled', true)
+	// Very quick bugfix. When pedalboard is unserialized, the disable() of addressed knobs
+	// are called before config. Right thing would probably be to change this behaviour, but
+	// while that is not done, this check will avoid the bug. TODO
+	if (!(self.data('enabled') === false))
+	    self.data('enabled', true)
 	self.bind('valuechange', options.change)
 	
 	var port = options.port
@@ -354,12 +441,19 @@ var baseWidget = {
 	}
 
 	self.data('portSteps', portSteps)
-	self.data('dragPrecision', Math.ceil(100/portSteps))
+	self.data('dragPrecisionVertical', Math.ceil(100/portSteps))
+	self.data('dragPrecisionHorizontal', Math.ceil(portSteps/10))
     },
 
     setValue: function() {
 	alert('not implemented')
     },
+
+    // For tablets: these methods can be used to implement gestures.
+    // It will receive gesture events a scale from a gesture centered on this widget
+    gestureStart: function() {},
+    gestureChange: function(scale) {},
+    gestureEnd: function(scale) {},
 
     disable: function() { $(this).addClass('disabled').data('enabled', false)  },
     enable: function() { $(this).removeClass('disabled').data('enabled', true)  },
@@ -415,6 +509,25 @@ var baseWidget = {
 	    value = Math.round(value)
 
 	return parseInt((value - min) * (portSteps - 1) / (max - min))
+    },
+
+    prevent: function(e) {
+	var self = $(this)
+	if (self.data('prevent'))
+	    return
+	self.data('prevent', true)
+	var img = $('<img>').attr('src', 'img/icn-blocked.png')
+	$('body').append(img)
+	img.css({
+	    position: 'absolute',
+	    top: e.pageY - img.height()/2,
+	    left: e.pageX - img.width()/2,
+	    zIndex: 99999
+	})
+	setTimeout(function() {
+	    img.remove()
+	    self.data('prevent', false)
+	}, 500)
     }
 }
 
@@ -441,7 +554,7 @@ JqueryClass('film', baseWidget, {
 	}
 	
 	self.mousedown(function(e) {
-	    if (!self.data('enabled')) return
+	    if (!self.data('enabled')) return self.film('prevent', e)
 	    if (e.which == 1) { // left button
 		self.film('mouseDown', e)
 		$(document).bind('mouseup', upHandler)
@@ -454,7 +567,10 @@ JqueryClass('film', baseWidget, {
 	    self.film('mouseWheel', e)
 	})
 
-	self.click(function(e) { self.film('mouseClick', e) })
+	self.click(function(e) {
+	    if (!self.data('enabled')) return self.film('prevent', e)
+	    self.film('mouseClick', e)
+	})
 
 	return self
     },
@@ -478,12 +594,14 @@ JqueryClass('film', baseWidget, {
 	    bgImg.css('max-width', '999999999px')
 	    bgImg.hide();
 	    bgImg.bind('load', function() {
-		if (bgImg.width() == 0) {
+		var h = bgImg[0].height || bgImg.height()
+		var w = bgImg[0].width || bgImg.width()
+		if (w == 0) {
 		    new Notification('error', 'Apparently your browser does not support all features you need. Install latest Chromium, Google Chrome or Safari')
 		}
 		if (!height)
-		    height = bgImg.height()
-		self.data('filmSteps', height * bgImg.width() / (self.width() * bgImg.height()))
+		    height = h
+		self.data('filmSteps', height * w / (self.width() * h))
 		self.data('size', self.width())
 		bgImg.remove()
 		callback()
@@ -496,6 +614,7 @@ JqueryClass('film', baseWidget, {
     mouseDown: function(e) {
 	var self = $(this)
 	self.data('lastY', e.pageY)
+	self.data('lastX', e.pageX)
     },
 
     mouseUp: function(e) {
@@ -504,14 +623,21 @@ JqueryClass('film', baseWidget, {
 
     mouseMove: function(e) {
 	var self = $(this)
-	var diff = self.data('lastY') - e.pageY
-	diff = parseInt(diff / self.data('dragPrecision'))
+	var vdiff = self.data('lastY') - e.pageY
+	vdiff = parseInt(vdiff / self.data('dragPrecisionVertical'))
+	var hdiff = e.pageX - self.data('lastX')
+	hdiff = parseInt(hdiff / self.data('dragPrecisionHorizontal'))
+
+	if (Math.abs(vdiff) > 0)
+	    self.data('lastY', e.pageY)
+	if (Math.abs(hdiff) > 0)
+	    self.data('lastX', e.pageX)
+
 	var position = self.data('position')
 
-	position += diff
+	position += vdiff + hdiff
 	self.data('position', position)
-	if (Math.abs(diff) > 0)
-	    self.data('lastY', e.pageY)
+
 	self.film('setRotation', position)
 	var value = self.film('valueFromSteps', position)
 	self.trigger('valuechange', value)
@@ -543,6 +669,22 @@ JqueryClass('film', baseWidget, {
 	self.trigger('valuechange', value)
     },
 
+    gestureStart: function() {},
+    gestureChange: function(scale) {
+	var self = $(this)
+	var diff = parseInt(Math.log(scale) * 30)
+	var position = self.data('position')
+	position += diff
+	self.film('setRotation', position)
+	self.data('lastPosition', position)
+	var value = self.film('valueFromSteps', position)
+	self.trigger('valuechange', value)
+    },
+    gestureEnd: function() {
+	var self = $(this)
+	self.data('position', self.data('lastPosition'))
+    },
+
     setRotation: function(steps) {
 	var self = $(this)
 
@@ -563,7 +705,7 @@ JqueryClass('film', baseWidget, {
 	var bgShift = rotation * -self.data('size')
 	bgShift += 'px 0px'
 	self.css('background-position', bgShift)
-    },
+    }
 
 })
 
@@ -602,9 +744,9 @@ JqueryClass('switchWidget', baseWidget, {
 	var self = $(this)
 	self.switchWidget('config', options)
 	self.data('value', options.value)
-	self.click(function() {
+	self.click(function(e) {
 	    if (!self.data('enabled'))
-		return
+		return self.switchWidget('prevent', e)
 	    var value = self.data('value')
 	    if (value == self.data('minimum')) {
 		self.switchWidget('setValue', self.data('maximum'))
@@ -614,6 +756,11 @@ JqueryClass('switchWidget', baseWidget, {
 		self.addClass('off').removeClass('on')
 	    }
 	})
+	if (options.value)
+	    self.addClass('on').removeClass('off')
+	else
+	    self.addClass('off').removeClass('on')
+
 	return self
     },
     setValue: function(value) {
@@ -631,17 +778,19 @@ JqueryClass('customSelect', baseWidget, {
 	self.find('[mod-role=enumeration-option]').each(function() {
 	    var opt = $(this)
 	    var value = opt.attr('mod-port-value')
-	    opt.click(function() {
+	    opt.click(function(e) {
 		if (self.data('enabled')) {
 		    self.customSelect('setValue', value)
+		} else {
+		    self.customSelect('prevent', e)
 		}
 	    })
 	});
 	var hidden = self.find('[mod-widget-property=hidden]')
-	self.click(function() { 
+	self.click(function() {
 	    hidden.toggle()
 	})
-	
+
 	return self
     },
 
