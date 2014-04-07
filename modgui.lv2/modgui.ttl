@@ -127,6 +127,7 @@ so this documentation applies to both.</p>
 <h5>Custom select widget</h5>
 
 <p>This widget is similar in functionality to select widget, but instead of a select html element holding options, you can choose any element types to represent the widget and the options. If you use mod-role="custom-select", this element is expected to have children elements with the attributes mod-role="<em>enumeration-option</em>" and mod-port-value="(float value)". The selected element will receive the <em>selected</em> class, and so you can define your CSS as to highlight it as desired.</p>
+<p>In case you want a list of options to be shown when the widget is clicked, you should mark the element containing the options with <em>mod-widget-property="hidden"</em>. When this happens, every click on the widget will toggle that element's visibility.</p>
 
 <h4>Control values</h4>
 
