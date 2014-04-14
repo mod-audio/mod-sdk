@@ -43,6 +43,10 @@ ul#menu li.selected {
     z-index: 1;
 }
 
+.content .canvas {
+    padding-top: 15px;
+}
+
 .content button {
     margin: 20px 90px;
 }

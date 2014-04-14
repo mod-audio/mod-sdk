@@ -199,6 +199,11 @@ function showEffect() {
     })
 
     icon = gui.renderIcon()
+
+    var actions = $('<div>').addClass('mod-actions').appendTo(icon)
+    $('<div>').addClass('mod-settings').appendTo(actions)
+    $('<div>').addClass('mod-remove').appendTo(actions)
+
     iconCanvas.html('').append(icon)
 
     settingsCanvas.html('').append(gui.renderSettings())
