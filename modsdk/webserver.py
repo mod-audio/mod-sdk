@@ -1,6 +1,6 @@
 import os, json, random, subprocess, re, base64, shutil, time, pystache
 from hashlib import sha1
-import Image
+from PIL import Image
 
 from tornado import web, options, ioloop, template, httpclient
 from modcommon.communication import crypto
