@@ -13,8 +13,8 @@
 	doap:programming-language "Javascript" ;
 	doap:developer [
 	        a foaf:Person ;
-		foaf:name: "Luis Fagundes";
-		foaf:mbox: "lhfagundes@hacklab.com.br"
+		foaf:name "Luis Fagundes";
+		foaf:mbox "lhfagundes@hacklab.com.br"
         ];
 	doap:release [
 		doap:revision "1.0" ;
