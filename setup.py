@@ -16,8 +16,8 @@ share = os.path.join(sys.prefix, 'share')
 data_files = data_dir(share, 'html')
 data_files += [(share, ['screenshot.js'])]
 
-setup(name = 'mod-sdk',
-      version = '0.99.0',
+setup(name = 'modsdk',
+      version = '1.0',
       description = 'MOD plugin SDK.',
       author = "Luis Fagundes",
       author_email = "lhfagundes@hacklab.com.br",
