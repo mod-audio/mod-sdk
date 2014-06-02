@@ -1,4 +1,5 @@
 import os
+from datetime import timedelta
 from tornado import ioloop
 from modsdk.settings import UNITS_FILE
 from modcommon import lv2
@@ -49,12 +50,15 @@ try:
                 self.notifier.process_events()
                 if self.notifier.check_events():
                     self.notifier.read_events()
+                ioloop.IOLoop.instance().add_callback(self.cycle)
             else:
                 for key in self.keys():
                     self.pop(key)
                 self.monitor()
+                # add_timeout instead of add_callback avoids eating a lot of cpu
+                # in an infinite loop
+                ioloop.IOLoop.instance().add_timeout(timedelta(milliseconds=1), self.cycle)
 
-            ioloop.IOLoop.instance().add_callback(self.cycle)
 
         def notify(self, path):
             path = path[len(self.basedir)+1:]
@@ -90,7 +94,7 @@ except ImportError:
         def cycle(self):
             for key in self.keys():
                 self.pop(key)
-            ioloop.IOLoop.instance().add_callback(self.cycle)
+            ioloop.IOLoop.instance().add_timeout(timedelta(milliseconds=1), self.cycle)
 
 BUNDLE_CACHE = None
 
