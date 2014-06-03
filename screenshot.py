@@ -52,6 +52,10 @@ class BundleQueue(object):
         if len(self.effect_queue) == 0:
             return self.next_bundle()
         self.current_effect = self.effect_queue.pop(0)
+        try:
+            self.data['plugins'][self.current_effect]['gui']['screenshot']
+        except (TypeError, KeyError):
+            return self.next_effect()
 
         fname = '/tmp/%s.png' % ''.join([ random.choice('0123456789abcdef') for i in range(6) ])
         proc = subprocess.Popen([ PHANTOM_BINARY, 
