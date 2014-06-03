@@ -198,30 +198,30 @@ function showEffect() {
 	defaultSettingsTemplate: defaultSettingsTemplate
     })
 
-    icon = gui.renderIcon()
+    gui.render(function(icon, settings) {
 
-    var actions = $('<div>').addClass('mod-actions').appendTo(icon)
-    $('<div>').addClass('mod-settings').appendTo(actions)
-    $('<div>').addClass('mod-remove').appendTo(actions)
+	var actions = $('<div>').addClass('mod-actions').appendTo(icon)
+	$('<div>').addClass('mod-settings').appendTo(actions)
+	$('<div>').addClass('mod-remove').appendTo(actions)
 
-    iconCanvas.html('').append(icon)
+	iconCanvas.html('').append(icon)
+	settingsCanvas.html('').append(settings)
 
-    settingsCanvas.html('').append(gui.renderSettings())
+	content.show()
 
-    content.show()
-
-    screenshotCanvas.html('')
-    var param = '?bundle=' + options.package + '&url=' + escape(options.url)
-    if (options.gui.thumbnail) {
-	var thumb = $('<img class="thumb">')
-	thumb.attr('src', '/effect/image/thumbnail.png'+param)
-	thumb.appendTo(screenshotCanvas)
-    }
-    if (options.gui.screenshot) {
-	var shot = $('<img class="screenshot">')
-	shot.attr('src', '/effect/image/screenshot.png'+param)
-	shot.appendTo(screenshotCanvas)
-    }
+	screenshotCanvas.html('')
+	var param = '?bundle=' + options.package + '&url=' + escape(options.url)
+	if (options.gui.thumbnail) {
+	    var thumb = $('<img class="thumb">')
+	    thumb.attr('src', '/effect/image/thumbnail.png'+param)
+	    thumb.appendTo(screenshotCanvas)
+	}
+	if (options.gui.screenshot) {
+	    var shot = $('<img class="screenshot">')
+	    shot.attr('src', '/effect/image/screenshot.png'+param)
+	    shot.appendTo(screenshotCanvas)
+	}
+    })
 }
 
 function makeTabs() {
