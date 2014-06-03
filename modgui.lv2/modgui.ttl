@@ -44,12 +44,12 @@ to occupy the whole screen.</p>
   <li>A screenshot and thumbnail of the plugin interface.</li>
 </ul>
 
-<p>To help the creation of interfaces, several base layouts have been
-created. A set of backgrounds, knobs and slider images are available for
-the plugin without the need of packing it inside the bundle. Any host that
-implements this model should provide those resources. They're available in the
-MOD SDK, that provides tools for building plugin interfaces.</p>
-""" .
+<p><em>Note</em>: The To help the creation of interfaces, several base layouts have been
+created in the mod-resources project. Some plugins that first implemented the modgui
+interface will expect the host to provide those resources, and so they may reference media
+resources that are not packed inside the bundle. Support for those resources is being deprecated,
+and so any resources required should be packed inside mod:resourcesDirectory.
+</p>""" .
 
 mod:GUI
 	a rdfs:Class ;
@@ -84,9 +84,9 @@ so this documentation applies to both.</p>
 
 <p>To build the interface, follow these guidelines:</p>
 <ul>
-  <li>Start with a basic HTML template and use the MOD SDK to test it. Feel free to link any resource available in the SDK without packing them in the Bundle. Any host implementing this extension MUST provide those resources.</li>
-  <li>Use the {{ns}} tag inside the template to access images and media inside the bundle. More explanation on this at mod:templateData.</li>
-  <li>If you need new styles, always prefix them with the name of your bundle (the .lv2 extension is not necessary). In HTML all css classes are global, so this is necessary to avoid messing with the general interface.</li>
+  <li>Start with a basic HTML template and use the MOD SDK to test it. </li>
+  <li>Use the {{{ns}}} tag inside the template to access images and media inside the bundle. More explanation on this at mod:templateData.</li>
+  <li>If you need new styles, always prefix them with the name of your project. In HTML all css classes are global, so this is necessary to avoid messing with the general interface.</li>
   <li>Use the <em>mod-role</em> attribute to mark elements that are functional for the plugin (see below).</li>
 </ul>
 
@@ -114,8 +114,8 @@ so this documentation applies to both.</p>
 <ul>
   <li>Design an image of 1500x30 pixels, each piece of 150x30 representing one position of the slider;</li>
   <li>Save it inside the mod:resourcesDirectory directory, in your bundle, as slider.png</li>
-  <li>Put the following code into your HTML: &lt;div mod-role="input-control-port" mod-port-symbol="drive" style="width: 150px; height: 30px; background-image: url(/resources/slider.png{{ns}}"&gt;</li>
-  <li>Suppose you wanted to use the same sprite for a half sized version of the slider, you could instead use the style "width: 75px; height: 15px; background-image: url(/resources/slider.png{{ns}}; background-size: auto 15px;"</li>
+  <li>Put the following code into your HTML: &lt;div mod-role="input-control-port" mod-port-symbol="drive" style="width: 150px; height: 30px; background-image: url(/resources/slider.png{{{ns}}}"&gt;</li>
+  <li>Suppose you wanted to use the same sprite for a half sized version of the slider, you could instead use the style "width: 75px; height: 15px; background-image: url(/resources/slider.png{{{ns}}}; background-size: auto 15px;"</li>
 </ul>
 
 <h5>Select widget</h5>
@@ -127,6 +127,7 @@ so this documentation applies to both.</p>
 <h5>Custom select widget</h5>
 
 <p>This widget is similar in functionality to select widget, but instead of a select html element holding options, you can choose any element types to represent the widget and the options. If you use mod-role="custom-select", this element is expected to have children elements with the attributes mod-role="<em>enumeration-option</em>" and mod-port-value="(float value)". The selected element will receive the <em>selected</em> class, and so you can define your CSS as to highlight it as desired.</p>
+<p>In case you want a list of options to be shown when the widget is clicked, you should mark the element containing the options with <em>mod-widget-property="hidden"</em>. When this happens, every click on the widget will toggle that element's visibility.</p>
 
 <h4>Control values</h4>
 
@@ -192,7 +193,7 @@ needs a ?bundle=BUNDLE&url=EFFECT_URL parameter.</p>
 <p>To make this job easier, the <em>ns</em> variable will hold the correct url parameter,
 so if you want to customize your template (say, have your brand image in the pedal),
 you can refer to it like this:
-&lt;img alt="Brand image example" src="/resources/brand.png{{ns}}"/&gt;</p>
+&lt;img alt="Brand image example" src="/resources/brand.png{{{ns}}}"/&gt;</p>
 
 <p>In the example above, the brand.png file inside the mod:resourcesDirectory would be
 served</p>
@@ -214,8 +215,8 @@ this directory must have an ?bundle=BUNDLE&url=EFFECT_URL parameter.</p>
 <p><em>Note</em>: using a static url with ?bundle=BUNDLE parameter in any template would be a violation of
 <a href="http://lv2plug.in/wiki/Bundle_Definition">LV2 Bundle Definition</a> guidelines. So hosts should
 not require the bundle parameter to load the resources. This parameter is used mostly by the SDK, since
-speed of reloading for testing interface is an issue there and no bundle index is made. Anyway, this parameter
-should be dynamic, as described in mod:templateData.
+speed of reloading for testing interface is an issue there and no bundle index is made. To avoid problems here,
+always use the {{{ns}}} tag instead of raw urls in your templates and stylesheet, as described in mod:templateData.
 </p>
 """ .
 
@@ -240,3 +241,15 @@ The value of this property must be a URI that resolves to an image with maximum
 size of 256x64px.
 </p>
 """ .
+
+mod:stylesheet
+	a rdf:Property ;
+	rdf:range owl:Thing ;
+	rdfs:domain mod:GUI ;
+	rdf:label "stylesheet" ;
+	lv2:documentation """
+<p>A CSS file that holds all styles used for this plugin. The CSS will be automatically loaded on request. For implementation reasons, only one CSS file per effect is supported.</p>
+<p>The stylesheet will be parsed for dynamic content, so the {{{ns}}} tag can be used to reference background images and other resources.</p>
+<p>Remember that all class names must be preceded by the bundle's name to avoid conflicting with other plugins or general interface.</p>
+""" .
+

@@ -36,7 +36,7 @@ Create a python virtualenv::
 
 Install the mod-python library::
 
-    $ pip install -e git+https://github.com/portalmod/mod-python.git#egg=mod-python
+    $ pip install -e git+https://github.com/portalmod/mod-python.git@master#egg=mod-python
 
 Install PIL (it needs this symlink to be compiled with zlib support) and tornado::
 

@@ -1,6 +1,6 @@
-import os, json, random, subprocess, re, base64, shutil, time
+import os, json, random, subprocess, re, base64, shutil, time, pystache
 from hashlib import sha1
-import Image
+from PIL import Image
 
 from tornado import web, options, ioloop, template, httpclient
 from modcommon.communication import crypto
@@ -67,9 +67,35 @@ class EffectImage(web.RequestHandler):
             
         if not os.path.exists(path):
             raise web.HTTPError(404)
-            
+
         self.set_header('Content-type', 'image/png')
         self.write(open(path).read())
+            
+class EffectStylesheet(web.RequestHandler):
+    def get(self):
+        bundle = self.get_argument('bundle')
+        effect = self.get_argument('url')
+
+        try:
+            bundle = get_bundle_data(WORKSPACE, bundle)
+        except IOError:
+            raise web.HTTPError(404)
+
+        effect = bundle['plugins'][effect]
+
+        try:
+            path = effect['gui']['stylesheet']
+        except:
+            raise web.HTTPError(404)
+            
+        if not os.path.exists(path):
+            raise web.HTTPError(404)
+            
+        content = open(path).read()
+        context = { 'ns': '?url=%s&bundle=%s' % (effect['url'], effect['package']) }
+
+        self.set_header('Content-type', 'text/css')
+        self.write(pystache.render(content, context))
             
 
 class EffectSave(web.RequestHandler):
@@ -115,6 +141,7 @@ class Index(web.RequestHandler):
         default_icon_template = open(DEFAULT_ICON_TEMPLATE).read()
         default_settings_template = open(DEFAULT_SETTINGS_TEMPLATE).read()
         context = {
+            'workspace': WORKSPACE,
             'default_icon_template': default_icon_template.replace("'", "\\'").replace("\n", "\\n"),
             'default_settings_template': default_settings_template.replace("'", "\\'").replace("\n", "\\n"),
             'wizard_db': json.dumps(json.loads(open(WIZARD_DB).read())),
@@ -378,6 +405,7 @@ def make_application(port=PORT, workspace=None):
             (r"/bundles", BundleList),
             (r"/effects/(.+)", EffectList),
             (r"/effect/image/(screenshot|thumbnail).png", EffectImage),
+            (r"/effect/stylesheet.css", EffectStylesheet),
             (r"/effect/save/(.+?)", EffectSave),
             (r"/config/get", ConfigurationGet),
             (r"/config/set", ConfigurationSet),
@@ -397,8 +425,35 @@ def make_application(port=PORT, workspace=None):
 
     return ioloop.IOLoop.instance()
 
+def check_environment():
+    issues = []
+    if not os.path.isdir(WORKSPACE):
+        issues.append("Workspace directory not found. Please create %s and put your LV2 bundles there" % WORKSPACE)
+    if not os.path.isfile(UNITS_FILE):
+        issues.append("Units file not found. Please install units.lv2 bundle and make sure %s exists" % UNITS_FILE)
+    if not os.path.isfile(PHANTOM_BINARY):
+        issues.append("PhantomJS not found. Please install it and make sure the binary is located at %s" % PHANTOM_BINARY)
+    if len(issues) == 0:
+        return True
+    print "\nPlease configure your environment properly. The following issues were found:\n"
+    for issue in issues:
+        print "  - %s" % issue
+    print ""
+    return False
+
+def welcome_message():
+    print ""
+    print "Welcome to the MOD-SDK"
+    print "The goal of this SDK is to implement the MODGUI specification, so you must be familiar with LV2 specification."
+    print "If you need help on that, please check http://lv2plug.in"
+    print "Keep your bundles in %s. Work on them and use your browser to test your layouts" % WORKSPACE
+    print ""
+    print "To start testing your plugin interfaces, open your webkit-based browser (Google Chrome, Chromium, Safari) and point to http://localhost:%d" % PORT
+        
 def run():
-    make_application().start()
+    if check_environment():
+        welcome_message()
+        make_application().start()
 
 if __name__ == "__main__":
     run()
