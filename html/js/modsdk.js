@@ -1,4 +1,4 @@
-var bundles, effects, content, iconCanvas, settingsCanvas, publishWindow, icon, version, section
+var bundles, effects, content, iconCanvas, settingsCanvas, publishWindow, renderedIcon, version, section
 var defaultIconTemplate, defaultSettingsTemplate // loaded in index.html
 var DEBUG // holds template debugging info
 $(document).ready(function() {
@@ -40,8 +40,8 @@ $(document).ready(function() {
 	var iconImg = $('<img>')
 	var param = { bundle: bundles.val(),
 		      effect: effects.val(),
-		      width: icon.width(),
-		      height: icon.height(),
+		      width: renderedIcon.width(),
+		      height: renderedIcon.height(),
 		      slug: slug()
 		    }
 	screenshotCanvas.find('img').remove()
@@ -199,7 +199,7 @@ function showEffect() {
     })
 
     gui.render(function(icon, settings) {
-
+	renderedIcon = icon
 	var actions = $('<div>').addClass('mod-actions').appendTo(icon)
 	$('<div>').addClass('mod-settings').appendTo(actions)
 	$('<div>').addClass('mod-remove').appendTo(actions)

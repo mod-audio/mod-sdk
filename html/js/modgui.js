@@ -15,16 +15,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-function loadCSS(css, callback) {
-    loaded = $('head').find('link')
-    for (var i=0; i<loaded.length; i++) {
-	if ($(loaded[i]).attr('href') == css) {
-	    return
-	}
+var loadedCSS = {}
+function loadCSS(source, effect, bundle, callback) {
+    if (loadedCSS[effect])
+	return setTimeout(callback, 0)
+    url = ''
+    if (source) {
+	url += source
+	url.replace(/\/?$/, '')
     }
-    var link = $('<link rel="stylesheet" type="text/css">').attr('href', css).appendTo($('head'))
-    link.load(callback)
-    
+    url += '/effect/stylesheet.css?url='+escape(effect)+'&bundle='+escape(bundle)
+    $.get(url, function(data) {
+	$('<style type="text/css">').text(data).appendTo($('head'))
+	loadedCSS[effect] = true
+	callback()
+    })
 }
 
 function GUI(effect, options) {
@@ -50,7 +55,7 @@ function GUI(effect, options) {
     self.cssCallbacks = []
     if (effect.gui.stylesheet) {
 	self.cssLoaded = false
-	loadCSS('/effect/stylesheet.css?url='+escape(effect.url)+'&bundle='+escape(effect.package),
+	loadCSS(effect.source, effect.url, effect.package, 
 	       function() {
 		   self.cssLoaded = true
 		   for (var i in self.cssCallbacks) {
