@@ -396,7 +396,7 @@ class EffectResource(web.StaticFileHandler):
         super(EffectResource, self).initialize(os.path.join(HTML_DIR, 'resources'))
         super(EffectResource, self).get(path)
 
-def make_application(port=PORT, workspace=None):
+def make_application(port=PORT, workspace=None, output_log=True):
     global WORKSPACE
     if workspace:
         WORKSPACE = workspace
@@ -419,7 +419,8 @@ def make_application(port=PORT, workspace=None):
                                   debug=True)
     
     application.listen(port)
-    options.parse_command_line()
+    if output_log:
+        options.parse_command_line()
 
     get_cache_instance(WORKSPACE)
 

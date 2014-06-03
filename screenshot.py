@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
-import os, glob, subprocess, random, argparse, Image
+import os, glob, subprocess, random, argparse
+from PIL import Image
 from modsdk.webserver import make_application
 from modsdk.cache import get_bundle_data
 from modsdk.settings import (ROOT, PHANTOM_BINARY, SCREENSHOT_SCRIPT,
@@ -32,7 +33,7 @@ for bundle in args.bundles:
 class BundleQueue(object):
     def __init__(self, bundles):
         self.bundle_queue = bundles
-        self.webserver = make_application(port=PORT, workspace=WORKSPACE)
+        self.webserver = make_application(port=PORT, workspace=WORKSPACE, output_log=False)
         self.webserver.add_callback(self.next_bundle)
 
     def run(self):
