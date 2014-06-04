@@ -7,33 +7,18 @@ from modsdk.cache import get_bundle_data
 from modsdk.settings import (ROOT, PHANTOM_BINARY, SCREENSHOT_SCRIPT,
                              MAX_THUMB_WIDTH, MAX_THUMB_HEIGHT)
 
-os.chdir(os.path.dirname(os.path.realpath(__file__)))
-
-parser = argparse.ArgumentParser(description='Generates screenshot of all effects inside a bundle')
-parser.add_argument('bundles', help="The bundle path (a directory containing manifest.ttl file", type=str, nargs='+')
-
 #maximum width and height
 WIDTH = 1920
 HEIGHT = 1080
 
+# port used for the temporary webserver
 PORT = 9123
 
-args = parser.parse_args()
-WORKSPACE = None
-BUNDLES = []
-for bundle in args.bundles:
-    if bundle.endswith('/'):
-        bundle = bundle[:-1]
-    basedir = os.path.realpath(os.path.dirname(bundle))
-    if not WORKSPACE:
-        WORKSPACE = basedir
-    assert WORKSPACE == basedir, "All bundles must be contained in same directory"
-    BUNDLES.append(bundle.split('/')[-1])
-
 class BundleQueue(object):
-    def __init__(self, bundles):
+    def __init__(self, workspace, bundles):
+        self.workspace = workspace
         self.bundle_queue = bundles
-        self.webserver = make_application(port=PORT, workspace=WORKSPACE, output_log=False)
+        self.webserver = make_application(port=PORT, workspace=workspace, output_log=False)
         self.webserver.add_callback(self.next_bundle)
 
     def run(self):
@@ -44,7 +29,7 @@ class BundleQueue(object):
             self.webserver.stop()
             return
         self.current_bundle = self.bundle_queue.pop(0)
-        self.data = get_bundle_data(WORKSPACE, self.current_bundle)
+        self.data = get_bundle_data(self.workspace, self.current_bundle)
         self.effect_queue = self.data['plugins'].keys()
         self.next_effect()
 
@@ -112,8 +97,23 @@ class BundleQueue(object):
         # now crop
         return img.crop((min_x, min_y, max_x, max_y))
 
-BundleQueue(BUNDLES).run()
+def run():
+    parser = argparse.ArgumentParser(description='Generates screenshot of all effects inside a bundle')
+    parser.add_argument('bundles', help="The bundle path (a directory containing manifest.ttl file", type=str, nargs='+')
 
+    args = parser.parse_args()
+    workspace = None
+    bundles = []
+    for bundle in args.bundles:
+        if bundle.endswith('/'):
+            bundle = bundle[:-1]
+        basedir = os.path.realpath(os.path.dirname(bundle))
+        if not workspace:
+            workspace = basedir
+        assert workspace == basedir, "All bundles must be contained in same directory"
+        bundles.append(bundle.split('/')[-1])
 
+    BundleQueue(workspace, bundles).run()
 
-    
+if __name__ == '__main__':
+    run()
