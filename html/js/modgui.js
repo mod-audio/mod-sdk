@@ -15,21 +15,56 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-var loadedCSS = {}
-function loadCSS(source, effect, bundle, callback) {
-    if (loadedCSS[effect])
-	return setTimeout(callback, 0)
-    url = ''
-    if (source) {
-	url += source
-	url.replace(/\/?$/, '')
+var loadedCSSs = {}
+var loadedJSs = {}
+function loadDependencies(gui, effect, callback) { //source, effect, bundle, callback) {
+    var cssLoaded = true
+    var jsLoaded = true
+
+    var cb = function() {
+	if (cssLoaded && jsLoaded) {
+	    setTimeout(callback, 0)
+	}
     }
-    url += '/effect/stylesheet.css?url='+escape(effect)+'&bundle='+escape(bundle)
-    $.get(url, function(data) {
-	$('<style type="text/css">').text(data).appendTo($('head'))
-	loadedCSS[effect] = true
-	callback()
-    })
+
+    var baseUrl = ''
+    if (effect.source) {
+	baseUrl += source
+	baseUrl.replace(/\/?$/, '')
+    }
+    
+    if (effect.gui.stylesheet && !loadedCSSs[effect.url]) {
+	cssLoaded = false
+	var cssUrl = baseUrl + '/effect/stylesheet.css?url='+escape(effect.url)+'&bundle='+escape(effect.package)
+	$.get(cssUrl, function(data) {
+	    $('<style type="text/css">').text(data).appendTo($('head'))
+	    loadedCSSs[effect.url] = true
+	    cssLoaded = true
+	    cb()
+	})
+    }
+
+    if (effect.gui.javascript) {
+	if (loadedJSs[effect.url]) {
+	    gui.jsCallback = loadedJSs[effect.url]
+	} else {
+	    jsLoaded = false
+	    var jsUrl = baseUrl + '/effect/gui.js?url='+escape(effect.url)+'&bundle='+escape(effect.package)
+	    $.ajax({ url: jsUrl,
+		     success: function(code) {
+			 var method;
+			 eval('method = ' + code)
+			 loadedJSs[effect.url] = method
+			 gui.jsCallback = method
+			 jsLoaded = true
+			 cb()
+		     },
+		     cache: false,
+		   })
+	}
+    }
+
+    cb()
 }
 
 function GUI(effect, options) {
@@ -51,19 +86,16 @@ function GUI(effect, options) {
     if (!effect.gui)
 	effect.gui = {}
 
-    self.cssLoaded = true
-    self.cssCallbacks = []
-    if (effect.gui.stylesheet) {
-	self.cssLoaded = false
-	loadCSS(effect.source, effect.url, effect.package, 
-	       function() {
-		   self.cssLoaded = true
-		   for (var i in self.cssCallbacks) {
-		       self.cssCallbacks[i]()
-		   }
-		   self.cssCallbacks = []
-	       })
-    }
+    self.dependenciesLoaded = false
+    self.dependenciesCallbacks = []
+
+    loadDependencies(this, effect, function() {
+	self.dependenciesLoaded = true
+	for (var i in self.dependenciesCallbacks) {
+	    self.dependenciesCallbacks[i]()
+	}
+	self.dependenciesCallbacks = []
+    })
 
     self.effect = effect
 
@@ -104,6 +136,8 @@ function GUI(effect, options) {
 	value: options.bypassed
     }	
 
+    this.currentValues = {}
+
     this.setPortValue = function(symbol, value, source) {
 	if (isNaN(value)) 
 	    throw "Invalid NaN value for " + symbol
@@ -122,6 +156,8 @@ function GUI(effect, options) {
 	port.value = value
 	self.setPortWidgetsValue(symbol, value, source)
 	options.change(symbol, value)
+	self.currentValues[symbol] = value
+	self.triggerJS({ 'type': 'change', symbol: symbol })
     }
 
     this.setPortWidgetsValue = function(symbol, value, source) {
@@ -159,32 +195,34 @@ function GUI(effect, options) {
 
     this.render = function(callback) {
 	var render = function() {
-	    var icon = $('<div class="mod-pedal">')
-	    icon.html(Mustache.render(effect.gui.iconTemplate || options.defaultIconTemplate,
-					 self.getTemplateData(effect)))
-	    self.assignIconFunctionality(icon)
-	    self.assignControlFunctionality(icon)
+	    self.icon = $('<div class="mod-pedal">')
+	    self.icon.html(Mustache.render(effect.gui.iconTemplate || options.defaultIconTemplate,
+					   self.getTemplateData(effect)))
+	    self.assignIconFunctionality(self.icon)
+	    self.assignControlFunctionality(self.icon)
 	    
 	    // Take the width of the plugin. This is necessary because plugin may have position absolute.
 	    // setTimeout is here because plugin has not yet been appended to anywhere, let's wait for
 	    // all instructions to be executed.
 	    setTimeout(function() {
-		icon.width(icon.children().width())
-		icon.height(icon.children().height())
+		self.icon.width(self.icon.children().width())
+		self.icon.height(self.icon.children().height())
 	    }, 1)
 
-	    var settings = $('<div class="mod-settings">')
-	    settings.html(Mustache.render(effect.gui.settingsTemplate || options.defaultSettingsTemplate,
-					  self.getTemplateData(effect)))
-	    self.assignControlFunctionality(settings)
+	    self.settings = $('<div class="mod-settings">')
+	    self.settings.html(Mustache.render(effect.gui.settingsTemplate || options.defaultSettingsTemplate,
+					       self.getTemplateData(effect)))
+	    self.assignControlFunctionality(self.settings)
 	    
-	    callback(icon, settings)
+	    self.triggerJS({ 'type': 'start' })
+
+	    callback(self.icon, self.settings)
 	}
 
-	if (self.cssLoaded) {
+	if (self.dependenciesLoaded) {
 	    render()
 	} else {
-	    self.cssCallbacks.push(render)
+	    self.dependenciesCallbacks.push(render)
 	}
     }
 
@@ -195,10 +233,10 @@ function GUI(effect, options) {
 				      self.getTemplateData(effect)))
 	    callback(icon)
 	}
-	if (self.cssLoaded) {
+	if (self.dependenciesLoaded) {
 	    render()
 	} else {
-	    self.cssCallbacks.push(render)
+	    self.dependenciesCallbacks.push(render)
 	}
     }
 
@@ -399,6 +437,23 @@ function GUI(effect, options) {
 	DEBUG = JSON.stringify(data, undefined, 4)
 	return data
     }
+
+    this.jsData = {}
+    this.triggerJS = function(event) {
+	if (!self.jsCallback)
+	    return
+	var e = { 
+	    event: event,
+	    values: self.currentValues,
+	    icon: self.icon,
+	    settings: self.settings,
+	    data: self.jsData
+	};
+	if (event.symbol)
+	    e.port = self.controls[event.symbol]
+	self.jsCallback(e)
+    }
+
 }
 
 function JqueryClass() {

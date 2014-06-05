@@ -98,6 +98,30 @@ class EffectStylesheet(web.RequestHandler):
         self.write(pystache.render(content, context))
             
 
+class EffectJavascript(web.RequestHandler):
+    def get(self):
+        bundle = self.get_argument('bundle')
+        effect = self.get_argument('url')
+
+        try:
+            bundle = get_bundle_data(WORKSPACE, bundle)
+        except IOError:
+            raise web.HTTPError(404)
+
+        effect = bundle['plugins'][effect]
+
+        try:
+            path = effect['gui']['javascript']
+        except:
+            raise web.HTTPError(404)
+            
+        if not os.path.exists(path):
+            raise web.HTTPError(404)
+            
+
+        self.write(open(path).read())
+            
+
 class EffectSave(web.RequestHandler):
     def post(self, bundle):
         param = json.loads(self.request.body)
@@ -406,6 +430,7 @@ def make_application(port=PORT, workspace=None, output_log=True):
             (r"/effects/(.+)", EffectList),
             (r"/effect/image/(screenshot|thumbnail).png", EffectImage),
             (r"/effect/stylesheet.css", EffectStylesheet),
+            (r"/effect/gui.js", EffectJavascript),
             (r"/effect/save/(.+?)", EffectSave),
             (r"/config/get", ConfigurationGet),
             (r"/config/set", ConfigurationSet),
