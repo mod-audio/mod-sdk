@@ -253,3 +253,20 @@ mod:stylesheet
 <p>Remember that all class names must be preceded by the bundle's name to avoid conflicting with other plugins or general interface.</p>
 """ .
 
+mod:javascript
+	a rdf:Property ;
+	rdf:range owl:Thing ;
+	rdfs:domain mod:GUI ;
+	rdf:label "javascript" ;
+	lv2:documentation """
+<p>A Javascript file containing a declaration of an anonymous function which will be called once when plugin interface is first rendered and everytime a port value is changed.</p>
+<p>This function will receive as parameter an object containing:</p>
+<ul>
+  <li>event: a dictionary indicating the context in which the function is called. Contains the "type" key, that can be either "start" (first call) or "change", when a port value is changed. In the latter case, it will also contain they key "symbol", indicating which port has changed.</li>
+  <li>values: a dictionary containing the values of all control ports of this plugin.</li>
+  <li>icon: the JQuery object encapsulating the DOM object of the main plugin interface.</li>
+  <li>settings: JQuery object with the settings screen interface.</li>
+  <li>data: A object that can be used by this javascript function to store anything that should persist.<li>
+</ul>
+""" .
+
