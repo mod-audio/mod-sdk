@@ -266,7 +266,7 @@ mod:javascript
   <li>values: a dictionary containing the values of all control ports of this plugin.</li>
   <li>icon: the JQuery object encapsulating the DOM object of the main plugin interface.</li>
   <li>settings: JQuery object with the settings screen interface.</li>
-  <li>data: A object that can be used by this javascript function to store anything that should persist.<li>
+  <li>data: A object that can be used by this javascript function to store anything that should persist.</li>
 </ul>
 """ .
 
