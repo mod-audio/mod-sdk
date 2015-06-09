@@ -1,16 +1,16 @@
 /*
  * Copyright 2012-2013 AGR Audio, Industria e Comercio LTDA. <contato@portalmod.com>
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -32,29 +32,29 @@ function loadDependencies(gui, effect, callback) { //source, effect, bundle, cal
 	baseUrl += source
 	baseUrl.replace(/\/?$/, '')
     }
-    
-    if (effect.gui.stylesheet && !loadedCSSs[effect.url]) {
+
+    if (effect.gui.stylesheet && !loadedCSSs[effect.uri]) {
 	cssLoaded = false
-	var cssUrl = baseUrl + '/effect/stylesheet.css?url='+escape(effect.url)+'&bundle='+escape(effect.package)
+	var cssUrl = baseUrl + '/effect/stylesheet.css?uri='+escape(effect.uri)
 	$.get(cssUrl, function(data) {
 	    $('<style type="text/css">').text(data).appendTo($('head'))
-	    loadedCSSs[effect.url] = true
+	    loadedCSSs[effect.uri] = true
 	    cssLoaded = true
 	    cb()
 	})
     }
 
     if (effect.gui.javascript) {
-	if (loadedJSs[effect.url]) {
-	    gui.jsCallback = loadedJSs[effect.url]
+	if (loadedJSs[effect.uri]) {
+	    gui.jsCallback = loadedJSs[effect.uri]
 	} else {
 	    jsLoaded = false
-	    var jsUrl = baseUrl + '/effect/gui.js?url='+escape(effect.url)+'&bundle='+escape(effect.package)
+	    var jsUrl = baseUrl + '/effect/gui.js?uri='+escape(effect.uri)
 	    $.ajax({ url: jsUrl,
 		     success: function(code) {
 			 var method;
 			 eval('method = ' + code)
-			 loadedJSs[effect.url] = method
+			 loadedJSs[effect.uri] = method
 			 gui.jsCallback = method
 			 jsLoaded = true
 			 cb()
@@ -71,284 +71,306 @@ function GUI(effect, options) {
     var self = this
 
     options = $.extend({
-	'change': new Function(),
-	'click': new Function(),
-	'dragStart': new Function(),
-	'drag': new Function(),
-	'dragStop': new Function(),
-	'bypass': new Function(),
-	'preset': {},
-	'bypassed': false,
-	'defaultIconTemplate': 'Template missing',
-	'defaultSettingsTemplate': 'Template missing'
+        'change': new Function(),
+        'click': new Function(),
+        'dragStart': new Function(),
+        'drag': new Function(),
+        'dragStop': new Function(),
+        'bypass': new Function(),
+        'preset': {},
+        'bypassed': false,
+        'defaultIconTemplate': 'Template missing',
+        'defaultSettingsTemplate': 'Template missing'
     }, options)
 
     if (!effect.gui)
-	effect.gui = {}
+        effect.gui = {}
 
     self.dependenciesLoaded = false
     self.dependenciesCallbacks = []
 
     loadDependencies(this, effect, function() {
-	self.dependenciesLoaded = true
-	for (var i in self.dependenciesCallbacks) {
-	    self.dependenciesCallbacks[i]()
-	}
-	self.dependenciesCallbacks = []
+        self.dependenciesLoaded = true
+        for (var i in self.dependenciesCallbacks) {
+            self.dependenciesCallbacks[i]()
+        }
+        self.dependenciesCallbacks = []
     })
 
     self.effect = effect
 
     self.bypassed = options.bypassed
 
-    this.makePortIndex = function() {
-	var ports = self.effect.ports.control.input
-	var index = {}
-	for (var i in ports) {
-	    var port = { 
-		widgets: [],
-		enabled: true,
-		value: null
-	    }
-	    $.extend(port, ports[i])
-	    if (options.preset[port.symbol] != null)
-		port.default = options.preset[port.symbol]
-	    port.value = port.default
-	    index[port.symbol] = port
-	}
-	return index
+    this.makePortIndexes = function(ports) {
+        var indexes = {}
+        for (var i in ports) {
+            if (ports[i].ranges.default === undefined)
+                continue
+            var port = {
+                widgets: [],
+                enabled: true,
+                value: null
+            }
+            $.extend(port, ports[i])
+            port.value = port.ranges.default
+            indexes[port.symbol] = port
+        }
+        return indexes
     }
 
-    self.controls = self.makePortIndex(effect.ports.control.input)
+    self.controls = self.makePortIndexes(effect.ports)
 
     // Bypass needs to be represented as a port since it shares the hardware addressing
     // structure with ports. We use the symbol ':bypass' that is an invalid lv2 symbol and
     // so will cause no conflict
     // Be aware that this is being acessed directly in pedalboard.js
     self.controls[':bypass'] = {
-	name: 'Bypass',
-	symbol: ':bypass',
-	minimum: 0,
-	maximum: 1,
-	toggled: true,
-	widgets: [],
-	enabled: true,
-	value: options.bypassed
-    }	
+        name: 'Bypass',
+        symbol: ':bypass',
+        ranges: {
+            minimum: 0,
+            maximum: 1,
+            default: 1,
+        },
+        properties: ["toggled", "integer"],
+        widgets: [],
+        enabled: true,
+        value: options.bypassed
+    }
 
     this.currentValues = {}
 
     this.setPortValue = function(symbol, value, source) {
-	if (isNaN(value)) 
-	    throw "Invalid NaN value for " + symbol
-	var port = self.controls[symbol]
-	if (!port.enabled || port.value == value)
-	    return
-	if (port.trigger) {
-	    // Report the new value and return the widget to old value
-	    options.change(symbol, value)
-	    if (source)
-		setTimeout(function() {
-		source.controlWidget('setValue', port.value)
-		}, 500)
-	    return
-	}
-	port.value = value
-	self.setPortWidgetsValue(symbol, value, source)
-	options.change(symbol, value)
-	self.currentValues[symbol] = value
-	self.triggerJS({ 'type': 'change', symbol: symbol })
+        if (isNaN(value))
+            throw "Invalid NaN value for " + symbol
+        var port = self.controls[symbol]
+        if (!port.enabled || port.value == value)
+            return
+        if (port.trigger) {
+            // Report the new value and return the widget to old value
+            options.change(symbol, value)
+            if (source) {
+                setTimeout(function() {
+                    source.controlWidget('setValue', port.value)
+                }, 500)
+            }
+            return
+        }
+        port.value = value
+        self.setPortWidgetsValue(symbol, value, source)
+        options.change(symbol, value)
+        self.currentValues[symbol] = value
+        self.triggerJS({ 'type': 'change', symbol: symbol })
     }
 
     this.setPortWidgetsValue = function(symbol, value, source) {
-	var port = self.controls[symbol]
-	for (var i in port.widgets) {
-	    if (port.widgets[i] == source)
-		continue
-	    port.widgets[i].controlWidget('setValue', value)
-	}
+        var port = self.controls[symbol]
+        for (var i in port.widgets) {
+            if (port.widgets[i] == source)
+                continue
+            port.widgets[i].controlWidget('setValue', value)
+        }
     }
 
     this.getPortValue = function(symbol) {
-	return self.controls[symbol].value
+        return self.controls[symbol].value
     }
 
     this.serializePreset = function() {
-	var data = {}
-	for (var symbol in self.controls)
-	    data[symbol] = self.controls[symbol].value
-	return data
+        var data = {}
+        for (var symbol in self.controls)
+            data[symbol] = self.controls[symbol].value
+        return data
     }
 
     this.disable = function(symbol) {
-	var port = self.controls[symbol]
-	port.enabled = false
-	for (var i in port.widgets)
-	    port.widgets[i].controlWidget('disable')
+        var port = self.controls[symbol]
+        port.enabled = false
+        for (var i in port.widgets)
+            port.widgets[i].controlWidget('disable')
     }
+
     this.enable = function(symbol) {
-	var port = self.controls[symbol]
-	port.enabled = true
-	for (var i in port.widgets)
-	    port.widgets[i].controlWidget('enable')
+        var port = self.controls[symbol]
+        port.enabled = true
+        for (var i in port.widgets)
+            port.widgets[i].controlWidget('enable')
     }
 
     this.render = function(callback) {
-	var render = function() {
-	    self.icon = $('<div class="mod-pedal">')
-	    self.icon.html(Mustache.render(effect.gui.iconTemplate || options.defaultIconTemplate,
-					   self.getTemplateData(effect)))
-	    self.assignIconFunctionality(self.icon)
-	    self.assignControlFunctionality(self.icon)
-	    
-	    // Take the width of the plugin. This is necessary because plugin may have position absolute.
-	    // setTimeout is here because plugin has not yet been appended to anywhere, let's wait for
-	    // all instructions to be executed.
-	    setTimeout(function() {
-		self.icon.width(self.icon.children().width())
-		self.icon.height(self.icon.children().height())
-	    }, 1)
+        var render = function() {
+            self.icon = $('<div class="mod-pedal">')
+            self.icon.html(Mustache.render(effect.gui.iconTemplate || options.defaultIconTemplate,
+                           self.getTemplateData(effect)))
+            self.assignIconFunctionality(self.icon)
+            self.assignControlFunctionality(self.icon)
 
-	    self.settings = $('<div class="mod-settings">')
-	    self.settings.html(Mustache.render(effect.gui.settingsTemplate || options.defaultSettingsTemplate,
-					       self.getTemplateData(effect)))
-	    self.assignControlFunctionality(self.settings)
-	    
-	    self.triggerJS({ 'type': 'start' })
+            // Take the width of the plugin. This is necessary because plugin may have position absolute.
+            // setTimeout is here because plugin has not yet been appended to anywhere, let's wait for
+            // all instructions to be executed.
+            setTimeout(function() {
+                self.icon.width(self.icon.children().width())
+                self.icon.height(self.icon.children().height())
+            }, 1)
 
-	    callback(self.icon, self.settings)
-	}
+            self.settings = $('<div class="mod-settings">')
+            self.settings.html(Mustache.render(effect.gui.settingsTemplate || options.defaultSettingsTemplate,
+                               self.getTemplateData(effect)))
+            self.assignControlFunctionality(self.settings)
 
-	if (self.dependenciesLoaded) {
-	    render()
-	} else {
-	    self.dependenciesCallbacks.push(render)
-	}
+            self.triggerJS({ 'type': 'start' })
+
+            callback(self.icon, self.settings)
+        }
+
+        if (self.dependenciesLoaded) {
+            render()
+        } else {
+            self.dependenciesCallbacks.push(render)
+        }
     }
 
     this.renderDummyIcon = function(callback) {
-	var render = function() {
-	    var icon = $('<div class="mod-pedal dummy">')
-	    icon.html(Mustache.render(effect.gui.iconTemplate || options.defaultIconTemplate,
-				      self.getTemplateData(effect)))
-	    callback(icon)
-	}
-	if (self.dependenciesLoaded) {
-	    render()
-	} else {
-	    self.dependenciesCallbacks.push(render)
-	}
+        var render = function() {
+            var icon = $('<div class="mod-pedal dummy">')
+            icon.html(Mustache.render(effect.gui.iconTemplate || options.defaultIconTemplate,
+                                      self.getTemplateData(effect)))
+            callback(icon)
+        }
+        if (self.dependenciesLoaded) {
+            render()
+        } else {
+            self.dependenciesCallbacks.push(render)
+        }
     }
 
     this.assignIconFunctionality = function(element) {
-	var handle = element.find('[mod-role=drag-handle]')
-	var drag_options = {
-	    handle: handle,
-	    start: options.dragStart,
-	    drag: options.drag,
-	    stop: options.dragStop
-	}
-	if (handle.length > 0) {
-	    element.draggable(drag_options)
-	    element.click(options.click)
-	}
+        var handle = element.find('[mod-role=drag-handle]')
+        var drag_options = {
+            handle: handle,
+            start: options.dragStart,
+            drag: options.drag,
+            stop: options.dragStop
+        }
+        if (handle.length > 0) {
+            element.draggable(drag_options)
+            element.click(options.click)
+        }
     }
 
     this.assignControlFunctionality = function(element) {
-	element.find('[mod-role=input-control-port]').each(function() {
-	    var control = $(this)
-	    var symbol = $(this).attr('mod-port-symbol')
-	    var port = self.controls[symbol]
+        element.find('[mod-role=input-control-port]').each(function() {
+            var control = $(this)
+            var symbol  = $(this).attr('mod-port-symbol')
+            var port    = self.controls[symbol]
 
-	    if (port) {
-		// Get the display formatting of this control
-		var format
-		if (port.unit)
-		    format = port.unit.render.replace('%f', '%.2f')
-		else
-		    format = '%.2f'
-		if (port.integer)
-		    format = format.replace(/%\.\d+f/, '%d')
-		
-		// Index the scalePoints
-		if (port.scalePoints) {
-		    var scalePointsIndex = {}
-		    for (var i in port.scalePoints) {
-			scalePointsIndex[sprintf(format, port.scalePoints[i].value)] = port.scalePoints[i]
-		    }
-		}
-		var valueField = element.find('[mod-role=input-control-value][mod-port-symbol='+symbol+']')
-		var setValue = function(value) {
-		    // When value is changed, let's use format and scalePoints to properly display
-		    // its value
-		    var label = sprintf(format, value)
-		    if (port.scalePoints && scalePointsIndex[label])
-			label = scalePointsIndex[label].label
-		    valueField.data('value', value)
-		    valueField.text(label)
-		    
-		    self.setPortValue(symbol, value, control)
-		}
-		control.controlWidget({ port: port,
-					change: function(e, value) {
-					    setValue(value)
-					}
-				      })
-		if (!port.enumeration) {
-		    // For ports that are not enumerated, we allow
-		    // editing the value directly
-		    valueField.attr('contenteditable', true)
-		    valueField.focus(function() {
-			valueField.text(valueField.data('value'))
- 		    })
-		    valueField.keydown(function(e) {
-			if (e.keyCode == 13) {
-			    valueField.blur()
-			    return false
-			}
-			return true			
-		    })
-		    valueField.blur(function() {
-			var value = parseFloat(valueField.text())
-			setValue(value)
-			control.controlWidget('setValue', value)
-		    })
-		    valueField.keydown(function(e) {
-			return true
-			if (e.keyCode >= 48 && e.keyCode <= 57)
-			    // It's a number
-			    return true
-			if (e.keyCode == 13) {
-			}
-			return (e.keyCode == 46 || 
-				e.keyCode == 9)
-		    })
-		}
-		port.widgets.push(control)
-	    } else {
-		control.text('No such symbol: '+symbol)
-	    }
-	});
+            if (port)
+            {
+                // Get the display formatting of this control
+                var format
+                if (port.units.render !== undefined) // FIXME
+                    format = port.units.render.replace('%f', '%.2f')
+                else
+                    format = '%.2f'
+                if (port.integer) // FIXME
+                    format = format.replace(/%\.\d+f/, '%d')
+                console.log(format)
+
+                // Index the scalePoints
+                if (port.scalePoints) {
+                    var scalePointsIndex = {}
+                    for (var i in port.scalePoints) {
+                        scalePointsIndex[sprintf(format, port.scalePoints[i].value)] = port.scalePoints[i]
+                    }
+                }
+
+                var valueField = element.find('[mod-role=input-control-value][mod-port-symbol='+symbol+']')
+                console.log(valueField)
+
+                var setValue = function(value) {
+                    // When value is changed, let's use format and scalePoints to properly display its value
+                    if (isNaN(value))
+                        throw "Invalid NaN value"
+                    var label = sprintf(format, value)
+                    if (port.scalePoints && scalePointsIndex[label])
+                        label = scalePointsIndex[label].label
+                    valueField.data('value', value)
+                    valueField.text(label)
+
+                    self.setPortValue(symbol, value, control)
+                }
+
+                control.controlWidget({ port: port,
+                                        change: function(e, value) {
+                                            setValue(value)
+                                        }
+                                      })
+
+                if (true || ! port.enumeration) { // FIXME
+                    // For ports that are not enumerated, we allow
+                    // editing the value directly
+                    valueField.attr('contenteditable', true)
+                    valueField.focus(function() {
+                        valueField.text(valueField.data('value'))
+                    })
+                    valueField.keydown(function(e) {
+                        if (e.keyCode == 13) {
+                            valueField.blur()
+                            return false
+                        }
+                        return true
+                    })
+                    valueField.blur(function() {
+                        var value = parseFloat(valueField.text())
+                        console.log("text")
+                        console.log(value)
+
+                        setValue(value)
+                        control.controlWidget('setValue', value)
+                    })
+                    valueField.keydown(function(e) {
+                        if (e.keyCode >= 48 && e.keyCode <= 57) {
+                            // It's a number
+                            return true
+                        }
+                        if (e.keyCode == 13) {
+                            // ???
+                            return true
+                        }
+                        return (e.keyCode == 46 || e.keyCode == 9)
+                    })
+                }
+
+                port.widgets.push(control)
+            }
+            else
+            {
+                control.text('No such symbol: '+symbol)
+            }
+        });
+
 	element.find('[mod-role=input-control-minimum]').each(function() {
 	    var symbol = $(this).attr('mod-port-symbol')
 	    if (!symbol) {
 		$(this).html('missing mod-port-symbol attribute')
 		return
 	    }
-	    var content = self.controls[symbol].minimum
-	    var format = self.controls[symbol].unit ? self.controls[symbol].unit.render : '%.2f'
-	    $(this).html(sprintf(format, self.controls[symbol].minimum))
+	    var content = self.controls[symbol].ranges.minimum
+	    var format = self.controls[symbol].units ? self.controls[symbol].units.render : '%.2f'
+	    $(this).html(sprintf(format, self.controls[symbol].ranges.minimum))
 	});
+
 	element.find('[mod-role=input-control-maximum]').each(function() {
 	    var symbol = $(this).attr('mod-port-symbol')
 	    if (!symbol) {
 		$(this).html('missing mod-port-symbol attribute')
 		return
 	    }
-	    var content = self.controls[symbol].maximum
-	    var format = self.controls[symbol].unit ? self.controls[symbol].unit.render : '%.2f'
-	    $(this).html(sprintf(format, self.controls[symbol].maximum))
+	    var content = self.controls[symbol].ranges.maximum
+	    var format = self.controls[symbol].units ? self.controls[symbol].units.render : '%.2f'
+	    $(this).html(sprintf(format, self.controls[symbol].ranges.maximum))
 	});
+
 	element.find('[mod-role=bypass]').each(function() {
 	    var control = $(this)
 	    var port = self.controls[':bypass']
@@ -378,8 +400,8 @@ function GUI(effect, options) {
 	if (options.bypassed)
 	    element.find('[mod-role=bypass-light]').addClass('off').removeClass('on')
 	else
-	    element.find('[mod-role=bypass-light]').addClass('on').removeClass('off')	    
-	
+	    element.find('[mod-role=bypass-light]').addClass('on').removeClass('off')
+
 	// Gestures for tablet. When event starts, we check if it's centered in any widget and stores the widget if so.
 	// Following events will be forwarded to proper widget
 	element[0].addEventListener('gesturestart', function(ev) {
@@ -414,46 +436,42 @@ function GUI(effect, options) {
     }
 
     this.getTemplateData = function(options) {
-	var i, port, control, symbol
-	var data = $.extend({}, options.gui.templateData)
-	data.effect = options
-	data.ns = '?bundle=' + options.package + '&url=' + escape(options.url)
-	if (!data.controls)
-	    return data
-	var controlIndex = {}
-	for (i in options.ports.control.input) {
-	    port = options.ports.control.input[i]
-	    controlIndex[port.symbol] = port
-	}
-	for (var i in data.controls) {
-	    control = data.controls[i]
-	    if (typeof control == "string") {
-		control = controlIndex[control]
-	    } else {
-		control = $.extend({}, controlIndex[control.symbol], control)
-	    }
-	    data.controls[i] = control
-	}
-	DEBUG = JSON.stringify(data, undefined, 4)
-	return data
+        var i, port, control, symbol
+        var data = $.extend({}, options.gui.templateData)
+        data.effect = options
+        data.ns = '?uri=' + escape(options.uri)
+        if (!data.controls)
+            return data
+        // TODO: is this needed?
+        var controlData = {}
+        for (i in options.ports) {
+            port = options.ports[i]
+            controlData[port.symbol] = port
+        }
+        for (var i in data.controls) {
+            control = data.controls[i]
+            data.controls[i] = $.extend({}, controlData[control.symbol], control)
+        }
+        DEBUG = JSON.stringify(data, undefined, 4)
+        return data
     }
 
     this.jsData = {}
-    this.triggerJS = function(event) {
-	if (!self.jsCallback)
-	    return
-	var e = { 
-	    event: event,
-	    values: self.currentValues,
-	    icon: self.icon,
-	    settings: self.settings,
-	    data: self.jsData
-	};
-	if (event.symbol)
-	    e.port = self.controls[event.symbol]
-	self.jsCallback(e)
-    }
 
+    this.triggerJS = function(event) {
+        if (!self.jsCallback)
+            return
+        var e = {
+            event: event,
+            values: self.currentValues,
+            icon: self.icon,
+            settings: self.settings,
+            data: self.jsData
+        };
+        if (event.symbol)
+            e.port = self.controls[event.symbol]
+        self.jsCallback(e)
+    }
 }
 
 function JqueryClass() {
@@ -499,13 +517,13 @@ var baseWidget = {
 	if (!(self.data('enabled') === false))
 	    self.data('enabled', true)
 	self.bind('valuechange', options.change)
-	
+
 	var port = options.port
 
 	var portSteps
 	if (port.toggle) {
-	    port.minimum = port.minimum || 0
-	    port.maximum = port.maximum || 1
+	    //port.ranges.minimum = port.ranges.minimum || 0
+	    //port.ranges.maximum = port.ranges.maximum || 1
 	    portSteps = 2
 	} else if (port.enumeration) {
 	    portSteps = port.scalePoints.length
@@ -520,21 +538,21 @@ var baseWidget = {
 	// This is a bit verbose and could be optmized, but it's better that
 	// each port property used is documented here
 	self.data('symbol', port.symbol)
-	self.data('default', port.default)
+	self.data('default', port.ranges.default)
 	self.data('enumeration', port.enumeration)
 	self.data('integer', port.integer)
-	self.data('maximum', port.maximum)
-	self.data('minimum', port.minimum)
+	self.data('maximum', port.ranges.maximum)
+	self.data('minimum', port.ranges.minimum)
 	self.data('logarithmic', port.logarithmic)
 	self.data('toggle', port.toggle)
 	self.data('scalePoints', port.scalePoints)
 
 	if (port.logarithmic) {
-	    self.data('scaleMinimum', Math.log(port.minimum) / Math.log(2))
-	    self.data('scaleMaximum', Math.log(port.maximum) / Math.log(2))
+	    self.data('scaleMinimum', Math.log(port.ranges.minimum) / Math.log(2))
+	    self.data('scaleMaximum', Math.log(port.ranges.maximum) / Math.log(2))
 	} else {
-	    self.data('scaleMinimum', port.minimum)
-	    self.data('scaleMaximum', port.maximum)
+	    self.data('scaleMinimum', port.ranges.minimum)
+	    self.data('scaleMaximum', port.ranges.maximum)
 	}
 
 	self.data('portSteps', portSteps)
@@ -543,7 +561,7 @@ var baseWidget = {
     },
 
     setValue: function() {
-	alert('not implemented')
+        alert('not implemented')
     },
 
     // For tablets: these methods can be used to implement gestures.
@@ -631,9 +649,9 @@ var baseWidget = {
 JqueryClass('film', baseWidget, {
     init: function(options) {
 	var self = $(this)
-	self.film('getSize', function() { 
+	self.film('getSize', function() {
 	    self.film('config', options)
-	    self.film('setValue', options.port.default)
+	    self.film('setValue', options.port.ranges.default)
 	})
 
 	self.on('dragstart', function(event) { event.preventDefault() })
@@ -642,14 +660,14 @@ JqueryClass('film', baseWidget, {
 	    if (!self.data('enabled')) return
 	    self.film('mouseMove', e)
 	}
-	
+
 	var upHandler = function(e) {
 	    self.film('mouseUp', e)
 	    $(document).unbind('mouseup', upHandler)
 	    $(document).unbind('mousemove', moveHandler)
 	    //self.trigger('filmstop')
 	}
-	
+
 	self.mousedown(function(e) {
 	    if (!self.data('enabled')) return self.film('prevent', e)
 	    if (e.which == 1) { // left button
@@ -705,7 +723,7 @@ JqueryClass('film', baseWidget, {
 		callback()
 	    });
 	    $('body').append(bgImg);
-	    bgImg.attr('src', url);    
+	    bgImg.attr('src', url);
 	}, 1)
     },
 
@@ -814,7 +832,7 @@ JqueryClass('selectWidget', baseWidget, {
     init: function(options) {
 	var self = $(this)
 	self.selectWidget('config', options)
-	self.selectWidget('setValue', options.port.default)
+	self.selectWidget('setValue', options.port.ranges.default)
 	self.change(function() {
 	    self.trigger('valuechange', parseFloat(self.val()))
 	})
@@ -869,13 +887,13 @@ JqueryClass('switchWidget', baseWidget, {
 	self.data('value', value)
 	self.trigger('valuechange', value)
     }
-})    
+})
 
 JqueryClass('customSelect', baseWidget, {
     init: function(options) {
 	var self = $(this)
 	self.customSelect('config', options)
-	self.customSelect('setValue', options.port.default)
+	self.customSelect('setValue', options.port.ranges.default)
 	self.find('[mod-role=enumeration-option]').each(function() {
 	    var opt = $(this)
 	    var value = opt.attr('mod-port-value')

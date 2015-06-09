@@ -105,11 +105,11 @@ $(document).ready(function() {
 
     $('button.debug').click(function() {
 	$('#debug-window pre').text(DEBUG)
-	$('#debug-window').show()	
+	$('#debug-window').show()
     })
     $('#debug-cancel').click(function() {
 	$('#debug-window').hide()
-    })	
+    })
 
     loadBundles()
 })
@@ -158,78 +158,79 @@ function loadEffects(callback) {
     getEffects(bundle, function(plugins) {
 	effects.find('option').remove()
 	$('<option>').html('-- Select Effect --').appendTo(effects)
-	for (var url in plugins) {
-	    var effect = plugins[url]
-	    $('<option>').val(effect.url).html(effect.name).data(effect).appendTo(effects)
+	for (var uri in plugins) {
+	    var plugin = plugins[uri]
+	    $('<option>').val(plugin.uri).html(plugin.name).data(plugin).appendTo(effects)
 	}
 	effects.show()
 	if (effects.children().length == 2) {
 	    effects.children().first().remove()
 	    showEffect()
-	}		 
+	}
 	if (callback != null)
 	    callback()
-    })    
+    })
 }
 
 function showEffect() {
     content.hide()
     var bundle = bundles.val()
     if (!bundle) {
-	window.location.hash = ''
-	return
+        window.location.hash = ''
+        return
     }
     var options = effects.find('option:selected').data()
 
     if (options.version) {
-	version.html('v' + options.version + ' (' + options.stability + ')')
-	version.show()
-    } else
-	version.hide()
-    if (!options.url) {
-	window.location.hash = bundle
-	return
+        version.html('v' + options.version + ' (' + options.stability + ')')
+        version.show()
+    } else {
+        version.hide()
+    }
+    if (!options.uri) {
+        window.location.hash = bundle
+        return
     }
 
-    window.location.hash = bundle + ',' + options.url + ',' + section
+    window.location.hash = bundle + ',' + options.uri + ',' + section
 
     var gui = new GUI(options, {
-	defaultIconTemplate: defaultIconTemplate, 
-	defaultSettingsTemplate: defaultSettingsTemplate
+        defaultIconTemplate: defaultIconTemplate,
+        defaultSettingsTemplate: defaultSettingsTemplate
     })
 
     gui.render(function(icon, settings) {
-	renderedIcon = icon
-	var actions = $('<div>').addClass('mod-actions').appendTo(icon)
-	$('<div>').addClass('mod-settings').appendTo(actions)
-	$('<div>').addClass('mod-remove').appendTo(actions)
+        renderedIcon = icon
+        var actions = $('<div>').addClass('mod-actions').appendTo(icon)
+        $('<div>').addClass('mod-settings').appendTo(actions)
+        $('<div>').addClass('mod-remove').appendTo(actions)
 
-	iconCanvas.html('').append(icon)
-	settingsCanvas.html('').append(settings)
+        iconCanvas.html('').append(icon)
+        settingsCanvas.html('').append(settings)
 
-	content.show()
+        content.show()
 
-	screenshotCanvas.html('')
-	var param = '?bundle=' + options.package + '&url=' + escape(options.url)
-	if (options.gui.thumbnail) {
-	    var thumb = $('<img class="thumb">')
-	    thumb.attr('src', '/effect/image/thumbnail.png'+param)
-	    thumb.appendTo(screenshotCanvas)
-	}
-	if (options.gui.screenshot) {
-	    var shot = $('<img class="screenshot">')
-	    shot.attr('src', '/effect/image/screenshot.png'+param)
-	    shot.appendTo(screenshotCanvas)
-	}
+        screenshotCanvas.html('')
+        var param = '?uri=' + escape(options.uri)
+        if (options.gui.thumbnail) {
+            var thumb = $('<img class="thumb">')
+            thumb.attr('src', '/effect/image/thumbnail.png'+param)
+            thumb.appendTo(screenshotCanvas)
+        }
+        if (options.gui.screenshot) {
+            var shot = $('<img class="screenshot">')
+            shot.attr('src', '/effect/image/screenshot.png'+param)
+            shot.appendTo(screenshotCanvas)
+        }
     })
 }
 
 function makeTabs() {
     $('ul#menu li').each(function() {
-	var item = $(this)
-	item.click(function() {
-	    selectTab(item.attr('id').replace(/^tab-/, ''))
-	})
+        var item = $(this)
+        item.click(function() {
+            selectTab(item.attr('id').replace(/^tab-/, ''))
+        })
     })
 
     $('.content').hide()
@@ -242,9 +243,9 @@ function selectTab(newSection) {
     var tab = $('#tab-'+section)
     var path = window.location.hash.split(/,/)
     if (path[2] != section) {
-	path[2] = section
-	window.location.hash = path.join(',')
-    }	    
+        path[2] = section
+        window.location.hash = path.join(',')
+    }
     $('.content').hide()
     $('ul#menu li.selected').removeClass('selected')
     tab.addClass('selected')
@@ -254,19 +255,19 @@ function selectTab(newSection) {
 function savePublishConfiguration(callback) {
     var config = {}
     publishWindow.find('input').each(function() {
-	config[this.id] = $(this).val()
+        config[this.id] = $(this).val()
     });
     $.ajax({ url: '/config/set',
-	     type: 'POST',
-	     data: JSON.stringify(config),
-	     success: function() {
-		 callback()
-	     },
-	     error: function() {
-		 alert("Error: Can't set configuration. Is your server running? Check the logs.")
-	     },
-	     dataType: 'json'
-	   })
+             type: 'POST',
+             data: JSON.stringify(config),
+             success: function() {
+                 callback()
+             },
+             error: function() {
+                 alert("Error: Can't set configuration. Is your server running? Check the logs.")
+             },
+             dataType: 'json'
+          })
     return false
 }
 
@@ -274,5 +275,3 @@ function slug() {
     var effect = effects.find('option:selected').data()
     return effect['name'].toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '').replace(/-+/g, '-')
 }
-    
-

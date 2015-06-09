@@ -162,7 +162,7 @@ value of this property must be a URI that resolves to a Mustache template.</p>
 
 <p>To develop this, use the same guidelines and markup as described in mod:iconTemplate.
 The only difference is that the audio ports here are irrelevant
-""" .       
+""" .
 
 mod:templateData
 	a rdf:Property ;
@@ -170,8 +170,8 @@ mod:templateData
 	rdfs:domain mod:GUI ;
 	rdf:label "template data" ;
 	lv2:documentation """
-<p>The data that will be used to render the templates defined in mod:iconTemplate 
-and mod:settingsTemplate. The value of this property must be a URI that resolves to 
+<p>The data that will be used to render the templates defined in mod:iconTemplate
+and mod:settingsTemplate. The value of this property must be a URI that resolves to
 a json serialized object and its data can be inspected using the SDK's debug interface.</p>
 
 <p>This parameter isn't strictly necessary to build a plugin layout, as the
@@ -188,7 +188,7 @@ HTML files.</p>
 <h3>ns</h3>
 <p>All static files in folder defined by mod:resourcesDirectory will be available to the
 interface, in path /resources of the webserver. To know where to look, the webserver
-needs a ?bundle=BUNDLE&url=EFFECT_URL parameter.</p>
+needs a ?bundle=BUNDLE&uri=EFFECT_URL parameter.</p>
 
 <p>To make this job easier, the <em>ns</em> variable will hold the correct url parameter,
 so if you want to customize your template (say, have your brand image in the pedal),
@@ -210,7 +210,7 @@ directory will be statically served to browser, and will be available at the /re
 path.</p>
 
 <p>For the webserver to properly identify where to look, any request for media inside
-this directory must have an ?bundle=BUNDLE&url=EFFECT_URL parameter.</p>
+this directory must have an ?bundle=BUNDLE&uri=EFFECT_URL parameter.</p>
 
 <p><em>Note</em>: using a static url with ?bundle=BUNDLE parameter in any template would be a violation of
 <a href="http://lv2plug.in/wiki/Bundle_Definition">LV2 Bundle Definition</a> guidelines. So hosts should
