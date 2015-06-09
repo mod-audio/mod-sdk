@@ -6,8 +6,8 @@ from hashlib import sha1
 from PIL import Image
 
 from tornado import web, options, ioloop, template, httpclient
-from modcommon.communication import crypto
 from modcommon import lv2
+from modsdk.crypto import Sender
 from modsdk.cache import WorkspaceCache, get_bundle_data, get_cache_instance
 from modsdk.settings import (PORT, HTML_DIR, WORKSPACE, WIZARD_DB, UNITS_FILE,
                              CONFIG_FILE, TEMPLATE_DIR, DEFAULT_ICON_TEMPLATE,
@@ -306,7 +306,7 @@ class BundlePost(web.RequestHandler):
                 })
         package.seek(0)
         checksum = sha1(command).hexdigest()
-        signature = crypto.Sender(private_key, checksum).pack()
+        signature = Sender(private_key, checksum).pack()
         return {
             'command': command,
             'signature': signature,
