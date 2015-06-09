@@ -1,4 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
 import os, glob, subprocess, random, argparse
 from PIL import Image
@@ -43,10 +44,10 @@ class BundleQueue(object):
             return self.next_effect()
 
         fname = '/tmp/%s.png' % ''.join([ random.choice('0123456789abcdef') for i in range(6) ])
-        proc = subprocess.Popen([ PHANTOM_BINARY, 
+        proc = subprocess.Popen([ PHANTOM_BINARY,
                                   SCREENSHOT_SCRIPT,
-                                  'http://localhost:%d/icon.html#%s,%s' % (PORT, 
-                                                                           self.current_bundle, 
+                                  'http://localhost:%d/icon.html#%s,%s' % (PORT,
+                                                                           self.current_bundle,
                                                                            self.current_effect),
                                   fname,
                                   str(WIDTH),

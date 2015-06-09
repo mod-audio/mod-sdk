@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 from setuptools import setup, find_packages
 import os, sys
 
@@ -43,5 +46,5 @@ setup(name = 'modsdk',
         ],
       include_package_data = True,
       url = 'http://github.com/portalmod/mod-sdk',
-      
+
 )

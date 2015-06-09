@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 import os
 from datetime import timedelta
 from tornado import ioloop
@@ -106,7 +109,7 @@ def get_cache_instance(workspace):
 
 def disable_cache(workspace):
     get_cache_instance(workspace).enabled = False
-    
+
 def get_bundle_data(workspace, bundle):
     if BUNDLE_CACHE.enabled and BUNDLE_CACHE.get(bundle):
         return BUNDLE_CACHE[bundle]

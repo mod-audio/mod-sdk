@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 import os, json, random, subprocess, re, base64, shutil, time, pystache
 from hashlib import sha1
 from PIL import Image
@@ -64,13 +67,13 @@ class EffectImage(web.RequestHandler):
             path = effect['gui'][image]
         except:
             raise web.HTTPError(404)
-            
+
         if not os.path.exists(path):
             raise web.HTTPError(404)
 
         self.set_header('Content-type', 'image/png')
         self.write(open(path).read())
-            
+
 class EffectStylesheet(web.RequestHandler):
     def get(self):
         bundle = self.get_argument('bundle')
@@ -87,16 +90,16 @@ class EffectStylesheet(web.RequestHandler):
             path = effect['gui']['stylesheet']
         except:
             raise web.HTTPError(404)
-            
+
         if not os.path.exists(path):
             raise web.HTTPError(404)
-            
+
         content = open(path).read()
         context = { 'ns': '?url=%s&bundle=%s' % (effect['url'], effect['package']) }
 
         self.set_header('Content-type', 'text/css')
         self.write(pystache.render(content, context))
-            
+
 
 class EffectJavascript(web.RequestHandler):
     def get(self):
@@ -114,13 +117,13 @@ class EffectJavascript(web.RequestHandler):
             path = effect['gui']['javascript']
         except:
             raise web.HTTPError(404)
-            
+
         if not os.path.exists(path):
             raise web.HTTPError(404)
-            
+
 
         self.write(open(path).read())
-            
+
 
 class EffectSave(web.RequestHandler):
     def post(self, bundle):
@@ -149,7 +152,7 @@ class EffectSave(web.RequestHandler):
     def make_datafile(self, name, data):
         datafile = os.path.join(self.basedir, name)
         open(datafile, 'w').write(json.dumps(data, sort_keys=True, indent=4))
-        
+
     def make_empty_image(self, name):
         image_path = os.path.join(self.basedir, name)
 
@@ -190,7 +193,7 @@ class Screenshot(web.RequestHandler):
 
     def make_screenshot(self):
         fname = self.tmp_filename()
-        proc = subprocess.Popen([ PHANTOM_BINARY, 
+        proc = subprocess.Popen([ PHANTOM_BINARY,
                                   SCREENSHOT_SCRIPT,
                                   'http://localhost:%d/icon.html#%s,%s' % (PORT, self.bundle, self.effect),
                                   fname,
@@ -291,7 +294,7 @@ class BundlePost(web.RequestHandler):
         return '%s/%s' % (addr, uri)
 
     def sign_bundle_package(self, bundle, package):
-        private_key = get_config('private_key', 
+        private_key = get_config('private_key',
                                  os.path.join(os.environ['HOME'], '.ssh', 'id_rsa'))
         developer_id = get_config('developer_id', os.environ['USER'])
 
@@ -319,7 +322,7 @@ class BundlePost(web.RequestHandler):
         client = httpclient.AsyncHTTPClient()
         client.fetch(address, self.handle_response, method='POST',
                      headers=headers, body=body, request_timeout=300)
-        
+
     def handle_response(self, response):
         self.set_header('Content-type', 'application/json')
         if (response.code == 200):
@@ -329,7 +332,7 @@ class BundlePost(web.RequestHandler):
                                     'error': response.body,
                                     }))
         self.finish()
-        
+
     def encode_multipart_formdata(self, package, fields={}):
         boundary = '----------%s' % ''.join([ random.choice('0123456789abcdef') for i in range(22) ])
         body = []
@@ -345,7 +348,7 @@ class BundlePost(web.RequestHandler):
         body.append('Content-Type: application/octet-stream')
         body.append('')
         body.append(package.read())
-        
+
         body.append('--%s--' % boundary)
         body.append('')
 
@@ -379,7 +382,7 @@ class BulkTemplateLoader(web.RequestHandler):
             contents = open(os.path.join(basedir, template)).read()
             template = template[:-5]
             self.write("TEMPLATES['%s'] = '%s';\n\n"
-                       % (template, 
+                       % (template,
                           contents.replace("'", "\\'").replace("\n", "\\n")
                           )
                        )
@@ -442,7 +445,7 @@ def make_application(port=PORT, workspace=None, output_log=True):
             (r"/(.*)", web.StaticFileHandler, {"path": HTML_DIR}),
             ],
                                   debug=True)
-    
+
     application.listen(port)
     if output_log:
         options.parse_command_line()
@@ -475,7 +478,7 @@ def welcome_message():
     print "Keep your bundles in %s. Work on them and use your browser to test your layouts" % WORKSPACE
     print ""
     print "To start testing your plugin interfaces, open your webkit-based browser (Google Chrome, Chromium, Safari) and point to http://localhost:%d" % PORT
-        
+
 def run():
     if check_environment():
         welcome_message()
