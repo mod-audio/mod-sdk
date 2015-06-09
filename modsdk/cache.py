@@ -73,7 +73,7 @@ class WorkspaceCache(dict):
         path = path[len(self.basedir)+1:]
         bundle = path.split('/')[0]
         if self.get(bundle) is not None:
-            print "%s modified, clearing %s cache" % (path, bundle)
+            print("%s modified, clearing %s cache" % (path, bundle))
             self.pop(bundle)
 
 try:

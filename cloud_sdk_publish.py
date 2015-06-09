@@ -16,7 +16,7 @@ try:
     if dirname.endswith('/'):
         dirname = dirname[:-1]
 except IndexError:
-    print "usage: " + __file__.split('/')[-1] + ' path [url]'
+    print("usage: " + __file__.split('/')[-1] + ' path [url]')
     sys.exit(1)
 
 try:
@@ -29,8 +29,8 @@ private_key = os.path.join(os.environ['HOME'], '.ssh', 'id_rsa')
 result = Publisher(url, os.environ['USER'], private_key).publish(dirname)
 
 if result['ok']:
-    print "OK!"
+    print("OK!")
 else:
-    print "ERRO: %s" % result['error']
+    print("ERRO: %s" % result['error'])
 
 

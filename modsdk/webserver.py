@@ -464,20 +464,20 @@ def check_environment():
         issues.append("PhantomJS not found. Please install it and make sure the binary is located at %s" % PHANTOM_BINARY)
     if len(issues) == 0:
         return True
-    print "\nPlease configure your environment properly. The following issues were found:\n"
+    print("\nPlease configure your environment properly. The following issues were found:\n")
     for issue in issues:
-        print "  - %s" % issue
-    print ""
+        print("  - %s" % issue)
+    print("")
     return False
 
 def welcome_message():
-    print ""
-    print "Welcome to the MOD-SDK"
-    print "The goal of this SDK is to implement the MODGUI specification, so you must be familiar with LV2 specification."
-    print "If you need help on that, please check http://lv2plug.in"
-    print "Keep your bundles in %s. Work on them and use your browser to test your layouts" % WORKSPACE
-    print ""
-    print "To start testing your plugin interfaces, open your webkit-based browser (Google Chrome, Chromium, Safari) and point to http://localhost:%d" % PORT
+    print("")
+    print("Welcome to the MOD-SDK")
+    print("The goal of this SDK is to implement the MODGUI specification, so you must be familiar with LV2 specification.")
+    print("If you need help on that, please check http://lv2plug.in")
+    print("Keep your bundles in %s. Work on them and use your browser to test your layouts" % WORKSPACE)
+    print("")
+    print("To start testing your plugin interfaces, open your webkit-based browser (Google Chrome, Chromium, Safari) and point to http://localhost:%d" % PORT)
 
 def run():
     if check_environment():

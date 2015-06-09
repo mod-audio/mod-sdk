@@ -12,7 +12,7 @@ from glob import glob
 try:
     filename = sys.argv[1]
 except IndexError:
-    print "usage: " + __file__.split('/')[-1] + ' path [url]'
+    print("usage: " + __file__.split('/')[-1] + ' path [url]')
     sys.exit(1)
 
 try:
