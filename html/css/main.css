@@ -45,7 +45,7 @@ body {
 #main-menu > div.icon.selected {
     background:#000;
     border-right:1px solid black;
-} 
+}
 
 #main-menu > div.icon > a {
     display:block;
@@ -289,7 +289,7 @@ body {
     display:block;
 }
 /* Effect Rating */
-#effects-library .effects-list .effects-wrapper .effect .rating { 
+#effects-library .effects-list .effects-wrapper .effect .rating {
     background-image:url(../img/icn-rating.png);
     background-position:center top;
     background-repeat:no-repeat;
@@ -742,7 +742,7 @@ body {
 }
 
 /* Top Menu */
-#mod-social-network #header { 
+#mod-social-network #header {
 	background-color:#1b1b1b;
 	background-image:-moz-linear-gradient(top, #222222, #111111);
 	background-image:-webkit-gradient(linear, 0 0, 0 100%, from(#222222), to(#111111));
@@ -992,7 +992,7 @@ body {
 }
 #mod-social-network .pedalboard ul.tags li:last-child:after {
     content:"";
-} 
+}
 /* Reviews */
 #mod-social-network .pedalboard ul.reviews {
     border-top:1px solid #222;
@@ -1486,4 +1486,9 @@ body {
 
 pre::selection, pre b::selection {
     background:#8888ff;
+}
+
+/* default state */
+#bundle-select, #effect-select, #version, #next-bundle, #content-wrapper, #no-bundles {
+    display:none;
 }

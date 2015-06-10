@@ -499,10 +499,10 @@ def welcome_message():
     print("")
     print("Welcome to the MOD-SDK")
     print("The goal of this SDK is to implement the MODGUI specification for LV2, so you must be familiar with LV2 first.")
-    print("Please check http://lv2plug.in if you need help on that.")
+    print("Please check http://lv2plug.in/ if you need help on that.")
     print("")
-    print("To start testing your plugin interfaces, open your webkit-based browser (Google Chrome, Chromium, Safari)")
-    print(" and point to http://localhost:%d" % PORT)
+    print("To start testing your plugin interfaces, open your webkit-based browser (Google Chrome, Chromium, Safari)"
+          " and point to http://localhost:%d" % PORT)
 
 def run():
     if check_environment():

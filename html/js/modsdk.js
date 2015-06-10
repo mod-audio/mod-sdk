@@ -120,9 +120,11 @@ function loadBundles() {
 		 content.hide()
 		 if (data.length == 0) {
 		     bundles.hide()
+             $('#next-bundle').hide()
 		     $('#no-bundles').show()
 		     return
 		 }
+         $('#next-bundle').show()
 		 $('#no-bundles').hide()
 		 bundles.show()
 		 bundles.find('option').remove()
