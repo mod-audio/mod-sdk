@@ -269,7 +269,7 @@ JqueryClass('wizard', {
             var db = self.data('model_index')
             var model = self.data('model')
             var panel = self.data('panel')
-            controls  = effect.ports.slice(0, db[model].panels[panel])
+            controls  = effect.ports.control.input.slice(0, db[model].panels[panel])
         }
 
         var data =  {
@@ -309,7 +309,7 @@ JqueryClass('wizard', {
 
         var i
         if (!controls) {
-            controls = effect.ports.slice(0, db[self.data('model')].panels[panel])
+            controls = effect.ports.control.input.slice(0, db[self.data('model')].panels[panel])
             self.data('controls', controls)
         }
 
@@ -322,7 +322,7 @@ JqueryClass('wizard', {
         authorInput.val(author)
 
         var control
-        var controlPorts = effect.ports
+        var controlPorts = effect.ports.control.input
         var select = $('<select>')
         $('<option>').val('').html('-- Select control --').appendTo(select)
         var controlIndex = {}

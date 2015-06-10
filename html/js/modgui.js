@@ -104,21 +104,46 @@ function GUI(effect, options) {
     this.makePortIndexes = function(ports) {
         var indexes = {}
         for (var i in ports) {
-            if (ports[i].ranges.default === undefined)
+            porti = ports[i]
+
+            // skip notOnGUI controls
+            if (porti.properties.indexOf("notOnGUI") >= 0)
                 continue
+            // skip special designated controls
+            if (porti.designation == "http://lv2plug.in/ns/lv2core#freeWheeling")
+                continue
+            if (porti.designation == "http://lv2plug.in/ns/lv2core#latency")
+                continue
+            if (porti.designation == "http://lv2plug.in/ns/ext/parameters#sampleRate")
+                continue
+
+            // skip latency
+            /*
+            if (! isInput)
+            {
+                if (porti.properties.indexOf("reportsLatency") >= 0)
+                    continue
+            }*/
+
+            // just in case
+            if (porti.ranges.default === undefined)
+                porti.ranges.default = porti.ranges.minimum
+
             var port = {
                 widgets: [],
                 enabled: true,
                 value: null
             }
-            $.extend(port, ports[i])
+            $.extend(port, porti)
             port.value = port.ranges.default
+
+            // ready
             indexes[port.symbol] = port
         }
         return indexes
     }
 
-    self.controls = self.makePortIndexes(effect.ports)
+    self.controls = self.makePortIndexes(effect.ports.control.input)
 
     // Bypass needs to be represented as a port since it shares the hardware addressing
     // structure with ports. We use the symbol ':bypass' that is an invalid lv2 symbol and
@@ -146,7 +171,7 @@ function GUI(effect, options) {
         var port = self.controls[symbol]
         if (!port.enabled || port.value == value)
             return
-        if (port.trigger) {
+        if (port.properties.indexOf("trigger") >= 0) {
             // Report the new value and return the widget to old value
             options.change(symbol, value)
             if (source) {
@@ -268,13 +293,12 @@ function GUI(effect, options) {
             {
                 // Get the display formatting of this control
                 var format
-                if (port.units.render !== undefined) // FIXME
+                if (port.units.render)
                     format = port.units.render.replace('%f', '%.2f')
                 else
                     format = '%.2f'
-                if (port.integer) // FIXME
+                if (port.properties.indexOf("integer") >= 0)
                     format = format.replace(/%\.\d+f/, '%d')
-                console.log(format)
 
                 // Index the scalePoints
                 if (port.scalePoints) {
@@ -285,7 +309,6 @@ function GUI(effect, options) {
                 }
 
                 var valueField = element.find('[mod-role=input-control-value][mod-port-symbol='+symbol+']')
-                console.log(valueField)
 
                 var setValue = function(value) {
                     // When value is changed, let's use format and scalePoints to properly display its value
@@ -306,7 +329,7 @@ function GUI(effect, options) {
                                         }
                                       })
 
-                if (true || ! port.enumeration) { // FIXME
+                if (port.properties.indexOf("enumeration") >= 0) {
                     // For ports that are not enumerated, we allow
                     // editing the value directly
                     valueField.attr('contenteditable', true)
@@ -322,9 +345,6 @@ function GUI(effect, options) {
                     })
                     valueField.blur(function() {
                         var value = parseFloat(valueField.text())
-                        console.log("text")
-                        console.log(value)
-
                         setValue(value)
                         control.controlWidget('setValue', value)
                     })
@@ -349,103 +369,138 @@ function GUI(effect, options) {
             }
         });
 
-	element.find('[mod-role=input-control-minimum]').each(function() {
-	    var symbol = $(this).attr('mod-port-symbol')
-	    if (!symbol) {
-		$(this).html('missing mod-port-symbol attribute')
-		return
-	    }
-	    var content = self.controls[symbol].ranges.minimum
-	    var format = self.controls[symbol].units ? self.controls[symbol].units.render : '%.2f'
-	    $(this).html(sprintf(format, self.controls[symbol].ranges.minimum))
-	});
+        element.find('[mod-role=input-control-minimum]').each(function() {
+            var symbol = $(this).attr('mod-port-symbol')
+            if (!symbol) {
+                $(this).html('missing mod-port-symbol attribute')
+                return
+            }
+            var element = self.controls[symbol]
+            if (element === undefined)
+                return
+            var content = element.ranges.minimum
+            var format  = element.units ? element.units.render : '%.2f'
+            $(this).html(sprintf(format, element.ranges.minimum))
+        });
 
-	element.find('[mod-role=input-control-maximum]').each(function() {
-	    var symbol = $(this).attr('mod-port-symbol')
-	    if (!symbol) {
-		$(this).html('missing mod-port-symbol attribute')
-		return
-	    }
-	    var content = self.controls[symbol].ranges.maximum
-	    var format = self.controls[symbol].units ? self.controls[symbol].units.render : '%.2f'
-	    $(this).html(sprintf(format, self.controls[symbol].ranges.maximum))
-	});
+        element.find('[mod-role=input-control-maximum]').each(function() {
+            var symbol = $(this).attr('mod-port-symbol')
+            if (!symbol) {
+                $(this).html('missing mod-port-symbol attribute')
+                return
+            }
+            var element = self.controls[symbol]
+            if (element === undefined)
+                return
+            var content = element.ranges.maximum
+            var format  = element.units ? element.units.render : '%.2f'
+            $(this).html(sprintf(format, element.ranges.maximum))
+        });
 
-	element.find('[mod-role=bypass]').each(function() {
-	    var control = $(this)
-	    var port = self.controls[':bypass']
-	    port.widgets.push(control)
-	    control.switchWidget({ port: self.controls[':bypass'],
-				   value: options.bypassed,
-				   change: function(e, value) {
-				       options.bypass(value)
-				       self.bypassed = value
-				       self.setPortValue(':bypass', value, control)
-				       element.find('[mod-role=bypass-light]').each(function() {
-					   // NOTE
-					   // the element itself will get inverse class ("on" when light is "off"),
-					   // because of the switch widget.
-					   if (value == 1)
-					       $(this).addClass('off').removeClass('on')
-					   else
-					       $(this).addClass('on').removeClass('off')
-				       });
-				       if (value)
-					   control.addClass('on').removeClass('off')
-				       else
-					   control.addClass('off').removeClass('on')
-				   }
-				 }).attr('mod-widget', 'switch')
-	})
-	if (options.bypassed)
-	    element.find('[mod-role=bypass-light]').addClass('off').removeClass('on')
-	else
-	    element.find('[mod-role=bypass-light]').addClass('on').removeClass('off')
+        element.find('[mod-role=bypass]').each(function() {
+            var control = $(this)
+            var port = self.controls[':bypass']
+            port.widgets.push(control)
+            control.switchWidget({
+                port: self.controls[':bypass'],
+                value: options.bypassed,
+                change: function(e, value) {
+                    options.bypass(value)
+                    self.bypassed = value
+                    self.setPortValue(':bypass', value, control)
 
-	// Gestures for tablet. When event starts, we check if it's centered in any widget and stores the widget if so.
-	// Following events will be forwarded to proper widget
-	element[0].addEventListener('gesturestart', function(ev) {
-	    ev.preventDefault()
-	    element.find('[mod-role=input-control-port]').each(function() {
-		var widget = $(this)
-		var top = widget.offset().top
-		var left = widget.offset().left
-		var right = left + widget.width()
-		var bottom = top + widget.height()
-		if (ev.pageX >= left && ev.pageX <= right && ev.pageY >= top && ev.pageY <= bottom) {
-		    element.data('gestureWidget', widget)
-		    widget.controlWidget('gestureStart')
-		}
-	    });
-	    ev.handled = true
-	})
-	element[0].addEventListener('gestureend', function(ev) {
-	    ev.preventDefault()
-	    element.data('gestureWidget').controlWidget('gestureEnd', ev.scale)
-	    element.data('gestureWidget', null)
-	    ev.handled = true
-	})
-	element[0].addEventListener('gesturechange',function(ev) {
-	    ev.preventDefault()
-	    var widget = element.data('gestureWidget')
-	    if (!widget)
-		return
-	    widget.controlWidget('gestureChange', ev.scale)
-	    ev.handled = true
-	})
+                    element.find('[mod-role=bypass-light]').each(function() {
+                        // NOTE
+                        // the element itself will get inverse class ("on" when light is "off"),
+                        // because of the switch widget.
+                        if (value == 1)
+                            $(this).addClass('off').removeClass('on')
+                        else
+                            $(this).addClass('on').removeClass('off')
+                    });
+
+                    if (value)
+                        control.addClass('on').removeClass('off')
+                    else
+                        control.addClass('off').removeClass('on')
+                }
+            }).attr('mod-widget', 'switch')
+        })
+
+        if (options.bypassed)
+            element.find('[mod-role=bypass-light]').addClass('off').removeClass('on')
+        else
+            element.find('[mod-role=bypass-light]').addClass('on').removeClass('off')
+
+        // Gestures for tablet. When event starts, we check if it's centered in any widget and stores the widget if so.
+        // Following events will be forwarded to proper widget
+        element[0].addEventListener('gesturestart', function(ev) {
+            ev.preventDefault()
+            element.find('[mod-role=input-control-port]').each(function() {
+                var widget = $(this)
+                var top = widget.offset().top
+                var left = widget.offset().left
+                var right = left + widget.width()
+                var bottom = top + widget.height()
+                if (ev.pageX >= left && ev.pageX <= right && ev.pageY >= top && ev.pageY <= bottom) {
+                    element.data('gestureWidget', widget)
+                    widget.controlWidget('gestureStart')
+                }
+            });
+            ev.handled = true
+        })
+        element[0].addEventListener('gestureend', function(ev) {
+            ev.preventDefault()
+            element.data('gestureWidget').controlWidget('gestureEnd', ev.scale)
+            element.data('gestureWidget', null)
+            ev.handled = true
+        })
+        element[0].addEventListener('gesturechange',function(ev) {
+            ev.preventDefault()
+            var widget = element.data('gestureWidget')
+            if (!widget)
+                return
+            widget.controlWidget('gestureChange', ev.scale)
+            ev.handled = true
+        })
     }
 
     this.getTemplateData = function(options) {
         var i, port, control, symbol
         var data = $.extend({}, options.gui.templateData)
         data.effect = options
-        data.ns = '?uri=' + escape(options.uri)
+        data.ns     = '?uri=' + escape(options.uri)
         if (!data.controls)
             return data
-        // TODO: is this needed?
         var controlData = {}
-        for (i in options.ports) {
-            port = options.ports[i]
+        for (i in options.ports.control.input) {
+            port = options.ports.control.input[i]
+            /*
+
+            // lv2core
+            port.connectionOptional   = port.properties.indexOf("connectionOptional") >= 0
+            port.enumeration          = port.properties.indexOf("enumeration") >= 0
+            port.integer              = port.properties.indexOf("integer") >= 0
+            port.isSideChain          = port.properties.indexOf("isSideChain") >= 0
+            port.reportsLatency       = port.properties.indexOf("reportsLatency") >= 0
+            port.sampleRate           = port.properties.indexOf("sampleRate") >= 0
+            port.toggled              = port.properties.indexOf("toggled") >= 0
+            // port props
+            port.causesArtifacts      = port.properties.indexOf("causesArtifacts") >= 0
+            port.continuousCV         = port.properties.indexOf("continuousCV") >= 0
+            port.discreteCV           = port.properties.indexOf("discreteCV") >= 0
+            port.expensive            = port.properties.indexOf("expensive") >= 0
+            port.hasStrictBounds      = port.properties.indexOf("hasStrictBounds") >= 0
+            port.logarithmic          = port.properties.indexOf("logarithmic") >= 0
+            port.notAutomatic         = port.properties.indexOf("notAutomatic") >= 0
+            port.notOnGUI             = port.properties.indexOf("notOnGUI") >= 0
+            port.supportsStrictBounds = port.properties.indexOf("supportsStrictBounds") >= 0
+            port.trigger              = port.properties.indexOf("trigger") >= 0
+
+            // TODO - needs scalePoints in lilvlib.py
+            port.enumeration = false
+            */
+
             controlData[port.symbol] = port
         }
         for (var i in data.controls) {
@@ -510,54 +565,54 @@ function JqueryClass() {
 
 var baseWidget = {
     config: function(options) {
-	var self = $(this)
-	// Very quick bugfix. When pedalboard is unserialized, the disable() of addressed knobs
-	// are called before config. Right thing would probably be to change this behaviour, but
-	// while that is not done, this check will avoid the bug. TODO
-	if (!(self.data('enabled') === false))
-	    self.data('enabled', true)
-	self.bind('valuechange', options.change)
+        var self = $(this)
+        // Very quick bugfix. When pedalboard is unserialized, the disable() of addressed knobs
+        // are called before config. Right thing would probably be to change this behaviour, but
+        // while that is not done, this check will avoid the bug. TODO
+        if (!(self.data('enabled') === false))
+            self.data('enabled', true)
+        self.bind('valuechange', options.change)
 
-	var port = options.port
+        var port = options.port
 
-	var portSteps
-	if (port.toggle) {
-	    //port.ranges.minimum = port.ranges.minimum || 0
-	    //port.ranges.maximum = port.ranges.maximum || 1
-	    portSteps = 2
-	} else if (port.enumeration) {
-	    portSteps = port.scalePoints.length
-	    port.scalePoints.sort(function(a, b) { return a.value - b.value })
-	} else {
-	    portSteps = self.data('filmSteps')
-	}
+        var portSteps
+        if (port.properties.indexOf("toggled") >= 0) {
+            port.ranges.minimum = port.ranges.minimum || 0
+            port.ranges.maximum = port.ranges.maximum || 1
+            portSteps = 2
+        } else if (port.properties.indexOf("enumeration") >= 0) {
+            portSteps = port.scalePoints.length
+            port.scalePoints.sort(function(a, b) { return a.value - b.value })
+        } else {
+            portSteps = self.data('filmSteps')
+        }
 
-	if (port.rangeSteps)
-	    portSteps = Math.min(port.rangeSteps, portSteps)
+        if (port.rangeSteps)
+            portSteps = Math.min(port.rangeSteps, portSteps)
 
-	// This is a bit verbose and could be optmized, but it's better that
-	// each port property used is documented here
-	self.data('symbol', port.symbol)
-	self.data('default', port.ranges.default)
-	self.data('enumeration', port.enumeration)
-	self.data('integer', port.integer)
-	self.data('maximum', port.ranges.maximum)
-	self.data('minimum', port.ranges.minimum)
-	self.data('logarithmic', port.logarithmic)
-	self.data('toggle', port.toggle)
-	self.data('scalePoints', port.scalePoints)
+        // This is a bit verbose and could be optmized, but it's better that
+        // each port property used is documented here
+        self.data('symbol',       port.symbol)
+        self.data('default',      port.ranges.default)
+        self.data('maximum',      port.ranges.maximum)
+        self.data('minimum',      port.ranges.minimum)
+        self.data('enumeration',  port.properties.indexOf("enumeration") >= 0 && false) // TODO
+        self.data('integer',      port.properties.indexOf("integer") >= 0)
+        self.data('logarithmic',  port.properties.indexOf("logarithmic") >= 0)
+        self.data('toggle',       port.properties.indexOf("toggled") >= 0)
+        self.data('scalePoints',  port.scalePoints)
 
-	if (port.logarithmic) {
-	    self.data('scaleMinimum', Math.log(port.ranges.minimum) / Math.log(2))
-	    self.data('scaleMaximum', Math.log(port.ranges.maximum) / Math.log(2))
-	} else {
-	    self.data('scaleMinimum', port.ranges.minimum)
-	    self.data('scaleMaximum', port.ranges.maximum)
-	}
+        if (port.properties.indexOf("logarithmic") >= 0) {
+            self.data('scaleMinimum', Math.log(port.ranges.minimum) / Math.log(2))
+            self.data('scaleMaximum', Math.log(port.ranges.maximum) / Math.log(2))
+        } else {
+            self.data('scaleMinimum', port.ranges.minimum)
+            self.data('scaleMaximum', port.ranges.maximum)
+        }
 
-	self.data('portSteps', portSteps)
-	self.data('dragPrecisionVertical', Math.ceil(100/portSteps))
-	self.data('dragPrecisionHorizontal', Math.ceil(portSteps/10))
+        self.data('portSteps', portSteps)
+        self.data('dragPrecisionVertical', Math.ceil(100/portSteps))
+        self.data('dragPrecisionHorizontal', Math.ceil(portSteps/10))
     },
 
     setValue: function() {
