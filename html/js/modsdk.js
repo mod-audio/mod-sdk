@@ -201,7 +201,22 @@ function showEffect() {
     $('#info_shortbrand').val(options.author.name)
     $('#info_hwname').val(options.name)
 
-    infoPorts.html('<pre>' + JSON.stringify(options.ports.control.input) + '</pre>');
+    portsHtml = infoPorts.html('')
+    for (var i in options.ports.control.input) {
+        port = options.ports.control.input[i]
+        portsHtml.append(sprintf('\
+            <div class="controls clearfix"><label>Control Port #%d</label>\
+            <span>Name:   </span><input id="info_port_%s_name"   type="text" value="%s"/><br/>\
+            <span>Symbol: </span><input id="info_port_%s_symbol" type="text" value="%s"/><br/>\
+            <span>Minimum: </span><input id="info_port_%s_min" type="number" value="%f"/><br/>\
+            </div>',
+            port.index,
+            port.symbol, "fake-name-here", //port.name
+            port.symbol, port.symbol,
+            port.symbol, port.ranges.minimum
+        ))
+    }
+    //infoPorts.html('<pre>' + JSON.stringify(options.ports.control.input) + '</pre>');
 
     window.location.hash = bundle + ',' + options.uri + ',' + section
 
