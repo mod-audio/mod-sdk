@@ -539,7 +539,10 @@ def get_plugin_info(world, plugin):
                     templateData = json.load(fd)
             del templateFile
 
-    ports = {}
+    ports = {
+        'audio':   { 'input': [], 'output': [] },
+        'control': { 'input': [], 'output': [] }
+    }
 
     for p in (plugin.get_port_by_index(i) for i in range(plugin.get_num_ports())):
         types, info = fill_port_info(plugin, p)

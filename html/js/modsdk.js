@@ -14,16 +14,19 @@ $(document).ready(function() {
     settingsCanvas = $('#content-settings .canvas')
     publishWindow = $('#content-publish')
 
-    $.ajax({ url: '/config/get',
-	     success: function(config) {
-		 var key
-		 for (key in config)
-		     publishWindow.find('#'+key).val(config[key])
-	     },
-	     error: function() {
-		 alert("Error: Can't get current configuration. Is your server running? Check the logs.")
-	     }
-	   })
+    infoPorts = $('#info_ports')
+
+    $.ajax({
+        url: '/config/get',
+        success: function(config) {
+            var key
+            for (key in config)
+                publishWindow.find('#'+key).val(config[key])
+        },
+        error: function() {
+            alert("Error: Can't get current configuration. Is your server running? Check the logs.")
+        }
+    })
 
     version = $('#version')
 
@@ -193,6 +196,12 @@ function showEffect() {
         window.location.hash = bundle
         return
     }
+
+    $('#info_shortname').val(options.name)
+    $('#info_shortbrand').val(options.author.name)
+    $('#info_hwname').val(options.name)
+
+    infoPorts.html('<pre>' + JSON.stringify(options.ports.control.input) + '</pre>');
 
     window.location.hash = bundle + ',' + options.uri + ',' + section
 

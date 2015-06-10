@@ -83,70 +83,97 @@
             </div>
             <!-- END PEDALBOARD-ACTIONS -->
 
-	    <div id="content-wrapper">
-	      <ul id="menu">
-		<li id="tab-icon">Icon</li>
-		<li id="tab-screenshot">Icon Screenshot</li>
-		<li id="tab-settings">Settings</li>
-		<li id="tab-publish">Publish</li>
-	      </ul>
+            <div id="content-wrapper">
+                <ul id="menu">
+                    <li id="tab-icon">Icon</li>
+                    <li id="tab-screenshot">Icon Screenshot</li>
+                    <li id="tab-settings">Settings</li>
+                    <li id="tab-info">Presentation</li>
+                    <li id="tab-publish">Publish</li>
+                </ul>
 
-	      <div id="content-icon" class="content">
-		<div class="summary">
-		  <p>This interface was rendered based on the LV2 TTL files. Every time you reload this page, proper bundle will be parsed and the layout rendered again.</p>
-		  <p>You can explore some of the pedal funcionality. By moving the knobs, clicking the footswitch and dragging this pedal, you can see how these things will work once the plugin is installed.</p>
-		  <p>To generate a new interface, you can use the wizard. It provides several base layouts that can either be used as final interface or customized as desired. When customizing, you can use the debug button to see what information is available for using in your template.<p>
-		  <p>Full documentation of MOD GUI specifications is available at <a href="http://portalmod.com/ns/modgui" target="_blank">http://portalmod.com/ns/modgui</a>.</p>
-		  <button id="wizard">Launch Wizard</button>
-		  <button class="debug">Debug</button>
-		</div>
-		<div class="canvas"></div>
-	      </div>
+                <div id="content-icon" class="content">
+                    <div class="summary">
+                      <p>This interface was rendered based on the LV2 TTL files.
+                         Every time you reload this page, proper bundle will be parsed and the layout rendered again.</p>
+                      <p>You can explore some of the pedal funcionality.
+                         By moving the knobs, clicking the footswitch and dragging this pedal,
+                         you can see how these things will work once the plugin is installed.</p>
+                      <p>To generate a new interface, you can use the wizard.
+                         It provides several base layouts that can either be used as final interface or customized as desired.
+                         When customizing, you can use the debug button to see what information is available for using in your template.<p>
+                      <p>Full documentation of MOD GUI specifications is available at
+                         <a href="http://portalmod.com/ns/modgui" target="_blank">http://portalmod.com/ns/modgui</a>.</p>
+                      <button id="wizard">Launch Wizard</button>
+                      <button class="debug">Debug</button>
+                    </div>
+                    <div class="canvas"></div>
+                </div>
 
-	      <div id="content-screenshot" class="content">
-		<div class="summary">
-		  <p>Each plugin can be represented by two images: one real-size screenshot and one thumbnail. These images are provided by mod:screenshot and mod:thumbnail LV2 properties respectively.</p>
-		  <p>Here you can see these images. You can also generate them automatically, by using the button below. When you do that, the image will be automatically saved at the configured path, or at an arbitrary suggested path in case there is no configuration. So, be careful, as <b>previous images will be overwritten</b>.</p>
-		  <button id="screenshot">Generate images</button>
-		</div>
-		<div class="canvas"></div>
-	      </div>
+                <div id="content-screenshot" class="content">
+                    <div class="summary">
+                        <p>Each plugin can be represented by two images: one real-size screenshot and one thumbnail.
+                           These images are provided by mod:screenshot and mod:thumbnail LV2 properties respectively.</p>
+                        <p>Here you can see these images. You can also generate them automatically, by using the button below.
+                           When you do that, the image will be automatically saved at the configured path,
+                           or at an arbitrary suggested path in case there is no configuration.
+                           So, be careful, as <b>previous images will be overwritten</b>.</p>
+                        <button id="screenshot">Generate images</button>
+                    </div>
+                <div class="canvas"></div>
+            </div>
 
-	      <div id="content-settings" class="content">
-		<p>Reserved for full plugin setup interface</p>
-		<div class="canvas"></div>
-	      </div>
+            <div id="content-settings" class="content">
+                <p>Reserved for full plugin setup interface</p>
+                <div class="canvas"></div>
+            </div>
 
-	      <div id="content-publish" class="content">
-		<div class="controls clearfix">
-		  <label>Device address</label>
-		  <input id="device" type="text"/>
-		  <span id="device-local" data="http://localhost:8888">local</span>
-		  <span id="device-quadra" data="http://192.168.50.1">quadra</span>
-		</div>
-		<button id="install">Install in webserver</button>
-		<div class="controls clearfix">
-		  <label>Cloud address</label>
-		  <input id="cloud" type="text"/>
-		  <span id="cloud-local" data="http://localhost:8000">local</span>
-		  <span id="cloud-official" data="http://cloud-new.portalmod.com">cloud</span>
-		</div>
-		<div class="controls clearfix">
-		  <label>Cloud developer username</label>
-		  <input id="developer" type="text" value="{{default_developer}}"/>
-		</div>
-		<div class="controls clearfix">
-		  <label>Cloud developer RSA key file</label>
-		  <input id="developer" type="text" value="{{default_privkey}}"/>
-		</div>
-		<button id="publish">Publish at cloud</button>
-	      </div>
-	    </div>
+            <div id="content-info" class="content">
+                <p>Stuff here...</p>
+                <div class="controls clearfix">
+                    <label>Bottom of constructor</label>
+                    <span>Short name: </span><input id="info_shortname" type="text"/>
+                    <br/>
+                    <span>Short brand:</span><input id="info_shortbrand" type="text"/>
+                </div>
+                <div class="controls clearfix">
+                    <label>Hardware display</label>
+                    <span>Short name: </span><input id="info_hwname" type="text"/>
+                </div>
+                <div id="info_ports"></div>
+                <button id="info_write">Write to disk</button>
+            </div>
 
-	    <div id="no-bundles">
-	      <h2>No bundles found!</h2>
-	      <p>Install some LV2 plugins please.</p>
-	    </div>
+            <div id="content-publish" class="content">
+                <div class="controls clearfix">
+                    <label>Device address</label>
+                    <input id="device" type="text"/>
+                    <span id="device-local" data="http://localhost:8888">local</span>
+                    <span id="device-quadra" data="http://192.168.50.1">quadra</span>
+                </div>
+                <button id="install">Install in webserver</button>
+                <div class="controls clearfix">
+                    <label>Cloud address</label>
+                    <input id="cloud" type="text"/>
+                    <span id="cloud-local" data="http://localhost:8000">local</span>
+                    <span id="cloud-official" data="http://cloud-new.portalmod.com">cloud</span>
+                </div>
+                <div class="controls clearfix">
+                    <label>Cloud developer username</label>
+                    <input id="developer" type="text" value="{{default_developer}}"/>
+                </div>
+                <div class="controls clearfix">
+                    <label>Cloud developer RSA key file</label>
+                    <input id="developer" type="text" value="{{default_privkey}}"/>
+                </div>
+                <button id="publish">Publish at cloud</button>
+            </div>
+        </div>
+
+        <div id="no-bundles">
+          <h2>No bundles found!</h2>
+          <p>Install some LV2 plugins please.</p>
+        </div>
 
 
             <!-- PEDALBOARD-DASHBOARD -->
