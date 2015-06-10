@@ -389,8 +389,10 @@ JqueryClass('wizard', {
         canvas.text('')
 
         text += '@prefix mod: <http://portalmod.com/ns/modgui#> .\n'
+        text += '@prefix ui:  <http://lv2plug.in/ns/extensions/ui#> .\n'
         text += '\n'
         text += '<' + effect.uri + '>\n'
+        text += '    ui:ui mod:X11UI ;\n'
         text += '    mod:gui [\n'
         text += '        a mod:Gui ;\n'
         text += '        mod:resourcesDirectory <modgui> ;\n'
