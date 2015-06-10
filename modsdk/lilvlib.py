@@ -547,6 +547,12 @@ def get_plugin_info(world, plugin):
         isInput = "Input" in types
         types.remove("Input" if isInput else "Output")
 
+        # FIXME: this is needed by SDK, but it's not pretty
+        if "Control" in types:
+            info['enumeration'] = bool("enumeration" in info['properties'])
+            info['trigger'    ] = bool("trigger"     in info['properties'])
+            info['toggled'    ] = bool("toggled"     in info['properties'])
+
         for typ in [typl.lower() for typl in types]:
             if typ not in ports.keys():
                 ports[typ] = { 'input': [], 'output': [] }
