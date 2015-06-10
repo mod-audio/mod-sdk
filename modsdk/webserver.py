@@ -8,9 +8,8 @@ from PIL import Image
 from tornado import web, options, ioloop, template, httpclient
 from modcommon import lv2
 from modsdk.crypto import Sender
-from modsdk.cache import get_bundle_data, get_cache_instance
 from modsdk.lilvlib import get_plugin_info
-from modsdk.settings import (PORT, HTML_DIR, WORKSPACE, WIZARD_DB, UNITS_FILE,
+from modsdk.settings import (PORT, HTML_DIR, WIZARD_DB,
                              CONFIG_FILE, TEMPLATE_DIR, DEFAULT_ICON_TEMPLATE,
                              DEFAULT_SETTINGS_TEMPLATE, SCREENSHOT_SCRIPT, MAX_THUMB_WIDTH,
                              MAX_THUMB_HEIGHT, PHANTOM_BINARY)
@@ -201,7 +200,6 @@ class Index(web.RequestHandler):
         default_icon_template = open(DEFAULT_ICON_TEMPLATE).read()
         default_settings_template = open(DEFAULT_SETTINGS_TEMPLATE).read()
         context = {
-            'workspace': WORKSPACE,
             'default_icon_template': default_icon_template.replace("'", "\\'").replace("\n", "\\n"),
             'default_settings_template': default_settings_template.replace("'", "\\'").replace("\n", "\\n"),
             'wizard_db': json.dumps(json.loads(open(WIZARD_DB).read())),
@@ -281,40 +279,41 @@ class Screenshot(web.RequestHandler):
         return fh
 
     def save_icon(self, screenshot_data, thumb_data):
-        try:
-            data = get_bundle_data(WORKSPACE, self.bundle)
-        except IOError:
+        #try:
+            #data = get_bundle_data(WORKSPACE, self.bundle)
+        #except IOError:
             raise web.HTTPError(404)
 
-        effect = data['plugins'][self.effect]
+        #effect = data['plugins'][self.effect]
 
-        try:
-            basedir = effect['gui']['resourcesDirectory']
-        except:
-            basedir = os.path.join(WORKSPACE, self.bundle, 'modgui')
-        if not os.path.exists(basedir):
-            os.mkdir(basedir)
+        #try:
+            #basedir = effect['gui']['resourcesDirectory']
+        #except:
+            #basedir = os.path.join(WORKSPACE, self.bundle, 'modgui')
+        #if not os.path.exists(basedir):
+            #os.mkdir(basedir)
 
-        screenshot_path = effect['gui']['screenshot']
-        thumb_path = effect['gui']['thumbnail']
+        #screenshot_path = effect['gui']['screenshot']
+        #thumb_path = effect['gui']['thumbnail']
 
-        open(screenshot_path, 'w').write(screenshot_data)
-        open(thumb_path, 'w').write(thumb_data)
+        #open(screenshot_path, 'w').write(screenshot_data)
+        #open(thumb_path, 'w').write(thumb_data)
 
 class BundlePost(web.RequestHandler):
     @web.asynchronous
     def get(self, destination, bundle):
-        path = os.path.join(WORKSPACE, bundle)
-        package = lv2.BundlePackage(path, units_file=UNITS_FILE)
+        return
+        #path = os.path.join(WORKSPACE, bundle)
+        #package = lv2.BundlePackage(path, units_file=UNITS_FILE)
 
-        if destination == 'device':
-            address = self.get_address('device', 'sdk/install', 'http://localhost:8888')
-            return self.send_bundle(package, address)
+        #if destination == 'device':
+            #address = self.get_address('device', 'sdk/install', 'http://localhost:8888')
+            #return self.send_bundle(package, address)
 
-        if destination == 'cloud':
-            address = self.get_address('cloud', 'api/sdk/publish', 'http://cloud.portalmod.com')
-            fields = self.sign_bundle_package(bundle, package)
-            return self.send_bundle(package, address, fields)
+        #if destination == 'cloud':
+            #address = self.get_address('cloud', 'api/sdk/publish', 'http://cloud.portalmod.com')
+            #fields = self.sign_bundle_package(bundle, package)
+            #return self.send_bundle(package, address, fields)
 
     def get_address(self, key, uri, default):
         addr = get_config(key, default)
@@ -400,6 +399,9 @@ class ConfigurationGet(web.RequestHandler):
 
 class ConfigurationSet(web.RequestHandler):
     def post(self):
+        confdir = os.path.dirname(CONFIG_FILE)
+        if not os.path.exists(confdir):
+            os.mkdir(confdir)
         config = json.loads(self.request.body)
         open(CONFIG_FILE, 'w').write(json.dumps(config))
         self.set_header('Content-type', 'application/json')
@@ -457,11 +459,7 @@ class EffectResource(web.StaticFileHandler):
         super(EffectResource, self).initialize(os.path.join(HTML_DIR, 'resources'))
         super(EffectResource, self).get(path)
 
-def make_application(port=PORT, workspace=None, output_log=True):
-    global WORKSPACE
-    if workspace:
-        WORKSPACE = workspace
-
+def make_application(port=PORT, output_log=True):
     application = web.Application([
             (r"/bundles", BundleList),
             (r"/effects", EffectList),
@@ -483,16 +481,10 @@ def make_application(port=PORT, workspace=None, output_log=True):
     if output_log:
         options.parse_command_line()
 
-    get_cache_instance(WORKSPACE)
-
     return ioloop.IOLoop.instance()
 
 def check_environment():
     issues = []
-    if not os.path.isdir(WORKSPACE):
-        issues.append("Workspace directory not found. Please create %s and put your LV2 bundles there" % WORKSPACE)
-    if not os.path.isfile(UNITS_FILE):
-        issues.append("Units file not found. Please install units.lv2 bundle and make sure %s exists" % UNITS_FILE)
     if not os.path.isfile(PHANTOM_BINARY):
         issues.append("PhantomJS not found. Please install it and make sure the binary is located at %s" % PHANTOM_BINARY)
     if len(issues) == 0:
@@ -506,11 +498,11 @@ def check_environment():
 def welcome_message():
     print("")
     print("Welcome to the MOD-SDK")
-    print("The goal of this SDK is to implement the MODGUI specification, so you must be familiar with LV2 specification.")
-    print("If you need help on that, please check http://lv2plug.in")
-    print("Keep your bundles in %s. Work on them and use your browser to test your layouts" % WORKSPACE)
+    print("The goal of this SDK is to implement the MODGUI specification for LV2, so you must be familiar with LV2 first.")
+    print("Please check http://lv2plug.in if you need help on that.")
     print("")
-    print("To start testing your plugin interfaces, open your webkit-based browser (Google Chrome, Chromium, Safari) and point to http://localhost:%d" % PORT)
+    print("To start testing your plugin interfaces, open your webkit-based browser (Google Chrome, Chromium, Safari)")
+    print(" and point to http://localhost:%d" % PORT)
 
 def run():
     if check_environment():

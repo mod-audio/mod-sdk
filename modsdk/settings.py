@@ -12,13 +12,10 @@ if os.path.isfile(CWD):
 
 if os.path.exists(os.path.join(CWD, 'html')):
     ROOT = CWD
-    UNITS_FILE = os.path.join(os.path.join(CWD, 'units.ttl'))
 elif os.path.exists(os.path.join(CWD, '..', 'html')):
     ROOT = os.path.join(os.path.join(CWD, '..'))
-    UNITS_FILE = os.path.join(os.path.join(CWD, '..', 'units.ttl'))
 else:
     ROOT = os.path.join(sys.prefix, 'share', 'modsdk')
-    UNITS_FILE = '/usr/lib/lv2/units.lv2/units.ttl'
 
 PORT = 9000
 HTML_DIR = os.path.join(ROOT, 'html')
@@ -32,5 +29,5 @@ MAX_THUMB_HEIGHT = 64
 PHANTOM_BINARY = '/usr/bin/phantomjs'
 
 # TODO remove later
-WORKSPACE = os.path.join(os.environ['HOME'], 'mod-workspace')
-CONFIG_FILE = os.path.join(WORKSPACE, 'config.json')
+
+CONFIG_FILE = os.path.expanduser("~/.local/share/mod-data/sdk-config.json")
