@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import os, glob, subprocess, random, argparse
+import os, glob, lilv, subprocess, random, argparse
 from PIL import Image
 from modsdk.webserver import make_application
-from modsdk.cache import get_bundle_data
+from modsdk.lilvlib import get_plugin_info
 from modsdk.settings import (ROOT, PHANTOM_BINARY, SCREENSHOT_SCRIPT,
                              MAX_THUMB_WIDTH, MAX_THUMB_HEIGHT)
 
@@ -16,10 +16,81 @@ HEIGHT = 1080
 PORT = 9123
 
 class BundleQueue(object):
-    def __init__(self, workspace, bundles):
-        self.workspace = workspace
+    def __init__(self, bundles):
+        world = lilv.World()
+        world.load_all()
+
+        # lookup all bundles used by lilv world
+        loaded_bundles = []
+
+        for p in world.get_all_plugins():
+            bnodes = lilv.lilv_plugin_get_data_uris(p.me)
+
+            it = lilv.lilv_nodes_begin(bnodes)
+            while not lilv.lilv_nodes_is_end(bnodes, it):
+                bundle = lilv.lilv_nodes_get(bnodes, it)
+                it     = lilv.lilv_nodes_next(bnodes, it)
+
+                if bundle is None:
+                    continue
+                if not lilv.lilv_node_is_uri(bundle):
+                    continue
+
+                bundle = os.path.dirname(lilv.lilv_uri_to_path(lilv.lilv_node_as_uri(bundle)))
+
+                if not bundle.endswith(os.sep):
+                    bundle += os.sep
+                if bundle not in loaded_bundles:
+                    loaded_bundles.append(bundle)
+
+        # load requested bundles not part of world
+        for bundle in bundles:
+            if bundle not in loaded_bundles:
+                bundlenode = lilv.lilv_new_file_uri(world.me, None, bundle)
+                world.load_bundle(bundlenode)
+                lilv.lilv_node_free(bundlenode)
+
+        # make a list of plugin info related to our bundles
+        self.bundles_info = {}
+        for bundle in bundles:
+            self.bundles_info[bundle] = []
+
+        for p in world.get_all_plugins():
+            info   = get_plugin_info(world, p)
+            bnodes = lilv.lilv_plugin_get_data_uris(p.me)
+
+            it = lilv.lilv_nodes_begin(bnodes)
+            while not lilv.lilv_nodes_is_end(bnodes, it):
+                bundle = lilv.lilv_nodes_get(bnodes, it)
+                it     = lilv.lilv_nodes_next(bnodes, it)
+
+                if bundle is None:
+                    continue
+                if not lilv.lilv_node_is_uri(bundle):
+                    continue
+
+                bundle = os.path.dirname(lilv.lilv_uri_to_path(lilv.lilv_node_as_uri(bundle)))
+
+                if not bundle.endswith(os.sep):
+                    bundle += os.sep
+
+                if bundle not in bundles:
+                    continue
+
+                for info2 in self.bundles_info[bundle]:
+                    if info2['uri'] == info['uri']:
+                        break
+                else:
+                    self.bundles_info[bundle].append(info)
+
+        # done
+        del world
+
+        # save list of bundles that we want to generate screenshots for
         self.bundle_queue = bundles
-        self.webserver = make_application(port=PORT, workspace=workspace, output_log=False)
+
+        # create web server
+        self.webserver = make_application(port=PORT, output_log=False)
         self.webserver.add_callback(self.next_bundle)
 
     def run(self):
@@ -30,8 +101,7 @@ class BundleQueue(object):
             self.webserver.stop()
             return
         self.current_bundle = self.bundle_queue.pop(0)
-        self.data = get_bundle_data(self.workspace, self.current_bundle)
-        self.effect_queue = self.data['plugins'].keys()
+        self.effect_queue = self.bundles_info[self.current_bundle]
         self.next_effect()
 
     def next_effect(self):
@@ -39,20 +109,19 @@ class BundleQueue(object):
             return self.next_bundle()
         self.current_effect = self.effect_queue.pop(0)
         try:
-            self.data['plugins'][self.current_effect]['gui']['screenshot']
+            self.current_effect['gui']['screenshot']
+            self.current_effect['gui']['thumbnail']
         except (TypeError, KeyError):
             return self.next_effect()
 
         fname = '/tmp/%s.png' % ''.join([ random.choice('0123456789abcdef') for i in range(6) ])
         proc = subprocess.Popen([ PHANTOM_BINARY,
                                   SCREENSHOT_SCRIPT,
-                                  'http://localhost:%d/icon.html#%s,%s' % (PORT,
-                                                                           self.current_bundle,
-                                                                           self.current_effect),
+                                  'http://localhost:%d/icon.html#%s' % (PORT, self.current_effect['uri']),
                                   fname,
                                   str(WIDTH),
                                   str(HEIGHT),
-                                  ],
+                                ],
                                 stdout=subprocess.PIPE)
 
         def proc_callback(fileno, event):
@@ -68,7 +137,7 @@ class BundleQueue(object):
     def handle_image(self, fh):
         img = Image.open(fh)
         img = self.crop(img)
-        img.save(self.data['plugins'][self.current_effect]['gui']['screenshot'])
+        img.save(self.current_effect['gui']['screenshot'])
         width, height = img.size
         if width > MAX_THUMB_WIDTH:
             width = MAX_THUMB_WIDTH
@@ -78,7 +147,7 @@ class BundleQueue(object):
             width = width * MAX_THUMB_HEIGHT / height
         img.convert('RGB')
         img.thumbnail((width, height), Image.ANTIALIAS)
-        img.save(self.data['plugins'][self.current_effect]['gui']['thumbnail'])
+        img.save(self.current_effect['gui']['thumbnail'])
         self.next_effect()
 
     def crop(self, img):
@@ -103,18 +172,15 @@ def run():
     parser.add_argument('bundles', help="The bundle path (a directory containing manifest.ttl file", type=str, nargs='+')
 
     args = parser.parse_args()
-    workspace = None
     bundles = []
-    for bundle in args.bundles:
-        if bundle.endswith('/'):
-            bundle = bundle[:-1]
-        basedir = os.path.realpath(os.path.dirname(bundle))
-        if not workspace:
-            workspace = basedir
-        assert workspace == basedir, "All bundles must be contained in same directory"
-        bundles.append(bundle.split('/')[-1])
 
-    BundleQueue(workspace, bundles).run()
+    for bundle in args.bundles:
+        if not bundle.endswith(os.sep):
+            bundle += os.sep
+        if bundle not in bundles:
+            bundles.append(bundle)
+
+    BundleQueue(bundles).run()
 
 if __name__ == '__main__':
     run()

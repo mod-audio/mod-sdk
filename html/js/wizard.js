@@ -57,7 +57,6 @@ JqueryClass('wizard', {
         var steps = [
             'chooseModel',
             'configure',
-            'edit_ttl',
             'save_template',
             'docs',
             'finish'
@@ -365,75 +364,46 @@ JqueryClass('wizard', {
         return $(this).data('effect')['name'].toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '').replace(/-+/g, '-')
     },
 
-    edit_ttl: function() {
+    save_template: function() {
         var self = $(this)
         var effect = self.data('effect')
-        var label = self.data('label')
-        var author = self.data('author')
-        var model = self.data('model')
-        var panel = self.data('panel')
-        var controls = self.data('controls')
-        var db = self.data('model_index')
-
         var slug = self.wizard('slug')
 
-        var data = {
+        var ttlData = {
             iconTemplate: 'icon-'+slug+'.html',
             templateData: 'data-'+slug+'.json',
             screenshot: 'screenshot-'+slug+'.png',
             thumbnail: 'thumb-'+slug+'.png'
         }
 
-        var canvas = $('#ttl-body')
-        var text   = ''
-        canvas.text('')
-
-        text += '@prefix mod: <http://portalmod.com/ns/modgui#> .\n'
-        text += '@prefix ui:  <http://lv2plug.in/ns/extensions/ui#> .\n'
-        text += '\n'
-        text += '<' + effect.uri + '>\n'
-        text += '    ui:ui mod:X11UI ;\n'
-        text += '    mod:gui [\n'
-        text += '        a mod:Gui ;\n'
-        text += '        mod:resourcesDirectory <modgui> ;\n'
-
-        var current = effect.gui_structure || {}
-        var changed = false
-        for (var key in data) {
-            /*if (current[key]) {
-                data[key] = current[key].replace(/^.+\//, '')
-                text += '        <b>mod:'+key+' &lt;modgui/'+data[key]+'&gt;;</b>\n'
-                changed = true
-            } else*/ {
-                text += '        mod:'+key+' <modgui/'+data[key]+'> ;\n'
-            }
+        var ttlText = ''
+        ttlText += '@prefix mod: <http://portalmod.com/ns/modgui#> .\n'
+        ttlText += '@prefix ui:  <http://lv2plug.in/ns/extensions/ui#> .\n'
+        ttlText += '\n'
+        ttlText += '<' + effect.uri + '>\n'
+        ttlText += '    ui:ui mod:X11UI ;\n'
+        ttlText += '    mod:gui [\n'
+        ttlText += '        a mod:Gui ;\n'
+        ttlText += '        mod:resourcesDirectory <modgui> ;\n'
+        for (var key in ttlData) {
+            ttlText += '        mod:'+key+' <modgui/'+ttlData[key]+'> ;\n'
         }
-        text += '    ] .'
-        text += '\n'
-        //canvas.append(escape(text))
+        ttlText += '    ] .'
+        ttlText += '\n'
 
-        self.data('ttlData', data)
-        self.data('ttlText', text)
-
-        /*if (changed)
-            $('#ttl-warning').show()
-        else*/
-            $('#ttl-warning').hide()
-    },
-
-    save_template: function() {
-        var self = $(this)
-        var effect = self.data('effect')
         var templateData = self.wizard('getTemplateData')
         delete templateData.effect
-        var settingsTemplate = Mustache.render(defaultSettingsTemplate, templateData)
+
+        //var settingsTemplate = Mustache.render(defaultSettingsTemplate, templateData)
+
         var data = {
             data: templateData,
             name: effect.name,
             iconTemplate: self.wizard('getIconTemplate'),
-            ttlData: self.data('ttlData'),
-            ttlText: self.data('ttlText')
+            ttlData: ttlData,
+            ttlText: ttlText
         }
+
         $.ajax({
             url: '/effect/save',
             type: 'POST',

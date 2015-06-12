@@ -85,6 +85,19 @@ class EffectList(web.RequestHandler):
         self.set_header('Content-type', 'application/json')
         self.write(json.dumps({ 'ok': True, 'data': data }))
 
+class EffectGet(web.RequestHandler):
+    def get(self):
+        uri = self.get_argument('uri')
+
+        try:
+            global cached_plugins
+            data = cached_plugins[uri]
+        except:
+            raise web.HTTPError(404)
+
+        self.set_header('Content-type', 'application/json')
+        self.write(json.dumps({ 'ok': True, 'data': data }))
+
 class EffectImage(web.RequestHandler):
     def get(self, image):
         uri = self.get_argument('uri')
@@ -463,6 +476,7 @@ def make_application(port=PORT, output_log=True):
     application = web.Application([
             (r"/bundles", BundleList),
             (r"/effects", EffectList),
+            (r"/effect/get", EffectGet),
             (r"/effect/image/(screenshot|thumbnail).png", EffectImage),
             (r"/effect/stylesheet.css", EffectStylesheet),
             (r"/effect/gui.js", EffectJavascript),
