@@ -306,7 +306,6 @@ JqueryClass('wizard', {
         var controls = self.data('controls')
         var db = self.data('model_index')
 
-        var i
         if (!controls) {
             controls = effect.ports.control.input.slice(0, db[self.data('model')].panels[panel])
             self.data('controls', controls)
@@ -325,7 +324,7 @@ JqueryClass('wizard', {
         var select = $('<select>')
         $('<option>').val('').html('-- Select control --').appendTo(select)
         var controlIndex = {}
-        for (i in controlPorts) {
+        for (var i in controlPorts) {
             control = controlPorts[i]
             if (control.ranges.default === undefined)
                 continue
@@ -341,7 +340,7 @@ JqueryClass('wizard', {
         }
         var sel
         $('#pedal-buttons').html('')
-        for (i=0; i<max && i < controls.length; i++) {
+        for (var i=0; i<max && i < controls.length; i++) {
             sel = select.clone()
             sel.val(controls[i].symbol || controls[i])
             sel.change(factory(sel, i))
@@ -375,26 +374,26 @@ JqueryClass('wizard', {
 
         //var settingsTemplate = Mustache.render(defaultSettingsTemplate, templateData)
 
-        var ttlFiles = {
-            iconTemplate: 'icon-'+slug+'.html',
-            screenshot: 'screenshot-'+slug+'.png',
-            thumbnail: 'thumb-'+slug+'.png'
-        }
-
         var ttlText = ''
-        ttlText += '@prefix mod: <http://portalmod.com/ns/modgui#> .\n'
-        ttlText += '@prefix ui:  <http://lv2plug.in/ns/extensions/ui#> .\n'
+        ttlText += '@prefix modgui: <http://portalmod.com/ns/modgui#> .\n'
+        ttlText += '@prefix ui:     <http://lv2plug.in/ns/extensions/ui#> .\n'
         ttlText += '\n'
         ttlText += '<' + effect.uri + '>\n'
-        ttlText += '    ui:ui mod:X11UI ;\n'
-        ttlText += '    mod:gui [\n'
-        ttlText += '        a mod:Gui ;\n'
-        ttlText += '        mod:resourcesDirectory <modgui> ;\n'
-        for (var key in ttlFiles) {
-            ttlText += '        mod:'+key+' <modgui/'+ttlFiles[key]+'> ;\n'
-        }
+        ttlText += '    ui:ui modgui:X11UI ;\n'
+        ttlText += '    modgui:gui [\n'
+        ttlText += '        a modgui:Gui ;\n'
+        ttlText += '        modgui:resourcesDirectory <modgui> ;\n'
+        ttlText += '        modgui:iconTemplate <modgui/icon-'+slug+'.html> ;\n'
+        ttlText += '        modgui:screenshot <modgui/screenshot-'+slug+'.png> ;\n'
+        ttlText += '        modgui:thumbnail <modgui/thumbnail-'+slug+'.png> ;\n'
+        ttlText += '        modgui:author "'+templateData.author+'" ;\n'
+        ttlText += '        modgui:label "'+templateData.label+'" ;\n'
         ttlText += '    ] .\n'
         ttlText += '\n'
+
+//         for (var key in templateData) {
+//             ttlText += '        mod:'+key+' <modgui/'+templateData[key]+'> ;\n'
+//         }
 
         $.ajax({
             url: '/effect/save',
@@ -403,7 +402,7 @@ JqueryClass('wizard', {
                 name: effect.name,
                 ttlText: ttlText,
                 iconTemplateData: self.wizard('getIconTemplate'),
-                iconTemplateFile: ttlFiles['iconTemplate'],
+                iconTemplateFile: 'icon-'+slug+'.html',
             },
             success: function() {
                 //self.wizard('generate_thumbnail')
