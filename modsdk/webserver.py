@@ -166,44 +166,28 @@ class EffectJavascript(web.RequestHandler):
 
 class EffectSave(web.RequestHandler):
     def post(self):
-        param = json.loads(self.request.body.decode("utf-8", errors="ignore"))
+        name    = self.get_argument('name')
+        ttlText = self.get_argument('ttlText')
+        iconTemplateData = self.get_argument('iconTemplateData')
+        iconTemplateFile = self.get_argument('iconTemplateFile')
 
-        bundle = os.path.basename(param['name']).replace(" ","_").replace("/","_")
-        self.basedir = os.path.expanduser("~/.lv2/%s.modgui" % bundle)
-        if not os.path.exists(self.basedir):
-            os.mkdir(self.basedir)
+        bundle  = name.replace(" ","_").replace("/","_")
+        basedir = os.path.expanduser("~/.lv2/%s.modgui" % bundle)
+        if not os.path.exists(basedir):
+            os.mkdir(basedir)
 
-        with open(os.path.join(self.basedir, "manifest.ttl"), 'w') as fd:
-            fd.write(param['ttlText'])
+        with open(os.path.join(basedir, "manifest.ttl"), 'w') as fd:
+            fd.write(ttlText)
 
-        self.basedir = os.path.join(self.basedir, "modgui")
-        if not os.path.exists(self.basedir):
-            os.mkdir(self.basedir)
+        basedir = os.path.join(basedir, "modgui")
+        if not os.path.exists(basedir):
+            os.mkdir(basedir)
 
-        ttl_data = param['ttlData']
-
-        self.make_template(ttl_data['iconTemplate'], param['iconTemplate'])
-        self.make_datafile(ttl_data['templateData'], param['data'])
-        self.make_empty_image(ttl_data['screenshot'])
-        self.make_empty_image(ttl_data['thumbnail'])
+        with open(os.path.join(basedir, iconTemplateFile), 'w') as fd:
+            fd.write(iconTemplateData)
 
         self.set_header('Content-type', 'application/json')
         self.write(json.dumps(True))
-
-    def make_template(self, name, template):
-        dest = os.path.join(self.basedir, name)
-        open(dest, 'w').write(template)
-
-    def make_datafile(self, name, data):
-        datafile = os.path.join(self.basedir, name)
-        open(datafile, 'w').write(json.dumps(data, sort_keys=True, indent=4))
-
-    def make_empty_image(self, name):
-        image_path = os.path.join(self.basedir, name)
-
-        if not os.path.exists(image_path):
-            img = Image.new('RGBA', (1, 1), (255, 0, 0, 0))
-            img.save(image_path)
 
 class Index(web.RequestHandler):
     def get(self, path):

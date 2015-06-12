@@ -148,7 +148,7 @@ function loadBundles() {
                 bundles.val(bundle)
                 loadEffects(function() {
                     if (uri) {
-                        effects.val(effect)
+                        effects.val(uri)
                         showEffect()
                     }
                 })

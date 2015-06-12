@@ -225,11 +225,11 @@ JqueryClass('wizard', {
     },
 
     render: function() {
-        var self = $(this)
+        var self   = $(this)
         var effect = self.data('effect')
-        var model = self.data('model')
-        var panel = self.data('panel')
-        var db = self.data('model_index')
+        var model  = self.data('model')
+        var panel  = self.data('panel')
+        var db     = self.data('model_index')
 
         var step = self.data('step')
         var icon = self.find('.wizard-icon')
@@ -257,12 +257,12 @@ JqueryClass('wizard', {
     },
 
     getTemplateData: function() {
-        var self = $(this)
+        var self  = $(this)
         var color = self.data('color')
-        var knob = self.data('knob')
+        var knob  = self.data('knob')
 
         var controls = self.data('controls')
-        var effect = self.data('effect')
+        var effect   = self.data('effect')
 
         if (!controls) {
             var db = self.data('model_index')
@@ -271,10 +271,10 @@ JqueryClass('wizard', {
             controls  = effect.ports.control.input.slice(0, db[model].panels[panel])
         }
 
-        var data =  {
-            effect: $.extend({ gui: null }, effect),
-            label: self.data('label'),
-            author: self.data('author'),
+        var data = {
+            effect  : $.extend({ gui: null }, effect),
+            label   : self.data('label'),
+            author  : self.data('author'),
             controls: []
         }
 
@@ -365,13 +365,18 @@ JqueryClass('wizard', {
     },
 
     save_template: function() {
-        var self = $(this)
+        var self   = $(this)
         var effect = self.data('effect')
-        var slug = self.wizard('slug')
+        var slug   = self.wizard('slug')
 
-        var ttlData = {
+        var templateData = self.wizard('getTemplateData')
+        delete templateData.effect
+        console.log(templateData)
+
+        //var settingsTemplate = Mustache.render(defaultSettingsTemplate, templateData)
+
+        var ttlFiles = {
             iconTemplate: 'icon-'+slug+'.html',
-            templateData: 'data-'+slug+'.json',
             screenshot: 'screenshot-'+slug+'.png',
             thumbnail: 'thumb-'+slug+'.png'
         }
@@ -385,36 +390,29 @@ JqueryClass('wizard', {
         ttlText += '    mod:gui [\n'
         ttlText += '        a mod:Gui ;\n'
         ttlText += '        mod:resourcesDirectory <modgui> ;\n'
-        for (var key in ttlData) {
-            ttlText += '        mod:'+key+' <modgui/'+ttlData[key]+'> ;\n'
+        for (var key in ttlFiles) {
+            ttlText += '        mod:'+key+' <modgui/'+ttlFiles[key]+'> ;\n'
         }
-        ttlText += '    ] .'
+        ttlText += '    ] .\n'
         ttlText += '\n'
-
-        var templateData = self.wizard('getTemplateData')
-        delete templateData.effect
-
-        //var settingsTemplate = Mustache.render(defaultSettingsTemplate, templateData)
-
-        var data = {
-            data: templateData,
-            name: effect.name,
-            iconTemplate: self.wizard('getIconTemplate'),
-            ttlData: ttlData,
-            ttlText: ttlText
-        }
 
         $.ajax({
             url: '/effect/save',
             type: 'POST',
-            data: JSON.stringify(data),
+            data: {
+                name: effect.name,
+                ttlText: ttlText,
+                iconTemplateData: self.wizard('getIconTemplate'),
+                iconTemplateFile: ttlFiles['iconTemplate'],
+            },
             success: function() {
                 //self.wizard('generate_thumbnail')
             },
             error: function() {
                 self.wizard('previous')
                 alert("Error: Can't save your effect configuration. Is your server running? Check the logs.")
-            }
+            },
+            dataType: 'json'
         })
     },
 
@@ -426,17 +424,15 @@ JqueryClass('wizard', {
         var canvas = self.find('#wizard-thumbnail')
         canvas.html('')
 
-        var param = {
-            bundle: effect.bundle,
-            effect: effect.uri,
-            width: icon.width(),
-            height: icon.height(),
-            slug: self.wizard('slug')
-        }
-
         $.ajax({
             url: '/screenshot',
-            data: param,
+            data: {
+                bundle: effect.bundle,
+                effect: effect.uri,
+                width: icon.width(),
+                height: icon.height(),
+                slug: self.wizard('slug')
+            },
             success: function(result) {
                 if (result.ok) {
                     $('<img class="screenshot">').appendTo(canvas).attr('src', 'data:image/png;base64,'+result.screenshot)
@@ -452,6 +448,7 @@ JqueryClass('wizard', {
     },
 
     docs: function() {
+        /*
         var self = $(this)
         var effect = self.data('effect')
         var model = self.data('model')
@@ -462,6 +459,7 @@ JqueryClass('wizard', {
         $('<li>').html('modgui/'+data.templateData).appendTo(canvas)
         $('<li>').html('modgui/'+data.screenshot).appendTo(canvas)
         $('<li>').html('modgui/'+data.thumbnail).appendTo(canvas)
+        */
     },
 
     finish: function() {
