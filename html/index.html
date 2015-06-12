@@ -182,83 +182,90 @@
         </div>
         <!-- END PEDALBOARD -->
 
-	<div id="debug-window" class="debug-popup hidden">
-	  <div class="box">
-	    <h1 class="box-title">DEBUG</h1>
-	    Below is all information available to this plugin's template
-	    <button id="debug-cancel" class="js-cancel-saving btn btn-danger">X</button>
-	    <pre></pre>
-	  </div>
-	</div>
-
-	<div id="wizard-window" class="wizard-popup hidden">
-	  <div class="box">
-	    <h1 class="box-title">Wizard</h1>
-	    <div class="wizard-icon"></div>
-	    <button id="wizard-cancel" class="js-cancel-saving btn btn-danger">X</button>
-            <div class="controls">
-	      <button id="wizard-previous" class="btn btn-success">Previous</button>
-	      <button id="wizard-next" class="btn btn-success">Next</button>
+        <div id="debug-window" class="debug-popup hidden">
+            <div class="box">
+                <h1 class="box-title">DEBUG</h1>
+                Below is all information available to this plugin's template
+                <button id="debug-cancel" class="js-cancel-saving btn btn-danger">X</button>
+                <pre></pre>
             </div>
+        </div>
 
-	    <div id="wizard-step-0" class="step">
-              <h2>Step 1 - choose model</h2>
-              <div id="model-choice">
-		<div class="previous">&lt;</div>
-		<h3>Model here</h3>
-		<div class="next">&gt;</div>
-	      </div>
-	      <h4 id="color-select-title">Select color</h4>
-	      <div id="color-options"></div>
-	      <h4>Select panel layout</h4>
-	      <ul id="panel-options" class="clearfix"></ul>
-	      <div class="clearfix"></div>
-	      <div id="knob-choice">
-		<h4>Select knob</h4>
-		<div id="knob-options"></div>
-	      </div>
-	    </div>
+        <!-- wizard-window -->
+        <div id="wizard-window" class="wizard-popup hidden">
+            <!-- box -->
+            <div class="box">
+                <h1 class="box-title">Wizard</h1>
+                <div class="wizard-icon"></div>
+                <button id="wizard-cancel" class="js-cancel-saving btn btn-danger">X</button>
+                <div class="controls">
+                    <button id="wizard-previous" class="btn btn-success">Previous</button>
+                    <button id="wizard-next" class="btn btn-success">Next</button>
+                </div>
 
-	    <div id="wizard-step-1" class="step">
-	      <h2>Step 2 - configure</h2>
-	      <div id="wizard-configuration">
-		Label: <input name="label" type="text"/><br />
-		Author: <input name="author" type="text"/><br />
-		<div id="pedal-buttons"></div>
-	      </div>
-	    </div>
+                <div id="wizard-step-0" class="step">
+                    <h2>Step 1 - choose model</h2>
+                    <div id="model-choice">
+                        <div class="previous">&lt;</div>
+                        <h3>Model here</h3>
+                        <div class="next">&gt;</div>
+                    </div>
+                    <h4 id="color-select-title">Select color</h4>
+                    <div id="color-options"></div>
+                    <h4>Select panel layout</h4>
+                    <ul id="panel-options" class="clearfix"></ul>
+                    <div class="clearfix"></div>
+                        <div id="knob-choice">
+                            <h4>Select knob</h4>
+                            <div id="knob-options"></div>
+                        </div>
+                    </div>
 
-	    <div id="wizard-step-2" class="step">
-	      <h2>Step 3 - generate thumbnails</h2>
-	      <div>
-		<p>
-		  If you desire, you can now generate a screenshot and thumbnail of your icon. Note that the images will be automatically saved at the location configured in ttl (you just pasted the code there) and <b>will override any other screenshots there</b>.
-		</p>
-		<p>
-		  You can always generate these images later, without this wizerd.
-		</p>
-		<div id="wizard-thumbnail"></div>
-		<button id="wizard-generate-thumbnail">Generate screenshots</button>
-		<button id="wizard-skip-thumbnail">No, thanks</button>
-	      </div>
-	    </div>
+                <div id="wizard-step-1" class="step">
+                    <h2>Step 2 - configure</h2>
+                    <div id="wizard-configuration">
+                        Label: <input name="label" type="text"/><br />
+                        Author: <input name="author" type="text"/><br />
+                        <div id="pedal-buttons"></div>
+                    </div>
+                </div>
 
-	    <div id="wizard-step-3" class="step">
-	      <h2>That's it!</h2>
-	      <div>
-		<p><b>The following files were automatically created inside your bundle:</b></p>
-		<ul id="wizard-modifications"></ul>
-		<p>
-		  This layout is ready to be installed and published, but if you desire,
-		  you can fully customize your plugin by editing the files above.
-		<p>
-		<p>
-		  For more information, <a href="http://portalmod.com/ns/modgui" target="_blank">read the docs</a>
-		</p>
-	      </div>
-	    </div>
+                <div id="wizard-step-2" class="step">
+                    <h2>Step 3 - generate thumbnails</h2>
+                    <div>
+                        <p>
+                            If you desire, you can now generate a screenshot and thumbnail of your icon.
+                            Note that the images will be automatically saved at the location configured in ttl (you just pasted the code there)
+                            and <b>will override any other screenshots there</b>.
+                        </p>
+                        <p>
+                            You can always generate these images later, without this wizerd.
+                        </p>
+                        <div id="wizard-thumbnail"></div>
+                            <button id="wizard-generate-thumbnail">Generate screenshots</button>
+                            <button id="wizard-skip-thumbnail">No, thanks</button>
+                    </div>
+                </div>
 
-	  </div>
+                <div id="wizard-step-3" class="step">
+                    <h2>That's it!</h2>
+                    <div>
+                        <p>
+                            <b>The following files were automatically created inside your bundle:</b>
+                        </p>
+                        <ul id="wizard-modifications"></ul>
+                        <p>
+                            This layout is ready to be installed and published, but if you desire,
+                            you can fully customize your plugin by editing the files above.
+                        </p>
+                        <p>
+                            For more information, <a href="http://portalmod.com/ns/modgui" target="_blank">read the docs</a>
+                        </p>
+                </div>
+            </div>
+            <!-- /box -->
+        </div>
+        <!-- /wizard-window -->
 
     </div>
     <!-- END WRAPPER -->
