@@ -36,125 +36,129 @@ $(document).ready(function() {
     bundles.change(function() { loadEffects() })
     effects.change(function() { showEffect() })
     $('#next-bundle').click(function() {
-	bundles.val(bundles.find(':selected').next().val())
-	loadEffects()
+        bundles.val(bundles.find(':selected').next().val())
+        loadEffects()
     })
     $('#screenshot').click(function() {
-	var iconImg = $('<img>')
-	var param = { bundle: bundles.val(),
-		      effect: effects.val(),
-		      width: renderedIcon.width(),
-		      height: renderedIcon.height(),
-		      slug: slug()
-		    }
-	screenshotCanvas.find('img').remove()
-	$.ajax({ url: '/screenshot',
-		 data: param,
-		 success: function(result) {
-		     if (result.ok) {
-			 $('<img class="thumb">').appendTo(screenshotCanvas).attr('src', 'data:image/png;base64,'+result.thumbnail)
-			 $('<img class="screenshot">').appendTo(screenshotCanvas).attr('src', 'data:image/png;base64,'+result.screenshot)
-		     } else {
-			 alert('Could not generate thumbnail')
-		     }
-		 },
-		 error: function(resp) {
-		     alert("Error: Can't generate thumbnail. Is your server running? Check the logs.")
-		 },
-		 dataType: 'json'
-	       })
+        var iconImg = $('<img>')
+        var param = {
+            bundle: bundles.val(),
+            effect: effects.val(),
+            width: renderedIcon.width(),
+            height: renderedIcon.height(),
+            slug: slug()
+        }
+        screenshotCanvas.find('img').remove()
+        $.ajax({
+            url: '/screenshot',
+            data: param,
+            success: function(result) {
+                if (result.ok) {
+                    $('<img class="thumb">').appendTo(screenshotCanvas).attr('src', 'data:image/png;base64,'+result.thumbnail)
+                    $('<img class="screenshot">').appendTo(screenshotCanvas).attr('src', 'data:image/png;base64,'+result.screenshot)
+                } else {
+                    alert('Could not generate thumbnail')
+                }
+            },
+            error: function(resp) {
+                alert("Error: Can't generate thumbnail. Is your server running? Check the logs.")
+            },
+            dataType: 'json'
+        })
     })
 
     $('#install').click(function() {
-	savePublishConfiguration(function() {
-	    $.ajax({ url: '/post/device/' + bundles.val(),
-		     success: function(result) {
-			 if (result.ok)
-			     alert("Effect installed")
-			 else
-			     alert("Host said: " + result.error)
-		     },
-		     error: function(resp) {
-			 alert("Error: Can't install bundle. Is your server running? Check the logs.")
-		     },
-		     timeout: 300000,
-		     dataType: 'json'
-		   })
-	})
+        savePublishConfiguration(function() {
+            $.ajax({ url: '/post/device/' + bundles.val(),
+                success: function(result) {
+                    if (result.ok)
+                        alert("Effect installed")
+                    else
+                        alert("Host said: " + result.error)
+                },
+                error: function(resp) {
+                    alert("Error: Can't install bundle. Is your server running? Check the logs.")
+                },
+                timeout: 300000,
+                dataType: 'json'
+              })
+        })
     })
 
     $('#publish').click(function() {
-	savePublishConfiguration(function() {
-	    $.ajax({ url: '/post/cloud/' + bundles.val(),
-		     success: function(result) {
-			 if (result.ok)
-			     alert("Effect published")
-			 else
-			     alert("Cloud said: " + result.error)
-		     },
-		     error: function(resp) {
-			 alert("Error: Can't publish bundle. Is your server running? Check the logs.")
-		     },
-		     timeout: 300000,
-		     dataType: 'json'
-		   })
-	})
+        savePublishConfiguration(function() {
+            $.ajax({
+                url: '/post/cloud/' + bundles.val(),
+                success: function(result) {
+                    if (result.ok)
+                        alert("Effect published")
+                    else
+                        alert("Cloud said: " + result.error)
+                },
+                error: function(resp) {
+                    alert("Error: Can't publish bundle. Is your server running? Check the logs.")
+                },
+                timeout: 300000,
+                dataType: 'json'
+            })
+        })
     })
 
     publishWindow.find('.controls span').click(function() {
-	var self = $(this)
-	self.parent().find('input').val(self.attr('data'))
+        var self = $(this)
+        self.parent().find('input').val(self.attr('data'))
     })
 
     $('button.debug').click(function() {
-	$('#debug-window pre').text(DEBUG)
-	$('#debug-window').show()
+        $('#debug-window pre').text(DEBUG)
+        $('#debug-window').show()
     })
     $('#debug-cancel').click(function() {
-	$('#debug-window').hide()
+        $('#debug-window').hide()
     })
 
     loadBundles()
 })
 
 function loadBundles() {
-    $.ajax({ url: '/bundles',
-	     success: function(data) {
-		 content.hide()
-		 if (data.length == 0) {
-		     bundles.hide()
-             $('#next-bundle').hide()
-		     $('#no-bundles').show()
-		     return
-		 }
-         $('#next-bundle').show()
-		 $('#no-bundles').hide()
-		 bundles.show()
-		 bundles.find('option').remove()
-		 $('<option>').val('').html('-- Select Bundle --').appendTo(bundles)
-		 data.sort()
-		 for (var i in data) {
-		     $('<option>').val(data[i]).html(data[i]).appendTo(bundles)
-		 }
+    $.ajax({
+        url: '/bundles',
+        success: function(data) {
+            content.hide()
+            if (data.length == 0) {
+                bundles.hide()
+                $('#next-bundle').hide()
+                $('#no-bundles').show()
+                return
+            }
+            $('#next-bundle').show()
+            $('#no-bundles').hide()
+            bundles.show()
+            bundles.find('option').remove()
+            $('<option>').val('').html('-- Select Bundle --').appendTo(bundles)
+            data.sort()
+            for (var i in data) {
+                $('<option>').val(data[i]).html(data[i]).appendTo(bundles)
+            }
 
-		 var hash = window.location.hash.replace(/^#/, '')
-		 if (hash) {
-		     var bundle = hash.split(/,/)[0]
-		     var effect = hash.split(/,/)[1]
-		     bundles.val(bundle)
-		     loadEffects(function() {
-			 if (effect) {
-			     effects.val(effect)
-			     showEffect()
-			 }
-		     })
-		 }
-	     },
-	     error: function(resp) {
-		 alert("Error: Can't get list of bundles. Is your server running? Check the logs.")
-	     },
-	     dataType: 'json'
-	   })
+            var hash = window.location.hash.replace(/^#/, '')
+            if (hash) {
+                var bundle = hash.split(/,/)[0]
+                var uri    = hash.split(/,/)[1]
+                bundles.val(bundle)
+                loadEffects(function() {
+                    if (uri) {
+                        effects.val(effect)
+                        showEffect()
+                    }
+                })
+            }
+        },
+        error: function(resp) {
+            alert("Error: Can't get list of bundles. Is your server running? Check the logs.")
+        },
+        dataType: 'json'
+    })
 }
 
 function getEffects(bundle, callback) {
@@ -163,41 +167,42 @@ function getEffects(bundle, callback) {
         effects.hide()
         return
     }
-    $.ajax({ url: '/effects',
-             data: {
-                 bundle: bundle,
-             },
-             success: function(result) {
-                 if (!result.ok) {
-                     alert(result.error)
-                     return
-                 }
-                 callback(result.data)
-             },
-             error: function(resp) {
-                 alert("Error: Can't get list of effects. Is your server running? Check the logs.")
-             },
-             dataType: 'json'
-        })
+    $.ajax({
+        url: '/effects',
+        data: {
+            bundle: bundle,
+        },
+        success: function(result) {
+            if (!result.ok) {
+                alert(result.error)
+                return
+            }
+            callback(result.data)
+        },
+        error: function(resp) {
+            alert("Error: Can't get list of effects. Is your server running? Check the logs.")
+        },
+        dataType: 'json'
+    })
 }
 
 function loadEffects(callback) {
     var bundle = bundles.val()
     version.hide()
     getEffects(bundle, function(plugins) {
-	effects.find('option').remove()
-	$('<option>').html('-- Select Effect --').appendTo(effects)
-	for (var uri in plugins) {
-	    var plugin = plugins[uri]
-	    $('<option>').val(plugin.uri).html(plugin.name).data(plugin).appendTo(effects)
-	}
-	effects.show()
-	if (effects.children().length == 2) {
-	    effects.children().first().remove()
-	    showEffect()
-	}
-	if (callback != null)
-	    callback()
+        effects.find('option').remove()
+        $('<option>').html('-- Select Effect --').appendTo(effects)
+        for (var uri in plugins) {
+            var plugin = plugins[uri]
+            $('<option>').val(plugin.uri).html(plugin.name).data(plugin).appendTo(effects)
+        }
+        effects.show()
+        if (effects.children().length == 2) {
+            effects.children().first().remove()
+            showEffect()
+        }
+        if (callback != null)
+            callback()
     })
 }
 
