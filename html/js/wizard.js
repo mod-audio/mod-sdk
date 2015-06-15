@@ -48,6 +48,16 @@ JqueryClass('wizard', {
         if (effect.gui.author)
             self.data('author', effect.gui.author)
 
+        if (effect.gui.label)
+            self.data('label', effect.gui.label)
+        else
+            self.data('label', effect.name)
+
+        if (effect.gui.ports)
+            self.data('controls', effect.gui.ports)
+
+        console.log(effect.gui)
+
         self.show()
         self.wizard('step', 0)
     },
@@ -329,8 +339,6 @@ JqueryClass('wizard', {
         var controlIndex = {}
         for (var i in controlPorts) {
             control = controlPorts[i]
-            if (control.ranges.default === undefined)
-                continue
             controlIndex[control.symbol] = control
             $('<option>').val(control.symbol).html(control.name).appendTo(select)
         }
@@ -373,12 +381,12 @@ JqueryClass('wizard', {
 
         var templateData = self.wizard('getTemplateData')
         delete templateData.effect
-        console.log(templateData)
 
         //var settingsTemplate = Mustache.render(defaultSettingsTemplate, templateData)
 
         var ttlText = ''
         ttlText += '@prefix modgui: <http://portalmod.com/ns/modgui#> .\n'
+        ttlText += '@prefix lv2:    <http://lv2plug.in/ns/lv2core#> .\n'
         ttlText += '@prefix ui:     <http://lv2plug.in/ns/extensions/ui#> .\n'
         ttlText += '\n'
         ttlText += '<' + effect.uri + '>\n'
@@ -401,12 +409,29 @@ JqueryClass('wizard', {
         if (templateData.knob)
             ttlText += '        modgui:knob "'+templateData.knob+'" ;\n'
 
+        var i = 0
+        var numControls = templateData.controls.length
+        for (var j in templateData.controls)
+        {
+            control = templateData.controls[j]
+
+            if (i == 0)
+                ttlText += '        modgui:port [\n'
+
+            ttlText += '            lv2:index '+i+' ;\n'
+            ttlText += '            lv2:name "'+control.name+'" ;\n'
+            ttlText += '            lv2:symbol "'+control.symbol+'" ;\n'
+
+            if (i+1 == numControls)
+                ttlText += '        ] ;\n'
+            else
+                ttlText += '        ] , [\n'
+
+            i += 1;
+        }
+
         ttlText += '    ] .\n'
         ttlText += '\n'
-
-//         for (var key in templateData) {
-//             ttlText += '        mod:'+key+' <modgui/'+templateData[key]+'> ;\n'
-//         }
 
         $.ajax({
             url: '/effect/save',

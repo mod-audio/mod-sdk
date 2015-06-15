@@ -87,7 +87,7 @@ def get_port_data(port, subj):
     while not lilv.lilv_nodes_is_end(nodes, it):
         dat = lilv.lilv_nodes_get(nodes, it)
         it  = lilv.lilv_nodes_next(nodes, it)
-        if data is None:
+        if dat is None:
             continue
         data.append(lilv.lilv_node_as_string(dat))
 
@@ -494,6 +494,41 @@ def get_plugin_info(world, plugin):
                 gui['color'] = modgui_color.as_string()
             if modgui_knob.me is not None:
                 gui['knob'] = modgui_knob.as_string()
+
+            # ports
+            ports = []
+            nodes = world.find_nodes(modguigui.me, modgui.port.me, None)
+            it    = lilv.lilv_nodes_begin(nodes.me)
+            while not lilv.lilv_nodes_is_end(nodes.me, it):
+                port = lilv.lilv_nodes_get(nodes.me, it)
+                it   = lilv.lilv_nodes_next(nodes.me, it)
+                if port is None:
+                    break
+                port_indx = world.find_nodes(port, lv2core.index .me, None).get_first()
+                port_name = world.find_nodes(port, lv2core.name  .me, None).get_first()
+                port_symb = world.find_nodes(port, lv2core.symbol.me, None).get_first()
+
+                if None in (port_indx.me, port_name.me, port_symb.me):
+                    continue
+
+                ports.append({
+                    'index' : port_indx.as_int(),
+                    'name'  : port_name.as_string(),
+                    'symbol': port_symb.as_string(),
+                })
+
+            # sort ports
+            if len(ports) > 0:
+                ports2 = {}
+
+                for port in ports:
+                    ports2[port['index']] = port
+                gui['ports'] = [ports2[i] for i in ports2]
+
+                del ports2
+
+            # cleanup
+            del ports, nodes, it
 
     # --------------------------------------------------------------------------------------------------------
     # ports
