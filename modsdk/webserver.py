@@ -168,9 +168,11 @@ class EffectSave(web.RequestHandler):
     def post(self):
         name    = self.get_argument('name')
         ttlText = self.get_argument('ttlText')
+        filesToCopy = [os.path.join(HTML_DIR, "resources", fil) for fil in json.loads(self.get_argument('filesToCopy'))]
         templateData = json.loads(self.get_argument('templateData'))
         iconTemplateData = self.get_argument('iconTemplateData')
         iconTemplateFile = self.get_argument('iconTemplateFile')
+        stylesheetFile   = self.get_argument('stylesheetFile')
 
         bundle  = name.replace(" ","_").replace("/","_")
         basedir = os.path.expanduser("~/.lv2/%s.modgui" % bundle)
@@ -186,6 +188,22 @@ class EffectSave(web.RequestHandler):
 
         with open(os.path.join(basedir, iconTemplateFile), 'w') as fd:
             fd.write(pystache.render(iconTemplateData, templateData))
+
+        with open(os.path.join(basedir, stylesheetFile), 'w') as fd:
+            stylesheetData = ""
+
+            for fil in filesToCopy:
+                if not fil.endswith(".css"):
+                    continue
+                if not os.path.exists(fil):
+                    continue
+                with open(fil, 'r') as fild:
+                    stylesheetData += fild.read()
+
+            fd.write(stylesheetData)
+
+        for f in filesToCopy:
+            print("Needs to copy: %s" % f)
 
         self.set_header('Content-type', 'application/json')
         self.write(json.dumps(True))

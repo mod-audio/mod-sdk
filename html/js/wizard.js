@@ -378,7 +378,7 @@ JqueryClass('wizard', {
         var slug   = self.wizard('slug')
 
         var templateData = self.wizard('getTemplateData')
-        delete templateData.effect
+        //delete templateData.effect
 
         //var settingsTemplate = Mustache.render(defaultSettingsTemplate, templateData)
 
@@ -394,6 +394,7 @@ JqueryClass('wizard', {
         ttlText += '        modgui:resourcesDirectory <modgui> ;\n'
         ttlText += '        modgui:iconTemplate <modgui/icon-'+slug+'.html> ;\n'
         //ttlText += '        modgui:settingsTemplate <modgui/settings-'+slug+'.html> ;\n'
+        ttlText += '        modgui:stylesheet <modgui/stylesheet-'+slug+'.css> ;\n'
         ttlText += '        modgui:screenshot <modgui/screenshot-'+slug+'.png> ;\n'
         ttlText += '        modgui:thumbnail <modgui/thumbnail-'+slug+'.png> ;\n'
         ttlText += '        modgui:author "'+templateData.author+'" ;\n'
@@ -431,15 +432,60 @@ JqueryClass('wizard', {
         ttlText += '    ] .\n'
         ttlText += '\n'
 
+        filesToCopy = []
+
+        if (model == "combo-model-001")
+        {
+            filesToCopy.push('combos/model-001/model-001.css')
+            filesToCopy.push('combos/model-001/model-'+templateData.panel+'.png')
+        }
+        else if (model == "head-model-001")
+        {
+            filesToCopy.push('heads/model-001/model-001.css')
+            filesToCopy.push('heads/model-001/model-'+templateData.panel+'.png')
+            filesToCopy.push('knobs/chicken-head/_strip.png')
+            filesToCopy.push('switches/switch-001.png')
+        }
+        else if (model == "rack")
+        {
+            filesToCopy.push('racks/model-001/model-001.css')
+            filesToCopy.push('racks/model-001/model-001.png')
+        }
+        else if (model == "british")
+        {
+            filesToCopy.push('knobs/british/british.png')
+            filesToCopy.push('pedals/british/british.css')
+            filesToCopy.push('pedals/british/footswitch.png')
+            filesToCopy.push('pedals/british/metallic.png')
+        }
+        else if (model == "lata")
+        {
+            filesToCopy.push('knobs/lata/lata.css')
+            filesToCopy.push('knobs/lata/lata.png')
+        }
+        else if (model == "japanese")
+        {
+            filesToCopy.push('knobs/japanese/japanese.css')
+            filesToCopy.push('knobs/japanese/'+templateData.color+'.png')
+        }
+        else if (model == "boxy-small")
+        {
+        }
+        else if (model == "boxy")
+        {
+        }
+
         $.ajax({
             url: '/effect/save',
             type: 'POST',
             data: {
                 name: effect.name,
                 ttlText: ttlText,
+                filesToCopy: JSON.stringify(filesToCopy),
                 templateData: JSON.stringify(templateData),
                 iconTemplateData: self.wizard('getIconTemplate'),
                 iconTemplateFile: 'icon-'+slug+'.html',
+                stylesheetFile: 'stylesheet-'+slug+'.css',
             },
             success: function() {
                 //self.wizard('generate_thumbnail')
