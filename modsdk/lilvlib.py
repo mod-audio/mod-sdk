@@ -464,6 +464,41 @@ def get_plugin_info(world, plugin):
                         gui['settingsTemplate'] = fd.read()
                 del settingsFile
 
+            # template data for backwards compatibility
+            # FIXME remove later once we got rid of all templateData files
+            modgui_templ = world.find_nodes(modguigui.me, modgui.templateData.me, None).get_first()
+
+            if modgui_templ.me is not None:
+                templFile = lilv.lilv_uri_to_path(modgui_templ.as_string())
+                if os.path.exists(templFile):
+                    with open(templFile, 'r') as fd:
+                        try:
+                            data = json.loads(fd.read())
+                        except:
+                            data = {}
+                        keys = list(data.keys())
+
+                        if 'author' in keys:
+                            gui['author'] = data['author']
+                        if 'label' in keys:
+                            gui['label'] = data['label']
+                        if 'color' in keys:
+                            gui['color'] = data['color']
+                        if 'knob' in keys:
+                            gui['knob'] = data['knob']
+                        if 'controls' in keys:
+                            index = 0
+                            ports = []
+                            for ctrl in data['controls']:
+                                ports.append({
+                                    'index' : index,
+                                    'name'  : ctrl['name'],
+                                    'symbol': ctrl['symbol'],
+                                })
+                                index += 1
+                            gui['ports'] = ports
+                del templFile
+
             # screenshot and thumbnail
             modgui_scrn  = world.find_nodes(modguigui.me, modgui.screenshot.me, None).get_first()
             modgui_thumb = world.find_nodes(modguigui.me, modgui.thumbnail .me, None).get_first()

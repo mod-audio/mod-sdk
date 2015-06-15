@@ -221,7 +221,7 @@ class Index(web.RequestHandler):
             'wizard_db': json.dumps(json.loads(open(WIZARD_DB).read())),
             'default_developer': os.environ['USER'],
             'default_privkey': os.path.join(os.environ['HOME'], '.ssh', 'id_rsa'),
-            }
+        }
         self.write(loader.load(path).generate(**context))
 
 class Screenshot(web.RequestHandler):

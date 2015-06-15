@@ -1,7 +1,7 @@
 /* = CONTAINER
 ================================================ */
 .mod-pedal-default {
-    background-image:url(default.png);
+    background-image:url(/resources/pedals/default.png);
     background-position:center center;
     background-repeat:no-repeat;
     background-size:251px 434px;
@@ -37,7 +37,7 @@
 /* = FOOTSWITCH
 ================================================ */
 .mod-pedal-default .mod-footswitch {
-    background-image:url(boxy/footswitch.png);
+    background-image:url(/resources/pedals/boxy/footswitch.png);
     background-position:center center;
     background-repeat:no-repeat;
     background-size:auto 65px;

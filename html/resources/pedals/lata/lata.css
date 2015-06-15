@@ -10,17 +10,17 @@
 
 /* = BACKGROUND IMAGES - Colour of the pedal
 ================================================ */
-.mod-pedal-lata.mod-blue        { background-image:url(blue.png); }
-.mod-pedal-lata.mod-brown       { background-image:url(brown.png); }
-.mod-pedal-lata.mod-cream       { background-image:url(cream.png); }
-.mod-pedal-lata.mod-darkblue    { background-image:url(darkblue.png); }
-.mod-pedal-lata.mod-gray        { background-image:url(gray.png); }
-.mod-pedal-lata.mod-green       { background-image:url(green.png); }
-.mod-pedal-lata.mod-orange      { background-image:url(orange.png); }
-.mod-pedal-lata.mod-purple      { background-image:url(purple.png); }
-.mod-pedal-lata.mod-red         { background-image:url(red.png); }
-.mod-pedal-lata.mod-white       { background-image:url(white.png); }
-.mod-pedal-lata.mod-yellow      { background-image:url(yellow.png); }
+.mod-pedal-lata.mod-blue        { background-image:url(/resources/pedals/lata/blue.png); }
+.mod-pedal-lata.mod-brown       { background-image:url(/resources/pedals/lata/brown.png); }
+.mod-pedal-lata.mod-cream       { background-image:url(/resources/pedals/lata/cream.png); }
+.mod-pedal-lata.mod-darkblue    { background-image:url(/resources/pedals/lata/darkblue.png); }
+.mod-pedal-lata.mod-gray        { background-image:url(/resources/pedals/lata/gray.png); }
+.mod-pedal-lata.mod-green       { background-image:url(/resources/pedals/lata/green.png); }
+.mod-pedal-lata.mod-orange      { background-image:url(/resources/pedals/lata/orange.png); }
+.mod-pedal-lata.mod-purple      { background-image:url(/resources/pedals/lata/purple.png); }
+.mod-pedal-lata.mod-red         { background-image:url(/resources/pedals/lata/red.png); }
+.mod-pedal-lata.mod-white       { background-image:url(/resources/pedals/lata/white.png); }
+.mod-pedal-lata.mod-yellow      { background-image:url(/resources/pedals/lata/yellow.png); }
 
 /* = PLUGIN'S AUTHOR
 ================================================ */
@@ -115,7 +115,7 @@
 /* = FOOTSWITCH
 ================================================ */
 .mod-pedal-lata .mod-footswitch {
-    background-image:url(footswitch.png);
+    background-image:url(/resources/pedals/lata/footswitch.png);
     background-position:center center;
     background-repeat:no-repeat;
     background-size:auto 80px;

@@ -1,6 +1,6 @@
 /* SKINS */
 .mod-head-model-001-0550 {
-    background-image: url(model-0550.png);
+    background-image: url(/resources/heads/model-001/model-0550.png);
     background-position: center center;
     background-repeat: no-repeat;
     font-family: Helvetica,Arial,Sans-serif;
@@ -10,7 +10,7 @@
 }
 
 .mod-head-model-001-0700 {
-    background-image: url(model-0700.png);
+    background-image: url(/resources/heads/model-001/model-0700.png);
     background-position: center center;
     background-repeat: no-repeat;
     font-family: Helvetica,Arial,Sans-serif;
@@ -20,7 +20,7 @@
 }
 
 .mod-head-model-001-0800 {
-    background-image: url(model-0800.png);
+    background-image: url(/resources/heads/model-001/model-0800.png);
     background-position: center center;
     background-repeat: no-repeat;
     font-family: Helvetica,Arial,Sans-serif;
@@ -30,7 +30,7 @@
 }
 
 .mod-head-model-001-0950 {
-    background-image: url(model-0950.png);
+    background-image: url(/resources/heads/model-001/model-0950.png);
     background-position: center center;
     background-repeat: no-repeat;
     font-family: Helvetica,Arial,Sans-serif;

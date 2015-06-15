@@ -1,6 +1,6 @@
 /* STYLES FOR THE british PEDAL */
 
-@import url(../../../fonts/england-hand/stylesheet.css);
+@import url(/fonts/england-hand/stylesheet.css);
 
 /* = CONTAINER
 ================================================ */
@@ -15,7 +15,7 @@
 /* = BACKGROUND IMAGES - Colour of the pedal
 ================================================ */
 .mod-pedal-british.mod-metallic {
-    background-image:url(metallic.png);
+    background-image:url(/resources/pedals/british/metallic.png);
 }
 
 /* = PLUGIN'S AUTHOR
@@ -66,7 +66,7 @@
 /* = FOOTSWITCH
 ================================================ */
 .mod-pedal-british .mod-footswitch {
-    background-image:url(footswitch.png);
+    background-image:url(/resources/pedals/british/footswitch.png);
     background-position:center center;
     background-repeat:no-repeat;
     background-size:auto 80px;
@@ -101,7 +101,7 @@
 }
 
 .mod-pedal-british .mod-control-group .mod-knob .mod-knob-image { 
-    background-image:url(../../knobs/british/british.png);
+    background-image:url(/resources/knobs/british/british.png);
     background-position:left center;
     background-repeat:no-repeat;
     background-size:auto 64px;

@@ -20,7 +20,7 @@
 }
 
 .mod-pedal-lata .mod-control-group .mod-knob .mod-knob-image { 
-    background-image:url(lata.png);
+    background-image:url(/resources/knobs/lata/lata.png);
     background-position:left center;
     background-repeat:no-repeat;
     background-size:auto 79px;

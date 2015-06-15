@@ -4,37 +4,37 @@
 /* = KNOBS
 ================================================ */
 .mod-pedal-japanese .mod-control-group.mod-blue .mod-knob .mod-knob-image {
-    background-image:url(blue.png);
+    background-image:url(/resources/knobs/japanese/blue.png);
 }
 .mod-pedal-japanese .mod-control-group.mod-brown .mod-knob .mod-knob-image {
-    background-image:url(brown.png);
+    background-image:url(/resources/knobs/japanese/brown.png);
 }
 .mod-pedal-japanese .mod-control-group.mod-cream .mod-knob .mod-knob-image {
-    background-image:url(cream.png);
+    background-image:url(/resources/knobs/japanese/cream.png);
 }
 .mod-pedal-japanese .mod-control-group.mod-darkblue .mod-knob .mod-knob-image {
-    background-image:url(darkblue.png);
+    background-image:url(/resources/knobs/japanese/darkblue.png);
 }
 .mod-pedal-japanese .mod-control-group.mod-gray .mod-knob .mod-knob-image {
-    background-image:url(gray.png);
+    background-image:url(/resources/knobs/japanese/gray.png);
 }
 .mod-pedal-japanese .mod-control-group.mod-green .mod-knob .mod-knob-image {
-    background-image:url(green.png);
+    background-image:url(/resources/knobs/japanese/green.png);
 }
 .mod-pedal-japanese .mod-control-group.mod-orange .mod-knob .mod-knob-image {
-    background-image:url(orange.png);
+    background-image:url(/resources/knobs/japanese/orange.png);
 }
 .mod-pedal-japanese .mod-control-group.mod-purple .mod-knob .mod-knob-image {
-    background-image:url(purple.png);
+    background-image:url(/resources/knobs/japanese/purple.png);
 }
 .mod-pedal-japanese .mod-control-group.mod-red .mod-knob .mod-knob-image {
-    background-image:url(red.png);
+    background-image:url(/resources/knobs/japanese/red.png);
 }
 .mod-pedal-japanese .mod-control-group.mod-white .mod-knob .mod-knob-image {
-    background-image:url(white.png);
+    background-image:url(/resources/knobs/japanese/white.png);
 }
 .mod-pedal-japanese .mod-control-group.mod-yellow .mod-knob .mod-knob-image {
-    background-image:url(yellow.png);
+    background-image:url(/resources/knobs/japanese/yellow.png);
 }
 
 .mod-pedal-japanese .mod-control-group {

@@ -1,6 +1,6 @@
 /* SKINS */
 .mod-rack-model-001 {
-    background-image:url(model-001.png);
+    background-image:url(/resources/racks/model-001/model-001.png);
     background-position:center center;
     background-repeat:no-repeat;
     font-family:Helvetica,Arial,Sans-serif;
@@ -144,7 +144,7 @@
 
 .mod-rack-model-001 .mod-enumerated .mod-enumerated-selected {
     background-color:rgba(255,255,255,.2);
-    background-image:url(../../utils/dropdown-arrow-white.png);
+    background-image:url(/resources/utils/dropdown-arrow-white.png);
     background-position:right center;
     background-repeat:no-repeat;
     border-radius:4px;
