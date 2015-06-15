@@ -56,8 +56,6 @@ JqueryClass('wizard', {
         if (effect.gui.ports)
             self.data('controls', effect.gui.ports)
 
-        console.log(effect.gui)
-
         self.show()
         self.wizard('step', 0)
     },
