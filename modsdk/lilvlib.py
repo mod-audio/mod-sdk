@@ -429,6 +429,81 @@ def get_plugin_info(world, plugin):
     units   = NS(world, "http://lv2plug.in/ns/extensions/units#")
     modgui  = NS(world, "http://portalmod.com/ns/modgui#")
 
+    bundleuri = plugin.get_bundle_uri().as_string()
+    microver  = plugin.get_value(lv2core.microVersion).get_first()
+    minorver  = plugin.get_value(lv2core.minorVersion).get_first()
+    modguigui = plugin.get_value(modgui.gui).get_first()
+
+    # --------------------------------------------------------------------------------------------------------
+    # gui
+
+    gui = {}
+
+    if modguigui.me is not None:
+        # resourcesDirectory *must* be present
+        modgui_resdir = world.find_nodes(modguigui.me, modgui.resourcesDirectory.me, None).get_first()
+
+        if modgui_resdir.me is not None:
+            gui['resourcesDirectory'] = lilv.lilv_uri_to_path(modgui_resdir.as_string())
+
+            # icon and settings templates
+            modgui_icon  = world.find_nodes(modguigui.me, modgui.iconTemplate    .me, None).get_first()
+            modgui_setts = world.find_nodes(modguigui.me, modgui.settingsTemplate.me, None).get_first()
+
+            if modgui_icon.me is not None:
+                iconFile = lilv.lilv_uri_to_path(modgui_icon.as_string())
+                if os.path.exists(iconFile):
+                    with open(iconFile, 'r') as fd:
+                        gui['iconTemplate'] = fd.read()
+                del iconFile
+
+            if modgui_setts.me is not None:
+                settingsFile = lilv.lilv_uri_to_path(modgui_setts.as_string())
+                if os.path.exists(settingsFile):
+                    with open(settingsFile, 'r') as fd:
+                        gui['settingsTemplate'] = fd.read()
+                del settingsFile
+
+            # screenshot and thumbnail
+            modgui_scrn  = world.find_nodes(modguigui.me, modgui.screenshot.me, None).get_first()
+            modgui_thumb = world.find_nodes(modguigui.me, modgui.thumbnail .me, None).get_first()
+
+            if modgui_scrn.me is not None:
+                gui['screenshot'] = lilv.lilv_uri_to_path(modgui_scrn.as_string())
+
+            if modgui_thumb.me is not None:
+                gui['thumbnail' ] = lilv.lilv_uri_to_path(modgui_thumb.as_string())
+
+            # extra stuff, all optional
+            modgui_author = world.find_nodes(modguigui.me, modgui.author.me, None).get_first()
+            modgui_label  = world.find_nodes(modguigui.me, modgui.label .me, None).get_first()
+            modgui_model  = world.find_nodes(modguigui.me, modgui.model .me, None).get_first()
+            modgui_panel  = world.find_nodes(modguigui.me, modgui.panel .me, None).get_first()
+            modgui_color  = world.find_nodes(modguigui.me, modgui.color .me, None).get_first()
+            modgui_knob   = world.find_nodes(modguigui.me, modgui.knob  .me, None).get_first()
+
+            if modgui_author.me is not None:
+                gui['author'] = modgui_author.as_string()
+            if modgui_label.me is not None:
+                gui['label'] = modgui_label.as_string()
+            if modgui_model.me is not None:
+                gui['model'] = modgui_model.as_string()
+            if modgui_panel.me is not None:
+                gui['panel'] = modgui_panel.as_string()
+            if modgui_color.me is not None:
+                gui['color'] = modgui_color.as_string()
+            if modgui_knob.me is not None:
+                gui['knob'] = modgui_knob.as_string()
+
+    # --------------------------------------------------------------------------------------------------------
+    # ports
+
+    index = 0
+    ports = {
+        'audio':   { 'input': [], 'output': [] },
+        'control': { 'input': [], 'output': [] }
+    }
+
     # function for filling port info
     def fill_port_info(port):
         # port types
@@ -491,50 +566,6 @@ def get_plugin_info(world, plugin):
             "scalePoints": [],
         })
 
-    bundleuri = plugin.get_bundle_uri().as_string()
-    microver  = plugin.get_value(lv2core.microVersion).get_first()
-    minorver  = plugin.get_value(lv2core.minorVersion).get_first()
-    modguigui = plugin.get_value(modgui.gui).get_first()
-
-    if modguigui.me is not None:
-        modgui_resdir = world.find_nodes(modguigui.me, modgui.resourcesDirectory.me, None).get_first()
-        modgui_scrn   = world.find_nodes(modguigui.me, modgui.screenshot        .me, None).get_first()
-        modgui_thumb  = world.find_nodes(modguigui.me, modgui.thumbnail         .me, None).get_first()
-        modgui_icon   = world.find_nodes(modguigui.me, modgui.iconTemplate      .me, None).get_first()
-        modgui_setts  = world.find_nodes(modguigui.me, modgui.settingsTemplate  .me, None).get_first()
-        modgui_data   = world.find_nodes(modguigui.me, modgui.templateData      .me, None).get_first()
-
-        iconTemplate = ""
-        settingsTmpl = ""
-        templateData = {}
-
-        if modgui_icon.me:
-            iconFile = lilv.lilv_uri_to_path(modgui_icon.as_string())
-            if os.path.exists(iconFile):
-                with open(iconFile, 'r') as fd:
-                    iconTemplate = fd.read()
-            del iconFile
-
-        if modgui_setts.me:
-            settingsFile = lilv.lilv_uri_to_path(modgui_setts.as_string())
-            if os.path.exists(settingsFile):
-                with open(settingsFile, 'r') as fd:
-                    settingsTmpl = fd.read()
-            del settingsFile
-
-        if modgui_data.me:
-            templateFile = lilv.lilv_uri_to_path(modgui_data.as_string())
-            if os.path.exists(templateFile):
-                with open(templateFile, 'r') as fd:
-                    templateData = json.load(fd)
-            del templateFile
-
-    index = 0
-    ports = {
-        'audio':   { 'input': [], 'output': [] },
-        'control': { 'input': [], 'output': [] }
-    }
-
     for p in (plugin.get_port_by_index(i) for i in range(plugin.get_num_ports())):
         types, info = fill_port_info(p)
 
@@ -555,8 +586,11 @@ def get_plugin_info(world, plugin):
                 ports[typ] = { 'input': [], 'output': [] }
             ports[typ]["input" if isInput else "output"].append(info)
 
+    # --------------------------------------------------------------------------------------------------------
+    # done
+
     return {
-        'name': plugin.get_name().as_string(),
+        'name': plugin.get_name().as_string() or "",
         'uri' : plugin.get_uri().as_string(),
         'author': {
             'name'    : plugin.get_author_name().as_string() or "",
@@ -565,15 +599,7 @@ def get_plugin_info(world, plugin):
         },
 
         'ports': ports,
-
-        'gui': {
-            'resourcesDirectory': lilv.lilv_uri_to_path(modgui_resdir.as_string()) if modgui_resdir.me else "",
-            'screenshot'        : lilv.lilv_uri_to_path(modgui_scrn  .as_string()) if modgui_scrn  .me else "",
-            'thumbnail'         : lilv.lilv_uri_to_path(modgui_thumb .as_string()) if modgui_thumb .me else "",
-            'iconTemplate'      : iconTemplate,
-            'settingsTemplate'  : settingsTmpl,
-            'templateData'      : templateData,
-        } if modguigui.me is not None else {},
+        'gui'  : gui,
 
         'binary'  : lilv.lilv_uri_to_path(plugin.get_library_uri().as_string() or ""),
         'category': get_category(plugin.get_value(rdf.type_)),

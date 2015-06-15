@@ -168,6 +168,7 @@ class EffectSave(web.RequestHandler):
     def post(self):
         name    = self.get_argument('name')
         ttlText = self.get_argument('ttlText')
+        templateData = json.loads(self.get_argument('templateData'))
         iconTemplateData = self.get_argument('iconTemplateData')
         iconTemplateFile = self.get_argument('iconTemplateFile')
 
@@ -184,7 +185,7 @@ class EffectSave(web.RequestHandler):
             os.mkdir(basedir)
 
         with open(os.path.join(basedir, iconTemplateFile), 'w') as fd:
-            fd.write(iconTemplateData)
+            fd.write(pystache.render(iconTemplateData, templateData))
 
         self.set_header('Content-type', 'application/json')
         self.write(json.dumps(True))
@@ -399,7 +400,7 @@ class ConfigurationSet(web.RequestHandler):
         confdir = os.path.dirname(CONFIG_FILE)
         if not os.path.exists(confdir):
             os.mkdir(confdir)
-        config = json.loads(self.request.body)
+        config = json.loads(self.request.body.decode("utf-8", errors="ignore"))
         open(CONFIG_FILE, 'w').write(json.dumps(config))
         self.set_header('Content-type', 'application/json')
         self.write(json.dumps(True))

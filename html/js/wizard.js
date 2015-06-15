@@ -25,6 +25,7 @@ JqueryClass('wizard', {
         self.data('model', model_list[0])
         self.data('color', null)
         self.data('panel', null)
+        self.data('knob', null)
         self.data('label', 'Label here')
         self.data('author', 'brand')
     },
@@ -36,13 +37,16 @@ JqueryClass('wizard', {
         self.data('effect', effect)
         self.data('label', effect.name)
 
-        if (effect.gui.templateData) {
-            var data = effect.gui.templateData
-            if (data.label)
-                self.data('label', data.label)
-            if (data.author)
-                self.data('author', data.author)
-        }
+        if (effect.gui.model)
+            self.data('model', effect.gui.model)
+        if (effect.gui.color)
+            self.data('color', effect.gui.color)
+        if (effect.gui.panel)
+            self.data('panel', effect.gui.panel)
+        if (effect.gui.knob)
+            self.data('knob', effect.gui.knob)
+        if (effect.gui.author)
+            self.data('author', effect.gui.author)
 
         self.show()
         self.wizard('step', 0)
@@ -260,21 +264,23 @@ JqueryClass('wizard', {
         var self  = $(this)
         var color = self.data('color')
         var knob  = self.data('knob')
+        var model = self.data('model')
+        var panel = self.data('panel')
 
         var controls = self.data('controls')
         var effect   = self.data('effect')
 
         if (!controls) {
             var db = self.data('model_index')
-            var model = self.data('model')
-            var panel = self.data('panel')
-            controls  = effect.ports.control.input.slice(0, db[model].panels[panel])
+            controls = effect.ports.control.input.slice(0, db[model].panels[panel])
         }
 
         var data = {
             effect  : $.extend({ gui: null }, effect),
             label   : self.data('label'),
             author  : self.data('author'),
+            model   : model,
+            panel   : panel,
             controls: []
         }
 
@@ -285,11 +291,8 @@ JqueryClass('wizard', {
 
         for (var i in controls) {
             var control = controls[i]
-            if (control.ranges.default === undefined)
-                continue
-
             data.controls.push({
-                name:   control.name,
+                name  : control.name,
                 symbol: control.symbol
             })
         }
@@ -384,10 +387,20 @@ JqueryClass('wizard', {
         ttlText += '        a modgui:Gui ;\n'
         ttlText += '        modgui:resourcesDirectory <modgui> ;\n'
         ttlText += '        modgui:iconTemplate <modgui/icon-'+slug+'.html> ;\n'
+        //ttlText += '        modgui:settingsTemplate <modgui/settings-'+slug+'.html> ;\n'
         ttlText += '        modgui:screenshot <modgui/screenshot-'+slug+'.png> ;\n'
         ttlText += '        modgui:thumbnail <modgui/thumbnail-'+slug+'.png> ;\n'
         ttlText += '        modgui:author "'+templateData.author+'" ;\n'
         ttlText += '        modgui:label "'+templateData.label+'" ;\n'
+        ttlText += '        modgui:model "'+templateData.model+'" ;\n'
+        ttlText += '        modgui:panel "'+templateData.panel+'" ;\n'
+
+        if (templateData.color)
+            ttlText += '        modgui:color "'+templateData.color+'" ;\n'
+
+        if (templateData.knob)
+            ttlText += '        modgui:knob "'+templateData.knob+'" ;\n'
+
         ttlText += '    ] .\n'
         ttlText += '\n'
 
@@ -401,6 +414,7 @@ JqueryClass('wizard', {
             data: {
                 name: effect.name,
                 ttlText: ttlText,
+                templateData: JSON.stringify(templateData),
                 iconTemplateData: self.wizard('getIconTemplate'),
                 iconTemplateFile: 'icon-'+slug+'.html',
             },
