@@ -22,46 +22,47 @@ function loadDependencies(gui, effect, callback) { //source, effect, bundle, cal
     var jsLoaded = true
 
     var cb = function() {
-	if (cssLoaded && jsLoaded) {
-	    setTimeout(callback, 0)
-	}
+        if (cssLoaded && jsLoaded) {
+            setTimeout(callback, 0)
+        }
     }
 
     var baseUrl = ''
     if (effect.source) {
-	baseUrl += source
-	baseUrl.replace(/\/?$/, '')
+        baseUrl += source
+        baseUrl.replace(/\/?$/, '')
     }
 
     if (effect.gui.stylesheet && !loadedCSSs[effect.uri]) {
-	cssLoaded = false
-	var cssUrl = baseUrl + '/effect/stylesheet.css?uri='+escape(effect.uri)
-	$.get(cssUrl, function(data) {
-	    $('<style type="text/css">').text(data).appendTo($('head'))
-	    loadedCSSs[effect.uri] = true
-	    cssLoaded = true
-	    cb()
-	})
+        cssLoaded = false
+        var cssUrl = baseUrl + '/effect/stylesheet.css?uri='+escape(effect.uri)
+        $.get(cssUrl, function(data) {
+            $('<style type="text/css">').text(data).appendTo($('head'))
+            loadedCSSs[effect.uri] = true
+            cssLoaded = true
+            cb()
+        })
     }
 
     if (effect.gui.javascript) {
-	if (loadedJSs[effect.uri]) {
-	    gui.jsCallback = loadedJSs[effect.uri]
-	} else {
-	    jsLoaded = false
-	    var jsUrl = baseUrl + '/effect/gui.js?uri='+escape(effect.uri)
-	    $.ajax({ url: jsUrl,
-		     success: function(code) {
-			 var method;
-			 eval('method = ' + code)
-			 loadedJSs[effect.uri] = method
-			 gui.jsCallback = method
-			 jsLoaded = true
-			 cb()
-		     },
-		     cache: false,
-		   })
-	}
+        if (loadedJSs[effect.uri]) {
+            gui.jsCallback = loadedJSs[effect.uri]
+        } else {
+            jsLoaded = false
+            var jsUrl = baseUrl + '/effect/gui.js?uri='+escape(effect.uri)
+            $.ajax({
+                url: jsUrl,
+                success: function(code) {
+                    var method;
+                    eval('method = ' + code)
+                    loadedJSs[effect.uri] = method
+                    gui.jsCallback = method
+                    jsLoaded = true
+                    cb()
+                },
+                cache: false,
+            })
+        }
     }
 
     cb()
@@ -466,47 +467,11 @@ function GUI(effect, options) {
     }
 
     this.getTemplateData = function(options) {
-        var i, port, control, symbol
-        var data = $.extend({}, options.gui.templateData)
-        data.effect = options
-        data.ns     = '?uri=' + escape(options.uri)
-        if (!data.controls)
-            return data
-        var controlData = {}
-        for (i in options.ports.control.input) {
-            port = options.ports.control.input[i]
-            /*
-
-            // lv2core
-            port.connectionOptional   = port.properties.indexOf("connectionOptional") >= 0
-            port.enumeration          = port.properties.indexOf("enumeration") >= 0
-            port.integer              = port.properties.indexOf("integer") >= 0
-            port.isSideChain          = port.properties.indexOf("isSideChain") >= 0
-            port.reportsLatency       = port.properties.indexOf("reportsLatency") >= 0
-            port.sampleRate           = port.properties.indexOf("sampleRate") >= 0
-            port.toggled              = port.properties.indexOf("toggled") >= 0
-            // port props
-            port.causesArtifacts      = port.properties.indexOf("causesArtifacts") >= 0
-            port.continuousCV         = port.properties.indexOf("continuousCV") >= 0
-            port.discreteCV           = port.properties.indexOf("discreteCV") >= 0
-            port.expensive            = port.properties.indexOf("expensive") >= 0
-            port.hasStrictBounds      = port.properties.indexOf("hasStrictBounds") >= 0
-            port.logarithmic          = port.properties.indexOf("logarithmic") >= 0
-            port.notAutomatic         = port.properties.indexOf("notAutomatic") >= 0
-            port.notOnGUI             = port.properties.indexOf("notOnGUI") >= 0
-            port.supportsStrictBounds = port.properties.indexOf("supportsStrictBounds") >= 0
-            port.trigger              = port.properties.indexOf("trigger") >= 0
-
-            // TODO - needs scalePoints in lilvlib.py
-            port.enumeration = false
-            */
-
-            controlData[port.symbol] = port
-        }
-        for (var i in data.controls) {
-            control = data.controls[i]
-            data.controls[i] = $.extend({}, controlData[control.symbol], control)
-        }
+        var port, control
+        var data = $.extend({}, options.gui)
+        data.controls = options.gui.ports || {}
+        data.effect   = options
+        data.ns       = '?uri=' + escape(options.uri)
         DEBUG = JSON.stringify(data, undefined, 4)
         return data
     }
