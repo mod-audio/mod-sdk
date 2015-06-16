@@ -116,8 +116,9 @@ class EffectImage(web.RequestHandler):
         if not os.path.exists(path):
             raise web.HTTPError(404)
 
-        self.set_header('Content-type', 'image/png')
-        self.write(open(path, 'rb').read())
+        with open(path, 'rb') as fd:
+            self.set_header('Content-type', 'image/png')
+            self.write(fd.read())
 
 class EffectStylesheet(web.RequestHandler):
     def get(self):
@@ -137,11 +138,12 @@ class EffectStylesheet(web.RequestHandler):
         if not os.path.exists(path):
             raise web.HTTPError(404)
 
-        content = open(path, 'rb').read()
-        context = { 'ns': '?uri=%s' % data['uri'] }
+        with open(path, 'rb') as fd:
+            content = fd.read()
+            context = { 'ns': '?uri=%s' % data['uri'] }
 
-        self.set_header('Content-type', 'text/css')
-        self.write(pystache.render(content, context))
+            self.set_header('Content-type', 'text/css')
+            self.write(pystache.render(content, context))
 
 class EffectJavascript(web.RequestHandler):
     def get(self):
@@ -161,8 +163,9 @@ class EffectJavascript(web.RequestHandler):
         if not os.path.exists(path):
             raise web.HTTPError(404)
 
-        self.set_header('Content-type', 'text/javascript')
-        self.write(open(path, 'rb').read())
+        with open(path, 'rb') as fd:
+            self.set_header('Content-type', 'text/javascript')
+            self.write(fd.read())
 
 class EffectSave(web.RequestHandler):
     def post(self):

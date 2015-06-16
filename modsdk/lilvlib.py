@@ -464,6 +464,26 @@ def get_plugin_info(world, plugin):
                         gui['settingsTemplate'] = fd.read()
                 del settingsFile
 
+            # javascript and stylesheet files
+            modgui_script = world.find_nodes(modguigui.me, modgui.javascript.me, None).get_first()
+            modgui_style  = world.find_nodes(modguigui.me, modgui.stylesheet.me, None).get_first()
+
+            if modgui_script.me is not None:
+                javascriptFile = lilv.lilv_uri_to_path(modgui_script.as_string())
+                gui['javascript'] = javascriptFile
+                #if os.path.exists(javascriptFile):
+                    #with open(javascriptFile, 'r') as fd:
+                        #gui['javascript'] = fd.read()
+                del javascriptFile
+
+            if modgui_style.me is not None:
+                stylesheetFile = lilv.lilv_uri_to_path(modgui_style.as_string())
+                gui['stylesheet'] = stylesheetFile
+                #if os.path.exists(stylesheetFile):
+                    #with open(stylesheetFile, 'r') as fd:
+                        #gui['stylesheet'] = fd.read()
+                del stylesheetFile
+
             # template data for backwards compatibility
             # FIXME remove later once we got rid of all templateData files
             modgui_templ = world.find_nodes(modguigui.me, modgui.templateData.me, None).get_first()
