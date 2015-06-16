@@ -560,16 +560,16 @@ def get_plugin_info(world, plugin):
                 if port is None:
                     break
                 port_indx = world.find_nodes(port, lv2core.index .me, None).get_first()
-                port_name = world.find_nodes(port, lv2core.name  .me, None).get_first()
                 port_symb = world.find_nodes(port, lv2core.symbol.me, None).get_first()
+                port_name = world.find_nodes(port, doap.shortname.me, None).get_first()
 
                 if None in (port_indx.me, port_name.me, port_symb.me):
                     continue
 
                 ports.append({
                     'index' : port_indx.as_int(),
-                    'name'  : port_name.as_string(),
                     'symbol': port_symb.as_string(),
+                    'name'  : port_name.as_string(),
                 })
 
             # sort ports

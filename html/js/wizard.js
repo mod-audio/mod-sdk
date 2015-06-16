@@ -59,7 +59,7 @@ JqueryClass('wizard', {
             self.data('knob', effect.gui.knob)
         if (effect.gui.author)
             self.data('author', effect.gui.author)
-        else if (effect.author.name)
+        else if (effect.author && effect.author.name)
             self.data('author', effect.author.name)
 
         if (effect.gui.label)
@@ -417,6 +417,7 @@ JqueryClass('wizard', {
         //var settingsTemplate = Mustache.render(defaultSettingsTemplate, templateData)
 
         var ttlText = ''
+        ttlText += '@prefix doap: <http://usefulinc.com/ns/doap#> .\n'
         ttlText += '@prefix modgui: <http://portalmod.com/ns/modgui#> .\n'
         ttlText += '@prefix lv2:    <http://lv2plug.in/ns/lv2core#> .\n'
         ttlText += '@prefix ui:     <http://lv2plug.in/ns/extensions/ui#> .\n'
@@ -452,8 +453,8 @@ JqueryClass('wizard', {
                 ttlText += '        modgui:port [\n'
 
             ttlText += '            lv2:index '+i+' ;\n'
-            ttlText += '            lv2:name "'+control.name+'" ;\n'
             ttlText += '            lv2:symbol "'+control.symbol+'" ;\n'
+            ttlText += '            doap:shortname "'+control.name+'" ;\n'
 
             if (i+1 == numControls)
                 ttlText += '        ] ;\n'
