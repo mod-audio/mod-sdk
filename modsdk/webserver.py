@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import os, lilv, json, random, subprocess, re, base64, shutil, time, pystache
+import os, lilv, json, random, subprocess, re, shutil, time, pystache
+
+from base64 import b64encode
 from hashlib import sha1
 from PIL import Image
 
@@ -25,49 +27,56 @@ def get_config(key, default=None):
     except:
         return default
 
+def refresh_world():
+    bundles        = []
+    plugins        = {}
+    bundle_plugins = {}
+
+    world = lilv.World()
+    world.load_all()
+
+    for p in world.get_all_plugins():
+        info   = get_plugin_info(world, p)
+        bnodes = lilv.lilv_plugin_get_data_uris(p.me)
+
+        it = lilv.lilv_nodes_begin(bnodes)
+        while not lilv.lilv_nodes_is_end(bnodes, it):
+            bundle = lilv.lilv_nodes_get(bnodes, it)
+            it     = lilv.lilv_nodes_next(bnodes, it)
+
+            if bundle is None:
+                continue
+            if not lilv.lilv_node_is_uri(bundle):
+                continue
+
+            bundle = os.path.dirname(lilv.lilv_uri_to_path(lilv.lilv_node_as_uri(bundle)))
+
+            if not bundle.endswith(os.sep):
+                bundle += os.sep
+
+            if bundle not in bundles:
+                bundles.append(bundle)
+                bundle_plugins[bundle] = []
+
+            for info2 in bundle_plugins[bundle]:
+                if info2['uri'] == info['uri']:
+                    break
+            else:
+                bundle_plugins[bundle].append(info)
+
+        plugins[info['uri']] = info
+
+    del world
+
+    global cached_plugins, cached_bundle_plugins
+    cached_plugins        = plugins
+    cached_bundle_plugins = bundle_plugins
+
+    return bundles
+
 class BundleList(web.RequestHandler):
     def get(self):
-        bundles = []
-
-        world = lilv.World()
-        world.load_all()
-
-        global cached_plugins, cached_bundle_plugins
-        cached_plugins        = {}
-        cached_bundle_plugins = {}
-
-        for p in world.get_all_plugins():
-            info   = get_plugin_info(world, p)
-            bnodes = lilv.lilv_plugin_get_data_uris(p.me)
-
-            it = lilv.lilv_nodes_begin(bnodes)
-            while not lilv.lilv_nodes_is_end(bnodes, it):
-                bundle = lilv.lilv_nodes_get(bnodes, it)
-                it     = lilv.lilv_nodes_next(bnodes, it)
-
-                if bundle is None:
-                    continue
-                if not lilv.lilv_node_is_uri(bundle):
-                    continue
-
-                bundle = os.path.dirname(lilv.lilv_uri_to_path(lilv.lilv_node_as_uri(bundle)))
-
-                if not bundle.endswith(os.sep):
-                    bundle += os.sep
-
-                if bundle not in bundles:
-                    bundles.append(bundle)
-                    cached_bundle_plugins[bundle] = []
-
-                for info2 in cached_bundle_plugins[bundle]:
-                    if info2['uri'] == info['uri']:
-                        break
-                else:
-                    cached_bundle_plugins[bundle].append(info)
-
-            cached_plugins[info['uri']] = info
-
-        del world
+        bundles = refresh_world()
 
         self.set_header('Content-type', 'application/json')
         self.write(json.dumps(bundles))
@@ -208,6 +217,8 @@ class EffectSave(web.RequestHandler):
         for f in filesToCopy:
             print("Needs to copy: %s" % f)
 
+        refresh_world()
+
         self.set_header('Content-type', 'application/json')
         self.write(json.dumps(True))
 
@@ -230,10 +241,15 @@ class Index(web.RequestHandler):
 class Screenshot(web.RequestHandler):
     @web.asynchronous
     def get(self):
-        self.bundle = self.get_argument('bundle')
-        self.effect = self.get_argument('effect')
-        self.width = self.get_argument('width')
+        self.uri    = self.get_argument('uri')
+        self.width  = self.get_argument('width')
         self.height = self.get_argument('height')
+
+        try:
+            global cached_plugins
+            self.data = cached_plugins[self.uri]
+        except:
+            raise web.HTTPError(404)
 
         self.make_screenshot()
 
@@ -245,18 +261,18 @@ class Screenshot(web.RequestHandler):
         fname = self.tmp_filename()
         proc = subprocess.Popen([ PHANTOM_BINARY,
                                   SCREENSHOT_SCRIPT,
-                                  'http://localhost:%d/icon.html#%s,%s' % (PORT, self.bundle, self.effect),
+                                  'http://localhost:%d/icon.html#%s' % (PORT, self.uri),
                                   fname,
                                   self.width,
                                   self.height,
-                                  ],
-                                stdout=subprocess.PIPE)
+                                 ],
+                                 stdout=subprocess.PIPE)
 
         def proc_callback(fileno, event):
             if proc.poll() is None:
                 return
             loop.remove_handler(fileno)
-            fh = open(fname)
+            fh = open(fname, 'rb')
             os.remove(fname)
             self.handle_image(fh)
 
@@ -272,9 +288,9 @@ class Screenshot(web.RequestHandler):
 
         result = {
             'ok': True,
-            'screenshot': base64.b64encode(screenshot_data),
-            'thumbnail': base64.b64encode(thumb_data),
-            }
+            'screenshot': b64encode(screenshot_data).decode("utf-8", errors="ignore"),
+            'thumbnail': b64encode(thumb_data).decode("utf-8", errors="ignore"),
+        }
 
         self.set_header('Content-type', 'application/json')
         self.write(json.dumps(result))
@@ -293,30 +309,27 @@ class Screenshot(web.RequestHandler):
         img.thumbnail((width, height), Image.ANTIALIAS)
         fname = self.tmp_filename()
         img.save(fname)
-        fh = open(fname)
+        fh = open(fname, 'rb')
         os.remove(fname)
         return fh
 
-    def save_icon(self, screenshot_data, thumb_data):
-        #try:
-            #data = get_bundle_data(WORKSPACE, self.bundle)
-        #except IOError:
+    def save_icon(self, screenshot_data, thumbnail_data):
+        try:
+            basedir = self.data['gui']['resourcesDirectory']
+        except:
             raise web.HTTPError(404)
 
-        #effect = data['plugins'][self.effect]
+        if not os.path.exists(basedir):
+            raise web.HTTPError(404)
 
-        #try:
-            #basedir = effect['gui']['resourcesDirectory']
-        #except:
-            #basedir = os.path.join(WORKSPACE, self.bundle, 'modgui')
-        #if not os.path.exists(basedir):
-            #os.mkdir(basedir)
+        screenshot_path = self.data['gui']['screenshot']
+        thumbnail_path  = self.data['gui']['thumbnail']
 
-        #screenshot_path = effect['gui']['screenshot']
-        #thumb_path = effect['gui']['thumbnail']
+        with open(screenshot_path, 'wb') as fd:
+            fd.write(screenshot_data)
 
-        #open(screenshot_path, 'w').write(screenshot_data)
-        #open(thumb_path, 'w').write(thumb_data)
+        with open(thumbnail_path, 'wb') as fd:
+            fd.write(thumbnail_data)
 
 class BundlePost(web.RequestHandler):
     @web.asynchronous
@@ -482,7 +495,7 @@ def make_application(port=PORT, output_log=True):
     application = web.Application([
             (r"/bundles", BundleList),
             (r"/effects", EffectList),
-            (r"/effect/get", EffectGet),
+            (r"/effect/get/", EffectGet),
             (r"/effect/image/(screenshot|thumbnail).png", EffectImage),
             (r"/effect/stylesheet.css", EffectStylesheet),
             (r"/effect/gui.js", EffectJavascript),

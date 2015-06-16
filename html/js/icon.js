@@ -4,9 +4,9 @@ $(document).ready(function() {
     if (uri) {
         $.ajax({
             url: '/effect/get/',
-            data: { url: uri },
-            success: function(effect) {
-                new GUI(effect).render(function(icon) {
+            data: { uri: uri },
+            success: function(resp) {
+                new GUI(resp.data, null).render(function(icon) {
                     $('#pedalboard-dashboard').append(icon)
                 })
             },

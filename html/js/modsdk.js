@@ -41,17 +41,14 @@ $(document).ready(function() {
     })
     $('#screenshot').click(function() {
         var iconImg = $('<img>')
-        var param = {
-            bundle: bundles.val(),
-            effect: effects.val(),
-            width: renderedIcon.width(),
-            height: renderedIcon.height(),
-            slug: slug()
-        }
         screenshotCanvas.find('img').remove()
         $.ajax({
             url: '/screenshot',
-            data: param,
+            data: {
+                uri   : effects.val(),
+                width : renderedIcon.width(),
+                height: renderedIcon.height()
+            },
             success: function(result) {
                 if (result.ok) {
                     $('<img class="thumb">').appendTo(screenshotCanvas).attr('src', 'data:image/png;base64,'+result.thumbnail)

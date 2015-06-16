@@ -554,9 +554,9 @@ JqueryClass('wizard', {
     },
 
     generate_thumbnail: function() {
-        var self = $(this)
+        var self   = $(this)
         var effect = self.data('effect')
-        var icon = $(self.find('.wizard-icon').children()[0])
+        var icon   = $(self.find('.wizard-icon').children()[0])
 
         var canvas = self.find('#wizard-thumbnail')
         canvas.html('')
@@ -564,11 +564,9 @@ JqueryClass('wizard', {
         $.ajax({
             url: '/screenshot',
             data: {
-                bundle: effect.bundle,
-                effect: effect.uri,
-                width: icon.width(),
+                uri   : effect.uri,
+                width : icon.width(),
                 height: icon.height(),
-                slug: self.wizard('slug')
             },
             success: function(result) {
                 if (result.ok) {
