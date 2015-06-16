@@ -417,7 +417,7 @@ JqueryClass('wizard', {
         //var settingsTemplate = Mustache.render(defaultSettingsTemplate, templateData)
 
         var ttlText = ''
-        ttlText += '@prefix doap: <http://usefulinc.com/ns/doap#> .\n'
+        ttlText += '@prefix doap:   <http://usefulinc.com/ns/doap#> .\n'
         ttlText += '@prefix modgui: <http://portalmod.com/ns/modgui#> .\n'
         ttlText += '@prefix lv2:    <http://lv2plug.in/ns/lv2core#> .\n'
         ttlText += '@prefix ui:     <http://lv2plug.in/ns/extensions/ui#> .\n'
