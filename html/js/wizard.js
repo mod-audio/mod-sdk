@@ -328,6 +328,8 @@ JqueryClass('wizard', {
 
         for (var i in controls) {
             var control = controls[i]
+            if (!control)
+                continue
             data.controls.push({
                 name  : control.name,
                 symbol: control.symbol
@@ -375,19 +377,35 @@ JqueryClass('wizard', {
             $('<option>').val(control.symbol).html(control.name).appendTo(select)
         }
 
-        var factory = function(sel, i) {
+        var factoryNam = function(nam, i) {
             return function() {
-                controls[i] = controlIndex[sel.val()]
+                console.log("name changed from '" + controls[i].name +"' to '"+ nam.val())
+                controls[i].name = nam.val()
                 self.wizard('render')
             }
         }
-        var sel
+        var factorySel = function(sel, nam, i) {
+            return function() {
+                controls[i] = controlIndex[sel.val()]
+                nam.val(controls[i] ? controls[i].name : "")
+                self.wizard('render')
+            }
+        }
+
+        var sel, nam, symbol
         $('#pedal-buttons').html('')
         for (var i=0; i<max && i < controls.length; i++) {
+            symbol = controls[i].symbol
+
+            nam = $('<input name="'+symbol+'" type="text">')
+            nam.val(controls[i].name)
+            nam.keyup(factoryNam(nam, i))
+
             sel = select.clone()
-            sel.val(controls[i].symbol || controls[i])
-            sel.change(factory(sel, i))
-            $('#pedal-buttons').append(sel)
+            sel.val(symbol)
+            sel.change(factorySel(sel, nam, i))
+
+            $('#pedal-buttons').append(sel).append(nam)
         }
 
         labelInput.keyup(function() {
