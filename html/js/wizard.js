@@ -59,6 +59,8 @@ JqueryClass('wizard', {
             self.data('knob', effect.gui.knob)
         if (effect.gui.author)
             self.data('author', effect.gui.author)
+        else if (effect.author.name)
+            self.data('author', effect.author.name)
 
         if (effect.gui.label)
             self.data('label', effect.gui.label)
@@ -290,9 +292,24 @@ JqueryClass('wizard', {
         var controls = self.data('controls')
         var effect   = self.data('effect')
 
+        var controlsWasNull = false
+
         if (!controls) {
-            var db = self.data('model_index')
-            controls = effect.ports.control.input.slice(0, db[model].panels[panel])
+            var db    = self.data('model_index')
+            var limit = db[model].panels[panel]
+
+            controls = []
+            controlsWasNull = true
+
+            for (var i in effect.ports.control.input)
+            {
+                port = effect.ports.control.input[i]
+                if (shouldSkipPort(port))
+                    continue
+                controls.push(port)
+                if (controls.length == limit)
+                    break
+            }
         }
 
         var data = {
@@ -317,22 +334,25 @@ JqueryClass('wizard', {
             })
         }
 
+        if (controlsWasNull)
+            self.data('controls', data.controls)
+
         return data
     },
 
     configure: function() {
-        var self = $(this)
-        var effect = self.data('effect')
-        var label = self.data('label')
-        var author = self.data('author')
-        var panel = self.data('panel')
+        var self     = $(this)
+        var effect   = self.data('effect')
+        var label    = self.data('label')
+        var author   = self.data('author')
+        var panel    = self.data('panel')
         var controls = self.data('controls')
-        var db = self.data('model_index')
+        var db       = self.data('model_index')
 
-        if (!controls) {
+        /*if (!controls) {
             controls = effect.ports.control.input.slice(0, db[self.data('model')].panels[panel])
             self.data('controls', controls)
-        }
+        }*/
 
         var max = self.data('model_index')[self.data('model')]['panels'][panel]
 
@@ -349,6 +369,8 @@ JqueryClass('wizard', {
         var controlIndex = {}
         for (var i in controlPorts) {
             control = controlPorts[i]
+            if (shouldSkipPort(control))
+                continue
             controlIndex[control.symbol] = control
             $('<option>').val(control.symbol).html(control.name).appendTo(select)
         }

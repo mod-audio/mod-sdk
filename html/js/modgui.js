@@ -15,6 +15,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+
+function shouldSkipPort(port) {
+    // skip notOnGUI controls
+    if (port.properties.indexOf("notOnGUI") >= 0)
+        return true
+    // skip special designated controls
+    if (port.designation == "http://lv2plug.in/ns/lv2core#freeWheeling")
+        return true
+    if (port.designation == "http://lv2plug.in/ns/lv2core#latency")
+        return true
+    if (port.designation == "http://lv2plug.in/ns/ext/parameters#sampleRate")
+        return true
+    // what else?
+    return false;
+}
+
 var loadedCSSs = {}
 var loadedJSs = {}
 function loadDependencies(gui, effect, callback) { //source, effect, bundle, callback) {
@@ -467,8 +483,7 @@ function GUI(effect, options) {
     }
 
     this.getTemplateData = function(options) {
-        var port, control
-        var data = $.extend({}, options.gui.templateData)
+        var data    = $.extend({}, options.gui.templateData)
         data.effect = options
         data.ns     = '?uri=' + escape(options.uri)
 
@@ -487,6 +502,20 @@ function GUI(effect, options) {
             data.panel = effect.gui.panel
         if (!data.controls)
             data.controls = options.gui.ports || {}
+
+        // don't show some special ports
+        if (data.effect.ports.control.input)
+        {
+            inputs = []
+            for (var i in data.effect.ports.control.input)
+            {
+                var port = data.effect.ports.control.input[i]
+                if (shouldSkipPort(port))
+                    continue
+                inputs.push(port)
+            }
+            data.effect.ports.control.input = inputs
+        }
 
         DEBUG = JSON.stringify(data, undefined, 4)
         return data
