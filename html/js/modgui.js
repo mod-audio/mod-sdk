@@ -468,10 +468,26 @@ function GUI(effect, options) {
 
     this.getTemplateData = function(options) {
         var port, control
-        var data = $.extend({}, options.gui)
-        data.controls = options.gui.ports || {}
-        data.effect   = options
-        data.ns       = '?uri=' + escape(options.uri)
+        var data = $.extend({}, options.gui.templateData)
+        data.effect = options
+        data.ns     = '?uri=' + escape(options.uri)
+
+        // fill fields that might be present on modgui data
+        if (!data.author)
+            data.author = effect.gui.author || ""
+        if (!data.label)
+            data.label = effect.gui.label || ""
+        if (!data.color)
+            data.color = effect.gui.color
+        if (!data.knob)
+            data.knob = effect.gui.knob
+        if (!data.model)
+            data.model = effect.gui.model
+        if (!data.panel)
+            data.panel = effect.gui.panel
+        if (!data.controls)
+            data.controls = options.gui.ports || {}
+
         DEBUG = JSON.stringify(data, undefined, 4)
         return data
     }

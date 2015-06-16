@@ -2,7 +2,18 @@ var wizard_db // populated in index.html
 $(document).ready(function() {
     var wizard = $('#wizard-window')
     wizard.wizard(wizard_db)
-    $('#wizard').click(function() { wizard.wizard('open') })
+
+    $('#wizard').click(function() {
+        /*var effect = effects.find('option:selected').data()
+
+        if (effect.gui && (effect.gui.javascript || effect.gui.stylesheet))
+        {
+            alert("This modgui has been hand-customized and cannot be changed")
+            return
+        }*/
+
+        wizard.wizard('open')
+    })
 })
 
 JqueryClass('wizard', {
@@ -26,8 +37,9 @@ JqueryClass('wizard', {
         self.data('color', null)
         self.data('panel', null)
         self.data('knob', null)
-        self.data('label', 'Label here')
         self.data('author', 'brand')
+        self.data('label', 'Label here')
+        self.data('controls', null)
     },
 
     open: function() {
@@ -434,6 +446,7 @@ JqueryClass('wizard', {
 
         filesToCopy = []
 
+        /*
         if (model == "combo-model-001")
         {
             filesToCopy.push('combos/model-001/model-001.css')
@@ -474,6 +487,7 @@ JqueryClass('wizard', {
         else if (model == "boxy")
         {
         }
+        */
 
         $.ajax({
             url: '/effect/save',
