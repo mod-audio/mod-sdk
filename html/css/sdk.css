@@ -74,7 +74,7 @@ ul#menu li.selected {
     display: inline;
     font-size: 18px;
     font-weight: bold;
-    margin-left: 10px;    
+    margin-left: 10px;
 }
 
 #settings {
@@ -168,7 +168,7 @@ ul#menu li.selected {
 
 /* Wizard - basic layout */
 
-#wizard-window .box { 
+#wizard-window .box {
     height: 605px;
     margin-left: -540px;
     top: 200px;

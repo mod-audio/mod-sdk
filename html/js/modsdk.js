@@ -14,8 +14,6 @@ $(document).ready(function() {
     settingsCanvas = $('#content-settings .canvas')
     publishWindow = $('#content-publish')
 
-    //infoPorts = $('#info_ports')
-
     $.ajax({
         url: '/config/get',
         success: function(config) {
@@ -223,9 +221,94 @@ function showEffect() {
         return
     }
 
-    //$('#info_shortname').val(options.name)
-    //$('#info_shortbrand').val(options.author.name)
-    //$('#info_hwname').val(options.name)
+    var errors   = []
+    var warnings = []
+
+    errn = function(msg){
+        errors.push(msg)
+        return '<i>missing</i> ('+errors.length+')'
+    }
+    warnn = function(repl, msg){
+        warnings.push(msg)
+        return '<i>'+(repl || 'missing')+'</i> ['+warnings.length+']'
+    }
+
+    // name
+    if (!options.name)
+        $('#info-name-full').html(errn('missing name'))
+    else
+        $('#info-name-full').html(options.name)
+
+    // author
+    if (!options.author)
+        $('#info-author-full').html(errn('missing author information'))
+    else if (!options.author.name)
+        $('#info-author-full').html(errn('missing author name'))
+    else
+        $('#info-author-full').html(options.author.name)
+
+    // version
+    if ((options.minorVersion == 0 && options.microVersion == 0) || options.minorVersion === undefined || options.microVersion === undefined)
+        $('#info-version').html(errn('missing version information'))
+    else
+        $('#info-version').html(''+options.minorVersion+'.'+options.microVersion)
+
+    // license
+    if (!options.license)
+        $('#info-license').html(errn('missing license'))
+    else
+        $('#info-license').html(options.license)
+
+    // description
+    if (!options.description)
+        $('#info-description').html(errn('missing description'))
+    else
+        $('#info-description').html(options.description)
+
+    // plugin shortname
+    if (!options.shortname)
+        $('#info-name-short').html(warnn(options.name, 'plugin shortname is not defined, will use full name instead'))
+    else
+        $('#info-name-short').html(options.shortname)
+
+    // author shortname
+    if (!options.author.shortname)
+        $('#info-author-short').html(warnn(options.author.name, 'plugin author shortname is not defined, will use full name instead'))
+    else
+        $('#info-author-short').html(options.author.shortname)
+
+    if (errors.length || warnings.length)
+    {
+        if (errors.length) {
+            errorstr = '<p><b>Errors:</b></p><ol>'
+            for (var i in errors)
+                errorstr += '<li>' + errors[i] + '</li>'
+            errorstr += '</ol>'
+            errors = errorstr
+            delete errorstr
+        } else {
+            errors = ''
+        }
+
+        if (warnings.length) {
+            warningstr = '<p><b>Warnings:</b></p><ol>'
+            for (var i in warnings)
+                warningstr += '<li>' + warnings[i] + '</li>'
+            warningstr += '</ol>'
+            warnings = warningstr
+            delete warningstr
+        } else {
+            warnings = ''
+        }
+    }
+    else
+    {
+        errors = ''
+        warnings = '<p>Congratulations, your plugin passes all basic tests without warnings!</p>'
+    }
+
+    $('#info-errors').html(errors)
+    $('#info-warnings').html(warnings)
 
 //     portsHtml = infoPorts.html('')
 //     for (var i in options.ports.control.input) {

@@ -87,7 +87,7 @@
                 <li id="tab-icon">Icon</li>
                 <li id="tab-screenshot">Icon Screenshot</li>
                 <li id="tab-settings">Settings</li>
-                <li id="tab-info">Presentation</li>
+                <li id="tab-info">Information</li>
                 <li id="tab-publish">Publish</li>
             </ul>
 
@@ -133,28 +133,52 @@
                       to make sure the experience on MOD is the best possible.</p>
                 </div>-->
                 <div class="controls clearfix">
-                    <label>Plugin stuff</label>
-                    <table>
+                    <label><b>Plugin Data</b></label>
+                    <table border="0">
                     <tr>
-                        <td>Name (full):</td><td><span id="info-name-full" type="text"/></td>
-                        <td>Author (full):</td><td><span id="info-author-full" type="text"/></td>
-                    </tr><tr>
-                        <td>Name (short):</td><td><input id="info-name-short" type="text"/></td>
-                        <td>Author (short):</td><td><input id="info-author-short" type="text"/></td>
-                    </tr><tr>
-                        <td>Version:</td><td><input id="info-version" type="text"/></td>
-                        <td></td><td></td>
-                    </tr><tr>
-                        <td>License:</td><td><input id="info-version" type="text"/></td>
-                        <td></td><td></td>
-                    </tr><tr>
-                        <td>StompBox Capable?:</td><td><input id="info-version" type="text"/></td>
-                        <td></td><td></td>
-                    </tr><tr>
-                        <td>Description:</td><td colspan="3"><input id="info-version" type="text"/></td>
-<!--                         <td></td> -->
+                        <td width="20%"></td><td width="1%"></td>
+                        <td width="20%"></td><td width="1%"></td>
+
+                        <td width="20%"></td><td width="1%"></td>
+                        <td width="20%"></td><td width="17%"></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;vertical-align:top">Name (full):</td><td></td>
+                        <td><span id="info-name-full"></span></td><td></td>
+
+                        <td style="text-align:right;vertical-align:top">Author (full):</td><td></td>
+                        <td><span id="info-author-full"/></span></td><td></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;vertical-align:top">Name (short):</td><td></td>
+                        <td><span id="info-name-short"></span></td><td></td>
+
+                        <td style="text-align:right;vertical-align:top">Author (short):</td><td></td>
+                        <td><span id="info-author-short"></span></td><td></td>
+                    </tr>
+                    <tr>
+                        <td></td><td></td><td></td><td></td>
+                        <td></td><td></td><td></td><td></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;vertical-align:top">Version:</td><td></td>
+                        <td><span id="info-version"></span></td><td></td>
+
+                        <td style="text-align:right;vertical-align:top">License:</td><td></td>
+                        <td><span id="info-license"></span></td><td></td>
+                    </tr>
+                    <tr>
+                        <td></td><td></td><td></td><td></td>
+                        <td></td><td></td><td></td><td></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;vertical-align:top">Description:</td><td></td>
+                        <td colspan="6"><span id="info-description"></span></td>
                     </tr>
                     </table>
+                    <p>&nbsp;</p>
+                    <div id="info-errors"></div>
+                    <div id="info-warnings"></div>
                 </div>
                 <!--<div class="controls clearfix">
                     <label>Hardware display</label>
