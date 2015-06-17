@@ -8,7 +8,6 @@ from hashlib import sha1
 from PIL import Image
 
 from tornado import web, options, ioloop, template, httpclient
-from modcommon import lv2
 from modsdk.crypto import Sender
 from modsdk.lilvlib import get_plugin_info
 from modsdk.settings import (PORT, HTML_DIR, WIZARD_DB,

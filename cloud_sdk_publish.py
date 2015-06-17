@@ -6,10 +6,9 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
 import pycurl, random, shutil, json
 from cStringIO import StringIO
-from modcommon.communication.crypto import NewKey
-from modcommon import lv2
-from mod.sdk.publisher import Publisher
-from mod import settings
+from modsdk.crypto import NewKey
+from modsdk.publisher import Publisher
+from modsdk import settings
 
 try:
     dirname = sys.argv[1]
