@@ -434,6 +434,8 @@ def get_plugin_info(world, plugin):
     minorver  = plugin.get_value(lv2core.minorVersion).get_first()
     modguigui = plugin.get_value(modgui.gui).get_first()
 
+    bundle    = lilv.lilv_uri_to_path(bundleuri)
+
     # --------------------------------------------------------------------------------------------------------
     # gui
 
@@ -445,6 +447,10 @@ def get_plugin_info(world, plugin):
 
         if modgui_resdir.me is not None:
             gui['resourcesDirectory'] = lilv.lilv_uri_to_path(modgui_resdir.as_string())
+
+            # check if the modgui is outside the main bundle and in the user dir
+            gui['modificableInPlace'] = bool(bundle not in gui['resourcesDirectory'] and
+                                             os.path.expanduser("~") in gui['resourcesDirectory'])
 
             # icon and settings templates
             modgui_icon  = world.find_nodes(modguigui.me, modgui.iconTemplate    .me, None).get_first()

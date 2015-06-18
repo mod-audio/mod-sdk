@@ -177,7 +177,6 @@ class EffectJavascript(web.RequestHandler):
 
 class EffectSave(web.RequestHandler):
     def post(self):
-        name    = self.get_argument('name')
         ttlText = self.get_argument('ttlText')
         filesToCopy = [os.path.join(HTML_DIR, "resources", fil) for fil in json.loads(self.get_argument('filesToCopy'))]
         templateData = json.loads(self.get_argument('templateData'))
@@ -185,22 +184,37 @@ class EffectSave(web.RequestHandler):
         iconTemplateFile = self.get_argument('iconTemplateFile')
         stylesheetFile   = self.get_argument('stylesheetFile')
 
-        bundle  = name.replace(" ","_").replace("/","_")
-        basedir = os.path.expanduser("~/.lv2/%s.modgui" % bundle)
-        if not os.path.exists(basedir):
-            os.mkdir(basedir)
+        uri = templateData['effect']['uri']
 
-        with open(os.path.join(basedir, "manifest.ttl"), 'w') as fd:
+        try:
+            global cached_plugins
+            data = cached_plugins[uri]
+        except:
+            self.set_header('Content-type', 'application/json')
+            self.write(json.dumps(False))
+            return
+
+        if 'modificableInPlace' in data['gui'] and data['gui']['modificableInPlace']:
+            resrcsdir = data['gui']['resourcesDirectory']
+            bundledir = os.path.join(resrcsdir, os.path.pardir)
+
+        else:
+            # TODO: make sure bundledir doesn't exist
+            bundledir = os.path.expanduser("~/.lv2/%s.modgui" % (data['name'].replace(" ","_").replace("/","_")))
+            resrcsdir = os.path.join(bundledir, "modgui")
+
+            if not os.path.exists(bundledir):
+                os.mkdir(bundledir)
+            if not os.path.exists(resrcsdir):
+                os.mkdir(resrcsdir)
+
+        with open(os.path.join(bundledir, "manifest.ttl"), 'w') as fd:
             fd.write(ttlText)
 
-        basedir = os.path.join(basedir, "modgui")
-        if not os.path.exists(basedir):
-            os.mkdir(basedir)
-
-        with open(os.path.join(basedir, iconTemplateFile), 'w') as fd:
+        with open(os.path.join(resrcsdir, iconTemplateFile), 'w') as fd:
             fd.write(pystache.render(iconTemplateData, templateData))
 
-        with open(os.path.join(basedir, stylesheetFile), 'w') as fd:
+        with open(os.path.join(resrcsdir, stylesheetFile), 'w') as fd:
             stylesheetData = ""
 
             for fil in filesToCopy:

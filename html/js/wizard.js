@@ -70,6 +70,12 @@ JqueryClass('wizard', {
         if (effect.gui.ports)
             self.data('controls', effect.gui.ports)
 
+        var resDir = effect.gui.resourcesDirectory
+                   ? effect.gui.resourcesDirectory.split('/').filter(function(i){return i.length != 0}).reverse()[0]
+                   : "modgui"
+
+        self.data('resourcesDir', resDir)
+
         self.show()
         self.wizard('step', 0)
     },
@@ -428,6 +434,7 @@ JqueryClass('wizard', {
         var self   = $(this)
         var effect = self.data('effect')
         var slug   = self.wizard('slug')
+        var resDir = self.data('resourcesDir')
 
         var templateData = self.wizard('getTemplateData')
         //delete templateData.effect
@@ -444,12 +451,12 @@ JqueryClass('wizard', {
         ttlText += '    ui:ui modgui:X11UI ;\n'
         ttlText += '    modgui:gui [\n'
         ttlText += '        a modgui:Gui ;\n'
-        ttlText += '        modgui:resourcesDirectory <modgui> ;\n'
-        ttlText += '        modgui:iconTemplate <modgui/icon-'+slug+'.html> ;\n'
-        //ttlText += '        modgui:settingsTemplate <modgui/settings-'+slug+'.html> ;\n'
-        ttlText += '        modgui:stylesheet <modgui/stylesheet-'+slug+'.css> ;\n'
-        ttlText += '        modgui:screenshot <modgui/screenshot-'+slug+'.png> ;\n'
-        ttlText += '        modgui:thumbnail <modgui/thumbnail-'+slug+'.png> ;\n'
+        ttlText += '        modgui:resourcesDirectory <'+resDir+'> ;\n'
+        ttlText += '        modgui:iconTemplate <'+resDir+'/icon-'+slug+'.html> ;\n'
+        //ttlText += '        modgui:settingsTemplate <'+resDir+'/settings-'+slug+'.html> ;\n'
+        ttlText += '        modgui:stylesheet <'+resDir+'/stylesheet-'+slug+'.css> ;\n'
+        ttlText += '        modgui:screenshot <'+resDir+'/screenshot-'+slug+'.png> ;\n'
+        ttlText += '        modgui:thumbnail <'+resDir+'/thumbnail-'+slug+'.png> ;\n'
         ttlText += '        modgui:author "'+templateData.author+'" ;\n'
         ttlText += '        modgui:label "'+templateData.label+'" ;\n'
         ttlText += '        modgui:model "'+templateData.model+'" ;\n'
@@ -534,7 +541,6 @@ JqueryClass('wizard', {
             url: '/effect/save',
             type: 'POST',
             data: {
-                name: effect.name,
                 ttlText: ttlText,
                 filesToCopy: JSON.stringify(filesToCopy),
                 templateData: JSON.stringify(templateData),
