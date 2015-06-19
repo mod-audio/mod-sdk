@@ -38,6 +38,16 @@ def refresh_world():
         info   = get_plugin_info(world, p)
         bnodes = lilv.lilv_plugin_get_data_uris(p.me)
 
+        # temporary workaround
+        for port in info['ports']['control']['input']:
+            if "sampleRate" in port['properties']:
+                if 'default' not in port['ranges'].keys():
+                    port['ranges']['default'] = port['ranges']['minimum']*48000
+                elif port['ranges']['minimum'] < port['ranges']['default'] < port['ranges']['maximum']:
+                    port['ranges']['default'] *= 48000
+                port['ranges']['minimum'] *= 48000
+                port['ranges']['maximum'] *= 48000
+
         it = lilv.lilv_nodes_begin(bnodes)
         while not lilv.lilv_nodes_is_end(bnodes, it):
             bundle = lilv.lilv_nodes_get(bnodes, it)
