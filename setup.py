@@ -19,7 +19,7 @@ def data_dir(prefix, dirname):
     return [ (os.path.join(prefix, dirname), html_files) ] + data_files
 
 open(MANIFEST, 'w').write('include screenshot.js\n')
-share = os.path.join(sys.prefix, 'share')
+share = os.path.join(sys.prefix, 'share', 'mod-sdk')
 data_files = data_dir(share, 'html')
 data_files += [(share, ['screenshot.js'])]
 
