@@ -1,11 +1,17 @@
 /* GENERAL PEDAL STYLE */
 
-.mod-pedal { 
+.mod-pedal {
     display:inline-block;
+/*
     padding:1px 15px 1px 15px;
+*/
     z-index:100;
 }
-
+/*
+#pedalboard-dashboard > .mod-pedal > div:first-child {
+    box-shadow: 8px 24px 50px rgba(0, 0, 0, 0.66), 5px 15px 30px rgba(0, 0, 0, 0.9), 0px 2px 5px black;
+}
+*/
 .mod-input .mod-output-jack{
     z-index: 100;
 }
@@ -18,7 +24,7 @@
     top:0;
 }
 .mod-pedal .mod-actions .mod-settings {
-    background:url(../../img/icn-settings-16x16.png) no-repeat bottom center;
+    background:url(../img/icn-settings-16x16.png) no-repeat bottom center;
     cursor:pointer;
     height:16px;
     position:absolute;
@@ -28,7 +34,7 @@
 }
 .mod-pedal .mod-actions .mod-settings:hover { background-position:top center; }
 .mod-pedal .mod-actions .mod-remove {
-    background:url(../../img/icn-remove-16x16.png) no-repeat bottom center;
+    background:url(../img/icn-remove-16x16.png) no-repeat bottom center;
     cursor:pointer;
     height:16px;
     position:absolute;
@@ -79,39 +85,57 @@
 
 /* = LIGHT ON/OFF
 ================================================ */
-.mod-pedal .mod-light.off { background-image:url(red-light-off.png); }
-.mod-pedal .mod-light.on  { background-image:url(red-light-on.png); }
+.mod-pedal .mod-light.off { background-image:url(/resources/pedals/red-light-off.png); }
+.mod-pedal .mod-light.on  { background-image:url(/resources/pedals/red-light-on.png); }
 
 
 /* = INPUT
 ================================================ */
 .mod-pedal-input-wrapper {
-    background:#000;
-    border-radius:4px;
+    background: rgba(0, 0, 0, 0.8);
     height:100px;
-    left:-21px;
     position:relative;
-    width:47px;
     z-index:35;
+    padding: 0 10px;
+    margin-left: -10px;
 }
 
 .mod-pedal-input-wrapper .mod-pedal-input-arrow {
     /* Attention: pedalboard.js has hardcoded value related to this height */
+/*
     border-bottom:12px solid transparent;
     border-left:12px solid #000;
     border-top:12px solid transparent;
-    height:0; 
+    height:0;
     position:absolute;
     right:-12px;
     top:39px;
-    width:0; 
+    width:0;
+*/
 }
 
+.mod-pedal .mod-pedal-input {
+    position: absolute;
+    top: 106px;
+    left: -88px;
+    width: 88px;
+}
+.mod-pedal .mod-pedal-input .mod-audio-input,
+.mod-pedal .mod-pedal-input .mod-midi-input {
+    position: relative;
+/*
+    margin-top: 10px;
+*/
+}
+.mod-pedal .mod-pedal-input .mod-midi-input {
+    right: -12px;
+}
 .mod-input.expanded .mod-output-jack {
-    background-image:url(../../../img/jack-expanded.png) !important;
-    margin-left: -21px !important;
+    background-image:url(/resources/audio-jack.png) !important;
+    height: 40px;
 }
 
+/*
 .mod-pedal .mod-pedal-input {
     height:170px;
     left:-28px;
@@ -127,21 +151,16 @@
 }
 
 .mod-pedal .mod-pedal-input-image {
-    background:url(input.png) no-repeat right top;
-    background-size:auto 45px;
-    height:56px;
+    background:url(/resources/input.png) no-repeat 50% 50%;
+    height:75px;
     position:absolute;
     right:0;
-    width:17px;
+    width:117px;
     z-index:2;
 }
 
 .mod-pedal .mod-pedal-input .input-connected .mod-pedal-input-image {
-    background-image:url(../../../img/input-connected.png);
-    background-position:right top;
-    background-repeat:no-repeat;
-    background-size:auto 45px;
-    width:56px;
+    background-image:url(/resources/input-connected.png);
 }
 
 .mod-pedal .mod-pedal-input .input-connected .mod-output-jack {
@@ -153,6 +172,7 @@
 .mod-pedal .input-disconnected {}
 .mod-pedal .input-connecting {}
 .mod-pedal .input-connected {}
+*/
 
 
 /* = OUTPUT
@@ -172,28 +192,53 @@
     border-bottom:12px solid transparent;
     border-right:12px solid #000;
     border-top:12px solid transparent;
-    height:0; 
+    height:0;
     position:absolute;
     left:-12px;
     top:39px;
-    width:0; 
+    width:0;
 }
-.mod-pedal .mod-output-jack,
-.mod-pedal .output-connected .mod-output-jack:hover {
-    background-image:url(../../img/jack-p10.png);
-    background-position:right center;
+.mod-pedal .mod-pedal-output {
+    position: absolute;
+    top: 106px;
+    right: -87px;
+    width: 87px;
+}
+.mod-pedal .mod-pedal-output .mod-audio-output,
+.mod-pedal .mod-pedal-output .mod-midi-output {
+    position: relative;
+/*
+    margin-top: 10px;
+*/
+}
+
+
+/*
+.mod-pedal .mod-audio-output .mod-output-jack,
+.mod-pedal .output-connected.mod-audio-output .mod-output-jack:hover {
+    background-image:url(/resources/jack-p10.png);
     background-repeat:no-repeat;
     cursor:pointer;
-    height:18px;
+    height:75px;
     left:2px;
     position:absolute;
     top:12px;
-    width:87px;
+    width:171px;
 }
 
 .mod-pedal .mod-output-jack:hover,
 .mod-pedal .mod-output-jack.jack-connecting {}
 
+.mod-pedal .mod-midi-output .mod-output-jack,
+.mod-pedal .output-connected.mod-midi-output .mod-output-jack:hover {
+    background-image:url(/resources/midi-output-jack.png);
+    background-repeat:no-repeat;
+    cursor:pointer;
+    height:75px;
+    left:2px;
+    position:absolute;
+    width:104px;
+}
 .mod-pedal .mod-pedal-output {
     height:170px;
     position:absolute;
@@ -202,8 +247,8 @@
     width:45px;
 }
 
-.mod-pedal .mod-pedal-output .mod-output { 
-    cursor:pointer; 
+.mod-pedal .mod-pedal-output .mod-output {
+    cursor:pointer;
     height:45px;
     margin-bottom:10px;
     position:relative;
@@ -211,19 +256,19 @@
 }
 
 .mod-pedal .mod-pedal-output-image {
-    background:url(output.png) no-repeat 0 top;
-    background-size:auto 45px;
-    height:56px;
+    background:url(/resources/output.png) no-repeat 0 0;
     position:relative;
-    width:13px;
+    height:75px;
+    width:117px;
     z-index:2;
 }
 
 .mod-pedal .output-disconnected .mod-output-jack { }
 .mod-pedal .output-connecting {}
 .mod-pedal .output-connected .mod-output-jack { background:none; }
+*/
 
-    
+
 /* = PEDAL SETTINGS - Pop Up Window
 ================================================ */
 body > .mod-settings {
@@ -275,6 +320,7 @@ body > .mod-settings {
 }
 
 .mod-presets {
+    margin:0;
     padding: 0 18px;
 }
 
@@ -330,7 +376,7 @@ body > .mod-settings {
 }
 
 .mod-pedal-settings .mod-knob .mod-knob-image {
-    background-image:url(../knobs/japanese/white.png);
+    background-image:url(/resources/knobs/japanese/white.png);
     background-position:left center;
     background-repeat:no-repeat;
     background-size:auto 63px;
@@ -425,7 +471,7 @@ body > .mod-settings {
     text-transform:uppercase;}
 
 .mod-pedal-settings .mod-slider .mod-slider-image {
-    background-image:url(../sliders/slider01/_strip.png);
+    background-image:url(/resources/sliders/slider01/_strip.png);
     background-repeat:no-repeat;
     background-size:auto 70px;
     height:70px;
@@ -494,7 +540,7 @@ body > .mod-settings {
 }
 
 .mod-pedal-settings .mod-switch .mod-switch-image {
-    background-image:url(../switches/switch-002.png);
+    background-image:url(/resources/switches/switch-002.png);
     background-position:left center;
     background-repeat:no-repeat;
     background-size:auto 63px;
@@ -507,7 +553,7 @@ body > .mod-settings {
 }
 
 .mod-pedal-settings .mod-switch .mod-footswitch-image {
-    background-image:url(../switches/footswitch.png);
+    background-image:url(/resources/switches/footswitch.png);
     background-position:left center;
     background-repeat:no-repeat;
     background-size:auto 63px;
@@ -546,10 +592,10 @@ body > .mod-settings {
     width:24px;
 }
 .mod-pedal-settings .bypass .mod-light.off {
-    background-image:url(red-light-off.png);
+    background-image:url(/resources/pedals/red-light-off.png);
 }
 .mod-pedal-settings .bypass .mod-light.on  {
-    background-image:url(red-light-on.png);
+    background-image:url(/resources/pedals/red-light-on.png);
 }
 
 
@@ -560,7 +606,7 @@ body > .mod-settings {
 .mod-pedal-settings .mod-switch .mod-address,
 .mod-pedal-settings .mod-slider .mod-address {
     background-color:rgba(255,255,255,.1);
-    background-image:url(../../img/icn-addressing.png);
+    background-image:url(../img/icn-addressing.png);
     background-position:center center;
     background-repeat:no-repeat;
     bottom:0;
