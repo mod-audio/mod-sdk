@@ -19,8 +19,7 @@
                 <div class="mod-switch-image" mod-role="bypass"></div>
                 <div class="mod-address" mod-role="bypass-address"></div>
             </div>
-            {{#effect.ports}}
-            {{#control.input}}
+            {{#effect.ports.control.input}}
             {{#enumeration}}
             <div class="mod-enumerated">
                 <span class="mod-enumerated-title">{{name}}</span>
@@ -32,6 +31,9 @@
                 </div>
             </div>
             {{/enumeration}}
+            {{/effect.ports.control.input}}
+
+            {{#effect.ports.control.input}}
             {{^enumeration}}
                 {{^trigger}}
                     {{^toggled}}
@@ -60,7 +62,6 @@
                 </div>
                 {{/trigger}}
             {{/enumeration}}
-            {{/control.input}}
 
             <!-- SLIDER
             <div class="mod-slider">
@@ -72,7 +73,7 @@
                 <div class="mod-address" mod-role="input-control-address" mod-port-symbol="{{symbol}}" mod-widget="film"></div>
             </div>
             -->
-            {{/effect.ports}}
+            {{/effect.ports.control.input}}
         </div>
     </div>
 </div>

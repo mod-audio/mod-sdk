@@ -1,4 +1,7 @@
 /* SKINS */
+.mod-head-model-001 {
+    border-radius: 20px;
+}
 .mod-head-model-001-0550 {
     background-image: url(/resources/heads/model-001/model-0550.png);
     background-position: center center;
@@ -17,6 +20,7 @@
     height: 260px;
     position: relative;
     width: 700px;
+    border-radius: 18px;
 }
 
 .mod-head-model-001-0800 {
@@ -67,9 +71,9 @@
     color: #000;
     font-size: 10px;
     height: 73px;
-    left: 49px;
+    left: 34px;
     position: absolute;
-    right: 49px;
+    right: 34px;
     top: 37px;
 }
 

@@ -1,4 +1,7 @@
 /* SKINS */
+.mod-combo-model-001 {
+    border-radius: 20px;
+}
 .mod-combo-model-001-0550 {
     background-image: url(/resources/combos/model-001/model-0550.png);
     background-position: center center;
@@ -70,14 +73,19 @@
     font-size: 10px;
     font-weight: bold;
     height: 71px;
-    left: 73px;
+    left: 58px;
     position: absolute;
-    right: 73px;
+    right: 58px;
     top: 47px;
 }
 
 .mod-combo-model-001 .mod-control-group > div {
     margin-right: 2px;
+}
+
+.mod-combo-model-001 .mod-pedal-input,
+.mod-combo-model-001 .mod-pedal-output {
+    top: 30px;
 }
 
 /* SWITCH ON/OFF GENERAL */

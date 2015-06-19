@@ -10,6 +10,9 @@
     height:520px;
     position:absolute;
     width:279px;
+    border-radius: 18px;
+    border-bottom-right-radius: 90px;
+    border-bottom-left-radius: 90px;
 }
 
 /* = BACKGROUND IMAGES - Colour of the pedal
@@ -100,7 +103,7 @@
     width:64px;
 }
 
-.mod-pedal-british .mod-control-group .mod-knob .mod-knob-image { 
+.mod-pedal-british .mod-control-group .mod-knob .mod-knob-image {
     background-image:url(/resources/knobs/british/british.png);
     background-position:left center;
     background-repeat:no-repeat;

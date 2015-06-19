@@ -13,7 +13,7 @@
 .mod-rack-model-001 .mod-plugin-author h1 {
     color:#fff;
     font-size:14px;
-    left:65px;
+    left:50px;
     line-height:1;
     margin:0;
     position:absolute;
@@ -24,7 +24,7 @@
 .mod-rack-model-001 .mod-plugin-name h1 {
     color:#fff;
     font-size:18px;
-    left:65px;
+    left:50px;
     line-height:1;
     margin:0;
     position:absolute;
@@ -33,12 +33,10 @@
 
 /* INPUT/OUTPUT */
 .mod-rack-model-001 .mod-pedal-input {
-    left:-30px;
     top:25px;
 }
 
 .mod-rack-model-001 .mod-pedal-output {
-    right:-30px;
     top:25px;
 }
 
@@ -48,9 +46,9 @@
     color:#fff;
     font-size:10px;
     height:73px;
-    left:57px;
+    left:42px;
     position:absolute;
-    right:57px;
+    right:42px;
 }
 
 .mod-rack-model-001 .mod-control-group > div {

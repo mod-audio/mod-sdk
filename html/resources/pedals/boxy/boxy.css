@@ -13,6 +13,7 @@
     height:431px;
     position:absolute;
     width:230px;
+    border-radius: 26px;
 }
 
 .mod-pedal-boxy.mod-boxy50 {
@@ -294,7 +295,7 @@
 .mod-pedal-boxy.mod-five-knobs .mod-light,
 .mod-pedal-boxy.mod-six-knobs .mod-light,
 .mod-pedal-boxy.mod-seven-knobs .mod-light,
-.mod-pedal-boxy.mod-eight-knobs .mod-light { 
+.mod-pedal-boxy.mod-eight-knobs .mod-light {
     top:253px;
 }
 
@@ -321,7 +322,7 @@
 .mod-pedal-boxy.mod-five-knobs .mod-footswitch,
 .mod-pedal-boxy.mod-six-knobs .mod-footswitch,
 .mod-pedal-boxy.mod-seven-knobs .mod-footswitch,
-.mod-pedal-boxy.mod-eight-knobs .mod-footswitch { 
+.mod-pedal-boxy.mod-eight-knobs .mod-footswitch {
     top:285px;
 }
 
@@ -498,7 +499,7 @@
     box-shadow:inset 0 0 4px rgba(0,0,0,.3);
     border-radius:4px;
     padding:3px 9px;
-    
+
 }
 
 .mod-pedal-boxy .mod-enumerated .mod-enumerated-selected {
