@@ -15,7 +15,7 @@ if os.path.exists(os.path.join(CWD, 'html')):
 elif os.path.exists(os.path.join(CWD, '..', 'html')):
     ROOT = os.path.join(os.path.join(CWD, '..'))
 else:
-    ROOT = os.path.join(sys.prefix, 'share', 'modsdk')
+    ROOT = os.path.join(sys.prefix, 'share', 'mod-sdk')
 
 PORT = 9000
 HTML_DIR = os.path.join(ROOT, 'html')
