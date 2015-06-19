@@ -277,6 +277,7 @@ function GUI(effect, options) {
             var icon = $('<div class="mod-pedal dummy">')
             icon.html(Mustache.render(effect.gui.iconTemplate || options.defaultIconTemplate,
                                       self.getTemplateData(effect)))
+
             callback(icon)
         }
         if (self.dependenciesLoaded) {

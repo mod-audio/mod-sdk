@@ -425,6 +425,8 @@ def get_plugin_info(world, plugin):
     rdf     = NS(world, lilv.LILV_NS_RDF)
     rdfs    = NS(world, lilv.LILV_NS_RDFS)
     lv2core = NS(world, lilv.LILV_NS_LV2)
+    atom    = NS(world, "http://lv2plug.in/ns/ext/atom#")
+    midi    = NS(world, "http://lv2plug.in/ns/ext/midi#")
     pprops  = NS(world, "http://lv2plug.in/ns/ext/port-props#")
     units   = NS(world, "http://lv2plug.in/ns/extensions/units#")
     modgui  = NS(world, "http://portalmod.com/ns/modgui#")
@@ -616,14 +618,20 @@ def get_plugin_info(world, plugin):
 
     index = 0
     ports = {
-        'audio':   { 'input': [], 'output': [] },
-        'control': { 'input': [], 'output': [] }
+        'audio'  : { 'input': [], 'output': [] },
+        'control': { 'input': [], 'output': [] },
+        'midi'   : { 'input': [], 'output': [] }
     }
 
     # function for filling port info
     def fill_port_info(port):
         # port types
         types = [typ.rsplit("#",1)[-1].replace("Port","",1) for typ in get_port_data(port, rdf.type_)]
+
+        if "Atom" in types \
+            and port.supports_event(midi.MidiEvent.me) \
+            and lilv.Nodes(port.get_value(atom.bufferType.me)).get_first() == atom.Sequence:
+                types.append("MIDI")
 
         # port value ranges
         ranges = {}

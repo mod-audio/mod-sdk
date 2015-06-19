@@ -1,12 +1,23 @@
 /* = DASHBOARD
 ================================================ */
 #pedalboard {
-    bottom:46px;
+    bottom:0;
     left:0;
     position:absolute;
     right:0;
     top:0;
 }
+
+/*
+#pedalboard-dashboard {
+    background:#393939 url(../img/background.jpg) repeat;
+    position: absolute;
+    top: 35px;
+    left: 0;
+    bottom: 75px;
+    right: 0;
+}
+*/
 
 #pedalboard-actions { 
     background-color:#1b1b1b;
@@ -20,7 +31,50 @@
     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff222222', endColorstr='#ff111111', GradientType=0);
     box-shadow:0 1px 10px rgba(0,0,0,0.1);
     height:36px; left:0; position:absolute; right:0; top:0;
+    z-index:5;
 }
+
+#zoom-controllers {
+    color:white;
+    font-size:11px;
+    line-height:1;
+    position:absolute;
+    right:12px;
+    text-transform:uppercase;
+    top:49px;
+    z-index:10;
+}
+#zoom-controllers > span {
+    background:#1b1b1b;
+    cursor:pointer;
+    display:block;
+    float:left;
+    height:27px;
+    width:27px;
+}
+#zoom-controllers > span:hover {
+    background:#333;
+}
+#zoom-controllers > span:active {
+    background:#222;
+}
+#zoom-controllers > span:first-child {
+    background-image:url(../img/icn-zoom-out.png);
+    background-position:center center;
+    background-repeat:no-repeat;
+    background-size:18px;
+    border-radius:4px 0 0 4px;
+    border-right:1px solid #292929;
+}
+#zoom-controllers > span:last-child {
+    background-image:url(../img/icn-zoom-in.png);
+    background-position:center center;
+    background-repeat:no-repeat;
+    background-size:18px;
+    border-left:1px solid #292929;
+    border-radius:0 4px 4px 0;
+}
+
 
 /* Pedalboard Info - Header */
 #pedalboard-info { 
@@ -197,55 +251,323 @@
 }
 
 
+
+
+/* = CONNECTORS
+================================================ */
+
+/* AUDIO */
+
+.mod-audio-output .mod-output-jack {
+    background-image: url(../img/audio-jack-nconnect.png);
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    position: absolute;
+    width: 128px !important;
+    height: 56px;
+    cursor: pointer;
+}
+.mod-audio-output.output-connected .mod-output-jack {
+    background-image: url(../img/audio-jack.png);
+    background-size: 50%;
+    background-position: 100% 100%;
+    height: 70px;
+}
+.mod-audio-output .mod-output-jack.jack-connecting {
+    background-image: url(../img/audio-jack.png);
+    background-size: 100%;
+    height: 56px;
+}
+
+.mod-audio-output {
+    background-image: url(../img/audio-output.png);
+    background-repeat: no-repeat;
+    position: absolute;
+    width: 87px;
+    height: 56px;
+    left: 0px;
+    z-index: 90;
+}
+.mod-audio-output.output-connecting {
+    background-image: url(../img/audio-output-connected.png);
+}
+.mod-audio-output.output-connected {
+    background-image: url(../img/audio-output-connected.png);
+}
+
+
+.mod-audio-input .mod-output-jack {
+    width: 128px !important;
+    height: 56px;
+    cursor: pointer;
+}
+
+.mod-audio-input {
+    background-image: url(../img/audio-input.png);
+    background-repeat: no-repeat;
+    background-position: 50% 100%;
+    position: absolute;
+    width: 88px;
+    height: 56px;
+    right: 0px;
+    z-index: 90;
+}
+.mod-audio-input.input-connecting {
+    background-image: url(../img/audio-input-connecting.png);
+}
+.mod-audio-input.input-connecting-highlight {
+    background-image: url(../img/audio-input-connecting-highlight.png);
+}
+.mod-audio-input.input-connected {
+    background-image: url(../img/audio-input-connected.png);
+}
+.mod-audio-input.input-connected.input-connecting-highlight {
+    background-image: url(../img/audio-input-connected-highlight.png);
+}
+.mod-audio-input .mod-output-jack.jack-connecting {
+    background-image: url(../img/audio-jack.png);
+}
+
+/* MIDI */
+
+
+.mod-midi-output .mod-output-jack {
+    background-image: url(../img/midi-jack-nconnect.png);
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    position: absolute;
+    width: 78px !important;
+    height: 56px;
+    cursor: pointer;
+}
+.mod-midi-output.output-connected .mod-output-jack {
+    background-image: url(../img/midi-jack.png);
+    background-size: 50%;
+    background-position: 100% 100%;
+    height: 70px;
+}
+.mod-midi-output .mod-output-jack.jack-connecting {
+    background-image: url(../img/midi-jack.png);
+    background-size: 100%;
+    height: 56px;
+}
+
+.mod-midi-output {
+    background-image: url(../img/midi-output.png);
+    background-repeat: no-repeat;
+    position: absolute;
+    width: 78px;
+    height: 56px;
+    left: 0px;
+    z-index: 90;
+}
+.mod-midi-output.output-connecting {
+    background-image: url(../img/midi-output-connected.png);
+}
+.mod-midi-output.output-connected {
+    background-image: url(../img/midi-output-connected.png);
+}
+
+
+.mod-midi-input .mod-output-jack {
+    width: 78px !important;
+    height: 56px;
+    cursor: pointer;
+}
+
+.mod-midi-input {
+    background-image: url(../img/midi-input.png);
+    background-repeat: no-repeat;
+    background-position: 50% 100%;
+    position: absolute;
+    width: 76px;
+    height: 56px;
+    right: 0px;
+    z-index: 90;
+}
+.mod-midi-input.input-connecting {
+    background-image: url(../img/midi-input-connecting.png);
+}
+.mod-midi-input.input-connecting-highlight {
+    background-image: url(../img/midi-input-connecting-highlight.png);
+}
+.mod-midi-input.input-connected {
+    background-image: url(../img/midi-input-connected.png);
+}
+.mod-midi-input.input-connected.input-connecting-highlight {
+    background-image: url(../img/midi-input-connected-highlight.png);
+}
+.mod-midi-input .mod-output-jack.jack-connecting {
+    background-image: url(../img/midi-jack.png);
+}
+
+
+
+
 /* = JACK - HARDWARE AND PEDAL
 ================================================ */
+/*
 .input .jack-connected { background:url(../../img/jack-p10.png) no-repeat center left; }
 .output .jack-connected { background:url(../../img/jack-p10.png) no-repeat center right; }
+*/
 
 
 /* = HARDWARE - OUTPUT
 ================================================ */
-.hardware .output {
-    cursor:pointer;
-    height:18px;
-    left:-30px;
-    position:absolute;
-    width:87px;
+/*
+.hardware-output {
+    background-image: url(../img/output.png);
+    background-repeat: no-repeat;
+    position: absolute;
+    height: 75px;
+    width: 116px;
+    left: 0px;
+    z-index: 90;
 }
-.hardware .output-1 { top:250px; }
-.hardware .output-2 { top:350px; }
-.hardware .jack-disconnected { background:url(../img/jack-p10.png) no-repeat left center; height:18px; }
-
+.hardware-output.output-connecting {
+    background-image: url(../img/output-connected.png);
+}
+.hardware-output .mod-output-jack {
+    cursor: pointer;
+    height: 75px;
+    width: 171px;
+}
+*/
 
 /* = HARDWARE - INPUT
 ================================================ */
-.hardware .input {
+/*
+.hardware-input {
+    background-image:url(../img/input.png);
+    background-repeat:no-repeat;
+    height:75px;
     position:absolute;
-    right:0px;
-    width:14px;
-}
-.hardware .input-1 { top:230px; }
-.hardware .input-2 { top:330px; }
-.hardware .input .pedal-input-image {
-    background:url(../img/input.png) no-repeat center center;
-    background-size:auto 45px;
-    height:56px;
-    position:absolute;
-    right:0;
-    width:14px;
-    z-index:2;
-}
-.hardware .input .pedal-input-control {
-    background:url(../../img/icn-input-output.png) no-repeat right top;
-    height:28px;
-    left:-18px;
-    position:absolute;
-    top:15px;
-    width:28px;
-    z-index:1;
+    width:117px;
+    z-index:100;
 }
 
-.hardware .output .ui-draggable { height:18px; }
+.hardware-input.mod-input.mod-midi-input {
+    background-image:url(../img/midi-input.png);
+    background-repeat:no-repeat !important;
+    height:75px;
+    width:101px;
+}
+
+.hardware-input.mod-midi-input.input-connected {
+    background-image:url(../img/midi-input-connected.png) !important;
+    position:absolute !important;
+    z-index:100 !important;
+}
+
+.mod-input {
+    
+}
+
+.mod-input.input-connecting {
+    background-image:url(../img/input-connecting.png) !important;
+    z-index:100;
+}
+
+.mod-input.mod-midi-input.input-connecting {
+    background-image:url(../img/midi-input-connecting.png) !important;
+}
+
+.mod-input.input-connecting-highlight {
+    background-image:url(../img/input-connecting-highlight.png) !important;
+}
+
+.mod-input.mod-midi-input.input-connecting-highlight {
+    background-image:url(../img/midi-input-connecting-highlight.png) !important;
+}
+
+.mod-audio-output .jack-connecting,
+.mod-audio-input .jack-connecting {
+    background-image:url(../img/jack-p10.png);
+    width:171px !important;
+}
+
+.hardware-input.input-connected {
+    background-image:url(../img/input-connected.png);
+}
+*/
+
+/* = MIDI Input/Output
+================================================ */
+/*
+.mod-midi-output .mod-output-jack,
+.mod-midi-input .mod-output-jack {
+    background-image:url(../img/midi-output.png);
+    background-repeat:no-repeat;
+    position:absolute;
+    cursor:pointer;
+    height:75px !important;
+    width:104px;
+}
+
+.mod-midi-output .jack-connecting,
+.mod-midi-input .jack-connecting {
+    background-image:url(../img/midi-output-connecting.png) !important;
+}
+
+.mod-midi-input .jack-connecting {
+    margin-left: -25px;
+}
+
+.mod-pedal .mod-midi-input .mod-pedal-input-image {
+    background-image:url(../img/midi-input.png);
+    background-position:center right;
+    background-repeat:no-repeat;
+    background-size:9px 45px;
+    position:absolute;
+    height:45px;
+    width:9px;
+    z-index:100;
+}
+
+.mod-pedal .mod-midi-output .mod-pedal-output-image {
+    background-image:url(../img/midi-input.png);
+    background-position:center right;
+    background-repeat:no-repeat;
+    background-size:9px 45px;
+    position:absolute;
+    height:45px;
+    width:9px;
+    z-index:100;
+}
+
+.mod-pedal .mod-midi-input.input-connecting .mod-pedal-input-image {
+    background-image:url(../img/midi-input-connecting.png) !important;
+    background-position:center right !important;
+    background-repeat:no-repeat !important;
+    background-size:14px 31x !important;
+    height:45px !important;
+    position:absolute !important;
+    width:45px !important;
+    z-index:100 !important;
+}
+
+.mod-pedal .mod-midi-input.input-connecting-highlight .mod-pedal-input-image {
+    background-image:url(../img/midi-input-connecting-highlight.png) !important;
+}
+
+.mod-pedal .mod-midi-input.input-connected .mod-pedal-input-image {
+    background-image:url(../img/midi-input-connected.png) !important;
+    background-position:center right !important;
+    background-repeat:no-repeat !important;
+    background-size:auto 45px !important;
+    height:45px !important;
+    position:absolute !important;
+    width:67px !important;
+    z-index:100 !important;
+}
+*/
+
+
+/* = PEDAL - dragging dummy icon
+================================================ */
+.pedal.dummy {
+    padding-top: 16px;
+}
 
 /* = PEDAL - JACK
 ================================================ */
@@ -256,12 +578,49 @@
     z-index:-1;
 }
 
+.pedal .pedal-input .mod-input .jack-connected {
+    left:0 !important;
+    position:absolute;
+    top:4px !important;
+}
+
 
 /* = CABLE
 ================================================ */
-svg .shadow { fill:none; stroke:#000; stroke-width:10; z-index:0; }
-svg .cable { fill:none; stroke:#222; stroke-width:8; z-index:0; }
-svg .light { fill:none; stroke:#444; stroke-width:1; z-index:0; -webkit-transform: translateY(2px)}
+svg .shadow {
+    fill: none;
+    stroke: rgba(0,0,0,0.66);
+    stroke-width: 10;
+    z-index: -1;
+    -webkit-transform: translateY(1px);
+}
+svg .cable {
+    fill: none;
+    stroke: #81009A;
+    stroke-width: 7;
+    z-index: 0;
+}
+svg .light {
+    fill: none;
+    stroke: #B248B4;
+    stroke-width: 1.5;
+    z-index: 1;
+    -webkit-transform: translateY(1px);
+}
+
+.mod-midi svg .shadow {
+    stroke: rgba(0,0,0,0.66);
+}
+.mod-midi svg .cable {
+    stroke: #00546C;
+}
+.mod-midi svg .light {
+    stroke: #00A3C4;
+}
+
+svg .connecting-shadow { fill: none; stroke: #077; stroke-width: 10; z-index: 1000; }
+svg .connecting-cable { fill: none; stroke: #0AA; stroke-width: 8; z-index: 1000; }
+svg .connecting-light { fill: none; stroke: #6FF; stroke-width: 1; z-index: 1000; -webkit-transform: translateY(2px) }
 
 
 /* = PEDALBOARD - ADDRESSING
@@ -440,7 +799,7 @@ svg .light { fill:none; stroke:#444; stroke-width:1; z-index:0; -webkit-transfor
     width:300px;
 }
 
-.save-popup h1{
+.save-popup h1 {
     font-size:18px;
     line-height:1;
     margin:0 0 18px 0;
@@ -466,4 +825,130 @@ svg .light { fill:none; stroke:#444; stroke-width:1; z-index:0; -webkit-transfor
 
 .save-popup input[type="text"] {
     width:190px;
+}
+
+
+#registration-form.mod-box {
+    width:329px;
+}
+
+#registration-form.mod-box label {
+    width:125px;
+}
+
+#registration-form.mod-box select {
+    width:204px;
+}
+#registration-form .error {
+    background:#f2dede;
+    border:1px solid #eed3d7;
+    border-radius:4px;
+    color:#b94a48;
+    margin-bottom:18px;
+    padding:9px;
+}
+
+/* SHARE WINDOW */
+.close-window {
+	position: absolute;
+	right: 15px;
+	top: 15px;
+	cursor: pointer;
+}
+
+#share-window .box {
+    margin-left: -300px;
+    top: 200px;
+    width: 600px;
+}
+
+#share-window form {
+	margin: 0 !important;
+}
+
+#share-window  #record-rec {
+	border-radius: 50px !important;	
+}
+#share-window span.btn {
+	text-align: center;
+	color: white;
+	font-size: 40px;
+	line-height: 50px;
+	padding-top: 25px;
+	margin: 10px auto;
+	display: block;
+	width: 75px;
+	height: 70px;
+}
+
+#share-window .form-control {
+	width: 585px;
+}
+
+#share-window .form-control input {
+	width: 100%;
+}
+
+#share-window label {
+	width: 585px;
+}
+
+#share-window .record #record-rec.recording {
+    background-color: red;
+	border-radius: 50px !important;
+}
+
+#share-window .textcenter{
+	width: 300px;
+	margin: auto;
+}
+#share-window-wrapper {
+	height: 360px;
+}
+#share-window-fb {
+	border-top: 1px solid #ddd;
+	display: block;
+	width: 600px;
+	height: 30px;
+	padding-top: 5px;
+}
+
+#share-window-fb label {
+	background: url("../img/facebook-menu-sprite.png") no-repeat top right;
+	height: 36px;
+	width: 210px;
+	padding-top: 3px;
+	margin-bottom: -6px;
+}
+
+#share-window-fb input {
+	vertical-align: baseline;
+}
+
+#fb-authorization-container {
+    float: left;
+    position: relative;
+    height: 30px;
+    width: 280px;
+}
+#fb-authorization-container iframe {
+    border: 0;
+    width: 280px;
+    height: 50px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#share-window img.loading {
+    height: 66px;
+    left: 50%;
+    margin: -33px 0 0 -33px;
+    position: relative;
+    top: 50%;
+}
+
+#share-window img.screenshot {
+    background-color: #292929;
+    border-radius: 5px;
 }

@@ -358,6 +358,13 @@ function showEffect() {
             shot.attr('src', '/effect/image/screenshot.png'+param)
             shot.appendTo(screenshotCanvas)
         }
+
+        setTimeout(function() {
+            $('[mod-role="input-audio-port"]').addClass("mod-audio-input")
+            $('[mod-role="output-audio-port"]').addClass("mod-audio-output")
+            $('[mod-role="input-midi-port"]').addClass("mod-midi-input")
+            $('[mod-role="output-midi-port"]').addClass("mod-midi-output")
+        }, 1)
     })
 }
 
