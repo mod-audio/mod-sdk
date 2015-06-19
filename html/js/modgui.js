@@ -351,7 +351,7 @@ function GUI(effect, options) {
                                         }
                                       })
 
-                if (port.properties.indexOf("enumeration") >= 0) {
+                if (port.properties.indexOf("enumeration") >= 0 && false) { // TODO
                     // For ports that are not enumerated, we allow
                     // editing the value directly
                     valueField.attr('contenteditable', true)
@@ -592,10 +592,10 @@ var baseWidget = {
 
         var portSteps
         if (port.properties.indexOf("toggled") >= 0) {
-            port.ranges.minimum = port.ranges.minimum || 0
-            port.ranges.maximum = port.ranges.maximum || 1
+            //port.ranges.minimum = port.ranges.minimum || 0
+            //port.ranges.maximum = port.ranges.maximum || 1
             portSteps = 2
-        } else if (port.properties.indexOf("enumeration") >= 0) {
+        } else if (port.properties.indexOf("enumeration") >= 0 && false) { // TODO
             portSteps = port.scalePoints.length
             port.scalePoints.sort(function(a, b) { return a.value - b.value })
         } else {
