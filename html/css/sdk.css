@@ -292,6 +292,12 @@ ul#menu li.selected {
 #wizard-thumbnail img {
     height: 60%
 }
+.wizard-icon .mod-pedal {
+    display: block;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
 
 .ttl-code {
     border: 1px solid black;
