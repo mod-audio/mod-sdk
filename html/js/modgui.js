@@ -251,6 +251,10 @@ function GUI(effect, options) {
             // setTimeout is here because plugin has not yet been appended to anywhere, let's wait for
             // all instructions to be executed.
             setTimeout(function() {
+                $('[mod-role="input-audio-port"]').addClass("mod-audio-input")
+                $('[mod-role="output-audio-port"]').addClass("mod-audio-output")
+                $('[mod-role="input-midi-port"]').addClass("mod-midi-input")
+                $('[mod-role="output-midi-port"]').addClass("mod-midi-output")
                 self.icon.width(self.icon.children().width())
                 self.icon.height(self.icon.children().height())
             }, 1)

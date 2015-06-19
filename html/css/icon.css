@@ -1,4 +1,7 @@
 body {
-	background-color:transparent !important;
+    background-color:transparent !important;
     margin:0 !important;
+}
+.mod-pedal {
+    margin-left:16px;
 }
