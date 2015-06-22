@@ -437,6 +437,18 @@ def get_plugin_info(world, plugin):
     bundle    = lilv.lilv_uri_to_path(bundleuri)
 
     # --------------------------------------------------------------------------------------------------------
+    # author
+
+    author = {
+        'name'    :  plugin.get_author_name().as_string() or "",
+        'homepage':  plugin.get_author_homepage().as_string() or "",
+        'email'   : (plugin.get_author_email().as_string() or "").replace(bundleuri,"",1),
+    }
+
+    if False:
+        author['shortname'] = plugin.get_value(doap.shortname).get_first().as_string()
+
+    # --------------------------------------------------------------------------------------------------------
     # get the proper modgui
 
     modguigui = None
@@ -457,18 +469,6 @@ def get_plugin_info(world, plugin):
             break
 
     del nodes, it
-
-    # --------------------------------------------------------------------------------------------------------
-    # author
-
-    author = {
-        'name'    :  plugin.get_author_name().as_string() or "",
-        'homepage':  plugin.get_author_homepage().as_string() or "",
-        'email'   : (plugin.get_author_email().as_string() or "").replace(bundleuri,"",1),
-    }
-
-    #if False:
-        #author['shortname'] = plugin.get_value(doap.shortname).get_first().as_string()
 
     # --------------------------------------------------------------------------------------------------------
     # gui
@@ -730,8 +730,8 @@ def get_plugin_info(world, plugin):
         'uri' : plugin.get_uri().as_string(),
 
         'author': author,
-        'ports' : ports,
         'gui'   : gui,
+        'ports' : ports,
 
         'binary'   : lilv.lilv_uri_to_path(plugin.get_library_uri().as_string() or ""),
         'category' : get_category(plugin.get_value(rdf.type_)),
