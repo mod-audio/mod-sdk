@@ -459,6 +459,18 @@ def get_plugin_info(world, plugin):
     del nodes, it
 
     # --------------------------------------------------------------------------------------------------------
+    # author
+
+    author = {
+        'name'    :  plugin.get_author_name().as_string() or "",
+        'homepage':  plugin.get_author_homepage().as_string() or "",
+        'email'   : (plugin.get_author_email().as_string() or "").replace(bundleuri,"",1),
+    }
+
+    #if False:
+        #author['shortname'] = plugin.get_value(doap.shortname).get_first().as_string()
+
+    # --------------------------------------------------------------------------------------------------------
     # gui
 
     gui = {}
@@ -716,18 +728,15 @@ def get_plugin_info(world, plugin):
     return {
         'name': plugin.get_name().as_string() or "",
         'uri' : plugin.get_uri().as_string(),
-        'author': {
-            'name'    : plugin.get_author_name().as_string() or "",
-            'homepage': plugin.get_author_homepage().as_string() or "",
-            'email'   : (plugin.get_author_email().as_string() or "").replace(bundleuri,"",1),
-        },
 
-        'ports': ports,
-        'gui'  : gui,
+        'author': author,
+        'ports' : ports,
+        'gui'   : gui,
 
-        'binary'  : lilv.lilv_uri_to_path(plugin.get_library_uri().as_string() or ""),
-        'category': get_category(plugin.get_value(rdf.type_)),
-        'license' : (plugin.get_value(doap.license).get_first().as_string() or "").replace(bundleuri,"",1),
+        'binary'   : lilv.lilv_uri_to_path(plugin.get_library_uri().as_string() or ""),
+        'category' : get_category(plugin.get_value(rdf.type_)),
+        'license'  : (plugin.get_value(doap.license).get_first().as_string() or "").replace(bundleuri,"",1),
+        'shortname': plugin.get_value(doap.shortname).get_first().as_string() or "",
 
         'description'  : plugin.get_value(rdfs.comment).get_first().as_string() or "",
         'documentation': plugin.get_value(lv2core.documentation).get_first().as_string() or "",

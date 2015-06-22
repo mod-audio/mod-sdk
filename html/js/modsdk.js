@@ -233,6 +233,9 @@ function showEffect() {
         return '<i>'+(repl || 'missing')+'</i> ['+warnings.length+']'
     }
 
+    // uri
+    $('#info-uri').html(options.uri)
+
     // name
     if (!options.name)
         $('#info-name-full').html(errn('missing name'))
