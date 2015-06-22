@@ -338,7 +338,7 @@ function showEffect() {
         defaultSettingsTemplate: defaultSettingsTemplate
     })
 
-    gui.render(function(icon, settings) {
+    gui.render(null, function(icon, settings) {
         renderedIcon = icon
         var actions = $('<div>').addClass('mod-actions').appendTo(icon)
         $('<div>').addClass('mod-settings').appendTo(actions)
