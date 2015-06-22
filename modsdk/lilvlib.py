@@ -445,8 +445,18 @@ def get_plugin_info(world, plugin):
         'email'   : (plugin.get_author_email().as_string() or "").replace(bundleuri,"",1),
     }
 
-    if False:
-        author['shortname'] = plugin.get_value(doap.shortname).get_first().as_string()
+    authordata = plugin.get_value(doap.maintainer).get_first()
+
+    if authordata.me is None:
+        authordata = plugin.get_value(doap.developer).get_first()
+
+    if authordata.me is not None:
+        shortname = world.find_nodes(authordata.me, doap.shortname.me, None).get_first()
+        if shortname.me is not None:
+            author['shortname'] = shortname.as_string()
+        del shortname
+
+    del authordata
 
     # --------------------------------------------------------------------------------------------------------
     # get the proper modgui
