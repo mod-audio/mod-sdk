@@ -116,7 +116,7 @@
 /* = FOOTSWITCH
 ================================================ */
 .mod-pedal-lata .mod-footswitch {
-    background-image:url(/resources/pedals/lata/footswitch.png);
+    background-image:url(/resources/pedals/footswitch.png);
     background-position:bottom center;
     background-repeat:no-repeat;
     background-size:auto 132px;
