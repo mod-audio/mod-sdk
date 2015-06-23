@@ -281,7 +281,7 @@ JqueryClass('wizard', {
             templateData: self.wizard('getTemplateData'),
             iconTemplate: self.wizard('getIconTemplate'),
         }
-        new GUI(effect).render(function(iconElement) { iconElement.appendTo(icon) })
+        new GUI(effect).render(null, function(iconElement) { iconElement.appendTo(icon) })
     },
 
     getIconTemplate: function() {

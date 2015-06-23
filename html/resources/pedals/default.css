@@ -42,13 +42,18 @@
 ================================================ */
 .mod-pedal-default .mod-footswitch {
     background-image:url(/resources/pedals/boxy/footswitch.png);
-    background-position:center center;
+    background-position:bottom center;
     background-repeat:no-repeat;
-    background-size:auto 65px;
+    background-size:auto 132px;
     bottom: 100px;
     cursor:pointer;
     height:66px;
+    width: 66px;
     left:13px;
-    position:absolute;
+    margin: auto;
+    position:absolute !important;
     right:13px;
+}
+.mod-pedal-default .mod-footswitch.on {
+    background-position-y: top !important
 }
