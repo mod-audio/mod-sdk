@@ -117,16 +117,21 @@
 ================================================ */
 .mod-pedal-lata .mod-footswitch {
     background-image:url(/resources/pedals/lata/footswitch.png);
-    background-position:center center;
+    background-position:bottom center;
     background-repeat:no-repeat;
-    background-size:auto 80px;
+    background-size:auto 132px;
     bottom:26px;
     cursor:pointer;
-    height:155px;
+    height:66px;
+    width: 66px;
     left:13px;
-    position:absolute;
+    margin: auto;
+    position:absolute !important;
     right:13px;
     z-index:30;
+}
+.mod-pedal-lata .mod-footswitch.on {
+    background-position-y: top !important
 }
 
 /* = INPUTS/OUTPUTS

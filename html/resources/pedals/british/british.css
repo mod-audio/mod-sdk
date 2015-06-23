@@ -70,15 +70,20 @@
 ================================================ */
 .mod-pedal-british .mod-footswitch {
     background-image:url(/resources/pedals/british/footswitch.png);
-    background-position:center center;
+    background-position:bottom center;
     background-repeat:no-repeat;
-    background-size:auto 80px;
+    background-size:auto 132px;
     bottom:92px;
     cursor:pointer;
-    height:155px;
+    height:66px;
+    width: 66px;
     left:100px;
-    position:absolute;
+    margin: auto;
+    position:absolute !important;
     right:100px;
+}
+.mod-pedal-british .mod-footswitch.on {
+    background-position-y: top !important
 }
 
 /* = KNOBS
