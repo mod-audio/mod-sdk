@@ -308,15 +308,20 @@
 ================================================ */
 .mod-pedal-boxy .mod-footswitch {
     background-image:url(/resources/pedals/boxy/footswitch.png);
-    background-position:center center;
+    background-position:bottom center;
     background-repeat:no-repeat;
-    background-size:auto 65px;
+    background-size:auto 132px;
     bottom: 95px;
+    left: 13px;
+    right: 13px;
     cursor:pointer;
     height:66px;
-    left:13px;
-    position:absolute;
-    right:13px;
+    width: 66px;
+    margin: auto;
+    position:absolute !important;
+}
+.mod-pedal-boxy .mod-footswitch.on {
+    background-position-y: top !important
 }
 
 .mod-pedal-boxy.mod-five-knobs .mod-footswitch,
