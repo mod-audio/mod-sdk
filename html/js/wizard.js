@@ -442,13 +442,12 @@ JqueryClass('wizard', {
         //var settingsTemplate = Mustache.render(defaultSettingsTemplate, templateData)
 
         var ttlText = ''
-        ttlText += '@prefix doap:   <http://usefulinc.com/ns/doap#> .\n'
         ttlText += '@prefix modgui: <http://portalmod.com/ns/modgui#> .\n'
         ttlText += '@prefix lv2:    <http://lv2plug.in/ns/lv2core#> .\n'
         ttlText += '@prefix ui:     <http://lv2plug.in/ns/extensions/ui#> .\n'
         ttlText += '\n'
         ttlText += '<' + effect.uri + '>\n'
-        ttlText += '    ui:ui modgui:X11UI ;\n'
+        //ttlText += '    ui:ui modgui:X11UI ;\n'
         ttlText += '    modgui:gui [\n'
         ttlText += '        a modgui:Gui ;\n'
         ttlText += '        modgui:resourcesDirectory <'+resDir+'> ;\n'
@@ -479,7 +478,7 @@ JqueryClass('wizard', {
 
             ttlText += '            lv2:index '+i+' ;\n'
             ttlText += '            lv2:symbol "'+control.symbol+'" ;\n'
-            ttlText += '            doap:shortname "'+control.name+'" ;\n'
+            ttlText += '            lv2:name "'+control.name+'" ;\n'
 
             if (i+1 == numControls)
                 ttlText += '        ] ;\n'

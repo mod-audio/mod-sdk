@@ -157,11 +157,8 @@ class EffectStylesheet(web.RequestHandler):
             raise web.HTTPError(404)
 
         with open(path, 'rb') as fd:
-            content = fd.read()
-            context = { 'ns': '?uri=%s' % data['uri'] }
-
             self.set_header('Content-type', 'text/css')
-            self.write(pystache.render(content, context))
+            self.write(fd.read())
 
 class EffectJavascript(web.RequestHandler):
     def get(self):
