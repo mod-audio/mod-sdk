@@ -57,15 +57,16 @@ JqueryClass('wizard', {
             self.data('panel', effect.gui.panel)
         if (effect.gui.knob)
             self.data('knob', effect.gui.knob)
+
         if (effect.gui.author)
             self.data('author', effect.gui.author)
-        else if (effect.author && effect.author.name)
-            self.data('author', effect.author.name)
+        else
+            self.data('author', effect.author.shortname)
 
         if (effect.gui.label)
             self.data('label', effect.gui.label)
         else
-            self.data('label', effect.name)
+            self.data('label', effect.shortname)
 
         if (effect.gui.ports)
             self.data('controls', effect.gui.ports)

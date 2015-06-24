@@ -221,85 +221,34 @@ function showEffect() {
         return
     }
 
-    var errors   = []
-    var warnings = []
-
-    errn = function(msg){
-        errors.push(msg)
-        return '<i>missing</i> ('+errors.length+')'
-    }
-    warnn = function(repl, msg){
-        warnings.push(msg)
-        return '<i>'+(repl || 'missing')+'</i> ['+warnings.length+']'
-    }
-
-    // uri
     $('#info-uri').html(options.uri)
+    $('#info-name-full').html(options.name)
+    $('#info-name-short').html(options.shortname)
+    $('#info-author-full').html(options.author.name)
+    $('#info-author-short').html(options.author.shortname)
+    $('#info-version').html(options.version)
 
-    // name
-    if (!options.name)
-        $('#info-name-full').html(errn('missing name'))
-    else
-        $('#info-name-full').html(options.name)
+    $('#info-license').html(options.license || "missing license")
+    $('#info-description').html(options.description || "missing description")
 
-    // author
-    if (!options.author)
-        $('#info-author-full').html(errn('missing author information'))
-    else if (!options.author.name)
-        $('#info-author-full').html(errn('missing author name'))
-    else
-        $('#info-author-full').html(options.author.name)
+    var errors, warnings
 
-    // version
-    if ((options.minorVersion == 0 && options.microVersion == 0) || options.minorVersion === undefined || options.microVersion === undefined)
-        $('#info-version').html(errn('missing version information'))
-    else
-        $('#info-version').html(''+options.minorVersion+'.'+options.microVersion)
-
-    // license
-    if (!options.license)
-        $('#info-license').html(errn('missing license'))
-    else
-        $('#info-license').html(options.license)
-
-    // description
-    if (!options.description)
-        $('#info-description').html(errn('missing description'))
-    else
-        $('#info-description').html(options.description)
-
-    // plugin shortname
-    if (!options.shortname)
-        $('#info-name-short').html(warnn(options.name, 'plugin shortname is not defined, will use full name instead'))
-    else
-        $('#info-name-short').html(options.shortname)
-
-    // author shortname
-    if (!options.author.shortname)
-        $('#info-author-short').html(warnn(options.author.name, 'plugin author shortname is not defined, will use full name instead'))
-    else
-        $('#info-author-short').html(options.author.shortname)
-
-    if (errors.length || warnings.length)
+    if (options.errors.length || options.warnings.length)
     {
-        if (errors.length) {
-            errorstr = '<p><b>Errors:</b></p><ol>'
-            for (var i in errors)
-                errorstr += '<li>' + errors[i] + '</li>'
-            errorstr += '</ol>'
-            errors = errorstr
-            delete errorstr
+        if (options.errors.length) {
+            errors = '<p><b>Errors:</b></p><ol>'
+            for (var i in options.errors)
+                errors += '<li>' + options.errors[i] + '</li>'
+            errors += '</ol>'
         } else {
             errors = ''
         }
 
-        if (warnings.length) {
-            warningstr = '<p><b>Warnings:</b></p><ol>'
-            for (var i in warnings)
-                warningstr += '<li>' + warnings[i] + '</li>'
-            warningstr += '</ol>'
-            warnings = warningstr
-            delete warningstr
+        if (options.warnings.length) {
+            warnings = '<p><b>Warnings:</b></p><ol>'
+            for (var i in options.warnings)
+                warnings += '<li>' + options.warnings[i] + '</li>'
+            warnings += '</ol>'
         } else {
             warnings = ''
         }
