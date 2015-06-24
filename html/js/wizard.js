@@ -515,7 +515,7 @@ JqueryClass('wizard', {
         {
             filesToCopy.push('knobs/british/british.png')
             filesToCopy.push('pedals/british/british.css')
-            filesToCopy.push('pedals/british/footswitch.png')
+            filesToCopy.push('pedals/footswitch.png')
             filesToCopy.push('pedals/british/metallic.png')
         }
         else if (model == "lata")
