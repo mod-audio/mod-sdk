@@ -19,7 +19,7 @@ def modfy(bundle):
     rdfschema = rdflib.Namespace('http://www.w3.org/2000/01/rdf-schema#')
     rdfsyntax = rdflib.Namespace('http://www.w3.org/1999/02/22-rdf-syntax-ns#')
     lv2core = rdflib.Namespace('http://lv2plug.in/ns/lv2core#')
-    mod = rdflib.Namespace('http://portalmod.com/ns/modgui#')
+    mod = rdflib.Namespace('http://moddevices.com/ns/modgui#')
 
     manifest = rdflib.ConjunctiveGraph()
     manifest.parse(manifest_path, format='n3')
@@ -39,7 +39,7 @@ def modfy(bundle):
                 continue
 
             for triple in plugin.triples((None, None, None)):
-                if triple[0].startswith('http://portalmod.com/ns/extensions/effect#'):
+                if triple[0].startswith('http://moddevices.com/ns/extensions/effect#'):
                     plugin.remove(triple)
             gui = rdflib.BNode()
             uri = rdflib.term.URIRef

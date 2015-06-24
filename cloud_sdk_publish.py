@@ -21,7 +21,7 @@ except IndexError:
 try:
     url = sys.argv[2]
 except IndexError:
-    url = 'cloud.portalmod.com'
+    url = 'cloud.moddevices.com'
 
 private_key = os.path.join(os.environ['HOME'], '.ssh', 'id_rsa')
 

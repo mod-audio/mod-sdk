@@ -2,7 +2,7 @@
 MOD SDK
 =======
 
-This SDK's goal is to allow LV2 plugin developers to implement the `MOD Gui extension <http://portalmod.com/ns/modgui>`. In MOD Gui, every plugin has a real pedal like representation in a web based environment, with several plugins in a pedalboard. For this, each plugin must have html code that allows the browser to properly render it.
+This SDK's goal is to allow LV2 plugin developers to implement the `MOD Gui extension <http://moddevices.com/ns/modgui>`. In MOD Gui, every plugin has a real pedal like representation in a web based environment, with several plugins in a pedalboard. For this, each plugin must have html code that allows the browser to properly render it.
 
 This SDK provides the following funcionality:
 
@@ -21,7 +21,7 @@ Just type:
 
     $ pip install modsdk
 
-You can get the `pip command here`_.  
+You can get the `pip command here`_.
 
 You'll need phantomjs to render screenshots and zlib to build png images with `pillow`_. If you use a Debian-based GNU/Linux distribution (like Ubuntu), you can do this with::
 

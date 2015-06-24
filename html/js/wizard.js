@@ -442,7 +442,7 @@ JqueryClass('wizard', {
         //var settingsTemplate = Mustache.render(defaultSettingsTemplate, templateData)
 
         var ttlText = ''
-        ttlText += '@prefix modgui: <http://portalmod.com/ns/modgui#> .\n'
+        ttlText += '@prefix modgui: <http://moddevices.com/ns/modgui#> .\n'
         ttlText += '@prefix lv2:    <http://lv2plug.in/ns/lv2core#> .\n'
         ttlText += '@prefix ui:     <http://lv2plug.in/ns/extensions/ui#> .\n'
         ttlText += '\n'

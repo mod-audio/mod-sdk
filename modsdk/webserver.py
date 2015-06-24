@@ -363,7 +363,7 @@ class BundlePost(web.RequestHandler):
             #return self.send_bundle(package, address)
 
         #if destination == 'cloud':
-            #address = self.get_address('cloud', 'api/sdk/publish', 'http://cloud.portalmod.com')
+            #address = self.get_address('cloud', 'api/sdk/publish', 'http://cloud.moddevices.com')
             #fields = self.sign_bundle_package(bundle, package)
             #return self.send_bundle(package, address, fields)
 

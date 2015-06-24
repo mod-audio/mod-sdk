@@ -45,6 +45,6 @@ setup(name = 'modsdk',
           'Programming Language :: Python',
         ],
       include_package_data = True,
-      url = 'http://github.com/portalmod/mod-sdk',
+      url = 'http://github.com/moddevices/mod-sdk',
 
 )
