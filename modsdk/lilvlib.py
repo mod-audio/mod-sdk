@@ -1114,7 +1114,15 @@ if __name__ == '__main__':
     from sys import argv
     from pprint import pprint
     #get_plugins_info(argv[1:])
-    for i in get_plugins_info(argv[1:]): pprint(i)
-    #for i in get_plugins_info(argv[1:]): pprint({'uri':i['uri'],'errors':i['errors'],'warnings':i['warnings']})
+    #for i in get_plugins_info(argv[1:]): pprint(i)
+    for i in get_plugins_info(argv[1:]):
+        i['warnings'].remove('plugin shortname is missing')
+        i['warnings'].remove('plugin author shortname is missing')
+        i['warnings'].remove('no modgui available')
+        pprint({
+            'uri'     : i['uri'],
+            'errors'  : i['errors'],
+            'warnings': i['warnings']
+        })
 
 # ------------------------------------------------------------------------------------------------------------
