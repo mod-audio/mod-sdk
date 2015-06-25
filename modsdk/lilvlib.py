@@ -36,48 +36,10 @@ def is_integer(string):
     return string.strip().lstrip("-+").isdigit()
 
 def get_short_port_name(portName):
+    if len(portName) < 16:
+        return portName
+
     portName = portName.split("/",1)[0].split(" (",1)[0].split(" [",1)[0].strip()
-    portLow  = portName.lower()
-
-    # Cut useless prefix
-    if portLow.startswith("compressor "):
-        portName = portName.replace("ompressor ", ".", 1)
-        portLow  = portName.lower()
-    elif portLow.startswith("room "):
-        portName = portName.split(" ",1)[1]
-        portLow  = portName.lower()
-
-    # Cut useless suffix
-    if portLow.endswith(" level"):
-        portName = portName.rsplit(" ",1)[0]
-        portLow  = portName.lower()
-    elif portLow.endswith(" time"):
-        portName = portName.rsplit(" ",1)[0]
-        portLow  = portName.lower()
-
-    # Cut generic names
-    if "attack" in portLow:
-        portName = portName.replace("ttack", "tk")
-    elif "bandwidth" in portLow:
-        portName = portName.replace("andwidth", "w")
-    elif "damping" in portLow:
-        portName = portName.replace("amping", "amp")
-    elif "distortion" in portLow:
-        portName = portName.replace("istortion", "ist")
-    elif "feedback" in portLow:
-        portName = portName.replace("eedback", "b")
-    elif "frequency" in portLow:
-        portName = portName.replace("requency", "req")
-    elif "input" in portLow:
-        portName = portName.replace("nput", "n")
-    elif "makeup" in portLow:
-        portName = portName.replace("akeup", "kUp" if "Make" in portName else "kup")
-    elif "output" in portLow:
-        portName = portName.replace("utput", "ut")
-    elif "random" in portLow:
-        portName = portName.replace("andom", "nd")
-    elif "threshold" in portLow:
-        portName = portName.replace("hreshold", "hres")
 
     # remove space if 1st last word is lowercase and the 2nd first is uppercase, or if 2nd is number
     if " " in portName:
@@ -86,11 +48,11 @@ def get_short_port_name(portName):
             portName = portName.replace(" ", "", 1)
 
     # cut stuff if too big
-    if len(portName) > 7:
-        portName = portName.replace("a","").replace("e","").replace("i","").replace("o","").replace("u","")
+    if len(portName) > 16:
+        portName = portName.strip("a").strip("e").strip("i").strip("o").strip("u")
 
-        if len(portName) > 7:
-            portName = portName[:7]
+        if len(portName) > 16:
+            portName = portName[:16]
 
     return portName.strip()
 
