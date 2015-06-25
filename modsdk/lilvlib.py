@@ -36,7 +36,7 @@ def is_integer(string):
     return string.strip().lstrip("-+").isdigit()
 
 def get_short_port_name(portName):
-    if len(portName) < 16:
+    if len(portName) <= 16:
         return portName
 
     portName = portName.split("/",1)[0].split(" (",1)[0].split(" [",1)[0].strip()
@@ -853,6 +853,11 @@ def get_plugin_info(world, plugin):
 
         if psname is not None:
             psname = lilv.lilv_node_as_uri(psname)
+
+            if len(psname) > 16:
+                psname = psname[:16]
+                errors.append("port '%s' short name has more than 16 characters" % portname)
+
         else:
             psname = get_short_port_name(portname)
             warnings.append("port '%s' has no short name" % portname)
