@@ -39,6 +39,7 @@ JqueryClass('wizard', {
         self.data('knob', null)
         self.data('author', 'brand')
         self.data('label', 'Label here')
+        self.data('uri', null)
         self.data('controls', null)
     },
 
@@ -70,12 +71,15 @@ JqueryClass('wizard', {
 
         if (effect.gui.ports)
             self.data('controls', effect.gui.ports)
+        else if (self.data('uri') != effect.uri)
+            self.data('controls', null)
 
         var resDir = effect.gui.resourcesDirectory
                    ? effect.gui.resourcesDirectory.split('/').filter(function(i){return i.length != 0}).reverse()[0]
                    : "modgui"
 
         self.data('resourcesDir', resDir)
+        self.data('uri', effect.uri)
 
         self.show()
         self.wizard('step', 0)
