@@ -886,6 +886,15 @@ def get_plugin_info(world, plugin):
         else:
             portsymbols.append(portsymbol)
 
+        # short name
+        psname = lilv.lilv_nodes_get_first(port.get_value(doap.shortname.me))
+
+        if psname is not None:
+            psname = lilv.lilv_node_as_uri(psname)
+        else:
+            psname = get_short_port_name(portname)
+            warnings.append("port '%s' has no short name" % portname)
+
         # port types
         types = [typ.rsplit("#",1)[-1].replace("Port","",1) for typ in get_port_data(port, rdf.type_)]
 
@@ -1032,15 +1041,6 @@ def get_plugin_info(world, plugin):
 
         # control ports might contain unit
         if "Control" in types:
-            # short name
-            psname = lilv.lilv_nodes_get_first(port.get_value(doap.shortname.me))
-
-            if psname is not None:
-                psname = lilv.lilv_node_as_uri(psname)
-            else:
-                psname = get_short_port_name(portname)
-                warnings.append("port '%s' has no short name" % portname)
-
             # unit
             uunit = lilv.lilv_nodes_get_first(port.get_value(units.unit.me))
 
@@ -1080,10 +1080,6 @@ def get_plugin_info(world, plugin):
                         usymbol = xsymbol.as_string()
                     else:
                         errors.append("port '%s' has custom unit with no symbol" % portname)
-
-        # ignore shortnames for non-control ports
-        else:
-            psname = portname
 
         return (types, {
             'name'   : portname,
