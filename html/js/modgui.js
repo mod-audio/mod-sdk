@@ -99,7 +99,7 @@ function GUI(effect, options) {
         'drag': new Function(),
         'dragStop': new Function(),
         'bypass': new Function(),
-        'preset': {},
+        'presetLoad': new Function(),
         'bypassed': false,
         'defaultIconTemplate': 'Template missing',
         'defaultSettingsTemplate': 'Template missing'
