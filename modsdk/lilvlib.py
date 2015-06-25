@@ -8,6 +8,8 @@ import json
 import lilv
 import os
 
+from math import fmod
+
 # ------------------------------------------------------------------------------------------------------------
 # Utilities
 
@@ -843,14 +845,22 @@ def get_plugin_info(world, plugin):
                     if is_integer(lilv.lilv_node_as_string(xminimum)):
                         ranges['minimum'] = lilv.lilv_node_as_int(xminimum)
                     else:
-                        ranges['minimum'] = int(lilv.lilv_node_as_float(xminimum))
-                        errors.append("port '%s' has integer property but minimum value is float" % portname)
+                        ranges['minimum'] = lilv.lilv_node_as_float(xminimum)
+                        if fmod(ranges['minimum'], 1.0) == 0.0:
+                            warnings.append("port '%s' has integer property but minimum value is float" % portname)
+                        else:
+                            errors.append("port '%s' has integer property but minimum value has non-zero decimals" % portname)
+                        ranges['minimum'] = int(ranges['minimum'])
 
                     if is_integer(lilv.lilv_node_as_string(xmaximum)):
                         ranges['maximum'] = lilv.lilv_node_as_int(xmaximum)
                     else:
-                        ranges['maximum'] = int(lilv.lilv_node_as_float(xmaximum))
-                        errors.append("port '%s' has integer property but maximum value is float" % portname)
+                        ranges['maximum'] = lilv.lilv_node_as_float(xmaximum)
+                        if fmod(ranges['maximum'], 1.0) == 0.0:
+                            warnings.append("port '%s' has integer property but maximum value is float" % portname)
+                        else:
+                            errors.append("port '%s' has integer property but maximum value has non-zero decimals" % portname)
+                        ranges['maximum'] = int(ranges['maximum'])
 
                 else:
                     ranges['minimum'] = lilv.lilv_node_as_float(xminimum)
@@ -865,8 +875,12 @@ def get_plugin_info(world, plugin):
                         if is_integer(lilv.lilv_node_as_string(xdefault)):
                             ranges['default'] = lilv.lilv_node_as_int(xdefault)
                         else:
-                            ranges['default'] = int(lilv.lilv_node_as_float(xdefault))
-                            errors.append("port '%s' has integer property but default value is float" % portname)
+                            ranges['default'] = lilv.lilv_node_as_float(xdefault)
+                            if fmod(ranges['default'], 1.0) == 0.0:
+                                warnings.append("port '%s' has integer property but default value is float" % portname)
+                            else:
+                                errors.append("port '%s' has integer property but default value has non-zero decimals" % portname)
+                            ranges['default'] = int(ranges['default'])
                     else:
                         ranges['default'] = lilv.lilv_node_as_float(xdefault)
 
@@ -924,7 +938,11 @@ def get_plugin_info(world, plugin):
                             value = lilv.lilv_node_as_int(value)
                         else:
                             value = lilv.lilv_node_as_float(value)
-                            errors.append("port '%s' has integer property but scalepoint '%s' value is float" % (portname, label))
+                            if fmod(value, 1.0) == 0.0:
+                                warnings.append("port '%s' has integer property but scalepoint '%s' value is float" % (portname, label))
+                            else:
+                                errors.append("port '%s' has integer property but scalepoint '%s' value has non-zero decimals" % (portname, label))
+                            value = int(value)
                     else:
                         value = lilv.lilv_node_as_float(value)
 
