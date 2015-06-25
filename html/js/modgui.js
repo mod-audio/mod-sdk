@@ -274,6 +274,11 @@ function GUI(effect, options) {
                 self.getTemplateData(effect)))
             self.assignControlFunctionality(self.settings)
 
+            if (! instance) {
+                self.settings.find(".js-close").hide()
+                self.settings.find(".mod-address").hide()
+            }
+
             self.triggerJS({ 'type': 'start' })
 
             var preset_select = self.settings.find('[mod-role=presets]')
