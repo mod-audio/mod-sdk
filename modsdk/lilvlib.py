@@ -471,7 +471,7 @@ def get_plugin_info(world, plugin):
         #warnings.append("plugin uri is not a real url")
 
     # --------------------------------------------------------------------------------------------------------
-    # name and shortname
+    # name
 
     name = plugin.get_name().as_string() or ""
 
@@ -522,9 +522,17 @@ def get_plugin_info(world, plugin):
         errors.append("plugin shortname has more than 12 characters")
 
     # --------------------------------------------------------------------------------------------------------
+    # comment
+
+    comment = plugin.get_value(rdfs.comment).get_first().as_string() or ""
+
+    if not comment:
+        errors.append("plugin comment is missing")
+
+    # --------------------------------------------------------------------------------------------------------
     # description
 
-    description = plugin.get_value(rdfs.comment).get_first().as_string() or ""
+    description = plugin.get_value(doap.description).get_first().as_string() or ""
 
     if not description:
         errors.append("plugin description is missing")
@@ -1129,10 +1137,10 @@ def get_plugin_info(world, plugin):
         'license'  : license,
         'shortname': shortname,
 
-        'description'  : description,
-        #'documentation': plugin.get_value(lv2core.documentation).get_first().as_string() or "",
-        'microVersion' : microVersion,
-        'minorVersion' : minorVersion,
+        'comment'     : comment,
+        'description' : description,
+        'microVersion': microVersion,
+        'minorVersion': minorVersion,
 
         'version'  : version,
         'stability': stability,
