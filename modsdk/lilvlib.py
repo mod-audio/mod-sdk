@@ -514,7 +514,13 @@ def get_plugin_info(world, plugin):
             shortname = shortnames[-1]
         else:
             shortname = shortnames[0]
+        if len(shortname) > 12:
+            shortname = shortname[:12]
         warnings.append("plugin shortname is missing")
+
+    elif len(shortname) > 12:
+        shortname = shortname[:12]
+        errors.append("plugin shortname has more than 12 characters")
 
     # --------------------------------------------------------------------------------------------------------
     # description
@@ -598,7 +604,13 @@ def get_plugin_info(world, plugin):
 
     if "shortname" not in author.keys():
         author['shortname'] = author['name'].split(" - ",1)[0].split(" ",1)[0]
+        if len(author['shortname']) > 8:
+            author['shortname'] = author['shortname'][:8]
         warnings.append("plugin author shortname is missing")
+
+    elif len(author['shortname']) > 8:
+        author['shortname'] = author['shortname'][:8]
+        errors.append("plugin author shortname has more than 8 characters")
 
     # --------------------------------------------------------------------------------------------------------
     # get the proper modgui
