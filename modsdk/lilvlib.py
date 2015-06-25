@@ -797,6 +797,9 @@ def get_plugin_info(world, plugin):
         'midi'   : { 'input': [], 'output': [] }
     }
 
+    portsymbols = []
+    portnames   = []
+
     # function for filling port info
     def fill_port_info(port):
         # base data
@@ -811,6 +814,18 @@ def get_plugin_info(world, plugin):
         if not portsymbol:
             portsymbol = "_%i" % index
             errors.append("port with index %i has no symbol" % index)
+
+        # check for duplicate names
+        if portname in portsymbols:
+            warnings.append("port name '%s' is not unique" % portname)
+        else:
+            portnames.append(portname)
+
+        # check for duplicate symbols
+        if portsymbol in portsymbols:
+            errors.append("port symbol '%s' is not unique" % portsymbol)
+        else:
+            portsymbols.append(portsymbol)
 
         # port types
         types = [typ.rsplit("#",1)[-1].replace("Port","",1) for typ in get_port_data(port, rdf.type_)]
