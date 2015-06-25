@@ -15,7 +15,8 @@ from modsdk.settings import (PORT, HTML_DIR, WIZARD_DB,
                              DEFAULT_SETTINGS_TEMPLATE, SCREENSHOT_SCRIPT, MAX_THUMB_WIDTH,
                              MAX_THUMB_HEIGHT, PHANTOM_BINARY)
 
-global cached_plugins, cached_bundle_plugins
+global cached_bundles, cached_plugins, cached_bundle_plugins
+cached_bundles        = {}
 cached_plugins        = {}
 cached_bundle_plugins = {}
 
@@ -77,18 +78,17 @@ def refresh_world():
 
     del world
 
-    global cached_plugins, cached_bundle_plugins
+    global cached_bundles, cached_plugins, cached_bundle_plugins
+    cached_bundles        = bundles
     cached_plugins        = plugins
     cached_bundle_plugins = bundle_plugins
 
-    return bundles
-
 class BundleList(web.RequestHandler):
     def get(self):
-        bundles = refresh_world()
+        global cached_bundles
 
         self.set_header('Content-type', 'application/json')
-        self.write(json.dumps(bundles))
+        self.write(json.dumps(cached_bundles))
 
 class EffectList(web.RequestHandler):
     def get(self):
@@ -559,6 +559,7 @@ def welcome_message():
 
 def run():
     if check_environment():
+        refresh_world()
         welcome_message()
         make_application().start()
 
