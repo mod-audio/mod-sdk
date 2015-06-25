@@ -41,15 +41,9 @@ def get_short_port_name(portName):
 
     portName = portName.split("/",1)[0].split(" (",1)[0].split(" [",1)[0].strip()
 
-    # remove space if 1st last word is lowercase and the 2nd first is uppercase, or if 2nd is number
-    if " " in portName:
-        name1, name2 = portName.split(" ", 1)
-        if (name1[-1].islower() and name2[0].isupper()) or name2.isdigit():
-            portName = portName.replace(" ", "", 1)
-
     # cut stuff if too big
     if len(portName) > 16:
-        portName = portName.strip("a").strip("e").strip("i").strip("o").strip("u")
+        portName = portName[0] + portName[1:].replace("a","").replace("e","").replace("i","").replace("o","").replace("u","")
 
         if len(portName) > 16:
             portName = portName[:16]
