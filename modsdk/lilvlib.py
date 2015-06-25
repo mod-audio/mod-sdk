@@ -35,6 +35,65 @@ class NS(object):
 def is_integer(string):
     return string.strip().lstrip("-+").isdigit()
 
+def get_short_port_name(portName):
+    portName = portName.split("/",1)[0].split(" (",1)[0].split(" [",1)[0].strip()
+    portLow  = portName.lower()
+
+    # Cut useless prefix
+    if portLow.startswith("compressor "):
+        portName = portName.replace("ompressor ", ".", 1)
+        portLow  = portName.lower()
+    elif portLow.startswith("room "):
+        portName = portName.split(" ",1)[1]
+        portLow  = portName.lower()
+
+    # Cut useless suffix
+    if portLow.endswith(" level"):
+        portName = portName.rsplit(" ",1)[0]
+        portLow  = portName.lower()
+    elif portLow.endswith(" time"):
+        portName = portName.rsplit(" ",1)[0]
+        portLow  = portName.lower()
+
+    # Cut generic names
+    if "attack" in portLow:
+        portName = portName.replace("ttack", "tk")
+    elif "bandwidth" in portLow:
+        portName = portName.replace("andwidth", "w")
+    elif "damping" in portLow:
+        portName = portName.replace("amping", "amp")
+    elif "distortion" in portLow:
+        portName = portName.replace("istortion", "ist")
+    elif "feedback" in portLow:
+        portName = portName.replace("eedback", "b")
+    elif "frequency" in portLow:
+        portName = portName.replace("requency", "req")
+    elif "input" in portLow:
+        portName = portName.replace("nput", "n")
+    elif "makeup" in portLow:
+        portName = portName.replace("akeup", "kUp" if "Make" in portName else "kup")
+    elif "output" in portLow:
+        portName = portName.replace("utput", "ut")
+    elif "random" in portLow:
+        portName = portName.replace("andom", "nd")
+    elif "threshold" in portLow:
+        portName = portName.replace("hreshold", "hres")
+
+    # remove space if 1st last word is lowercase and the 2nd first is uppercase, or if 2nd is number
+    if " " in portName:
+        name1, name2 = portName.split(" ", 1)
+        if (name1[-1].islower() and name2[0].isupper()) or name2.isdigit():
+            portName = portName.replace(" ", "", 1)
+
+    # cut stuff if too big
+    if len(portName) > 7:
+        portName = portName.replace("a","").replace("e","").replace("i","").replace("o","").replace("u","")
+
+        if len(portName) > 7:
+            portName = portName[:7]
+
+    return portName.strip()
+
 # ------------------------------------------------------------------------------------------------------------
 
 def get_category(nodes):
@@ -973,6 +1032,16 @@ def get_plugin_info(world, plugin):
 
         # control ports might contain unit
         if "Control" in types:
+            # short name
+            psname = lilv.lilv_nodes_get_first(port.get_value(doap.shortname.me))
+
+            if psname is not None:
+                psname = lilv.lilv_node_as_uri(psname)
+            else:
+                psname = get_short_port_name(portname)
+                warnings.append("port '%s' has no short name" % portname)
+
+            # unit
             uunit = lilv.lilv_nodes_get_first(port.get_value(units.unit.me))
 
             if uunit is not None:
@@ -1012,6 +1081,10 @@ def get_plugin_info(world, plugin):
                     else:
                         errors.append("port '%s' has custom unit with no symbol" % portname)
 
+        # ignore shortnames for non-control ports
+        else:
+            psname = portname
+
         return (types, {
             'name'   : portname,
             'symbol' : portsymbol,
@@ -1025,6 +1098,7 @@ def get_plugin_info(world, plugin):
             'properties' : properties,
             'rangeSteps' : (get_port_data(port, pprops.rangeSteps) or [None])[0],
             "scalePoints": scalepoints,
+            'shortname'  : psname,
         })
 
     for p in (plugin.get_port_by_index(i) for i in range(plugin.get_num_ports())):
