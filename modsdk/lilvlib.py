@@ -936,6 +936,12 @@ def get_plugin_info(world, plugin):
                     ranges['minimum'] = lilv.lilv_node_as_float(xminimum)
                     ranges['maximum'] = lilv.lilv_node_as_float(xmaximum)
 
+                    if is_integer(lilv.lilv_node_as_string(xminimum)):
+                        warnings.append("port '%s' minimum value is an integer" % portname)
+
+                    if is_integer(lilv.lilv_node_as_string(xmaximum)):
+                        warnings.append("port '%s' maximum value is an integer" % portname)
+
                 if ranges['minimum'] >= ranges['maximum']:
                     ranges['maximum'] = ranges['minimum'] + (1 if isInteger else 0.1)
                     errors.append("port '%s' minimum value is equal or higher than its maximum" % portname)
@@ -953,6 +959,9 @@ def get_plugin_info(world, plugin):
                             ranges['default'] = int(ranges['default'])
                     else:
                         ranges['default'] = lilv.lilv_node_as_float(xdefault)
+
+                        if is_integer(lilv.lilv_node_as_string(xdefault)):
+                            warnings.append("port '%s' default value is an integer" % portname)
 
                     if not (ranges['minimum'] <= ranges['default'] <= ranges['maximum']):
                         ranges['default'] = ranges['minimum']
@@ -1014,6 +1023,8 @@ def get_plugin_info(world, plugin):
                                 errors.append("port '%s' has integer property but scalepoint '%s' value has non-zero decimals" % (portname, label))
                             value = int(value)
                     else:
+                        if is_integer(lilv.lilv_node_as_string(value)):
+                            warnings.append("port '%s' scalepoint '%s' value is an integer" % (portname, label))
                         value = lilv.lilv_node_as_float(value)
 
                     if ranges['minimum'] <= value <= ranges['maximum']:
