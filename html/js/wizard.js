@@ -286,7 +286,8 @@ JqueryClass('wizard', {
             templateData: self.wizard('getTemplateData'),
             iconTemplate: self.wizard('getIconTemplate'),
         }
-        new GUI(effect).render(null, function(iconElement) { iconElement.appendTo(icon) })
+
+        new GUI(effect).render(null, function(iconElement) { iconElement.appendTo(icon) }, true)
     },
 
     getIconTemplate: function() {
@@ -329,7 +330,7 @@ JqueryClass('wizard', {
             author  : self.data('author'),
             model   : model,
             panel   : panel,
-            controls: []
+            controls: [],
         }
 
         if (color)
