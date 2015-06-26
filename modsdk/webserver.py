@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import os, lilv, json, random, subprocess, re, shutil, time, pystache
+import os, lilv, json, random, subprocess, re, shutil, time
 
 from base64 import b64encode
 from hashlib import sha1
@@ -184,14 +184,12 @@ class EffectJavascript(web.RequestHandler):
 
 class EffectSave(web.RequestHandler):
     def post(self):
+        uri = self.get_argument('uri')
         ttlText = self.get_argument('ttlText')
         filesToCopy = [os.path.join(HTML_DIR, "resources", fil) for fil in json.loads(self.get_argument('filesToCopy'))]
-        templateData = json.loads(self.get_argument('templateData'))
         iconTemplateData = self.get_argument('iconTemplateData')
         iconTemplateFile = self.get_argument('iconTemplateFile')
         stylesheetFile   = self.get_argument('stylesheetFile')
-
-        uri = templateData['effect']['uri']
 
         try:
             global cached_plugins
@@ -219,7 +217,7 @@ class EffectSave(web.RequestHandler):
             fd.write(ttlText)
 
         with open(os.path.join(resrcsdir, iconTemplateFile), 'w') as fd:
-            fd.write(pystache.render(iconTemplateData, templateData))
+            fd.write(iconTemplateData)
 
         with open(os.path.join(resrcsdir, stylesheetFile), 'w') as fd:
             stylesheetData = ""

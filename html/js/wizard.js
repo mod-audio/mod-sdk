@@ -545,9 +545,9 @@ JqueryClass('wizard', {
             url: '/effect/save',
             type: 'POST',
             data: {
+                uri: effect.uri,
                 ttlText: ttlText,
                 filesToCopy: JSON.stringify(filesToCopy),
-                templateData: JSON.stringify(templateData),
                 iconTemplateData: self.wizard('getIconTemplate'),
                 iconTemplateFile: 'icon-'+slug+'.html',
                 stylesheetFile: 'stylesheet-'+slug+'.css',
