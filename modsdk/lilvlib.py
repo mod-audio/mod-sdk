@@ -535,7 +535,7 @@ def get_plugin_info(world, plugin):
     description = plugin.get_value(doap.description).get_first().as_string() or ""
 
     if not description:
-        errors.append("plugin description is missing")
+        warnings.append("plugin description is missing")
 
     # --------------------------------------------------------------------------------------------------------
     # version
