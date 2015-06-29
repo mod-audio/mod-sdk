@@ -515,16 +515,23 @@ JqueryClass('wizard', {
 
             filesToCopy.push('pedals/boxy'+suffix+'/'+templateData.color+'.png')
 
+            // 1 or 2 knobs
             if (panel == "1-knob" || panel == "2-knobs" || panel == "1-select-1-knob" || panel == "1-select-2-knobs")
             {
-                // 1 or 2 knobs
                 filesToCopy.push('knobs/boxy/boxy.png')
             }
+            // everything else
             else
             {
-                // everything else
-                filesToCopy.push('knobs/lata/lata.css')
-                filesToCopy.push('knobs/lata/lata.png')
+                if (panel.indexOf("knob") >= 0)
+                {
+                    filesToCopy.push('knobs/lata/lata.css')
+                    filesToCopy.push('knobs/lata/lata.png')
+                }
+                if (panel.indexOf("slider") >= 0)
+                {
+                    filesToCopy.push('pedals/slider.png')
+                }
             }
         }
         else if (model == "boxy-small")
