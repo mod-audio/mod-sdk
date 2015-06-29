@@ -30,7 +30,7 @@
 }
 
 .mod-pedal .mod-slider .mod-slider-image {
-    background-image:url(/resources/sliders/slider01/_strip.png);
+    background-image:url(/resources/sliders/slider01/_strip.png{{{ns}}});
     background-repeat:no-repeat;
     background-size:auto 110px;
     height:110px;

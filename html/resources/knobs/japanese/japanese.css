@@ -3,48 +3,48 @@
 
 /* = KNOBS
 ================================================ */
-.mod-pedal-japanese .mod-control-group.mod-blue .mod-knob .mod-knob-image {
-    background-image:url(/resources/knobs/japanese/blue.png);
+.mod-pedal-japanese{{{cns}}} .mod-control-group.mod-blue .mod-knob .mod-knob-image {
+    background-image:url(/resources/knobs/japanese/blue.png{{{ns}}});
 }
-.mod-pedal-japanese .mod-control-group.mod-brown .mod-knob .mod-knob-image {
-    background-image:url(/resources/knobs/japanese/brown.png);
+.mod-pedal-japanese{{{cns}}} .mod-control-group.mod-brown .mod-knob .mod-knob-image {
+    background-image:url(/resources/knobs/japanese/brown.png{{{ns}}});
 }
-.mod-pedal-japanese .mod-control-group.mod-cream .mod-knob .mod-knob-image {
-    background-image:url(/resources/knobs/japanese/cream.png);
+.mod-pedal-japanese{{{cns}}} .mod-control-group.mod-cream .mod-knob .mod-knob-image {
+    background-image:url(/resources/knobs/japanese/cream.png{{{ns}}});
 }
-.mod-pedal-japanese .mod-control-group.mod-darkblue .mod-knob .mod-knob-image {
-    background-image:url(/resources/knobs/japanese/darkblue.png);
+.mod-pedal-japanese{{{cns}}} .mod-control-group.mod-darkblue .mod-knob .mod-knob-image {
+    background-image:url(/resources/knobs/japanese/darkblue.png{{{ns}}});
 }
-.mod-pedal-japanese .mod-control-group.mod-gray .mod-knob .mod-knob-image {
-    background-image:url(/resources/knobs/japanese/gray.png);
+.mod-pedal-japanese{{{cns}}} .mod-control-group.mod-gray .mod-knob .mod-knob-image {
+    background-image:url(/resources/knobs/japanese/gray.png{{{ns}}});
 }
-.mod-pedal-japanese .mod-control-group.mod-green .mod-knob .mod-knob-image {
-    background-image:url(/resources/knobs/japanese/green.png);
+.mod-pedal-japanese{{{cns}}} .mod-control-group.mod-green .mod-knob .mod-knob-image {
+    background-image:url(/resources/knobs/japanese/green.png{{{ns}}});
 }
-.mod-pedal-japanese .mod-control-group.mod-orange .mod-knob .mod-knob-image {
-    background-image:url(/resources/knobs/japanese/orange.png);
+.mod-pedal-japanese{{{cns}}} .mod-control-group.mod-orange .mod-knob .mod-knob-image {
+    background-image:url(/resources/knobs/japanese/orange.png{{{ns}}});
 }
-.mod-pedal-japanese .mod-control-group.mod-purple .mod-knob .mod-knob-image {
-    background-image:url(/resources/knobs/japanese/purple.png);
+.mod-pedal-japanese{{{cns}}} .mod-control-group.mod-purple .mod-knob .mod-knob-image {
+    background-image:url(/resources/knobs/japanese/purple.png{{{ns}}});
 }
-.mod-pedal-japanese .mod-control-group.mod-red .mod-knob .mod-knob-image {
-    background-image:url(/resources/knobs/japanese/red.png);
+.mod-pedal-japanese{{{cns}}} .mod-control-group.mod-red .mod-knob .mod-knob-image {
+    background-image:url(/resources/knobs/japanese/red.png{{{ns}}});
 }
-.mod-pedal-japanese .mod-control-group.mod-white .mod-knob .mod-knob-image {
-    background-image:url(/resources/knobs/japanese/white.png);
+.mod-pedal-japanese{{{cns}}} .mod-control-group.mod-white .mod-knob .mod-knob-image {
+    background-image:url(/resources/knobs/japanese/white.png{{{ns}}});
 }
-.mod-pedal-japanese .mod-control-group.mod-yellow .mod-knob .mod-knob-image {
-    background-image:url(/resources/knobs/japanese/yellow.png);
+.mod-pedal-japanese{{{cns}}} .mod-control-group.mod-yellow .mod-knob .mod-knob-image {
+    background-image:url(/resources/knobs/japanese/yellow.png{{{ns}}});
 }
 
-.mod-pedal-japanese .mod-control-group {
+.mod-pedal-japanese{{{cns}}} .mod-control-group {
     height:141px;
     left:17px;
     position:absolute;
     right:17px;
     top:18px;
 }
-.mod-pedal-japanese .mod-control-group .mod-knob {
+.mod-pedal-japanese{{{cns}}} .mod-control-group .mod-knob {
     height:70px;
     float:left;
     overflow:hidden;
@@ -52,7 +52,7 @@
     text-align:center;
     width:60px;
 }
-.mod-pedal-japanese .mod-control-group .mod-knob > span.mod-knob-title {
+.mod-pedal-japanese{{{cns}}} .mod-control-group .mod-knob > span.mod-knob-title {
     color:white;
     display:block;
     font-size:10px;
@@ -65,7 +65,7 @@
     overflow:hidden;
     text-transform:uppercase;
 }
-.mod-pedal-japanese .mod-control-group .mod-knob .mod-knob-image {
+.mod-pedal-japanese{{{cns}}} .mod-control-group .mod-knob .mod-knob-image {
     background-position:left center;
     background-repeat:no-repeat;
     background-size:auto 52px;
@@ -78,17 +78,17 @@
 
 
 /* 4 KNOBS */
-.mod-pedal-japanese.mod-four-knobs .mod-control-group {
+.mod-pedal-japanese{{{cns}}}.mod-four-knobs .mod-control-group {
     height:70px;
     top:49px;
 }
 
 /* 7 KNOBS - OPTION 1 */
-.mod-pedal-japanese.mod-seven-a-knobs .mod-control-group .mod-knob:first-child {
+.mod-pedal-japanese{{{cns}}}.mod-seven-a-knobs .mod-control-group .mod-knob:first-child {
     margin-left:30px;
 }
 
 /* 7 KNOBS - OPTION 2 */
-.mod-pedal-japanese.mod-seven-b-knobs .mod-control-group .mod-knob:first-child {
+.mod-pedal-japanese{{{cns}}}.mod-seven-b-knobs .mod-control-group .mod-knob:first-child {
     margin:0 30px;
 }

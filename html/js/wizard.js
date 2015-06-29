@@ -4,14 +4,6 @@ $(document).ready(function() {
     wizard.wizard(wizard_db)
 
     $('#wizard').click(function() {
-        /*var effect = effects.find('option:selected').data()
-
-        if (effect.gui && (effect.gui.javascript || effect.gui.stylesheet))
-        {
-            alert("This modgui has been hand-customized and cannot be changed")
-            return
-        }*/
-
         wizard.wizard('open')
     })
 })
@@ -499,48 +491,94 @@ JqueryClass('wizard', {
 
         filesToCopy = []
 
-        /*
-        if (model == "combo-model-001")
+        var model = templateData.model
+
+        if (model == "boxy")
         {
-            filesToCopy.push('combos/model-001/model-001.css')
-            filesToCopy.push('combos/model-001/model-'+templateData.panel+'.png')
+            var panel = templateData.panel
+
+            filesToCopy.push('pedals/boxy/boxy.css')
+            filesToCopy.push('pedals/footswitch.png')
+            filesToCopy.push('utils/dropdown-arrow-black.png')
+            filesToCopy.push('utils/dropdown-arrow-white.png')
+
+            if (panel == "12-sliders")
+                suffix = '100'
+            else if (panel == "10-sliders")
+                suffix = '85'
+            else if (panel == "9-sliders" || panel == "8-sliders" || panel == "7-sliders")
+                suffix = '75'
+            else if (panel == "8-knobs" || panel == "7-knobs")
+                suffix = '75'
+            else
+                suffix = ''
+
+            filesToCopy.push('pedals/boxy'+suffix+'/'+templateData.color+'.png')
+
+            if (panel == "1-knob" || panel == "2-knobs" || panel == "1-select-1-knob" || panel == "1-select-2-knobs")
+            {
+                // 1 or 2 knobs
+                filesToCopy.push('knobs/boxy/boxy.png')
+            }
+            else
+            {
+                // everything else
+                filesToCopy.push('knobs/lata/lata.css')
+                filesToCopy.push('knobs/lata/lata.png')
+            }
+        }
+        else if (model == "boxy-small")
+        {
+            filesToCopy.push('pedals/boxy/boxy.css')
+            filesToCopy.push('pedals/boxy-small/'+templateData.color+'.png')
+        }
+        else if (model == "japanese")
+        {
+            filesToCopy.push('pedals/japanese/japanese.css')
+            filesToCopy.push('pedals/japanese/'+templateData.color+'.png')
+
+            filesToCopy.push('knobs/japanese/japanese.css')
+            filesToCopy.push('knobs/japanese/'+templateData.knob+'.png')
+        }
+        else if (model == "lata")
+        {
+            filesToCopy.push('pedals/lata/lata.css')
+            filesToCopy.push('pedals/lata/'+templateData.color+'.png')
+            filesToCopy.push('pedals/footswitch.png')
+
+            filesToCopy.push('knobs/lata/lata.css')
+            filesToCopy.push('knobs/lata/lata.png')
+        }
+        else if (model == "british")
+        {
+            filesToCopy.push('pedals/british/british.css')
+            filesToCopy.push('pedals/british/'+templateData.color+'.png')
+            filesToCopy.push('pedals/footswitch.png')
+            filesToCopy.push('knobs/british/british.png')
         }
         else if (model == "head-model-001")
         {
             filesToCopy.push('heads/model-001/model-001.css')
             filesToCopy.push('heads/model-001/model-'+templateData.panel+'.png')
-            filesToCopy.push('knobs/chicken-head/_strip.png')
             filesToCopy.push('switches/switch-001.png')
+            filesToCopy.push('knobs/chicken-head/_strip.png')
+        }
+        if (model == "combo-model-001")
+        {
+            filesToCopy.push('combos/model-001/model-001.css')
+            filesToCopy.push('combos/model-001/model-'+templateData.panel+'.png')
+            filesToCopy.push('switches/switch-001.png')
+            filesToCopy.push('knobs/chicken-head/_strip.png')
+            filesToCopy.push('utils/dropdown-arrow-white.png')
         }
         else if (model == "rack")
         {
             filesToCopy.push('racks/model-001/model-001.css')
             filesToCopy.push('racks/model-001/model-001.png')
+            filesToCopy.push('switches/switch-001.png')
+            filesToCopy.push('knobs/chicken-head/_strip.png')
+            filesToCopy.push('utils/dropdown-arrow-white.png')
         }
-        else if (model == "british")
-        {
-            filesToCopy.push('knobs/british/british.png')
-            filesToCopy.push('pedals/british/british.css')
-            filesToCopy.push('pedals/footswitch.png')
-            filesToCopy.push('pedals/british/metallic.png')
-        }
-        else if (model == "lata")
-        {
-            filesToCopy.push('knobs/lata/lata.css')
-            filesToCopy.push('knobs/lata/lata.png')
-        }
-        else if (model == "japanese")
-        {
-            filesToCopy.push('knobs/japanese/japanese.css')
-            filesToCopy.push('knobs/japanese/'+templateData.color+'.png')
-        }
-        else if (model == "boxy-small")
-        {
-        }
-        else if (model == "boxy")
-        {
-        }
-        */
 
         $.ajax({
             url: '/effect/save',

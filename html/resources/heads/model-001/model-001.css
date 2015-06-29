@@ -1,9 +1,9 @@
 /* SKINS */
-.mod-head-model-001 {
+.mod-head-model-001{{{cns}}} {
     border-radius: 20px;
 }
-.mod-head-model-001-0550 {
-    background-image: url(/resources/heads/model-001/model-0550.png);
+.mod-head-model-001-0550{{{cns}}} {
+    background-image: url(/resources/heads/model-001/model-0550.png{{{ns}}});
     background-position: center center;
     background-repeat: no-repeat;
     font-family: Helvetica,Arial,Sans-serif;
@@ -12,8 +12,8 @@
     width: 550px;
 }
 
-.mod-head-model-001-0700 {
-    background-image: url(/resources/heads/model-001/model-0700.png);
+.mod-head-model-001-0700{{{cns}}} {
+    background-image: url(/resources/heads/model-001/model-0700.png{{{ns}}});
     background-position: center center;
     background-repeat: no-repeat;
     font-family: Helvetica,Arial,Sans-serif;
@@ -23,8 +23,8 @@
     border-radius: 18px;
 }
 
-.mod-head-model-001-0800 {
-    background-image: url(/resources/heads/model-001/model-0800.png);
+.mod-head-model-001-0800{{{cns}}} {
+    background-image: url(/resources/heads/model-001/model-0800.png{{{ns}}});
     background-position: center center;
     background-repeat: no-repeat;
     font-family: Helvetica,Arial,Sans-serif;
@@ -33,8 +33,8 @@
     width: 800px;
 }
 
-.mod-head-model-001-0950 {
-    background-image: url(/resources/heads/model-001/model-0950.png);
+.mod-head-model-001-0950{{{cns}}} {
+    background-image: url(/resources/heads/model-001/model-0950.png{{{ns}}});
     background-position: center center;
     background-repeat: no-repeat;
     font-family: Helvetica,Arial,Sans-serif;
@@ -44,7 +44,7 @@
 }
 
 /* THE AUTHOR */
-.mod-head-model-001 .mod-plugin-author h1 {
+.mod-head-model-001{{{cns}}} .mod-plugin-author h1 {
     bottom: 90px;
     color: #fff;
     font-size: 14px;
@@ -55,7 +55,7 @@
 }
 
 /* PLUGIN'S NAME */
-.mod-head-model-001 .mod-plugin-name h1 {
+.mod-head-model-001{{{cns}}} .mod-plugin-name h1 {
     bottom: 60px;
     color: #fff;
     font-size: 18px;
@@ -66,7 +66,7 @@
 }
 
 /* CONTROLS */
-.mod-head-model-001 .mod-control-group {
+.mod-head-model-001{{{cns}}} .mod-control-group {
     bottom: 149px;
     color: #000;
     font-size: 10px;
@@ -77,12 +77,12 @@
     top: 37px;
 }
 
-.mod-head-model-001 .mod-control-group > div {
+.mod-head-model-001{{{cns}}} .mod-control-group > div {
     margin-right: 2px;
 }
 
 /* SWITCH ON/OFF GENERAL */
-.mod-head-model-001 .mod-switch {
+.mod-head-model-001{{{cns}}} .mod-switch {
     cursor: pointer;
     float: left;
     height: 73px;
@@ -90,8 +90,8 @@
     width: 90px;
 }
 
-.mod-head-model-001 .mod-switch-image {
-    background-image: url(/resources/switches/switch-001.png);
+.mod-head-model-001{{{cns}}} .mod-switch-image {
+    background-image: url(/resources/switches/switch-001.png{{{ns}}});
     background-position: -9px 0px;
     background-repeat: no-repeat;
     background-size: auto 73px;
@@ -99,37 +99,37 @@
     width: 73px;
 }
 
-.mod-head-model-001 .mod-switch-image.on {
+.mod-head-model-001{{{cns}}} .mod-switch-image.on {
     background-position: -82px 0px;
 }
 
-.mod-head-model-001 .mod-switch-image.off {
+.mod-head-model-001{{{cns}}} .mod-switch-image.off {
     background-position: -9px 0px;
 }
 
 /* SWITCH ON/OFF - 0550 */
-.mod-head-model-001-0550 .mod-switch {
+.mod-head-model-001-0550{{{cns}}} .mod-switch {
     width: 145px;
 }
 
 /* SWITCH ON/OFF - 0700 */
-.mod-head-model-001-0700 .mod-switch {
+.mod-head-model-001-0700{{{cns}}} .mod-switch {
     width: 160px;
 }
 
 /* SWITCH ON/OFF - 0800 */
-.mod-head-model-001-0800 .mod-switch {
+.mod-head-model-001-0800{{{cns}}} .mod-switch {
     width: 150px;
 }
 
 /* SWITCH ON/OFF - 0950 */
-.mod-head-model-001-0950 .mod-switch {
+.mod-head-model-001-0950{{{cns}}} .mod-switch {
     width: 130px;
 }
 
 
 /* CHICKEN HEAD */
-.mod-head-model-001 .mod-chicken-head {
+.mod-head-model-001{{{cns}}} .mod-chicken-head {
     float: left;
     height: 73px;
     overflow: hidden;
@@ -138,8 +138,8 @@
     width: 80px;
 }
 
-.mod-head-model-001 .mod-chicken-head .mod-chicken-head-image {
-    background-image: url(/resources/knobs/chicken-head/_strip.png);
+.mod-head-model-001{{{cns}}} .mod-chicken-head .mod-chicken-head-image {
+    background-image: url(/resources/knobs/chicken-head/_strip.png{{{ns}}});
     background-position: left 0px;
     background-repeat: no-repeat;
     background-size: auto 80px;
@@ -150,7 +150,7 @@
     z-index: 2;
 }
 
-.mod-head-model-001 .mod-chicken-head .mod-chicken-head-title {
+.mod-head-model-001{{{cns}}} .mod-chicken-head .mod-chicken-head-title {
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 10px;
     font-weight: bold;
@@ -163,7 +163,7 @@
 }
 
 /* ENUMERATED LIST */
-.mod-head-model-001 .mod-enumerated {
+.mod-head-model-001{{{cns}}} .mod-enumerated {
     color: #000;
     display: inline-block;
     margin-top: 40px;
@@ -174,7 +174,7 @@
     width: 250px;
 }
 
-.mod-head-model-001 .mod-enumerated .mod-enumerated-selected {
+.mod-head-model-001{{{cns}}} .mod-enumerated .mod-enumerated-selected {
     background: rgba(255,255,255,.85);
     border-radius: 4px;
     box-shadow:inset 1px 1px 10px #000;
@@ -187,12 +187,12 @@
 }
 
 /* WHEN IS HOVER */
-.mod-head-model-001 .mod-enumerated:hover .mod-enumerated-selected {
+.mod-head-model-001{{{cns}}} .mod-enumerated:hover .mod-enumerated-selected {
     border-radius: 4px 4px 0 0;
 }
 
 /* THE LIST OF OPTIONS */
-.mod-head-model-001 .mod-enumerated .mod-enumerated-list {
+.mod-head-model-001{{{cns}}} .mod-enumerated .mod-enumerated-list {
     background: rgba(255,255,255,.85);
     display: none;
     font-weight: bold;
@@ -203,17 +203,17 @@
     z-index: 3;
 }
 
-.mod-head-model-001 .mod-enumerated .mod-enumerated-list > div {
+.mod-head-model-001{{{cns}}} .mod-enumerated .mod-enumerated-list > div {
     padding: 3px 9px;
 }
 
-.mod-head-model-001 .mod-enumerated .mod-enumerated-list > div:hover {
+.mod-head-model-001{{{cns}}} .mod-enumerated .mod-enumerated-list > div:hover {
     background: rgba(0,0,0,.35);
     cursor: pointer;
 }
 
 /* SEPARATOR */
-.mod-head-model-001 .mod-separator {
+.mod-head-model-001{{{cns}}} .mod-separator {
     background: #000;
     display: inline-block;
     float: left;

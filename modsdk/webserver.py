@@ -191,6 +191,11 @@ class EffectSave(web.RequestHandler):
         iconTemplateFile = self.get_argument('iconTemplateFile')
         stylesheetFile   = self.get_argument('stylesheetFile')
 
+        for fil in filesToCopy:
+            if not os.path.exists(fil):
+                print("missing file:", fil)
+                raise web.HTTPError(404)
+
         try:
             global cached_plugins
             data = cached_plugins[uri]
@@ -225,15 +230,31 @@ class EffectSave(web.RequestHandler):
             for fil in filesToCopy:
                 if not fil.endswith(".css"):
                     continue
-                if not os.path.exists(fil):
-                    continue
                 with open(fil, 'r') as fild:
                     stylesheetData += fild.read()
 
             fd.write(stylesheetData)
 
-        for f in filesToCopy:
-            print("Needs to copy: %s" % f)
+        for fil in filesToCopy:
+            if fil.endswith(".css"):
+                continue
+
+            localfile = fil.replace(HTML_DIR,"",1).replace("resources/","",1)
+            if localfile[0] == "/":
+                localfile = localfile[1:]
+            localfile = os.path.join(resrcsdir, localfile)
+
+            localdir  = os.path.dirname(localfile)
+            localdir2 = os.path.dirname(localdir)
+
+            if not os.path.exists(localdir2):
+                os.mkdir(localdir2)
+            if not os.path.exists(localdir):
+                os.mkdir(localdir)
+
+            with open(fil, 'rb') as fild:
+                with open(localfile, 'wb') as locald:
+                    locald.write(fild.read())
 
         refresh_world()
 
@@ -487,9 +508,18 @@ class EffectResource(web.StaticFileHandler):
         pass
 
     def get(self, path):
+        path = path.replace("{{{cns}}}","").replace("{{{ns}}}","")
+
         try:
             uri = self.get_argument('uri')
         except:
+            if path.endswith(".css"):
+                self.absolute_path = os.path.join(HTML_DIR, 'resources', path)
+                with open(self.absolute_path, 'r') as fd:
+                    self.set_header('Content-type', 'text/css')
+                    self.write(fd.read().replace("{{{cns}}}","").replace("{{{ns}}}",""))
+                    return
+
             return self.shared_resource(path)
 
         try:

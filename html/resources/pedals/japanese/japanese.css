@@ -7,7 +7,7 @@
 
 /* = CONTAINER
 ================================================ */
-.mod-pedal-japanese {
+.mod-pedal-japanese{{{cns}}} {
     background-position:center center;
     background-repeat:no-repeat;
     height:530px;
@@ -18,21 +18,21 @@
 
 /* = BACKGROUND IMAGES - Colour of the pedal
 ================================================ */
-.mod-pedal-japanese.mod-blue        { background-image:url(/resources/pedals/japanese/blue.png); }
-.mod-pedal-japanese.mod-brown       { background-image:url(/resources/pedals/japanese/brown.png); }
-.mod-pedal-japanese.mod-cream       { background-image:url(/resources/pedals/japanese/cream.png); }
-.mod-pedal-japanese.mod-darkblue    { background-image:url(/resources/pedals/japanese/darkblue.png); }
-.mod-pedal-japanese.mod-gray        { background-image:url(/resources/pedals/japanese/gray.png); }
-.mod-pedal-japanese.mod-green       { background-image:url(/resources/pedals/japanese/green.png); }
-.mod-pedal-japanese.mod-orange      { background-image:url(/resources/pedals/japanese/orange.png); }
-.mod-pedal-japanese.mod-purple      { background-image:url(/resources/pedals/japanese/purple.png); }
-.mod-pedal-japanese.mod-red         { background-image:url(/resources/pedals/japanese/red.png); }
-.mod-pedal-japanese.mod-white       { background-image:url(/resources/pedals/japanese/white.png); }
-.mod-pedal-japanese.mod-yellow      { background-image:url(/resources/pedals/japanese/yellow.png); }
+.mod-pedal-japanese{{{cns}}}.mod-blue        { background-image:url(/resources/pedals/japanese/blue.png{{{ns}}}); }
+.mod-pedal-japanese{{{cns}}}.mod-brown       { background-image:url(/resources/pedals/japanese/brown.png{{{ns}}}); }
+.mod-pedal-japanese{{{cns}}}.mod-cream       { background-image:url(/resources/pedals/japanese/cream.png{{{ns}}}); }
+.mod-pedal-japanese{{{cns}}}.mod-darkblue    { background-image:url(/resources/pedals/japanese/darkblue.png{{{ns}}}); }
+.mod-pedal-japanese{{{cns}}}.mod-gray        { background-image:url(/resources/pedals/japanese/gray.png{{{ns}}}); }
+.mod-pedal-japanese{{{cns}}}.mod-green       { background-image:url(/resources/pedals/japanese/green.png{{{ns}}}); }
+.mod-pedal-japanese{{{cns}}}.mod-orange      { background-image:url(/resources/pedals/japanese/orange.png{{{ns}}}); }
+.mod-pedal-japanese{{{cns}}}.mod-purple      { background-image:url(/resources/pedals/japanese/purple.png{{{ns}}}); }
+.mod-pedal-japanese{{{cns}}}.mod-red         { background-image:url(/resources/pedals/japanese/red.png{{{ns}}}); }
+.mod-pedal-japanese{{{cns}}}.mod-white       { background-image:url(/resources/pedals/japanese/white.png{{{ns}}}); }
+.mod-pedal-japanese{{{cns}}}.mod-yellow      { background-image:url(/resources/pedals/japanese/yellow.png{{{ns}}}); }
 
 /* = PLUGIN'S AUTHOR
 ================================================ */
-.mod-pedal-japanese .mod-plugin-author {
+.mod-pedal-japanese{{{cns}}} .mod-plugin-author {
     bottom:95px;
     left:30px;
     position:absolute;
@@ -41,7 +41,7 @@
     text-transform:uppercase;
 }
 
-.mod-pedal-japanese .mod-plugin-author h1 {
+.mod-pedal-japanese{{{cns}}} .mod-plugin-author h1 {
     color:#111;
     font-family:"Nexa";
     font-size:32px;
@@ -50,7 +50,7 @@
 
 /* = PLUGIN'S NAME
 ================================================ */
-.mod-pedal-japanese .mod-plugin-name {
+.mod-pedal-japanese{{{cns}}} .mod-plugin-name {
     bottom:210px;
     left:30px;
     overflow:hidden;
@@ -60,59 +60,59 @@
     top:230px;
 }
 
-.mod-pedal-japanese .mod-plugin-name h1 {
+.mod-pedal-japanese{{{cns}}} .mod-plugin-name h1 {
     font-family:"Questrial";
     font-size:24px;
     line-height:1;
 }
 
-.mod-pedal-japanese.mod-blue .mod-plugin-name h1 {
+.mod-pedal-japanese{{{cns}}}.mod-blue .mod-plugin-name h1 {
     color:rgb(47,73,103);
 }
 
-.mod-pedal-japanese.mod-brown .mod-plugin-name h1 {
+.mod-pedal-japanese{{{cns}}}.mod-brown .mod-plugin-name h1 {
     color:rgba(255,255,255,.85);
 }
 
-.mod-pedal-japanese.mod-cream .mod-plugin-name h1 {
+.mod-pedal-japanese{{{cns}}}.mod-cream .mod-plugin-name h1 {
     color:rgb(102,98,81);
 }
 
-.mod-pedal-japanese.mod-darkblue .mod-plugin-name h1 {
+.mod-pedal-japanese{{{cns}}}.mod-darkblue .mod-plugin-name h1 {
     color:rgba(255,255,255,.85);
 }
 
-.mod-pedal-japanese.mod-gray .mod-plugin-name h1 {
+.mod-pedal-japanese{{{cns}}}.mod-gray .mod-plugin-name h1 {
     color:rgba(255,255,255,.85);
 }
 
-.mod-pedal-japanese.mod-green .mod-plugin-name h1 {
+.mod-pedal-japanese{{{cns}}}.mod-green .mod-plugin-name h1 {
     color:rgb(39,65,26);
 }
 
-.mod-pedal-japanese.mod-orange .mod-plugin-name h1 {
+.mod-pedal-japanese{{{cns}}}.mod-orange .mod-plugin-name h1 {
     color:rgb(162,79,21);
 }
 
-.mod-pedal-japanese.mod-purple .mod-plugin-name h1 {
+.mod-pedal-japanese{{{cns}}}.mod-purple .mod-plugin-name h1 {
     color:rgba(255,255,255,.85);
 }
 
-.mod-pedal-japanese.mod-red .mod-plugin-name h1 {
+.mod-pedal-japanese{{{cns}}}.mod-red .mod-plugin-name h1 {
     color:rgb(85,14,14);
 }
 
-.mod-pedal-japanese.mod-white .mod-plugin-name h1 {
+.mod-pedal-japanese{{{cns}}}.mod-white .mod-plugin-name h1 {
     color:rgb(42,42,42);
 }
 
-.mod-pedal-japanese.mod-yellow .mod-plugin-name h1 {
+.mod-pedal-japanese{{{cns}}}.mod-yellow .mod-plugin-name h1 {
     color:rgb(118,95,25);
 }
 
 /* = LIGHT ON/OFF
 ================================================ */
-.mod-pedal-japanese .mod-light {
+.mod-pedal-japanese{{{cns}}} .mod-light {
     height:32px;
     left:135px;
     position:absolute;
@@ -122,7 +122,7 @@
 
 /* = FOOTSWITCH
 ================================================ */
-.mod-pedal-japanese .mod-footswitch {
+.mod-pedal-japanese{{{cns}}} .mod-footswitch {
     bottom:46px;
     cursor:pointer;
     height:155px;

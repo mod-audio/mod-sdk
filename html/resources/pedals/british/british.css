@@ -4,7 +4,7 @@
 
 /* = CONTAINER
 ================================================ */
-.mod-pedal-british {
+.mod-pedal-british{{{cns}}} {
     background-position:center center;
     background-repeat:no-repeat;
     height:520px;
@@ -17,13 +17,13 @@
 
 /* = BACKGROUND IMAGES - Colour of the pedal
 ================================================ */
-.mod-pedal-british.mod-metallic {
-    background-image:url(/resources/pedals/british/metallic.png);
+.mod-pedal-british{{{cns}}}.mod-metallic {
+    background-image:url(/resources/pedals/british/metallic.png{{{ns}}});
 }
 
 /* = PLUGIN'S AUTHOR
 ================================================ */
-.mod-pedal-british .mod-plugin-author {
+.mod-pedal-british{{{cns}}} .mod-plugin-author {
     left:30px;
     position:absolute;
     right:30px;
@@ -31,7 +31,7 @@
     top:390px;
 }
 
-.mod-pedal-british .mod-plugin-author h1 {
+.mod-pedal-british{{{cns}}} .mod-plugin-author h1 {
     color:#777471;
     font-family:"EnglandHand";
     font-size:48px;
@@ -40,7 +40,7 @@
 
 /* = PLUGIN'S NAME
 ================================================ */
-.mod-pedal-british .mod-plugin-name {
+.mod-pedal-british{{{cns}}} .mod-plugin-name {
     left:30px;
     overflow:hidden;
     position:absolute;
@@ -49,7 +49,7 @@
     top:230px;
 }
 
-.mod-pedal-british .mod-plugin-name h1 {
+.mod-pedal-british{{{cns}}} .mod-plugin-name h1 {
     color:black;
     font-family:"Questrial";
     font-size:24px;
@@ -58,7 +58,7 @@
 
 /* = LIGHT ON/OFF
 ================================================ */
-.mod-pedal-british .mod-light {
+.mod-pedal-british{{{cns}}} .mod-light {
     height:32px;
     left:140px;
     position:absolute;
@@ -68,8 +68,8 @@
 
 /* = FOOTSWITCH
 ================================================ */
-.mod-pedal-british .mod-footswitch {
-    background-image:url(/resources/pedals/footswitch.png);
+.mod-pedal-british{{{cns}}} .mod-footswitch {
+    background-image:url(/resources/pedals/footswitch.png{{{ns}}});
     background-position:bottom center;
     background-repeat:no-repeat;
     background-size:auto 132px;
@@ -82,13 +82,13 @@
     position:absolute !important;
     right:100px;
 }
-.mod-pedal-british .mod-footswitch.on {
+.mod-pedal-british{{{cns}}} .mod-footswitch.on {
     background-position-y: top !important
 }
 
 /* = KNOBS
 ================================================ */
-.mod-pedal-british .mod-control-group {
+.mod-pedal-british{{{cns}}} .mod-control-group {
     height:141px;
     left:0;
     margin:0;
@@ -99,7 +99,7 @@
     z-index:30;
 }
 
-.mod-pedal-british .mod-control-group .mod-knob {
+.mod-pedal-british{{{cns}}} .mod-control-group .mod-knob {
     display:inline-block;
     height:100px;
     overflow:hidden;
@@ -108,8 +108,8 @@
     width:64px;
 }
 
-.mod-pedal-british .mod-control-group .mod-knob .mod-knob-image {
-    background-image:url(/resources/knobs/british/british.png);
+.mod-pedal-british{{{cns}}} .mod-control-group .mod-knob .mod-knob-image {
+    background-image:url(/resources/knobs/british/british.png{{{ns}}});
     background-position:left center;
     background-repeat:no-repeat;
     background-size:auto 64px;
@@ -120,7 +120,7 @@
     width:64px;
 }
 
-.mod-pedal-british .mod-control-group .mod-knob > span.mod-knob-title {
+.mod-pedal-british{{{cns}}} .mod-control-group .mod-knob > span.mod-knob-title {
     color:black;
     display:block;
     font-size:11px;
@@ -132,12 +132,12 @@
     text-transform:uppercase;
 }
 
-.mod-pedal-british.mod-seven-knobs .mod-control-group,
-.mod-pedal-british.mod-eight-knobs .mod-control-group {
+.mod-pedal-british{{{cns}}}.mod-seven-knobs .mod-control-group,
+.mod-pedal-british{{{cns}}}.mod-eight-knobs .mod-control-group {
     margin:0 6px;
 }
 
-.mod-pedal-british.mod-seven-knobs .mod-control-group .mod-knob,
-.mod-pedal-british.mod-eight-knobs .mod-control-group .mod-knob {
+.mod-pedal-british{{{cns}}}.mod-seven-knobs .mod-control-group .mod-knob,
+.mod-pedal-british{{{cns}}}.mod-eight-knobs .mod-control-group .mod-knob {
     display:inline-block;
 }

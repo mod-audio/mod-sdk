@@ -1,6 +1,6 @@
 /* = CONTAINER
 ================================================ */
-.mod-pedal-lata {
+.mod-pedal-lata{{{cns}}} {
     background-position:center center;
     background-repeat:no-repeat;
     height:516px;
@@ -11,21 +11,21 @@
 
 /* = BACKGROUND IMAGES - Colour of the pedal
 ================================================ */
-.mod-pedal-lata.mod-blue        { background-image:url(/resources/pedals/lata/blue.png); }
-.mod-pedal-lata.mod-brown       { background-image:url(/resources/pedals/lata/brown.png); }
-.mod-pedal-lata.mod-cream       { background-image:url(/resources/pedals/lata/cream.png); }
-.mod-pedal-lata.mod-darkblue    { background-image:url(/resources/pedals/lata/darkblue.png); }
-.mod-pedal-lata.mod-gray        { background-image:url(/resources/pedals/lata/gray.png); }
-.mod-pedal-lata.mod-green       { background-image:url(/resources/pedals/lata/green.png); }
-.mod-pedal-lata.mod-orange      { background-image:url(/resources/pedals/lata/orange.png); }
-.mod-pedal-lata.mod-purple      { background-image:url(/resources/pedals/lata/purple.png); }
-.mod-pedal-lata.mod-red         { background-image:url(/resources/pedals/lata/red.png); }
-.mod-pedal-lata.mod-white       { background-image:url(/resources/pedals/lata/white.png); }
-.mod-pedal-lata.mod-yellow      { background-image:url(/resources/pedals/lata/yellow.png); }
+.mod-pedal-lata{{{cns}}}.mod-blue        { background-image:url(/resources/pedals/lata/blue.png{{{ns}}}); }
+.mod-pedal-lata{{{cns}}}.mod-brown       { background-image:url(/resources/pedals/lata/brown.png{{{ns}}}); }
+.mod-pedal-lata{{{cns}}}.mod-cream       { background-image:url(/resources/pedals/lata/cream.png{{{ns}}}); }
+.mod-pedal-lata{{{cns}}}.mod-darkblue    { background-image:url(/resources/pedals/lata/darkblue.png{{{ns}}}); }
+.mod-pedal-lata{{{cns}}}.mod-gray        { background-image:url(/resources/pedals/lata/gray.png{{{ns}}}); }
+.mod-pedal-lata{{{cns}}}.mod-green       { background-image:url(/resources/pedals/lata/green.png{{{ns}}}); }
+.mod-pedal-lata{{{cns}}}.mod-orange      { background-image:url(/resources/pedals/lata/orange.png{{{ns}}}); }
+.mod-pedal-lata{{{cns}}}.mod-purple      { background-image:url(/resources/pedals/lata/purple.png{{{ns}}}); }
+.mod-pedal-lata{{{cns}}}.mod-red         { background-image:url(/resources/pedals/lata/red.png{{{ns}}}); }
+.mod-pedal-lata{{{cns}}}.mod-white       { background-image:url(/resources/pedals/lata/white.png{{{ns}}}); }
+.mod-pedal-lata{{{cns}}}.mod-yellow      { background-image:url(/resources/pedals/lata/yellow.png{{{ns}}}); }
 
 /* = PLUGIN'S AUTHOR
 ================================================ */
-.mod-pedal-lata .mod-plugin-author {
+.mod-pedal-lata{{{cns}}} .mod-plugin-author {
     left:30px;
     position:absolute;
     right:30px;
@@ -34,7 +34,7 @@
     top:290px;
 }
 
-.mod-pedal-lata .mod-plugin-author h1 {
+.mod-pedal-lata{{{cns}}} .mod-plugin-author h1 {
     color:#111;
     font-family:"Nexa";
     font-size:32px;
@@ -42,7 +42,7 @@
 
 /* = PLUGIN'S NAME
 ================================================ */
-.mod-pedal-lata .mod-plugin-name {
+.mod-pedal-lata{{{cns}}} .mod-plugin-name {
     left:30px;
     overflow:hidden;
     position:absolute;
@@ -51,59 +51,59 @@
     top:330px;
 }
 
-.mod-pedal-lata .mod-plugin-name h1 {
+.mod-pedal-lata{{{cns}}} .mod-plugin-name h1 {
     font-family:"Questrial";
     font-size:24px;
     line-height:1;
 }
 
-.mod-pedal-lata.mod-blue .mod-plugin-name h1 {
+.mod-pedal-lata{{{cns}}}.mod-blue .mod-plugin-name h1 {
     color:rgb(47,73,103);
 }
 
-.mod-pedal-lata.mod-brown .mod-plugin-name h1 {
+.mod-pedal-lata{{{cns}}}.mod-brown .mod-plugin-name h1 {
     color:rgba(255,255,255,.85);
 }
 
-.mod-pedal-lata.mod-cream .mod-plugin-name h1 {
+.mod-pedal-lata{{{cns}}}.mod-cream .mod-plugin-name h1 {
     color:rgb(102,98,81);
 }
 
-.mod-pedal-lata.mod-darkblue .mod-plugin-name h1 {
+.mod-pedal-lata{{{cns}}}.mod-darkblue .mod-plugin-name h1 {
     color:rgba(255,255,255,.85);
 }
 
-.mod-pedal-lata.mod-gray .mod-plugin-name h1 {
+.mod-pedal-lata{{{cns}}}.mod-gray .mod-plugin-name h1 {
     color:rgba(255,255,255,.85);
 }
 
-.mod-pedal-lata.mod-green .mod-plugin-name h1 {
+.mod-pedal-lata{{{cns}}}.mod-green .mod-plugin-name h1 {
     color:rgb(39,65,26);
 }
 
-.mod-pedal-lata.mod-orange .mod-plugin-name h1 {
+.mod-pedal-lata{{{cns}}}.mod-orange .mod-plugin-name h1 {
     color:rgb(162,79,21);
 }
 
-.mod-pedal-lata.mod-purple .mod-plugin-name h1 {
+.mod-pedal-lata{{{cns}}}.mod-purple .mod-plugin-name h1 {
     color:rgba(255,255,255,.85);
 }
 
-.mod-pedal-lata.mod-red .mod-plugin-name h1 {
+.mod-pedal-lata{{{cns}}}.mod-red .mod-plugin-name h1 {
     color:rgb(85,14,14);
 }
 
-.mod-pedal-lata.mod-white .mod-plugin-name h1 {
+.mod-pedal-lata{{{cns}}}.mod-white .mod-plugin-name h1 {
     color:rgb(42,42,42);
 }
 
-.mod-pedal-lata.mod-yellow .mod-plugin-name h1 {
+.mod-pedal-lata{{{cns}}}.mod-yellow .mod-plugin-name h1 {
     color:rgb(118,95,25);
 }
 
 /* = LIGHT ON/OFF
 ================================================ */
-.mod-pedal-lata .mod-light {
+.mod-pedal-lata{{{cns}}} .mod-light {
     height:32px;
     left:0;
     margin:0 auto;
@@ -115,8 +115,8 @@
 
 /* = FOOTSWITCH
 ================================================ */
-.mod-pedal-lata .mod-footswitch {
-    background-image:url(/resources/pedals/footswitch.png);
+.mod-pedal-lata{{{cns}}} .mod-footswitch {
+    background-image:url(/resources/pedals/footswitch.png{{{ns}}});
     background-position:bottom center;
     background-repeat:no-repeat;
     background-size:auto 132px;
@@ -130,13 +130,13 @@
     right:13px;
     z-index:30;
 }
-.mod-pedal-lata .mod-footswitch.on {
+.mod-pedal-lata{{{cns}}} .mod-footswitch.on {
     background-position-y: top !important
 }
 
 /* = INPUTS/OUTPUTS
 ================================================ */
-.mod-pedal-lata .mod-pedal-input,
-.mod-pedal-lata .mod-pedal-output {
+.mod-pedal-lata{{{cns}}} .mod-pedal-input,
+.mod-pedal-lata{{{cns}}} .mod-pedal-output {
     top:136px;
 }

@@ -1,9 +1,9 @@
 /* SKINS */
-.mod-combo-model-001 {
+.mod-combo-model-001{{{cns}}} {
     border-radius: 20px;
 }
-.mod-combo-model-001-0550 {
-    background-image: url(/resources/combos/model-001/model-0550.png);
+.mod-combo-model-001-0550{{{cns}}} {
+    background-image: url(/resources/combos/model-001/model-0550.png{{{ns}}});
     background-position: center center;
     background-repeat: no-repeat;
     height: 200px;
@@ -11,8 +11,8 @@
     width: 550px;
 }
 
-.mod-combo-model-001-0625 {
-    background-image: url(/resources/combos/model-001/model-0625.png);
+.mod-combo-model-001-0625{{{cns}}} {
+    background-image: url(/resources/combos/model-001/model-0625.png{{{ns}}});
     background-position: center center;
     background-repeat: no-repeat;
     height: 200px;
@@ -20,8 +20,8 @@
     width: 625px;
 }
 
-.mod-combo-model-001-0778 {
-    background-image: url(/resources/combos/model-001/model-0778.png);
+.mod-combo-model-001-0778{{{cns}}} {
+    background-image: url(/resources/combos/model-001/model-0778.png{{{ns}}});
     background-position: center center;
     background-repeat: no-repeat;
     height: 200px;
@@ -29,8 +29,8 @@
     width: 778px;
 }
 
-.mod-combo-model-001-0930 {
-    background-image: url(/resources/combos/model-001/model-0930.png);
+.mod-combo-model-001-0930{{{cns}}} {
+    background-image: url(/resources/combos/model-001/model-0930.png{{{ns}}});
     background-position: center center;
     background-repeat: no-repeat;
     height: 200px;
@@ -40,7 +40,7 @@
 
 
 /* THE AUTHOR */
-.mod-combo-model-001 .mod-plugin-author h1 {
+.mod-combo-model-001{{{cns}}} .mod-plugin-author h1 {
     color: #333;
     font-size: 18px;
     font-weight: bold;
@@ -52,7 +52,7 @@
 }
 
 /* PLUGIN'S NAME */
-.mod-combo-model-001 .mod-plugin-name h1 {
+.mod-combo-model-001{{{cns}}} .mod-plugin-name h1 {
     color: #333;
     font-size: 18px;
     font-weight: bold;
@@ -64,7 +64,7 @@
 }
 
 /* CONTROLS */
-.mod-combo-model-001 .mod-control-group {
+.mod-combo-model-001{{{cns}}} .mod-control-group {
     border-color: #000;
     border-style: solid;
     border-width: 1px 0 0 0;
@@ -79,17 +79,17 @@
     top: 47px;
 }
 
-.mod-combo-model-001 .mod-control-group > div {
+.mod-combo-model-001{{{cns}}} .mod-control-group > div {
     margin-right: 2px;
 }
 
-.mod-combo-model-001 .mod-pedal-input,
-.mod-combo-model-001 .mod-pedal-output {
+.mod-combo-model-001{{{cns}}} .mod-pedal-input,
+.mod-combo-model-001{{{cns}}} .mod-pedal-output {
     top: 30px;
 }
 
 /* SWITCH ON/OFF GENERAL */
-.mod-combo-model-001 .mod-switch {
+.mod-combo-model-001{{{cns}}} .mod-switch {
     cursor: pointer;
     float: left;
     height: 71px;
@@ -97,8 +97,8 @@
     width: 130px;
 }
 
-.mod-combo-model-001 .mod-switch-image {
-    background-image: url(/resources/switches/switch-001.png);
+.mod-combo-model-001{{{cns}}} .mod-switch-image {
+    background-image: url(/resources/switches/switch-001.png{{{ns}}});
     background-position: -9px 0px;
     background-repeat: no-repeat;
     background-size: auto 71px;
@@ -106,16 +106,16 @@
     width: 71px;
 }
 
-.mod-combo-model-001 .mod-switch-image.on {
+.mod-combo-model-001{{{cns}}} .mod-switch-image.on {
     background-position: -80px 0px;
 }
 
-.mod-combo-model-001 .mod-switch-image.off {
+.mod-combo-model-001{{{cns}}} .mod-switch-image.off {
     background-position: -9px 0px;
 }
 
 /* CHICKEN HEAD */
-.mod-combo-model-001 .mod-chicken-head {
+.mod-combo-model-001{{{cns}}} .mod-chicken-head {
     float: left;
     height: 71px;
     overflow: hidden;
@@ -124,8 +124,8 @@
     width: 71px;
 }
 
-.mod-combo-model-001 .mod-chicken-head .mod-chicken-head-image {
-    background-image: url(/resources/knobs/chicken-head/_strip.png);
+.mod-combo-model-001{{{cns}}} .mod-chicken-head .mod-chicken-head-image {
+    background-image: url(/resources/knobs/chicken-head/_strip.png{{{ns}}});
     background-position: left 0px;
     background-repeat: no-repeat;
     background-size: auto 71px;
@@ -136,7 +136,7 @@
     z-index: 2;
 }
 
-.mod-combo-model-001 .mod-chicken-head .mod-chicken-head-title {
+.mod-combo-model-001{{{cns}}} .mod-chicken-head .mod-chicken-head-title {
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 10px;
     font-weight: bold;
@@ -151,7 +151,7 @@
 }
 
 /* ENUMERATED LIST */
-.mod-combo-model-001 .mod-enumerated {
+.mod-combo-model-001{{{cns}}} .mod-enumerated {
     color:#fff;
     display:inline-block;
     left:132px;
@@ -161,9 +161,9 @@
     width:240px;
 }
 
-.mod-combo-model-001 .mod-enumerated .mod-enumerated-selected {
+.mod-combo-model-001{{{cns}}} .mod-enumerated .mod-enumerated-selected {
     background-color:rgba(0,0,0,.8);
-    background-image:url(/resources/utils/dropdown-arrow-white.png);
+    background-image:url(/resources/utils/dropdown-arrow-white.png{{{ns}}});
     background-position:right center;
     background-repeat:no-repeat;
     border-radius:4px;
@@ -178,27 +178,27 @@
 }
 
 /* WHEN IS HOVER */
-.mod-combo-model-001 .mod-enumerated:hover .mod-enumerated-selected {
+.mod-combo-model-001{{{cns}}} .mod-enumerated:hover .mod-enumerated-selected {
     border-radius:4px 4px 0 0;
 }
 
 /* THE LIST OF OPTIONS */
-.mod-combo-model-001 .mod-enumerated .mod-enumerated-list {
+.mod-combo-model-001{{{cns}}} .mod-enumerated .mod-enumerated-list {
     display:none;
     font-weight:bold;
 }
 
-.mod-combo-model-001 .mod-enumerated .mod-enumerated-list > div {
+.mod-combo-model-001{{{cns}}} .mod-enumerated .mod-enumerated-list > div {
     padding:3px 9px;
 }
 
-.mod-combo-model-001 .mod-enumerated .mod-enumerated-list > div:hover {
+.mod-combo-model-001{{{cns}}} .mod-enumerated .mod-enumerated-list > div:hover {
     background:rgba(255,255,255,.2);
     cursor:pointer;
 }
 
 /* WHEN THE LIST IS SHOWING */
-.mod-combo-model-001 .mod-enumerated .mod-enumerated-list {
+.mod-combo-model-001{{{cns}}} .mod-enumerated .mod-enumerated-list {
     background:rgba(0,0,0,.9);
     display:none;
     height:85px;
@@ -210,7 +210,7 @@
 
 
 /* SEPARATOR */
-.mod-combo-model-001 .mod-separator {
+.mod-combo-model-001{{{cns}}} .mod-separator {
     background: #000;
     display: inline-block;
     float: left;
