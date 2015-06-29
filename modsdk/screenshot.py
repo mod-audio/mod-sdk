@@ -96,6 +96,10 @@ class BundleQueue(object):
     def run(self):
         self.webserver.start()
 
+    def tmp_filename(self):
+        tmp_filename = ''.join([ random.choice('0123456789abcdef') for i in range(6) ])
+        return '/tmp/%s.png' % tmp_filename
+
     def next_bundle(self):
         if len(self.bundle_queue) == 0:
             self.webserver.stop()
@@ -114,7 +118,7 @@ class BundleQueue(object):
         except (TypeError, KeyError):
             return self.next_effect()
 
-        fname = '/tmp/%s.png' % ''.join([ random.choice('0123456789abcdef') for i in range(6) ])
+        fname = self.tmp_filename()
         proc = subprocess.Popen([ PHANTOM_BINARY,
                                   SCREENSHOT_SCRIPT,
                                   'http://localhost:%d/icon.html#%s' % (PORT, self.current_effect['uri']),
@@ -128,7 +132,7 @@ class BundleQueue(object):
             if proc.poll() is None:
                 return
             self.webserver.remove_handler(fileno)
-            fh = open(fname)
+            fh = open(fname, 'rb')
             os.remove(fname)
             self.handle_image(fh)
 

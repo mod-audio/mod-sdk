@@ -283,8 +283,8 @@ class Screenshot(web.RequestHandler):
                                   fname,
                                   self.width,
                                   self.height,
-                                 ],
-                                 stdout=subprocess.PIPE)
+                                ],
+                                stdout=subprocess.PIPE)
 
         def proc_callback(fileno, event):
             if proc.poll() is None:
@@ -298,24 +298,18 @@ class Screenshot(web.RequestHandler):
         loop.add_handler(proc.stdout.fileno(), proc_callback, 16)
 
     def handle_image(self, fh):
-        screenshot_data = fh.read()
-        fh.seek(0)
-        thumb_data = self.thumbnail(fh).read()
+        screenshot_path = self.data['gui']['screenshot']
+        thumbnail_path  = self.data['gui']['thumbnail']
 
-        self.save_icon(screenshot_data, thumb_data)
+        if not os.path.exists(os.path.dirname(screenshot_path)):
+            raise web.HTTPError(404)
 
-        result = {
-            'ok': True,
-            'screenshot': b64encode(screenshot_data).decode("utf-8", errors="ignore"),
-            'thumbnail': b64encode(thumb_data).decode("utf-8", errors="ignore"),
-        }
+        if not os.path.exists(os.path.dirname(thumbnail_path)):
+            raise web.HTTPError(404)
 
-        self.set_header('Content-type', 'application/json')
-        self.write(json.dumps(result))
-        self.finish()
-
-    def thumbnail(self, fh):
         img = Image.open(fh)
+        img = self.crop(img)
+        img.save(screenshot_path)
         width, height = img.size
         if width > MAX_THUMB_WIDTH:
             width = MAX_THUMB_WIDTH
@@ -325,29 +319,43 @@ class Screenshot(web.RequestHandler):
             width = width * MAX_THUMB_HEIGHT / height
         img.convert('RGB')
         img.thumbnail((width, height), Image.ANTIALIAS)
-        fname = self.tmp_filename()
-        img.save(fname)
-        fh = open(fname, 'rb')
-        os.remove(fname)
-        return fh
+        img.save(thumbnail_path)
 
-    def save_icon(self, screenshot_data, thumbnail_data):
-        try:
-            basedir = self.data['gui']['resourcesDirectory']
-        except:
-            raise web.HTTPError(404)
+        screenshot_data = b""
+        thumbnail_data  = b""
 
-        if not os.path.exists(basedir):
-            raise web.HTTPError(404)
+        with open(screenshot_path, 'rb') as fd:
+            screenshot_data = fd.read()
 
-        screenshot_path = self.data['gui']['screenshot']
-        thumbnail_path  = self.data['gui']['thumbnail']
+        with open(thumbnail_path, 'rb') as fd:
+            thumbnail_data = fd.read()
 
-        with open(screenshot_path, 'wb') as fd:
-            fd.write(screenshot_data)
+        result = {
+            'ok': True,
+            'screenshot': b64encode(screenshot_data).decode("utf-8", errors="ignore"),
+            'thumbnail': b64encode(thumbnail_data).decode("utf-8", errors="ignore"),
+        }
 
-        with open(thumbnail_path, 'wb') as fd:
-            fd.write(thumbnail_data)
+        self.set_header('Content-type', 'application/json')
+        self.write(json.dumps(result))
+        self.finish()
+
+    def crop(self, img):
+        # first find latest non-transparent pixel in both width and height
+        min_x = int(self.width)
+        min_y = int(self.height)
+        max_x = 0
+        max_y = 0
+        for i, px in enumerate(img.getdata()):
+            if px[3] > 0:
+                width = i % img.size[0]
+                height = int(i / img.size[0])
+                min_x = min(min_x, width)
+                min_y = min(min_y, height)
+                max_x = max(max_x, width)
+                max_y = max(max_y, height)
+        # now crop
+        return img.crop((min_x, min_y, max_x, max_y))
 
 class BundlePost(web.RequestHandler):
     @web.asynchronous
