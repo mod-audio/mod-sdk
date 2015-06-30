@@ -130,7 +130,7 @@ def get_port_unit(miniuri):
       'mile': ["miles", "%f mi", "mi"],
       'db': ["decibels", "%f dB", "dB"],
       'pc': ["percent", "%f%%", "%"],
-      'coef': ["coefficient", "* %f", ""],
+      'coef': ["coefficient", "* %f", "*"],
       'hz': ["hertz", "%f Hz", "Hz"],
       'khz': ["kilohertz", "%f kHz", "kHz"],
       'mhz': ["megahertz", "%f MHz", "MHz"],
@@ -437,7 +437,6 @@ def get_pedalboard_name(bundle):
 # plugin_has_modgui
 
 # Check if a plugin has modgui
-
 def plugin_has_modgui(world, plugin):
     # define the needed stuff
     modgui  = NS(world, "http://moddevices.com/ns/modgui#")
@@ -483,7 +482,6 @@ def plugin_has_modgui(world, plugin):
 
 # Get info from a lilv plugin
 # This is used in get_plugins_info below and MOD-SDK
-
 def get_plugin_info(world, plugin):
     # define the needed stuff
     doap    = NS(world, lilv.LILV_NS_DOAP)
@@ -577,10 +575,10 @@ def get_plugin_info(world, plugin):
     # --------------------------------------------------------------------------------------------------------
     # description
 
-    description = plugin.get_value(doap.description).get_first().as_string() or ""
+    #description = plugin.get_value(doap.description).get_first().as_string() or ""
 
-    if not description:
-        warnings.append("plugin description is missing")
+    #if not description:
+        #warnings.append("plugin description is missing")
 
     # --------------------------------------------------------------------------------------------------------
     # version
@@ -664,6 +662,35 @@ def get_plugin_info(world, plugin):
     elif len(author['shortname']) > 10:
         author['shortname'] = author['shortname'][:10]
         errors.append("plugin author shortname has more than 8 characters")
+
+    # --------------------------------------------------------------------------------------------------------
+    # bundles
+
+    bnodes  = lilv.lilv_plugin_get_data_uris(plugin.me)
+    bundles = []
+
+    it = lilv.lilv_nodes_begin(bnodes)
+    while not lilv.lilv_nodes_is_end(bnodes, it):
+        bnode = lilv.lilv_nodes_get(bnodes, it)
+        it    = lilv.lilv_nodes_next(bnodes, it)
+
+        if bnode is None:
+            continue
+        if not lilv.lilv_node_is_uri(bnode):
+            continue
+
+        bpath = os.path.dirname(lilv.lilv_uri_to_path(lilv.lilv_node_as_uri(bnode)))
+
+        if not bpath.endswith(os.sep):
+            bpath += os.sep
+
+        if bpath not in bundles:
+            bundles.append(bpath)
+
+    if bundle not in bundles:
+        bundles.append(bundle)
+
+    del bnodes, it
 
     # --------------------------------------------------------------------------------------------------------
     # get the proper modgui
@@ -1097,7 +1124,10 @@ def get_plugin_info(world, plugin):
                     ulabel, urender, usymbol = get_port_unit(uuri)
 
                     if not (ulabel and urender and usymbol):
-                        errors.append("port '%s' has unknown lv2 unit (our bug?)" % portname)
+                        errors.append("port '%s' has unknown lv2 unit (our bug?, data is '%s', '%s', '%s')" % (portname,
+                                                                                                               ulabel,
+                                                                                                               urender,
+                                                                                                               usymbol))
 
                 # using custom unit
                 else:
@@ -1145,12 +1175,6 @@ def get_plugin_info(world, plugin):
         isInput = "Input" in types
         types.remove("Input" if isInput else "Output")
 
-        # FIXME: this is needed by SDK, but it's not pretty
-        #if "Control" in types:
-            #info['enumeration'] = bool("enumeration" in info['properties'])
-            #info['trigger'    ] = bool("trigger"     in info['properties'])
-            #info['toggled'    ] = bool("toggled"     in info['properties'])
-
         for typ in [typl.lower() for typl in types]:
             if typ not in ports.keys():
                 ports[typ] = { 'input': [], 'output': [] }
@@ -1190,7 +1214,7 @@ def get_plugin_info(world, plugin):
         'shortname': shortname,
 
         'comment'     : comment,
-        'description' : description,
+        #'description' : description,
         'microVersion': microVersion,
         'minorVersion': minorVersion,
 
@@ -1198,6 +1222,7 @@ def get_plugin_info(world, plugin):
         'stability': stability,
 
         'author' : author,
+        'bundles': bundles,
         'gui'    : gui,
         'ports'  : ports,
         'presets': presets,
@@ -1258,13 +1283,25 @@ if __name__ == '__main__':
     #get_plugins_info(argv[1:])
     #for i in get_plugins_info(argv[1:]): pprint(i)
     for i in get_plugins_info(argv[1:]):
-        i['warnings'].remove('plugin shortname is missing')
-        i['warnings'].remove('plugin author shortname is missing')
-        i['warnings'].remove('no modgui available')
+        warnings = i['warnings'].copy()
+
+        if 'plugin shortname is missing' in warnings:
+            i['warnings'].remove('plugin shortname is missing')
+
+        if 'plugin author shortname is missing' in warnings:
+            i['warnings'].remove('plugin author shortname is missing')
+
+        if 'no modgui available' in warnings:
+            i['warnings'].remove('no modgui available')
+
+        for warn in warnings:
+            if "has no short name" in warn:
+                i['warnings'].remove(warn)
+
         pprint({
             'uri'     : i['uri'],
             'errors'  : i['errors'],
             'warnings': i['warnings']
-        })
+        }, width=200)
 
 # ------------------------------------------------------------------------------------------------------------
