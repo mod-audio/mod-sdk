@@ -25,7 +25,7 @@
 
 /* = PLUGIN'S AUTHOR
 ================================================ */
-.mod-pedal-lata{{{cns}}} .mod-plugin-author {
+.mod-pedal-lata{{{cns}}} .mod-plugin-brand {
     left:30px;
     position:absolute;
     right:30px;
@@ -34,7 +34,7 @@
     top:290px;
 }
 
-.mod-pedal-lata{{{cns}}} .mod-plugin-author h1 {
+.mod-pedal-lata{{{cns}}} .mod-plugin-brand h1 {
     color:#111;
     font-family:"Nexa";
     font-size:32px;

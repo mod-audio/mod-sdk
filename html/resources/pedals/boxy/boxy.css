@@ -158,7 +158,7 @@
 
 /* = PLUGIN'S AUTHOR
 ================================================ */
-.mod-pedal-boxy{{{cns}}} .mod-plugin-author {
+.mod-pedal-boxy{{{cns}}} .mod-plugin-brand {
     left:0;
     position:absolute;
     right:0;
@@ -167,7 +167,7 @@
     top:160px;
 }
 
-.mod-pedal-boxy{{{cns}}} .mod-plugin-author h1 {
+.mod-pedal-boxy{{{cns}}} .mod-plugin-brand h1 {
     border-color:#000;
     border-radius:12px;
     border-style:solid;
@@ -178,14 +178,14 @@
     padding:3px 9px 0;
 }
 
-.mod-pedal-boxy{{{cns}}}.mod-five-knobs .mod-plugin-author,
-.mod-pedal-boxy{{{cns}}}.mod-six-knobs .mod-plugin-author,
-.mod-pedal-boxy{{{cns}}}.mod-seven-knobs .mod-plugin-author,
-.mod-pedal-boxy{{{cns}}}.mod-eight-knobs .mod-plugin-author {
+.mod-pedal-boxy{{{cns}}}.mod-five-knobs .mod-plugin-brand,
+.mod-pedal-boxy{{{cns}}}.mod-six-knobs .mod-plugin-brand,
+.mod-pedal-boxy{{{cns}}}.mod-seven-knobs .mod-plugin-brand,
+.mod-pedal-boxy{{{cns}}}.mod-eight-knobs .mod-plugin-brand {
     top:190px;
 }
 
-.mod-pedal-boxy{{{cns}}}.mod-boxy50 .mod-plugin-author {
+.mod-pedal-boxy{{{cns}}}.mod-boxy50 .mod-plugin-brand {
   top:16px;
 }
 
@@ -221,61 +221,61 @@
 
 /* = PLUGIN'S AUTHO AND NAME COLOURS
 ================================================ */
-.mod-pedal-boxy{{{cns}}}.mod-blue .mod-plugin-author h1,
+.mod-pedal-boxy{{{cns}}}.mod-blue .mod-plugin-brand h1,
 .mod-pedal-boxy{{{cns}}}.mod-blue .mod-plugin-name h1 {
     color:rgb(0,0,0);
 }
 
-.mod-pedal-boxy{{{cns}}}.mod-brown .mod-plugin-author h1,
+.mod-pedal-boxy{{{cns}}}.mod-brown .mod-plugin-brand h1,
 .mod-pedal-boxy{{{cns}}}.mod-brown .mod-plugin-name h1 {
     border-color:rgb(255,255,255);
     color:rgb(255,255,255);
 }
 
-.mod-pedal-boxy{{{cns}}}.mod-cream .mod-plugin-author h1,
+.mod-pedal-boxy{{{cns}}}.mod-cream .mod-plugin-brand h1,
 .mod-pedal-boxy{{{cns}}}.mod-cream .mod-plugin-name h1 {
     color:rgb(0,0,0);
 }
 
-.mod-pedal-boxy{{{cns}}}.mod-darkblue .mod-plugin-author h1,
+.mod-pedal-boxy{{{cns}}}.mod-darkblue .mod-plugin-brand h1,
 .mod-pedal-boxy{{{cns}}}.mod-darkblue .mod-plugin-name h1 {
     border-color:rgb(255,255,255);
     color:rgb(255,255,255);
 }
 
-.mod-pedal-boxy{{{cns}}}.mod-gray .mod-plugin-author h1,
+.mod-pedal-boxy{{{cns}}}.mod-gray .mod-plugin-brand h1,
 .mod-pedal-boxy{{{cns}}}.mod-gray .mod-plugin-name h1 {
     color:rgb(0,0,0);
 }
 
-.mod-pedal-boxy{{{cns}}}.mod-green .mod-plugin-author h1,
+.mod-pedal-boxy{{{cns}}}.mod-green .mod-plugin-brand h1,
 .mod-pedal-boxy{{{cns}}}.mod-green .mod-plugin-name h1 {
     border-color:rgb(255,255,255);
     color:rgb(255,255,255);
 }
 
-.mod-pedal-boxy{{{cns}}}.mod-orange .mod-plugin-author h1,
+.mod-pedal-boxy{{{cns}}}.mod-orange .mod-plugin-brand h1,
 .mod-pedal-boxy{{{cns}}}.mod-orange .mod-plugin-name h1 {
     color:rgb(0,0,0);
 }
 
-.mod-pedal-boxy{{{cns}}}.mod-purple .mod-plugin-author h1,
+.mod-pedal-boxy{{{cns}}}.mod-purple .mod-plugin-brand h1,
 .mod-pedal-boxy{{{cns}}}.mod-purple .mod-plugin-name h1 {
     border-color:rgb(255,255,255);
     color:rgb(255,255,255);
 }
 
-.mod-pedal-boxy{{{cns}}}.mod-red .mod-plugin-author h1,
+.mod-pedal-boxy{{{cns}}}.mod-red .mod-plugin-brand h1,
 .mod-pedal-boxy{{{cns}}}.mod-red .mod-plugin-name h1 {
     color:rgb(0,0,0);
 }
 
-.mod-pedal-boxy{{{cns}}}.mod-white .mod-plugin-author h1,
+.mod-pedal-boxy{{{cns}}}.mod-white .mod-plugin-brand h1,
 .mod-pedal-boxy{{{cns}}}.mod-white .mod-plugin-name h1 {
     color:rgb(0,0,0);
 }
 
-.mod-pedal-boxy{{{cns}}}.mod-yellow .mod-plugin-author h1,
+.mod-pedal-boxy{{{cns}}}.mod-yellow .mod-plugin-brand h1,
 .mod-pedal-boxy{{{cns}}}.mod-yellow .mod-plugin-name h1 {
     color:rgb(0,0,0);
 }

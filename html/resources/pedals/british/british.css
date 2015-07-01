@@ -23,7 +23,7 @@
 
 /* = PLUGIN'S AUTHOR
 ================================================ */
-.mod-pedal-british{{{cns}}} .mod-plugin-author {
+.mod-pedal-british{{{cns}}} .mod-plugin-brand {
     left:30px;
     position:absolute;
     right:30px;
@@ -31,7 +31,7 @@
     top:390px;
 }
 
-.mod-pedal-british{{{cns}}} .mod-plugin-author h1 {
+.mod-pedal-british{{{cns}}} .mod-plugin-brand h1 {
     color:#777471;
     font-family:"EnglandHand";
     font-size:48px;

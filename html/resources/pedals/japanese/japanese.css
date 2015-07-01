@@ -32,7 +32,7 @@
 
 /* = PLUGIN'S AUTHOR
 ================================================ */
-.mod-pedal-japanese{{{cns}}} .mod-plugin-author {
+.mod-pedal-japanese{{{cns}}} .mod-plugin-brand {
     bottom:95px;
     left:30px;
     position:absolute;
@@ -41,7 +41,7 @@
     text-transform:uppercase;
 }
 
-.mod-pedal-japanese{{{cns}}} .mod-plugin-author h1 {
+.mod-pedal-japanese{{{cns}}} .mod-plugin-brand h1 {
     color:#111;
     font-family:"Nexa";
     font-size:32px;
