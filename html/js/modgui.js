@@ -528,8 +528,8 @@ function GUI(effect, options) {
         }
 
         // fill fields that might be present on modgui data
-        if (!data.author)
-            data.author = effect.gui.author || ""
+        if (!data.brand)
+            data.brand = effect.gui.brand || ""
         if (!data.label)
             data.label = effect.gui.label || ""
         if (!data.color)
