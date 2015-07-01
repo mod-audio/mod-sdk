@@ -521,7 +521,7 @@ function GUI(effect, options) {
 
         if (skipNamespace) {
             data.ns  = ''
-            data.cns = ''
+            data.cns = '_sdk'
         } else {
             data.ns  = '?uri=' + escape(options.uri)
             data.cns = '_' + escape(options.uri).split("/").join("_").split("%").join("_").split(".").join("_")

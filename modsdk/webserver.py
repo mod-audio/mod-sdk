@@ -517,7 +517,7 @@ class EffectResource(web.StaticFileHandler):
                 self.absolute_path = os.path.join(HTML_DIR, 'resources', path)
                 with open(self.absolute_path, 'r') as fd:
                     self.set_header('Content-type', 'text/css')
-                    self.write(fd.read().replace("{{{cns}}}","").replace("{{{ns}}}",""))
+                    self.write(fd.read().replace("{{{cns}}}","_sdk").replace("{{{ns}}}",""))
                     return
 
             return self.shared_resource(path)
