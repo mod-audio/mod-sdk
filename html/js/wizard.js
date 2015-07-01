@@ -29,7 +29,7 @@ JqueryClass('wizard', {
         self.data('color', null)
         self.data('panel', null)
         self.data('knob', null)
-        self.data('author', 'brand')
+        self.data('brand', 'brand')
         self.data('label', 'Label here')
         self.data('uri', null)
         self.data('controls', null)
@@ -51,10 +51,10 @@ JqueryClass('wizard', {
         if (effect.gui.knob)
             self.data('knob', effect.gui.knob)
 
-        if (effect.gui.author)
-            self.data('author', effect.gui.author)
+        if (effect.gui.brand)
+            self.data('brand', effect.gui.brand)
         else
-            self.data('author', effect.author.shortname)
+            self.data('brand', effect.brand)
 
         if (effect.gui.label)
             self.data('label', effect.gui.label)
@@ -318,8 +318,8 @@ JqueryClass('wizard', {
 
         var data = {
             effect  : $.extend({ gui: null }, effect),
+            brand   : self.data('brand'),
             label   : self.data('label'),
-            author  : self.data('author'),
             model   : model,
             panel   : panel,
             controls: [],
@@ -349,8 +349,8 @@ JqueryClass('wizard', {
     configure: function() {
         var self     = $(this)
         var effect   = self.data('effect')
+        var brand    = self.data('brand')
         var label    = self.data('label')
-        var author   = self.data('author')
         var panel    = self.data('panel')
         var controls = self.data('controls')
         var db       = self.data('model_index')
@@ -362,11 +362,11 @@ JqueryClass('wizard', {
 
         var max = self.data('model_index')[self.data('model')]['panels'][panel]
 
+        var brandInput = self.find('input[name=brand]')
         var labelInput = self.find('input[name=label]')
-        var authorInput = self.find('input[name=author]')
 
+        brandInput.val(brand)
         labelInput.val(label)
-        authorInput.val(author)
 
         var control
         var controlPorts = effect.ports.control.input
@@ -412,12 +412,12 @@ JqueryClass('wizard', {
             $('#pedal-buttons').append(sel).append(nam)
         }
 
-        labelInput.keyup(function() {
-            self.data('label', labelInput.val())
+        brandInput.keyup(function() {
+            self.data('brand', brandInput.val())
             self.wizard('render')
         })
-        authorInput.keyup(function() {
-            self.data('author', authorInput.val())
+        labelInput.keyup(function() {
+            self.data('label', labelInput.val())
             self.wizard('render')
         })
 
@@ -454,7 +454,7 @@ JqueryClass('wizard', {
         ttlText += '        modgui:stylesheet <'+resDir+'/stylesheet-'+slug+'.css> ;\n'
         ttlText += '        modgui:screenshot <'+resDir+'/screenshot-'+slug+'.png> ;\n'
         ttlText += '        modgui:thumbnail <'+resDir+'/thumbnail-'+slug+'.png> ;\n'
-        ttlText += '        modgui:author "'+templateData.author+'" ;\n'
+        ttlText += '        modgui:brand "'+templateData.brand+'" ;\n'
         ttlText += '        modgui:label "'+templateData.label+'" ;\n'
         ttlText += '        modgui:model "'+templateData.model+'" ;\n'
         ttlText += '        modgui:panel "'+templateData.panel+'" ;\n'

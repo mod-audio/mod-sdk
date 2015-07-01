@@ -225,11 +225,11 @@ function showEffect() {
     $('#info-name-full').html(options.name)
     $('#info-name-short').html(options.shortname)
     $('#info-author-full').html(options.author.name)
-    $('#info-author-short').html(options.author.shortname)
+    $('#info-brand').html(options.brand)
     $('#info-version').html(options.version)
 
     $('#info-license').html(options.license || "missing license")
-    $('#info-description').html(options.description || "missing description")
+    $('#info-comment').html(options.comment || "missing comment")
 
     var errors, warnings
 
@@ -261,24 +261,6 @@ function showEffect() {
 
     $('#info-errors').html(errors)
     $('#info-warnings').html(warnings)
-
-//     portsHtml = infoPorts.html('')
-//     for (var i in options.ports.control.input) {
-//         port = options.ports.control.input[i]
-//         portsHtml.append(sprintf('\
-//             <div class="controls clearfix"><label>Control Port #%d</label>\
-//             <span>Name:   </span><input id="info_port_%s_name"   type="text" value="%s"/><br/>\
-//             <span>Symbol: </span><input id="info_port_%s_symbol" type="text" value="%s"/><br/>\
-//             <span>Minimum: </span><input id="info_port_%s_min" type="number" value="%f"/><br/>\
-//             </div>',
-//             port.index,
-//             port.symbol, "fake-name-here", //port.name
-//             port.symbol, port.symbol,
-//             port.symbol, port.ranges.minimum
-//         ))
-//     }
-
-    //infoPorts.html('<pre>' + JSON.stringify(options.ports.control.input) + '</pre>');
 
     window.location.hash = bundle + ',' + options.uri + ',' + section
 
