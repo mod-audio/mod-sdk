@@ -17,11 +17,11 @@ mod:brand
         owl:DatatypeProperty ;
     rdfs:label "brand" ;
     rdfs:range xsd:string ;
-    rdfs:comment "TODO" .
+    rdfs:comment "TODO, maximum 10 characters" .
 
 mod:label
     a rdf:Property ,
         owl:DatatypeProperty ;
     rdfs:label "label" ;
     rdfs:range xsd:string ;
-    rdfs:comment "TODO" .
+    rdfs:comment "TODO, maximum 16 characters" .

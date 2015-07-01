@@ -1272,11 +1272,11 @@ if __name__ == '__main__':
     for i in get_plugins_info(argv[1:]):
         warnings = i['warnings'].copy()
 
-        if 'plugin shortname is missing' in warnings:
-            i['warnings'].remove('plugin shortname is missing')
+        if 'plugin brand is missing' in warnings:
+            i['warnings'].remove('plugin brand is missing')
 
-        if 'plugin author shortname is missing' in warnings:
-            i['warnings'].remove('plugin author shortname is missing')
+        if 'plugin label is missing' in warnings:
+            i['warnings'].remove('plugin label is missing')
 
         if 'no modgui available' in warnings:
             i['warnings'].remove('no modgui available')
