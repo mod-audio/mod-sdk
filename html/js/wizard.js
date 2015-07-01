@@ -59,7 +59,7 @@ JqueryClass('wizard', {
         if (effect.gui.label)
             self.data('label', effect.gui.label)
         else
-            self.data('label', effect.shortname)
+            self.data('label', effect.label)
 
         if (effect.gui.ports)
             self.data('controls', effect.gui.ports)
