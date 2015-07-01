@@ -1099,16 +1099,17 @@ def get_plugin_info(world, plugin):
                 uuri = lilv.lilv_node_as_uri(uunit)
 
                 # using pre-existing lv2 unit
-                if uuri is not None and uuri.startswith("http://lv2plug.in/ns/extensions/units#"):
-                    uuri = uuri.replace("http://lv2plug.in/ns/extensions/units#","",1)
+                if uuri is not None and uuri.startswith("http://lv2plug.in/ns/"):
+                    uuri  = uuri.replace("http://lv2plug.in/ns/extensions/units#","",1)
+                    alnum = uuri.isalnum()
 
-                    if uuri.startswith("/"):
+                    if not alnum:
                         errors.append("port '%s' has wrong lv2 unit uri" % portname)
-                        uuri = uuri[1:]
+                        uuri = uuri.rsplit("#",1)[-1].rsplit("/",1)[-1]
 
                     ulabel, urender, usymbol = get_port_unit(uuri)
 
-                    if not (ulabel and urender and usymbol):
+                    if alnum and not (ulabel and urender and usymbol):
                         errors.append("port '%s' has unknown lv2 unit (our bug?, data is '%s', '%s', '%s')" % (portname,
                                                                                                                ulabel,
                                                                                                                urender,
