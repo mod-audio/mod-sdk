@@ -542,30 +542,6 @@ def get_plugin_info(world, plugin):
         warnings.append("plugin license entry is a local path instead of a string")
 
     # --------------------------------------------------------------------------------------------------------
-    # shortname
-
-    shortname = plugin.get_value(ns_doap.shortname).get_first().as_string() or ""
-
-    if not shortname:
-        if len(name) <= 16:
-            shortname = name
-        else:
-            shortnames = name.split(" - ",1)[0].split(" ")
-            if shortnames[0].lower() in bundle.lower() and len(shortnames) > 1 and not shortnames[1].startswith(("(","[")):
-                shortname = shortnames[1]
-            else:
-                shortname = shortnames[0]
-
-            if len(shortname) > 16:
-                shortname = shortname[:16]
-
-            warnings.append("plugin shortname is missing")
-
-    elif len(shortname) > 16:
-        shortname = shortname[:16]
-        errors.append("plugin shortname has more than 16 characters")
-
-    # --------------------------------------------------------------------------------------------------------
     # comment
 
     comment = plugin.get_value(ns_rdfs.comment).get_first().as_string() or ""
@@ -647,6 +623,31 @@ def get_plugin_info(world, plugin):
     elif len(brand) > 10:
         brand = brand[:10]
         errors.append("plugin brand has more than 10 characters")
+
+    # --------------------------------------------------------------------------------------------------------
+    # label
+
+    label = plugin.get_value(ns_mod.label).get_first().as_string() or ""
+
+    if not label:
+        if len(name) <= 16:
+            label = name
+        else:
+            labels = name.split(" - ",1)[0].split(" ")
+            if labels[0].lower() in bundle.lower() and len(labels) > 1 and not labels[1].startswith(("(","[")):
+                label = labels[1]
+            else:
+                label = labels[0]
+
+            if len(label) > 16:
+                label = label[:16]
+
+            warnings.append("plugin label is missing")
+            del labels
+
+    elif len(label) > 16:
+        label = label[:16]
+        errors.append("plugin label has more than 16 characters")
 
     # --------------------------------------------------------------------------------------------------------
     # bundles
@@ -1194,13 +1195,13 @@ def get_plugin_info(world, plugin):
         'uri' : uri,
         'name': name,
 
-        'binary'   : binary,
-        'brand'    : brand,
-        'category' : get_category(plugin.get_value(ns_rdf.type_)),
-        'license'  : license,
-        'shortname': shortname,
+        'binary' : binary,
+        'brand'  : brand,
+        'label'  : label,
+        'license': license,
+        'comment': comment,
 
-        'comment'     : comment,
+        'category'    : get_category(plugin.get_value(ns_rdf.type_)),
         'microVersion': microVersion,
         'minorVersion': minorVersion,
 

@@ -222,9 +222,9 @@ function showEffect() {
     }
 
     $('#info-uri').html(options.uri)
-    $('#info-name-full').html(options.name)
-    $('#info-name-short').html(options.shortname)
-    $('#info-author-full').html(options.author.name)
+    $('#info-name').html(options.name)
+    $('#info-label').html(options.label)
+    $('#info-author').html(options.author.name)
     $('#info-brand').html(options.brand)
     $('#info-version').html(options.version)
 
