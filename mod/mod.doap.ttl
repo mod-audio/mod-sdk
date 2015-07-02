@@ -1,0 +1,29 @@
+@prefix dcs:  <http://ontologi.es/doap-changeset#> .
+@prefix doap: <http://usefulinc.com/ns/doap#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<http://moddevices.com/ns/mod>
+    a doap:Project ;
+    doap:license <http://opensource.org/licenses/isc> ;
+    doap:name "MOD" ;
+    doap:homepage <http://moddevices.com/ns/mod> ;
+    doap:created "2015-07-01" ;
+    doap:shortdesc "Properties for describing MOD related data." ;
+    doap:developer <http://falktx.com/myself.html> ;
+    doap:maintainer <http://falktx.com/myself.html> ;
+    doap:release [
+        doap:revision "0.0" ;
+        doap:created "2015-07-01" ;
+        doap:file-release <http://moddevices.com/ns/mod-0.0.tar.bz2> ;
+        dcs:changeset [
+            dcs:item [
+                rdfs:label "First stable release."
+            ]
+        ]
+    ] .
+
+<http://falktx.com/myself.html>
+    a foaf:Person ;
+    foaf:name "Filipe Coelho" ;
+    foaf:mbox <mailto:falktx@falktx.com> .
