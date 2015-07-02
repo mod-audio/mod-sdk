@@ -25,5 +25,8 @@ if [ ! -f documentation/style.css ]; then
   git clone git://github.com/portalmod/mod-sdk --depth 1 -b gh-pages documentation
 fi
 
+cp mod.lv2/*    documentation/mod/
+cp modgui.lv2/* documentation/modgui/
+
 lv2specgen.py $(pwd)/mod.lv2/manifest.ttl    /usr/share/lv2specgen/ ../style.css $(pwd)/documentation/mod/index.html    $(pwd)/documentation/mod    "" -i -p mod
 lv2specgen.py $(pwd)/modgui.lv2/manifest.ttl /usr/share/lv2specgen/ ../style.css $(pwd)/documentation/modgui/index.html $(pwd)/documentation/modgui "" -i -p modgui
