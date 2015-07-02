@@ -4,4 +4,5 @@ config.json
 .DS_Store
 MANIFEST.in
 
+documentation/
 html/resources/.git*
