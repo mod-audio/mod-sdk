@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
+<html about="http://moddevices.com/ns/mod"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:dc="http://purl.org/dc/elements/1.1/"
+      xmlns:dct="http://purl.org/dc/terms/"
+      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+      xmlns:lv2="http://lv2plug.in/ns/lv2core#"
+            xmlns:mod="http://moddevices.com/ns/mod#"
+      xml:lang="en">
+  <head>
+    <title>MOD</title>
+    <meta http-equiv="content-type" content="text/xhtml+xml; charset=utf-8" />
+    <meta name="generator" content="lv2specgen" />
+    <link href="../style.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+
+  <!-- HEADER -->
+  <div id="topbar">
+    <div id="header">
+      <div id="titlebox">
+        <h1 id="title">MOD</h1>
+        <div id="subtitle"><a href="http://moddevices.com/ns/mod">http://moddevices.com/ns/mod</a></div>
+        <div id="shortdesc">Properties for describing MOD related data.</div>
+      </div>
+      <table id="meta">
+        <!--<tr><th>URI</th><td><a href="http://moddevices.com/ns/mod">http://moddevices.com/ns/mod</a></td></tr>
+            <tr><th>Version</th><td>@REVISION@</td></tr>-->
+        <!--<tr><th>Prefixes</th><td><span><a href="http://ontologi.es/doap-changeset#">dcs</a> <a href="http://usefulinc.com/ns/doap#">doap</a> <a href="http://xmlns.com/foaf/0.1/">foaf</a> <a href="http://lv2plug.in/ns/lv2core#">lv2</a> <a href="http://moddevices.com/ns/mod#">mod</a> <a href="http://www.w3.org/2002/07/owl#">owl</a> <a href="http://lv2plug.in/ns/ext/port-props#">pprops</a> <a href="http://www.w3.org/1999/02/22-rdf-syntax-ns#">rdf</a> <a href="http://www.w3.org/2000/01/rdf-schema#">rdfs</a> <a href="http://www.w3.org/2001/XMLSchema#">xsd</a> </span></td></tr>-->
+        <tr><th>Version</th><td>0.0 <span class="warning">EXPERIMENTAL</span></td></tr>
+        <tr><th>Date</th><td>2015-07-02</td></tr>
+        <tr><th>Discuss</th><td><a href="mailto:None">None</a> <a href="None">(subscribe)</a></td></tr>
+        <tr><th class="metahead">Developer</th><td><span class="author" property="doap:developer">Filipe Coelho</span></td></tr><tr><th class="metahead">Maintainer</th><td><span class="author" property="doap:maintainer">Filipe Coelho</span></td></tr>
+      </table>
+    </div>
+    <ul id="contents">
+      <!-- <li><a href="#sec-description">Description</a></li> -->
+      <li><a href="#sec-index">Index</a></li>
+      <li><a href="#sec-reference">Reference</a></li>
+      <li><a href="#sec-history">History</a></li>
+      <li><a href="/home/falktx/FOSS/GIT-mine/MOD/mod-sdk/documentation/mod/group__manifest.html">API</a></li>
+    </ul>
+  </div>
+
+  <!-- DESCRIPTION -->
+  <!--<h2 class="sec" id="sec-description">Description</h2>-->
+  <div class="content">
+<p>
+This is a vocabulary for describing extra plugin data specific to MOD software and devices.
+</p>
+</div>
+
+  <!-- INDEX -->
+  <h2 class="sec" id="sec-index">Index</h2>
+  <div class="content" id="index">
+  <table class="index"><thead><tr><th>Properties</th><th>Instances</th><th>Files</th></tr></thead>
+<tbody><tr><td><ul><li><a href="#brand">brand</a></li><li><a href="#default">default</a></li><li><a href="#label">label</a></li><li><a href="#maximum">maximum</a></li><li><a href="#minimum">minimum</a></li><li><a href="#rangeSteps">rangeSteps</a></li></ul></td>
+<td><ul><li><a href="#notStompboxCapable">notStompboxCapable</a></li></ul></td>
+<td><ul><li><a href="mod.doap.ttl">mod.doap.ttl</a></li><li><a href="mod.ttl">mod.ttl</a></li></ul></td>
+</tr></tbody></table>
+  </div>
+
+  <!-- DOCUMENTATION -->
+  <h2 class="sec" id="sec-reference">Reference</h2>
+  <div class="content">
+  <div class="specterm" id="brand" about="http://moddevices.com/ns/mod#brand">
+<h3>Property <a href="#brand">mod:brand</a></h3>
+<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">brand</div><div property="rdfs:comment"><p>TODO, maximum 10 characters</p></div></div>
+<table class="terminfo"><tr><th>OWL Type</th><td>Datatype Property</td></tr>
+<tr><th>Range</th><td><a href="http://www.w3.org/2001/XMLSchema#string" about="http://moddevices.com/ns/mod#brand" rel="rdfs:range" resource="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></td></tr>
+</table>
+</div>
+</div>
+
+<div class="specterm" id="default" about="http://moddevices.com/ns/mod#default">
+<h3>Property <a href="#default">mod:default</a></h3>
+<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">default</div><div property="rdfs:comment"><p>A custom default value specific to MOD devices, used in place of lv2:default.</p></div></div>
+<table class="terminfo"><tr><th>OWL Type</th><td>Datatype Property</td></tr>
+<tr><th><a href="http://www.w3.org/2000/01/rdf-schema#seeAlso" >rdfs:seeAlso</a></th>
+<td><a href="http://lv2plug.in/ns/lv2core#default" about="http://moddevices.com/ns/mod#default" rel="rdfs:seeAlso" resource="http://lv2plug.in/ns/lv2core#default">lv2:default</a></td></tr>
+</table>
+</div>
+</div>
+
+<div class="specterm" id="label" about="http://moddevices.com/ns/mod#label">
+<h3>Property <a href="#label">mod:label</a></h3>
+<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">label</div><div property="rdfs:comment"><p>TODO, maximum 16 characters</p></div></div>
+<table class="terminfo"><tr><th>OWL Type</th><td>Datatype Property</td></tr>
+<tr><th>Range</th><td><a href="http://www.w3.org/2001/XMLSchema#string" about="http://moddevices.com/ns/mod#label" rel="rdfs:range" resource="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></td></tr>
+</table>
+</div>
+</div>
+
+<div class="specterm" id="maximum" about="http://moddevices.com/ns/mod#maximum">
+<h3>Property <a href="#maximum">mod:maximum</a></h3>
+<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">maximum</div><div property="rdfs:comment"><p>A custom maximum value specific to MOD devices, used in place of lv2:maximum.</p></div></div>
+<table class="terminfo"><tr><th>OWL Type</th><td>Datatype Property</td></tr>
+<tr><th><a href="http://www.w3.org/2000/01/rdf-schema#seeAlso" >rdfs:seeAlso</a></th>
+<td><a href="http://lv2plug.in/ns/lv2core#maximum" about="http://moddevices.com/ns/mod#maximum" rel="rdfs:seeAlso" resource="http://lv2plug.in/ns/lv2core#maximum">lv2:maximum</a></td></tr>
+</table>
+</div>
+</div>
+
+<div class="specterm" id="minimum" about="http://moddevices.com/ns/mod#minimum">
+<h3>Property <a href="#minimum">mod:minimum</a></h3>
+<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">minimum</div><div property="rdfs:comment"><p>A custom minimum value specific to MOD devices, used in place of lv2:minimum.</p></div></div>
+<table class="terminfo"><tr><th>OWL Type</th><td>Datatype Property</td></tr>
+<tr><th><a href="http://www.w3.org/2000/01/rdf-schema#seeAlso" >rdfs:seeAlso</a></th>
+<td><a href="http://lv2plug.in/ns/lv2core#minimum" about="http://moddevices.com/ns/mod#minimum" rel="rdfs:seeAlso" resource="http://lv2plug.in/ns/lv2core#minimum">lv2:minimum</a></td></tr>
+</table>
+</div>
+</div>
+
+<div class="specterm" id="rangeSteps" about="http://moddevices.com/ns/mod#rangeSteps">
+<h3>Property <a href="#rangeSteps">mod:rangeSteps</a></h3>
+<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">number of value steps</div><div property="rdfs:comment"><p>A custom rangeSteps value specific to MOD devices, used in place of pprops:rangeSteps.</p></div></div>
+<table class="terminfo"><tr><th>Domain</th><td><a href="http://lv2plug.in/ns/lv2core#Port" about="http://moddevices.com/ns/mod#rangeSteps" rel="rdfs:domain" resource="http://lv2plug.in/ns/lv2core#Port">lv2:Port</a></td></tr>
+<tr><th>Range</th><td><a href="http://www.w3.org/2001/XMLSchema#nonNegativeInteger" about="http://moddevices.com/ns/mod#rangeSteps" rel="rdfs:range" resource="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">xsd:nonNegativeInteger</a></td></tr>
+<tr><th><a href="http://www.w3.org/2000/01/rdf-schema#seeAlso" >rdfs:seeAlso</a></th>
+<td><a href="http://lv2plug.in/ns/ext/port-props#rangeSteps" about="http://moddevices.com/ns/mod#rangeSteps" rel="rdfs:seeAlso" resource="http://lv2plug.in/ns/ext/port-props#rangeSteps">pprops:rangeSteps</a></td></tr>
+</table>
+</div>
+</div>
+
+<div class="specterm" id="notStompboxCapable" about="http://moddevices.com/ns/mod#notStompboxCapable">
+<h3>Instance <a href="#notStompboxCapable">mod:notStompboxCapable</a></h3>
+<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">not stompbox capable</div><div property="rdfs:comment">
+<p>
+Indicates that the plugin is not suitable for use in the MOD Stompbox mode.<br/>
+Plugins are assumed to be suitable for Stompbox mode by default, and MUST provide this as an optional feature in case that's not true.
+</p>
+</div></div>
+<table class="terminfo"><tr><th>Type</th><td><a href="http://lv2plug.in/ns/lv2core#Feature" about="http://moddevices.com/ns/mod#notStompboxCapable" rel="rdf:type" resource="http://lv2plug.in/ns/lv2core#Feature">lv2:Feature</a></td></tr>
+</table>
+</div>
+</div>
+
+
+  </div>
+
+  <!-- HISTORY -->
+  <h2 class="sec" id="sec-history">History</h2>
+  <div class="content">
+  <dl>
+<dt><a href="http://moddevices.com/ns/mod-0.0.tar.bz2">Version 0.0</a> (2015-07-01)</dt>
+<dd><ul>
+<li>First stable release.</li>
+</ul></dd></dl>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div id="footer">
+    <div>
+      This document is available under the
+      <a about="" rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/">
+        Creative Commons Attribution-ShareAlike License
+      </a>
+    </div>
+	<div>
+      Valid
+      <a about="" rel="dct:conformsTo" resource="http://www.w3.org/TR/rdfa-syntax"
+         href="http://validator.w3.org/check?uri=referer">
+        XHTML+RDFa
+      </a>
+      and
+      <a about="" rel="dct:conformsTo" resource="http://www.w3.org/TR/CSS2"
+         href="http://jigsaw.w3.org/css-validator/check/referer">
+        CSS
+      </a>
+      generated from manifest.ttl by <a href="http://drobilla.net/software/lv2specgen">lv2specgen</a>
+    </div>
+  </div>
+
+  </body>
+</html>

@@ -1,0 +1,645 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
+<html about="http://moddevices.com/ns/modgui"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:dc="http://purl.org/dc/elements/1.1/"
+      xmlns:dct="http://purl.org/dc/terms/"
+      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+      xmlns:lv2="http://lv2plug.in/ns/lv2core#"
+            xmlns:modgui="http://moddevices.com/ns/modgui#"
+      xml:lang="en">
+  <head>
+    <title>MOD GUI</title>
+    <meta http-equiv="content-type" content="text/xhtml+xml; charset=utf-8" />
+    <meta name="generator" content="lv2specgen" />
+    <link href="../style.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+
+  <!-- HEADER -->
+  <div id="topbar">
+    <div id="header">
+      <div id="titlebox">
+        <h1 id="title">MOD GUI</h1>
+        <div id="subtitle"><a href="http://moddevices.com/ns/modgui">http://moddevices.com/ns/modgui</a></div>
+        <div id="shortdesc">An LV2 extension to build HTML interfaces for audio plugins.</div>
+      </div>
+      <table id="meta">
+        <!--<tr><th>URI</th><td><a href="http://moddevices.com/ns/modgui">http://moddevices.com/ns/modgui</a></td></tr>
+            <tr><th>Version</th><td>@REVISION@</td></tr>-->
+        <!--<tr><th>Prefixes</th><td><span><a href="http://ontologi.es/doap-changeset#">dcs</a> <a href="http://usefulinc.com/ns/doap#">doap</a> <a href="http://xmlns.com/foaf/0.1/">foaf</a> <a href="http://lv2plug.in/ns/lv2core#">lv2</a> <a href="http://moddevices.com/ns/modgui#">modgui</a> <a href="http://www.w3.org/2002/07/owl#">owl</a> <a href="http://lv2plug.in/ns/ext/port-props#">pprops</a> <a href="http://www.w3.org/1999/02/22-rdf-syntax-ns#">rdf</a> <a href="http://www.w3.org/2000/01/rdf-schema#">rdfs</a> <a href="http://lv2plug.in/ns/extensions/units#">units</a> <a href="http://www.w3.org/2001/XMLSchema#">xsd</a> </span></td></tr>-->
+        <tr><th>Version</th><td>1.9 <span class="warning">EXPERIMENTAL</span></td></tr>
+        <tr><th>Date</th><td>2015-07-02</td></tr>
+        <tr><th>Discuss</th><td><a href="mailto:None">None</a> <a href="None">(subscribe)</a></td></tr>
+        <tr><th class="metahead">Developers</th><td><span class="author" property="doap:developer">Luis Fagundes</span>, <span class="author" property="doap:developer">Filipe Coelho</span></td></tr><tr><th class="metahead">Maintainer</th><td><span class="author" property="doap:maintainer">Filipe Coelho</span></td></tr>
+      </table>
+    </div>
+    <ul id="contents">
+      <!-- <li><a href="#sec-description">Description</a></li> -->
+      <li><a href="#sec-index">Index</a></li>
+      <li><a href="#sec-reference">Reference</a></li>
+      <li><a href="#sec-history">History</a></li>
+      <li><a href="/home/falktx/FOSS/GIT-mine/MOD/mod-sdk/documentation/modgui/group__manifest.html">API</a></li>
+    </ul>
+  </div>
+
+  <!-- DESCRIPTION -->
+  <!--<h2 class="sec" id="sec-description">Description</h2>-->
+  <div class="content">
+<p>
+This extension defines a standard for generating web-based interfaces for plugins.<br/>
+Plugins implementing this standard will be compatible with the MOD device and MOD host software.
+</p>
+
+<p>
+The goal of this interface is to allow user to have an overview of several connected plugins and quickly access main controls of each one,
+while still being able to fully configure each one individually, all this in a web-based environment.<br/>
+So each plugin has two interfaces, one for its 'icon' and another for its 'settings'.
+</p>
+
+<p>
+The 'icon' is a representation designed to look like a real device, and will be connected to other plugin icons by cables to make pedalboards.
+Ideally, each icon will have:
+</p>
+
+<ul>
+  <li>A pedal-like design;</li>
+  <li>A footswitch that will bypass it;</li>
+  <li>A light indicating the bypass state;</li>
+  <li>Buttons that will control some most important parameters;</li>
+  <li>Inputs and outputs in which cables will be connected;</li>
+  <li>A clickable area to drag the pedal around.</li>
+</ul>
+
+<p>
+The 'settings' interface is a panel with all controls of the plugin. It can be designed to occupy the whole screen.
+</p>
+
+<p>
+To provide this interface for Icon and Settings, the following resources can be used:
+</p>
+
+<ul>
+  <li>HTML files defining the layout, one for each interface;</li>
+  <li>A directory with static media that will be served to browser to build the interface;</li>
+  <li>Special markup is used inside the HTML to define element's roles and functionality;</li>
+  <li>A screenshot and thumbnail of the plugin interface.</li>
+</ul>
+
+<p>
+<em>Note</em>:
+The To help the creation of interfaces, several base layouts have been created in the mod-resources project.
+Some plugins that first implemented the modgui interface will expect the host to provide those resources,
+and so they may reference media resources that are not packed inside the bundle.
+Support for those resources is being deprecated, and so any resources required should be packed inside <a href="#resourcesDirectory">modgui:resourcesDirectory</a>.
+</p>
+</div>
+
+  <!-- INDEX -->
+  <h2 class="sec" id="sec-index">Index</h2>
+  <div class="content" id="index">
+  <table class="index"><thead><tr><th>Classes</th><th>Properties</th><th>Files</th></tr></thead>
+<tbody><tr><td><ul><li><a href="#GUI">GUI</a></li><li><a href="#Port">Port</a></li></ul></td>
+<td><ul><li><a href="#brand">brand</a></li><li><a href="#color">color</a></li><li><a href="#gui">gui</a></li><li><a href="#iconTemplate">iconTemplate</a></li><li><a href="#javascript">javascript</a></li><li><a href="#knob">knob</a></li><li><a href="#label">label</a></li><li><a href="#model">model</a></li><li><a href="#panel">panel</a></li><li><a href="#port">port</a></li><li><a href="#resourcesDirectory">resourcesDirectory</a></li><li><a href="#screenshot">screenshot</a></li><li><a href="#settingsTemplate">settingsTemplate</a></li><li><a href="#stylesheet">stylesheet</a></li><li><a href="#templateData">templateData</a></li><li><a href="#thumbnail">thumbnail</a></li></ul></td>
+<td><ul><li><a href="modgui.doap.ttl">modgui.doap.ttl</a></li><li><a href="modgui.ttl">modgui.ttl</a></li></ul></td>
+</tr></tbody></table>
+  </div>
+
+  <!-- DOCUMENTATION -->
+  <h2 class="sec" id="sec-reference">Reference</h2>
+  <div class="content">
+  <div class="specterm" id="GUI" about="http://moddevices.com/ns/modgui#GUI">
+<h3>Class <a href="#GUI">modgui:GUI</a></h3>
+<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">Graphical User Interface</div><div property="rdfs:comment">
+<p>
+The web interface definition for this plugin.<br/>
+It's defined by html templates for icon and settings panel, plus css, images and other media that's contained in the resources directory.
+</p>
+</div></div>
+<table class="terminfo"><tr><th>Restriction on <a href="#screenshot" >modgui:screenshot</a></th><td><table class="restriction"><tr><th><a href="http://www.w3.org/2002/07/owl#cardinality" >owl:cardinality</a></th>
+<td>1</td></tr>
+</table>
+<span>A modgui MUST have a screenshot.</span>
+</td></tr><tr><th>Restriction on <a href="#resourcesDirectory" >modgui:resourcesDirectory</a></th><td><table class="restriction"><tr><th><a href="http://www.w3.org/2002/07/owl#cardinality" >owl:cardinality</a></th>
+<td>1</td></tr>
+</table>
+<span>A modgui MUST have a resources directory.</span>
+</td></tr><tr><th>Restriction on <a href="#stylesheet" >modgui:stylesheet</a></th><td><table class="restriction"><tr><th><a href="http://www.w3.org/2002/07/owl#cardinality" >owl:cardinality</a></th>
+<td>1</td></tr>
+</table>
+<span>A modgui MUST have a stylesheet.</span>
+</td></tr><tr><th>Restriction on <a href="#iconTemplate" >modgui:iconTemplate</a></th><td><table class="restriction"><tr><th><a href="http://www.w3.org/2002/07/owl#cardinality" >owl:cardinality</a></th>
+<td>1</td></tr>
+</table>
+<span>A modgui MUST have an icon template.</span>
+</td></tr><tr><th>Restriction on <a href="#thumbnail" >modgui:thumbnail</a></th><td><table class="restriction"><tr><th><a href="http://www.w3.org/2002/07/owl#cardinality" >owl:cardinality</a></th>
+<td>1</td></tr>
+</table>
+<span>A modgui MUST have a thumbnail.</span>
+</td></tr><tr><th>In domain of</th><td><a href="#stylesheet" >modgui:stylesheet</a></td></tr>
+<tr><td></td><td><a href="#brand" >modgui:brand</a></td></tr>
+<tr><td></td><td><a href="#settingsTemplate" >modgui:settingsTemplate</a></td></tr>
+<tr><td></td><td><a href="#panel" >modgui:panel</a></td></tr>
+<tr><td></td><td><a href="#label" >modgui:label</a></td></tr>
+<tr><td></td><td><a href="#javascript" >modgui:javascript</a></td></tr>
+<tr><td></td><td><a href="#model" >modgui:model</a></td></tr>
+<tr><td></td><td><a href="#knob" >modgui:knob</a></td></tr>
+<tr><td></td><td><a href="#thumbnail" >modgui:thumbnail</a></td></tr>
+<tr><td></td><td><a href="#templateData" >modgui:templateData</a></td></tr>
+<tr><td></td><td><a href="#port" >modgui:port</a></td></tr>
+<tr><td></td><td><a href="#screenshot" >modgui:screenshot</a></td></tr>
+<tr><td></td><td><a href="#color" >modgui:color</a></td></tr>
+<tr><td></td><td><a href="#iconTemplate" >modgui:iconTemplate</a></td></tr>
+<tr><td></td><td><a href="#resourcesDirectory" >modgui:resourcesDirectory</a></td></tr>
+<tr><th>In range of</th><td><a href="#gui" >modgui:gui</a></td></tr>
+</table>
+</div>
+</div>
+
+<div class="specterm" id="Port" about="http://moddevices.com/ns/modgui#Port">
+<h3>Class <a href="#Port">modgui:Port</a></h3>
+<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">Port</div><div property="rdfs:comment">
+<p>The class which represents a MOD GUI port.</p>
+
+<p>
+TODO: Document the rest.
+</p>
+</div></div>
+<table class="terminfo"><tr><th>Restriction on <a href="http://lv2plug.in/ns/lv2core#name" >lv2:name</a></th><td><table class="restriction"><tr><th><a href="http://www.w3.org/2002/07/owl#minCardinality" >owl:minCardinality</a></th>
+<td>1</td></tr>
+</table>
+<span>A port MUST have exactly one lv2:name.</span>
+</td></tr><tr><th>Restriction on <a href="http://lv2plug.in/ns/lv2core#symbol" >lv2:symbol</a></th><td><table class="restriction"><tr><th><a href="http://www.w3.org/2002/07/owl#cardinality" >owl:cardinality</a></th>
+<td>1</td></tr>
+</table>
+<span>A port MUST have exactly one lv2:symbol.</span>
+</td></tr><tr><th>Restriction on <a href="http://lv2plug.in/ns/lv2core#index" >lv2:index</a></th><td><table class="restriction"><tr><th><a href="http://www.w3.org/2002/07/owl#cardinality" >owl:cardinality</a></th>
+<td>1</td></tr>
+</table>
+<span>A port MUST have exactly one lv2:index.</span>
+</td></tr><tr><th>In range of</th><td><a href="#port" >modgui:port</a></td></tr>
+</table>
+</div>
+</div>
+
+<div class="specterm" id="brand" about="http://moddevices.com/ns/modgui#brand">
+<h3>Property <a href="#brand">modgui:brand</a></h3>
+<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">brand</div><div property="rdfs:comment"><p>The brand selected when building a modgui through the MOD SDK.</p></div></div>
+<table class="terminfo"><tr><th>OWL Type</th><td>Datatype Property</td></tr>
+<tr><th>Domain</th><td><a href="#GUI" about="http://moddevices.com/ns/modgui#brand" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#GUI">modgui:GUI</a></td></tr>
+<tr><th>Range</th><td><a href="http://www.w3.org/2001/XMLSchema#string" about="http://moddevices.com/ns/modgui#brand" rel="rdfs:range" resource="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></td></tr>
+</table>
+</div>
+</div>
+
+<div class="specterm" id="color" about="http://moddevices.com/ns/modgui#color">
+<h3>Property <a href="#color">modgui:color</a></h3>
+<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">color</div><div property="rdfs:comment"><p>The color selected when building a modgui through the MOD SDK.</p></div></div>
+<table class="terminfo"><tr><th>OWL Type</th><td>Datatype Property</td></tr>
+<tr><th>Domain</th><td><a href="#GUI" about="http://moddevices.com/ns/modgui#color" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#GUI">modgui:GUI</a></td></tr>
+<tr><th>Range</th><td><a href="http://www.w3.org/2001/XMLSchema#string" about="http://moddevices.com/ns/modgui#color" rel="rdfs:range" resource="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></td></tr>
+</table>
+</div>
+</div>
+
+<div class="specterm" id="gui" about="http://moddevices.com/ns/modgui#gui">
+<h3>Property <a href="#gui">modgui:gui</a></h3>
+<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">graphical user interface</div><div property="rdfs:comment"><p>Relates a plugin to the a MOD Graphical User Interface</p></div></div>
+<table class="terminfo"><tr><th>OWL Type</th><td>Object Property</td></tr>
+<tr><th>Domain</th><td><a href="http://lv2plug.in/ns/lv2core#Plugin" about="http://moddevices.com/ns/modgui#gui" rel="rdfs:domain" resource="http://lv2plug.in/ns/lv2core#Plugin">lv2:Plugin</a></td></tr>
+<tr><th>Range</th><td><a href="#GUI" about="http://moddevices.com/ns/modgui#gui" rel="rdfs:range" resource="http://moddevices.com/ns/modgui#GUI">modgui:GUI</a></td></tr>
+</table>
+</div>
+</div>
+
+<div class="specterm" id="iconTemplate" about="http://moddevices.com/ns/modgui#iconTemplate">
+<h3>Property <a href="#iconTemplate">modgui:iconTemplate</a></h3>
+<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">icon template</div><div property="rdfs:comment">
+<p>
+A template that will be used to render the HTML icon of this plugin.
+The value of this property must be a URI that resolves to a Mustache template.
+</p>
+
+<p>
+The syntax and guidelines for templates are the same for <a href="#iconTemplate">modgui:iconTemplate</a> and <a href="#settingsTemplate">modgui:settingsTemplate</a>, so this documentation applies to both.
+</p>
+
+<h3>General guidelines</h3>
+
+<p>
+To build the interface, follow these guidelines:
+</p>
+
+<ul>
+  <li>Start with a basic HTML template and use the MOD SDK to test it. </li>
+  <li>Use the {{{ns}}} tag inside the template to access images and media inside the bundle. More explanation on this at <a href="#templateData">modgui:templateData</a>.</li>
+  <li>If you need new styles, always prefix them with the name of your project. In HTML all css classes are global, so this is necessary to avoid messing with the general interface.</li>
+  <li>Use the <em>mod-role</em> attribute to mark elements that are functional for the plugin (see below).</li>
+</ul>
+
+<h3>Functionality</h3>
+
+<p>
+Some elements in your layout are just informative for the user, like the effect name, branding and background img.
+Others are functional, like the knobs and footswitch.
+A functional element is marked as so by the "mod-role" attribute, and other mod-* attributes may be used as parameters.
+The following functional elements may be indicated:
+</p>
+
+<h4>Bypass</h4>
+
+<p>
+MOD compatible hosts MUST implement a bypass in each plugin loaded.
+Two elements are responsible for this, the bypass footswitch and bypass light indicator.
+</p>
+
+<p>
+The footswitch is an element identified by the mod-role="<em>bypass</em>" attribute.
+Once clicked, the effect bypass will be turned on or off, and the light indicator will be changed as so.
+</p>
+
+<p>
+The light indicator is identified by mod-role="<em>bypass-light</em>".
+It will automatically receive the class <em>on</em> or <em>off</em>, so designers are expected to implement a background image for each of these classes, or equivalent.
+</p>
+
+<h4>Control buttons</h4>
+
+<p>
+Each plugin can have buttons to control plugin's parameters.
+Each button is identified by the attribute mod-role="<em>input-control-port</em>" and configured by <em>mod-port-symbol</em> attribute, which must hold the port's symbol,
+and <em>mod-widget</em> attribute, that defines which widget to use.
+The available widgets are <em>film</em>, <em>select</em> and <em>custom-select</em>, and each of them expects a certain HTML structure in this element.
+</p>
+
+<h5>Film widget</h5>
+
+<p>
+The film widget works like a movie film: it uses a big stripe of images and roll it to choose a scene, giving the impression of an animation.
+So, if you use mod-widget="film", this element is expected to have a background-image style, with one big horizontal <a href="http://www.w3schools.com/css/css_image_sprites.asp">sprite</a> as background.
+User will be able to change that parameter by clicking on the control button and dragging the mouse up or down.
+As this is done, the background image will be moved to reflect the new state.
+</p>
+
+<p>
+The minimum value of that port will be represented by the first position of the sprite and the maximum value by the last one.
+The number of steps will be calculated by dividing the background width by the element's width, considering the background-size style.
+The actual number of steps will be the minimum between the number of images in sprite and the steps limited by lv2 definition (by <a href="http://lv2plug.in/ns/ext/port-props#rangeSteps">pprops:rangeSteps</a>, <a href="http://lv2plug.in/ns/lv2core#enumeration">lv2:enumeration</a> or <a href="http://lv2plug.in/ns/lv2core#toggled">lv2:toggled</a>.
+</p>
+
+<p>
+For example, suppose you want to build a horizontal slider that can hold 10 different positions occupies an area of 150x30 pixels, to control the drive parameter of your plugin.
+For that, you could:
+</p>
+
+<ul>
+  <li>Design an image of 1500x30 pixels, each piece of 150x30 representing one position of the slider;</li>
+  <li>Save it inside the <a href="#resourcesDirectory">modgui:resourcesDirectory</a> directory, in your bundle, as slider.png</li>
+  <li>Put the following code into your HTML: &lt;div mod-role="input-control-port" mod-port-symbol="drive" style="width: 150px; height: 30px; background-image: url(/resources/slider.png{{{ns}}}"&gt;</li>
+  <li>Suppose you wanted to use the same sprite for a half sized version of the slider, you could instead use the style "width: 75px; height: 15px; background-image: url(/resources/slider.png{{{ns}}}; background-size: auto 15px;"</li>
+</ul>
+
+<h5>Select widget</h5>
+
+<p>
+The select widget is a simple &lt;select&gt; html element with available options, each one representing one value for this control port.
+It's mainly intended to be used for ports with the <a href="http://lv2plug.in/ns/lv2core#enumeration">lv2:enumeration</a> property, but can be used for any case in which picking values from a limited set is desired.
+</p>
+
+<p>
+So, if you use mod-widget="select", this element is expected to be a &lt;select&gt; and contain several options, each of them must have the <em>value</em> attribute reflecting the float value of this property.
+</p>
+
+<h5>Custom select widget</h5>
+
+<p>
+This widget is similar in functionality to select widget, but instead of a select html element holding options, you can choose any element types to represent the widget and the options.
+If you use mod-role="custom-select", this element is expected to have children elements with the attributes mod-role="<em>enumeration-option</em>" and mod-port-value="(float value)".
+The selected element will receive the <em>selected</em> class, and so you can define your CSS as to highlight it as desired.
+</p>
+
+<p>
+In case you want a list of options to be shown when the widget is clicked, you should mark the element containing the options with <em>mod-widget-property="hidden"</em>.
+When this happens, every click on the widget will toggle that element's visibility.
+</p>
+
+<h4>Control values</h4>
+
+<p>
+To allow user to see the minimum, maximum and current value of a plugin, three mod-roles are available:
+<em>input-control-minimum</em>,
+<em>input-control-maximum</em> and
+<em>input-control-value</em>.
+All of them expect a mod-port-symbol attribute containing the symbol of the port.
+</p>
+
+<p>
+The <em>input-control-minimum</em>, <em>input-control-maximum</em> will have have it's text content set to be the formatted minimum and maximum values accepted by this control, as defined by the <a href="http://lv2plug.in/ns/lv2core#minimum">lv2:minimum</a> and <a href="http://lv2plug.in/ns/lv2core#maximum">lv2:maximum</a> properties respectively.
+The <em>input-control-value</em> will be dinamically changed everytime the value of the control port changes.
+</p>
+
+<p>
+All values are formatted according to the <a href="http://lv2plug.in/ns/extensions/units#unit">units:unit</a>'s and <a href="http://lv2plug.in/ns/extensions/units#render">units:render</a> property of this port, with some considerations.
+First, any %f will be rendered as %.2f, otherwise interface is messed up with huge representations.
+Second, if <a href="http://lv2plug.in/ns/lv2core#integer">lv2:integer</a> property is declared, then any %f, %.Xf or so will be substituted by %d.
+</p>
+
+<h4>Audio ports</h4>
+
+<p>
+Each plugin has audio input and output ports.
+They are identified by mod-role="<em>input-control-port</em>" and mod-role="<em>output-control-port</em>" attributes respectively, and both must have a mod-port-symbol property containing the port symbol.
+</p>
+
+<p>
+For implementing the connections, each output will receive a &lt;div&gt; element inside, representing a jack (this will be automatically inserted).
+This jack can be dragged by user and dropped inside an input, and so a connection will be made.
+</p>
+
+<p>This does not apply to Settings template</p>
+
+<h4>Drag handle</h4>
+
+<p>
+Plugins can be dragged around the pedalboard dashboard.
+To define which area of the plugin can be clicked for dragging, an element with the attribute mod-role="<em>drag-handle</em>" can be defined.
+</p>
+
+<p>This does not apply to Settings template</p>
+</div></div>
+<table class="terminfo"><tr><th>OWL Type</th><td>Object Property</td></tr>
+<tr><th>Domain</th><td><a href="#GUI" about="http://moddevices.com/ns/modgui#iconTemplate" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#GUI">modgui:GUI</a></td></tr>
+<tr><th>Range</th><td><a href="http://www.w3.org/2002/07/owl#Thing" about="http://moddevices.com/ns/modgui#iconTemplate" rel="rdfs:range" resource="http://www.w3.org/2002/07/owl#Thing">owl:Thing</a></td></tr>
+</table>
+</div>
+</div>
+
+<div class="specterm" id="javascript" about="http://moddevices.com/ns/modgui#javascript">
+<h3>Property <a href="#javascript">modgui:javascript</a></h3>
+<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">javascript</div><div property="rdfs:comment">
+<p>
+A Javascript file containing a declaration of an anonymous function which will be called once when plugin interface is first rendered and everytime a port value is changed.
+</p>
+
+<p>
+This function will receive as parameter an object containing:
+</p>
+<ul>
+  <li>event: a dictionary indicating the context in which the function is called. Contains the "type" key, that can be either "start" (first call) or "change",
+      when a port value is changed. In the latter case, it will also contain they key "symbol", indicating which port has changed.</li>
+  <li>values: a dictionary containing the values of all control ports of this plugin.</li>
+  <li>icon: the JQuery object encapsulating the DOM object of the main plugin interface.</li>
+  <li>settings: JQuery object with the settings screen interface.</li>
+  <li>data: A object that can be used by this javascript function to store anything that should persist.</li>
+</ul>
+</div></div>
+<table class="terminfo"><tr><th>OWL Type</th><td>Object Property</td></tr>
+<tr><th>Domain</th><td><a href="#GUI" about="http://moddevices.com/ns/modgui#javascript" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#GUI">modgui:GUI</a></td></tr>
+<tr><th>Range</th><td><a href="http://www.w3.org/2002/07/owl#Thing" about="http://moddevices.com/ns/modgui#javascript" rel="rdfs:range" resource="http://www.w3.org/2002/07/owl#Thing">owl:Thing</a></td></tr>
+</table>
+</div>
+</div>
+
+<div class="specterm" id="knob" about="http://moddevices.com/ns/modgui#knob">
+<h3>Property <a href="#knob">modgui:knob</a></h3>
+<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">knob</div><div property="rdfs:comment"><p>The knob selected when building a modgui through the MOD SDK.</p></div></div>
+<table class="terminfo"><tr><th>OWL Type</th><td>Datatype Property</td></tr>
+<tr><th>Domain</th><td><a href="#GUI" about="http://moddevices.com/ns/modgui#knob" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#GUI">modgui:GUI</a></td></tr>
+<tr><th>Range</th><td><a href="http://www.w3.org/2001/XMLSchema#string" about="http://moddevices.com/ns/modgui#knob" rel="rdfs:range" resource="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></td></tr>
+</table>
+</div>
+</div>
+
+<div class="specterm" id="label" about="http://moddevices.com/ns/modgui#label">
+<h3>Property <a href="#label">modgui:label</a></h3>
+<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">label</div><div property="rdfs:comment"><p>The label selected when building a modgui through the MOD SDK.</p></div></div>
+<table class="terminfo"><tr><th>OWL Type</th><td>Datatype Property</td></tr>
+<tr><th>Domain</th><td><a href="#GUI" about="http://moddevices.com/ns/modgui#label" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#GUI">modgui:GUI</a></td></tr>
+<tr><th>Range</th><td><a href="http://www.w3.org/2001/XMLSchema#string" about="http://moddevices.com/ns/modgui#label" rel="rdfs:range" resource="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></td></tr>
+</table>
+</div>
+</div>
+
+<div class="specterm" id="model" about="http://moddevices.com/ns/modgui#model">
+<h3>Property <a href="#model">modgui:model</a></h3>
+<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">model</div><div property="rdfs:comment"><p>The model selected when building a modgui through the MOD SDK.</p></div></div>
+<table class="terminfo"><tr><th>OWL Type</th><td>Datatype Property</td></tr>
+<tr><th>Domain</th><td><a href="#GUI" about="http://moddevices.com/ns/modgui#model" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#GUI">modgui:GUI</a></td></tr>
+<tr><th>Range</th><td><a href="http://www.w3.org/2001/XMLSchema#string" about="http://moddevices.com/ns/modgui#model" rel="rdfs:range" resource="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></td></tr>
+</table>
+</div>
+</div>
+
+<div class="specterm" id="panel" about="http://moddevices.com/ns/modgui#panel">
+<h3>Property <a href="#panel">modgui:panel</a></h3>
+<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">panel</div><div property="rdfs:comment"><p>The panel selected when building a modgui through the MOD SDK.</p></div></div>
+<table class="terminfo"><tr><th>OWL Type</th><td>Datatype Property</td></tr>
+<tr><th>Domain</th><td><a href="#GUI" about="http://moddevices.com/ns/modgui#panel" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#GUI">modgui:GUI</a></td></tr>
+<tr><th>Range</th><td><a href="http://www.w3.org/2001/XMLSchema#string" about="http://moddevices.com/ns/modgui#panel" rel="rdfs:range" resource="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></td></tr>
+</table>
+</div>
+</div>
+
+<div class="specterm" id="port" about="http://moddevices.com/ns/modgui#port">
+<h3>Property <a href="#port">modgui:port</a></h3>
+<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">port</div><div property="rdfs:comment"><p>A port on a MOD GUI.</p></div></div>
+<table class="terminfo"><tr><th>OWL Type</th><td>Object Property</td></tr>
+<tr><th>Domain</th><td><a href="#GUI" about="http://moddevices.com/ns/modgui#port" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#GUI">modgui:GUI</a></td></tr>
+<tr><th>Range</th><td><a href="#Port" about="http://moddevices.com/ns/modgui#port" rel="rdfs:range" resource="http://moddevices.com/ns/modgui#Port">modgui:Port</a></td></tr>
+</table>
+</div>
+</div>
+
+<div class="specterm" id="resourcesDirectory" about="http://moddevices.com/ns/modgui#resourcesDirectory">
+<h3>Property <a href="#resourcesDirectory">modgui:resourcesDirectory</a></h3>
+<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">resources directory</div><div property="rdfs:comment">
+<p>
+This is a URI that resolves to a directory inside the bundle.
+Any file inside this directory will be statically served to browser, and will be available at the '/resources/' path.
+</p>
+
+<p>
+For the webserver to properly identify where to look, any request for media inside this directory must have an {{{ns}}} parameter.
+</p>
+</div></div>
+<table class="terminfo"><tr><th>OWL Type</th><td>Object Property</td></tr>
+<tr><th>Domain</th><td><a href="#GUI" about="http://moddevices.com/ns/modgui#resourcesDirectory" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#GUI">modgui:GUI</a></td></tr>
+<tr><th>Range</th><td><a href="http://www.w3.org/2002/07/owl#Thing" about="http://moddevices.com/ns/modgui#resourcesDirectory" rel="rdfs:range" resource="http://www.w3.org/2002/07/owl#Thing">owl:Thing</a></td></tr>
+</table>
+</div>
+</div>
+
+<div class="specterm" id="screenshot" about="http://moddevices.com/ns/modgui#screenshot">
+<h3>Property <a href="#screenshot">modgui:screenshot</a></h3>
+<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">screenshot</div><div property="rdfs:comment">
+<p>
+An image with a real size screenshot of the rendered plugin interface.
+The value of this property must be a URI that resolves to an image.
+</p>
+</div></div>
+<table class="terminfo"><tr><th>OWL Type</th><td>Object Property</td></tr>
+<tr><th>Domain</th><td><a href="#GUI" about="http://moddevices.com/ns/modgui#screenshot" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#GUI">modgui:GUI</a></td></tr>
+<tr><th>Range</th><td><a href="http://www.w3.org/2002/07/owl#Thing" about="http://moddevices.com/ns/modgui#screenshot" rel="rdfs:range" resource="http://www.w3.org/2002/07/owl#Thing">owl:Thing</a></td></tr>
+</table>
+</div>
+</div>
+
+<div class="specterm" id="settingsTemplate" about="http://moddevices.com/ns/modgui#settingsTemplate">
+<h3>Property <a href="#settingsTemplate">modgui:settingsTemplate</a></h3>
+<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">settings template</div><div property="rdfs:comment">
+<p>
+A template that will be used to render the HTML settings panel of this plugin. The
+value of this property must be a URI that resolves to a Mustache template.
+</p>
+
+<p>
+To develop this, use the same guidelines and markup as described in <a href="#iconTemplate">modgui:iconTemplate</a>.
+The only difference is that the audio ports here are irrelevant.
+</p>
+</div></div>
+<table class="terminfo"><tr><th>OWL Type</th><td>Object Property</td></tr>
+<tr><th>Domain</th><td><a href="#GUI" about="http://moddevices.com/ns/modgui#settingsTemplate" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#GUI">modgui:GUI</a></td></tr>
+<tr><th>Range</th><td><a href="http://www.w3.org/2002/07/owl#Thing" about="http://moddevices.com/ns/modgui#settingsTemplate" rel="rdfs:range" resource="http://www.w3.org/2002/07/owl#Thing">owl:Thing</a></td></tr>
+</table>
+</div>
+</div>
+
+<div class="specterm" id="stylesheet" about="http://moddevices.com/ns/modgui#stylesheet">
+<h3>Property <a href="#stylesheet">modgui:stylesheet</a></h3>
+<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">stylesheet</div><div property="rdfs:comment">
+<p>
+A CSS file that holds all styles used for this plugin.
+The CSS will be automatically loaded on request.
+For implementation reasons, only one CSS file per effect is supported.
+</p>
+
+<p>
+The stylesheet will be parsed for dynamic content, so the {{{ns}}} tag can be used to reference background images and other resources.
+</p>
+
+<p>
+Remember that all class names must be preceded by the bundle's name to avoid conflicting with other plugins or general interface.
+</p>
+</div></div>
+<table class="terminfo"><tr><th>OWL Type</th><td>Object Property</td></tr>
+<tr><th>Domain</th><td><a href="#GUI" about="http://moddevices.com/ns/modgui#stylesheet" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#GUI">modgui:GUI</a></td></tr>
+<tr><th>Range</th><td><a href="http://www.w3.org/2002/07/owl#Thing" about="http://moddevices.com/ns/modgui#stylesheet" rel="rdfs:range" resource="http://www.w3.org/2002/07/owl#Thing">owl:Thing</a></td></tr>
+</table>
+</div>
+</div>
+
+<div class="specterm" id="templateData" about="http://moddevices.com/ns/modgui#templateData">
+<h3>Property <a href="#templateData">modgui:templateData</a></h3>
+<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">template data</div><div class="warning">DEPRECATED</div><div property="rdfs:comment">
+<p>
+The data that will be used to render the templates defined in <a href="#iconTemplate">modgui:iconTemplate</a>
+and <a href="#settingsTemplate">modgui:settingsTemplate</a>. The value of this property must be a URI that resolves to
+a json serialized object and its data can be inspected using the SDK's debug interface.
+</p>
+
+<p>
+This parameter isn't strictly necessary to build a plugin layout, as the
+template can hold the final HTML file, but it's very useful to allow developers
+to customize layout using templates provided by the SDK, instead of editing
+HTML files.
+</p>
+
+<p>
+The data in this file must be a dictionary. Two keys are automatically set:
+<em>effect</em>, <em>ns</em>.
+</p>
+
+<h3>effect</h3>
+
+<p>
+This will always hold the effect's data parsed from ttl files.
+The effect data format is an arbitrary structure that organizes the rdf triples in a simple way.
+To see that structure, use the SDK's debugging interface.
+</p>
+
+<h3>ns</h3>
+
+<p>
+All static files in folder defined by <a href="#resourcesDirectory">modgui:resourcesDirectory</a> will be available to the interface, in path /resources of the webserver.
+To know where to look, the webserver needs a {{{ns}}} parameter.
+</p>
+
+<p>
+To make this job easier, the <em>ns</em> variable will hold the correct url parameter, so if you want to customize your template (say, have your brand image in the pedal),
+you can refer to it like this:<br/>
+<code>
+&lt;img alt="Brand image example" src="/resources/brand.png{{{ns}}}"/&gt;
+</code>
+</p>
+
+<p>
+In the example above, the brand.png file inside the <a href="#resourcesDirectory">modgui:resourcesDirectory</a> would be served.
+</p>
+</div></div>
+<table class="terminfo"><tr><th>OWL Type</th><td>Object Property</td></tr>
+<tr><th>Domain</th><td><a href="#GUI" about="http://moddevices.com/ns/modgui#templateData" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#GUI">modgui:GUI</a></td></tr>
+<tr><th>Range</th><td><a href="http://www.w3.org/2002/07/owl#Thing" about="http://moddevices.com/ns/modgui#templateData" rel="rdfs:range" resource="http://www.w3.org/2002/07/owl#Thing">owl:Thing</a></td></tr>
+<tr><th><a href="http://www.w3.org/2002/07/owl#deprecated" >owl:deprecated</a></th>
+<td>true</td></tr>
+</table>
+</div>
+</div>
+
+<div class="specterm" id="thumbnail" about="http://moddevices.com/ns/modgui#thumbnail">
+<h3>Property <a href="#thumbnail">modgui:thumbnail</a></h3>
+<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">screenshot</div><div property="rdfs:comment">
+<p>
+An image with a small representation of the rendered plugin interface.
+The value of this property must be a URI that resolves to an image with maximum size of 256x64px.
+</p>
+</div></div>
+<table class="terminfo"><tr><th>OWL Type</th><td>Object Property</td></tr>
+<tr><th>Domain</th><td><a href="#GUI" about="http://moddevices.com/ns/modgui#thumbnail" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#GUI">modgui:GUI</a></td></tr>
+<tr><th>Range</th><td><a href="http://www.w3.org/2002/07/owl#Thing" about="http://moddevices.com/ns/modgui#thumbnail" rel="rdfs:range" resource="http://www.w3.org/2002/07/owl#Thing">owl:Thing</a></td></tr>
+</table>
+</div>
+</div>
+
+
+  </div>
+
+  <!-- HISTORY -->
+  <h2 class="sec" id="sec-history">History</h2>
+  <div class="content">
+  <dl>
+<dt><a href="http://moddevices.com/ns/modgui-1.9.tar.bz2">Version 1.9</a> (2015-07-02)</dt>
+<dd><ul>
+<li>TODO</li>
+</ul></dd><dt><a href="http://moddevices.com/ns/modgui-1.0.tar.bz2">Version 1.0</a> (2014-10-14)</dt>
+<dd><ul>
+<li>First stable release.</li>
+</ul></dd></dl>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div id="footer">
+    <div>
+      This document is available under the
+      <a about="" rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/">
+        Creative Commons Attribution-ShareAlike License
+      </a>
+    </div>
+	<div>
+      Valid
+      <a about="" rel="dct:conformsTo" resource="http://www.w3.org/TR/rdfa-syntax"
+         href="http://validator.w3.org/check?uri=referer">
+        XHTML+RDFa
+      </a>
+      and
+      <a about="" rel="dct:conformsTo" resource="http://www.w3.org/TR/CSS2"
+         href="http://jigsaw.w3.org/css-validator/check/referer">
+        CSS
+      </a>
+      generated from manifest.ttl by <a href="http://drobilla.net/software/lv2specgen">lv2specgen</a>
+    </div>
+  </div>
+
+  </body>
+</html>
