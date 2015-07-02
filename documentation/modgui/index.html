@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
+<html about="http://moddevices.com/ns/modgui"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:dc="http://purl.org/dc/elements/1.1/"
+      xmlns:dct="http://purl.org/dc/terms/"
+      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+      xmlns:lv2="http://lv2plug.in/ns/lv2core#"
+            xmlns:modgui="http://moddevices.com/ns/modgui#"
+      xml:lang="en">
+  <head>
+    <title>MOD GUI</title>
+    <meta http-equiv="content-type" content="text/xhtml+xml; charset=utf-8" />
+    <meta name="generator" content="lv2specgen" />
+    <link href="../style.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+
+  <!-- HEADER -->
+  <div id="topbar">
+    <div id="header">
+      <div id="titlebox">
+        <h1 id="title">MOD GUI</h1>
+        <div id="subtitle"><a href="http://moddevices.com/ns/modgui">http://moddevices.com/ns/modgui</a></div>
+        <div id="shortdesc">An LV2 extension to build HTML interfaces for audio plugins.</div>
+      </div>
+      <table id="meta">
+        <!--<tr><th>URI</th><td><a href="http://moddevices.com/ns/modgui">http://moddevices.com/ns/modgui</a></td></tr>
+            <tr><th>Version</th><td>@REVISION@</td></tr>-->
+        <!--<tr><th>Prefixes</th><td><span><a href="http://ontologi.es/doap-changeset#">dcs</a> <a href="http://usefulinc.com/ns/doap#">doap</a> <a href="http://xmlns.com/foaf/0.1/">foaf</a> <a href="http://lv2plug.in/ns/lv2core#">lv2</a> <a href="http://moddevices.com/ns/modgui#">modgui</a> <a href="http://www.w3.org/2002/07/owl#">owl</a> <a href="http://lv2plug.in/ns/ext/port-props#">pprops</a> <a href="http://www.w3.org/1999/02/22-rdf-syntax-ns#">rdf</a> <a href="http://www.w3.org/2000/01/rdf-schema#">rdfs</a> <a href="http://lv2plug.in/ns/extensions/units#">units</a> <a href="http://www.w3.org/2001/XMLSchema#">xsd</a> </span></td></tr>-->
+        <tr><th>Version</th><td>1.9 <span class="warning">EXPERIMENTAL</span></td></tr>
+        <tr><th>Date</th><td>2015-07-02</td></tr>
+        <tr><th>Discuss</th><td><a href="mailto:None">None</a> <a href="None">(subscribe)</a></td></tr>
+        <tr><th class="metahead">Developers</th><td><span class="author" property="doap:developer">Luis Fagundes</span>, <span class="author" property="doap:developer">Filipe Coelho</span></td></tr><tr><th class="metahead">Maintainer</th><td><span class="author" property="doap:maintainer">Filipe Coelho</span></td></tr>
+      </table>
+    </div>
+    <ul id="contents">
+      <!-- <li><a href="#sec-description">Description</a></li> -->
+      <li><a href="#sec-index">Index</a></li>
+      <li><a href="#sec-reference">Reference</a></li>
+      <li><a href="#sec-history">History</a></li>
+      <li><a href="/home/falktx/FOSS/GIT-mine/MOD/mod-sdk/documentation/modgui/group__manifest.html">API</a></li>
+    </ul>
+  </div>
+
+  <!-- DESCRIPTION -->
+  <!--<h2 class="sec" id="sec-description">Description</h2>-->
+  <div class="content">
+<p>
+This extension defines a standard for generating web-based interfaces for plugins.
+Plugins implementing this standard will be compatible with the MOD device and MOD host software.
+</p>
+
+<p>
+The goal of this interface is to allow user to have an overview of several connected plugins and quickly access main controls of each one,
+while still being able to fully configure each one individually, all this in a web-based environment.
+So, each plugin has two interfaces, one for its Icon and another for the Settings.
+</p>
+
+<p>
+The Icon is a representation designed to look like a real device, and will be connected to other plugin icons by cables to make pedalboards.
+Ideally, each icon will have:
+</p>
+
+<ul>
+  <li>A pedal-like design;</li>
+  <li>A footswitch that will bypass it;</li>
+  <li>A light indicating the bypass state;</li>
+  <li>Buttons that will control some most important parameters;</li>
+  <li>Inputs and outputs in which cables will be connected;</li>
+  <li>A clickable area to drag the pedal around.</li>
+</ul>
+
+<p>
+The Settings interface is a panel with all controls of this plugin that can be designed to occupy the whole screen.
+</p>
+
+<p>
+To provide this interface for Icon and Settings, the following resources can be used:
+</p>
+
+<ul>
+  <li>HTML files defining the layout, one for each interface;</li>
+  <li>A directory with static media that will be served to browser to build the interface;</li>
+  <li>Special markup is used inside the HTML to define element's roles and functionality;</li>
+  <li>A screenshot and thumbnail of the plugin interface.</li>
+</ul>
+
+<p>
+<em>Note</em>:
+The To help the creation of interfaces, several base layouts have been created in the mod-resources project.
+Some plugins that first implemented the modgui interface will expect the host to provide those resources,
+and so they may reference media resources that are not packed inside the bundle.
+Support for those resources is being deprecated, and so any resources required should be packed inside <a href="#resourcesDirectory">modgui:resourcesDirectory</a>.
+</p>
+</div>
+
+  <!-- INDEX -->
+  <h2 class="sec" id="sec-index">Index</h2>
+  <div class="content" id="index">
+  <table class="index"><thead><tr><th>Classes</th><th>Properties</th><th>Files</th></tr></thead>
+<tbody><tr><td><ul><li><a href="#GUI">GUI</a></li></ul></td>
+<td><ul><li><a href="#gui">gui</a></li><li><a href="#resourcesDirectory">resourcesDirectory</a></li></ul></td>
+<td><ul><li><a href="modgui.doap.ttl">modgui.doap.ttl</a></li><li><a href="modgui.ttl">modgui.ttl</a></li></ul></td>
+</tr></tbody></table>
+  </div>
+
+  <!-- DOCUMENTATION -->
+  <h2 class="sec" id="sec-reference">Reference</h2>
+  <div class="content">
+  <div class="specterm" id="GUI" about="http://moddevices.com/ns/modgui#GUI">
+<h3>Class <a href="#GUI">modgui:GUI</a></h3>
+<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">Graphical User Interface</div><div property="rdfs:comment">
+<p>
+The web interface definition for this plugin.
+It's defined by html templates for icon and settings panel, css, images and other media, that's contained in the plugin bundle.
+</p>
+</div></div>
+<table class="terminfo"><tr><th>In domain of</th><td><a href="#resourcesDirectory" >modgui:resourcesDirectory</a></td></tr>
+<tr><th>In range of</th><td><a href="#gui" >modgui:gui</a></td></tr>
+</table>
+</div>
+</div>
+
+<div class="specterm" id="gui" about="http://moddevices.com/ns/modgui#gui">
+<h3>Property <a href="#gui">modgui:gui</a></h3>
+<div class="spectermbody"><div class="description"><div property="rdfs:comment"><p>Relates a plugin to the its MOD Graphical User Interface</p></div></div>
+<table class="terminfo"><tr><th>OWL Type</th><td>Object Property</td></tr>
+<tr><th>Domain</th><td><a href="http://lv2plug.in/ns/lv2core#Plugin" about="http://moddevices.com/ns/modgui#gui" rel="rdfs:domain" resource="http://lv2plug.in/ns/lv2core#Plugin">lv2:Plugin</a></td></tr>
+<tr><th>Range</th><td><a href="#GUI" about="http://moddevices.com/ns/modgui#gui" rel="rdfs:range" resource="http://moddevices.com/ns/modgui#GUI">modgui:GUI</a></td></tr>
+</table>
+</div>
+</div>
+
+<div class="specterm" id="resourcesDirectory" about="http://moddevices.com/ns/modgui#resourcesDirectory">
+<h3>Property <a href="#resourcesDirectory">modgui:resourcesDirectory</a></h3>
+<div class="spectermbody"><div class="description"><div property="rdfs:comment">
+<p>
+This is a URI that resolves to a directory inside the bundle.
+Any file inside this directory will be statically served to browser, and will be available at the '/resources/' path.
+</p>
+
+<p>
+For the webserver to properly identify where to look, any request for media inside this directory must have an {{{ns}}} parameter.
+</p>
+</div></div>
+<table class="terminfo"><tr><th>Domain</th><td><a href="#GUI" about="http://moddevices.com/ns/modgui#resourcesDirectory" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#GUI">modgui:GUI</a></td></tr>
+<tr><th><a href="http://www.w3.org/1999/02/22-rdf-syntax-ns#range" >rdf:range</a></th>
+<td><a href="http://www.w3.org/2002/07/owl#Thing" about="http://moddevices.com/ns/modgui#resourcesDirectory" rel="rdf:range" resource="http://www.w3.org/2002/07/owl#Thing">owl:Thing</a></td></tr>
+<tr><th><a href="http://www.w3.org/1999/02/22-rdf-syntax-ns#label" >rdf:label</a></th>
+<td>resources directory</td></tr>
+</table>
+</div>
+</div>
+
+
+  </div>
+
+  <!-- HISTORY -->
+  <h2 class="sec" id="sec-history">History</h2>
+  <div class="content">
+  <dl>
+<dt><a href="http://moddevices.com/ns/modgui-1.0.tar.bz2">Version 1.0</a> (2014-10-14)</dt>
+<dd><ul>
+<li>First stable release.</li>
+</ul></dd></dl>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div id="footer">
+    <div>
+      This document is available under the
+      <a about="" rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/">
+        Creative Commons Attribution-ShareAlike License
+      </a>
+    </div>
+	<div>
+      Valid
+      <a about="" rel="dct:conformsTo" resource="http://www.w3.org/TR/rdfa-syntax"
+         href="http://validator.w3.org/check?uri=referer">
+        XHTML+RDFa
+      </a>
+      and
+      <a about="" rel="dct:conformsTo" resource="http://www.w3.org/TR/CSS2"
+         href="http://jigsaw.w3.org/css-validator/check/referer">
+        CSS
+      </a>
+      generated from manifest.ttl by <a href="http://drobilla.net/software/lv2specgen">lv2specgen</a>
+    </div>
+  </div>
+
+  </body>
+</html>

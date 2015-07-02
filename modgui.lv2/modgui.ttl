@@ -10,18 +10,21 @@
     a lv2:Specification ;
     rdfs:seeAlso <modgui.doap.ttl> ;
     lv2:documentation """
-<p>This extension defines a standard for generating web-based interfaces for
-plugins. Plugins implementing this standard will be compatible with the MOD device
-and MOD host software.</p>
+<p>
+This extension defines a standard for generating web-based interfaces for plugins.
+Plugins implementing this standard will be compatible with the MOD device and MOD host software.
+</p>
 
-<p>The goal of this interface is to allow user to have an overview of
-several connected plugins and quickly access main controls of each one, while
-still being able to fully configure each one individually, all this in a web-based
-environment. So, each plugin has two interfaces, one for its Icon and another for
-the Settings.</p>
+<p>
+The goal of this interface is to allow user to have an overview of several connected plugins and quickly access main controls of each one,
+while still being able to fully configure each one individually, all this in a web-based environment.
+So, each plugin has two interfaces, one for its Icon and another for the Settings.
+</p>
 
-<p>The Icon is a representation designed to look like a real device, and will be connected
-to other plugin icons by cables to make pedalboards. Ideally, each icon will have:</p>
+<p>
+The Icon is a representation designed to look like a real device, and will be connected to other plugin icons by cables to make pedalboards.
+Ideally, each icon will have:
+</p>
 
 <ul>
   <li>A pedal-like design;</li>
@@ -32,54 +35,58 @@ to other plugin icons by cables to make pedalboards. Ideally, each icon will hav
   <li>A clickable area to drag the pedal around.</li>
 </ul>
 
-<p>The Settings interface is a panel with all controls of this plugin that can be designed
-to occupy the whole screen.</p>
+<p>
+The Settings interface is a panel with all controls of this plugin that can be designed to occupy the whole screen.
+</p>
 
-<p>To provide this interface for Icon and Settings, the following resources can be used:</p>
+<p>
+To provide this interface for Icon and Settings, the following resources can be used:
+</p>
+
 <ul>
   <li>HTML files defining the layout, one for each interface;</li>
-  <li>A directory with static media that will be served to browser to build the
-    interface;</li>
-  <li>Special markup is used inside the HTML to define element's roles and
-    functionality;</li>
+  <li>A directory with static media that will be served to browser to build the interface;</li>
+  <li>Special markup is used inside the HTML to define element's roles and functionality;</li>
   <li>A screenshot and thumbnail of the plugin interface.</li>
 </ul>
 
-<p><em>Note</em>: The To help the creation of interfaces, several base layouts have been
-created in the mod-resources project. Some plugins that first implemented the modgui
-interface will expect the host to provide those resources, and so they may reference media
-resources that are not packed inside the bundle. Support for those resources is being deprecated,
-and so any resources required should be packed inside mod:resourcesDirectory.
+<p>
+<em>Note</em>:
+The To help the creation of interfaces, several base layouts have been created in the mod-resources project.
+Some plugins that first implemented the modgui interface will expect the host to provide those resources,
+and so they may reference media resources that are not packed inside the bundle.
+Support for those resources is being deprecated, and so any resources required should be packed inside modgui:resourcesDirectory.
 </p>
 """ .
 
-# mod:GUI
-#     a rdfs:Class ;
-#     rdfs:label "Graphical User Interface" ;
-#     lv2:documentation """
-# <p>The web interface definition for this plugin. It's defined by html templates for icon
-# and settings panel, css, images and other media, that's contained in the plugin bundle.
-# </p>
-# """ .
+modgui:GUI
+    a rdfs:Class ;
+    rdfs:label "Graphical User Interface" ;
+    lv2:documentation """
+<p>
+The web interface definition for this plugin.
+It's defined by html templates for icon and settings panel, css, images and other media, that's contained in the plugin bundle.
+</p>
+""" .
 
-# mod:gui
-#     a rdf:Property ,
-#     owl:ObjectProperty ;
-#     rdfs:domain lv2:Plugin ;
-#     rdfs:range mod:GUI ;
-#     rdfs:comment "Relates a plugin to the its MOD Graphical User Interface" .
+modgui:gui
+    a rdf:Property ,
+    owl:ObjectProperty ;
+    rdfs:domain lv2:Plugin ;
+    rdfs:range modgui:GUI ;
+    rdfs:comment "Relates a plugin to the its MOD Graphical User Interface" .
 
-# mod:iconTemplate
+# modgui:iconTemplate
 #     a rdf:Property ;
 #     rdfs:range owl:Thing ;
-#     rdfs:domain mod:GUI ;
+#     rdfs:domain modgui:GUI ;
 #     rdfs:label "icon template" ;
 #     rdfs:seeAlso <http://mustache.github.io/> ;
 #     lv2:documentation """
 # <p>A template that will be used to render the HTML icon of this plugin. The
 # value of this property must be a URI that resolves to a Mustache template.</p>
 # 
-# <p>The syntax and guidelines for templates are the same for mod:iconTemplate and mod:settingsTemplate,
+# <p>The syntax and guidelines for templates are the same for modgui:iconTemplate and modgui:settingsTemplate,
 # so this documentation applies to both.</p>
 # 
 # <h3>General guidelines</h3>
@@ -87,7 +94,7 @@ and so any resources required should be packed inside mod:resourcesDirectory.
 # <p>To build the interface, follow these guidelines:</p>
 # <ul>
 #   <li>Start with a basic HTML template and use the MOD SDK to test it. </li>
-#   <li>Use the {{{ns}}} tag inside the template to access images and media inside the bundle. More explanation on this at mod:templateData.</li>
+#   <li>Use the {{{ns}}} tag inside the template to access images and media inside the bundle. More explanation on this at modgui:templateData.</li>
 #   <li>If you need new styles, always prefix them with the name of your project. In HTML all css classes are global, so this is necessary to avoid messing with the general interface.</li>
 #   <li>Use the <em>mod-role</em> attribute to mark elements that are functional for the plugin (see below).</li>
 # </ul>
@@ -115,7 +122,7 @@ and so any resources required should be packed inside mod:resourcesDirectory.
 # <p>For example, suppose you want to build a horizontal slider that can hold 10 different positions occupies an area of 150x30 pixels, to control the drive parameter of your plugin. For that, you could:</p>
 # <ul>
 #   <li>Design an image of 1500x30 pixels, each piece of 150x30 representing one position of the slider;</li>
-#   <li>Save it inside the mod:resourcesDirectory directory, in your bundle, as slider.png</li>
+#   <li>Save it inside the modgui:resourcesDirectory directory, in your bundle, as slider.png</li>
 #   <li>Put the following code into your HTML: &lt;div mod-role="input-control-port" mod-port-symbol="drive" style="width: 150px; height: 30px; background-image: url(/resources/slider.png{{{ns}}}"&gt;</li>
 #   <li>Suppose you wanted to use the same sprite for a half sized version of the slider, you could instead use the style "width: 75px; height: 15px; background-image: url(/resources/slider.png{{{ns}}}; background-size: auto 15px;"</li>
 # </ul>
@@ -153,28 +160,28 @@ and so any resources required should be packed inside mod:resourcesDirectory.
 # <p>This does not apply to Settings template</p>
 # """ .
 
-# mod:settingsTemplate
+# modgui:settingsTemplate
 #     a rdf:Property ;
 #     rdf:range owl:Thing ;
-#     rdfs:domain mod:GUI ;
+#     rdfs:domain modgui:GUI ;
 #     rdf:label "settings template" ;
 #     lv2:documentation """
 # <p>A template that will be used to render the HTML settings panel of this plugin. The
 # value of this property must be a URI that resolves to a Mustache template.</p>
 # 
-# <p>To develop this, use the same guidelines and markup as described in mod:iconTemplate.
+# <p>To develop this, use the same guidelines and markup as described in modgui:iconTemplate.
 # The only difference is that the audio ports here are irrelevant
 # """ .
 
-# mod:templateData
+# modgui:templateData
 #     a rdf:Property ;
 #     owl:deprecated true ;
 #     rdf:range owl:Thing ;
-#     rdfs:domain mod:GUI ;
+#     rdfs:domain modgui:GUI ;
 #     rdf:label "template data" ;
 #     lv2:documentation """
-# <p>The data that will be used to render the templates defined in mod:iconTemplate
-# and mod:settingsTemplate. The value of this property must be a URI that resolves to
+# <p>The data that will be used to render the templates defined in modgui:iconTemplate
+# and modgui:settingsTemplate. The value of this property must be a URI that resolves to
 # a json serialized object and its data can be inspected using the SDK's debug interface.</p>
 # 
 # <p>This parameter isn't strictly necessary to build a plugin layout, as the
@@ -189,7 +196,7 @@ and so any resources required should be packed inside mod:resourcesDirectory.
 # <p>This will always hold the effect's data parsed from ttl files. The effect data format is an arbitrary structure that organizes the rdf triples in a simple way. To see that structure, use the SDK's debugging interface</p>
 # 
 # <h3>ns</h3>
-# <p>All static files in folder defined by mod:resourcesDirectory will be available to the
+# <p>All static files in folder defined by modgui:resourcesDirectory will be available to the
 # interface, in path /resources of the webserver. To know where to look, the webserver
 # needs a ?bundle=BUNDLE&uri=EFFECT_URL parameter.</p>
 # 
@@ -198,45 +205,40 @@ and so any resources required should be packed inside mod:resourcesDirectory.
 # you can refer to it like this:
 # &lt;img alt="Brand image example" src="/resources/brand.png{{{ns}}}"/&gt;</p>
 # 
-# <p>In the example above, the brand.png file inside the mod:resourcesDirectory would be
+# <p>In the example above, the brand.png file inside the modgui:resourcesDirectory would be
 # served</p>
 # """ .
 
-# mod:resourcesDirectory
-#     a rdf:Property ;
-#     rdf:range owl:Thing ;
-#     rdfs:domain mod:GUI ;
-#     rdf:label "resources directory" ;
-#     lv2:documentation """
-# <p>This is a URI that resolves to a directory inside the bundle. Any file inside this
-# directory will be statically served to browser, and will be available at the /resources
-# path.</p>
-# 
-# <p>For the webserver to properly identify where to look, any request for media inside
-# this directory must have an ?bundle=BUNDLE&uri=EFFECT_URL parameter.</p>
-# 
-# <p><em>Note</em>: using a static url with ?bundle=BUNDLE parameter in any template would be a violation of
-# <a href="http://lv2plug.in/wiki/Bundle_Definition">LV2 Bundle Definition</a> guidelines. So hosts should
-# not require the bundle parameter to load the resources. This parameter is used mostly by the SDK, since
-# speed of reloading for testing interface is an issue there and no bundle index is made. To avoid problems here,
-# always use the {{{ns}}} tag instead of raw urls in your templates and stylesheet, as described in mod:templateData.
-# </p>
-# """ .
+modgui:resourcesDirectory
+    a rdf:Property ;
+    rdf:range owl:Thing ;
+    rdfs:domain modgui:GUI ;
+    rdf:label "resources directory" ;
+    lv2:documentation """
+<p>
+This is a URI that resolves to a directory inside the bundle.
+Any file inside this directory will be statically served to browser, and will be available at the '/resources/' path.
+</p>
 
-# mod:screenshot
+<p>
+For the webserver to properly identify where to look, any request for media inside this directory must have an {{{ns}}} parameter.
+</p>
+""" .
+
+# modgui:screenshot
 #     a rdf:Property ;
 #     rdf:range owl:Thing ;
-#     rdfs:domain mod:GUI ;
+#     rdfs:domain modgui:GUI ;
 #     rdf:label "screenshot" ;
 #     lv2:documentation """
 # <p>An image with a real size screenshot of the rendered plugin interface.
 # The value of this property must be a URI that resolves to an image.</p>
 # """ .
 
-# mod:thumbnail
+# modgui:thumbnail
 #     a rdf:Property ;
 #     rdf:range owl:Thing ;
-#     rdfs:domain mod:GUI ;
+#     rdfs:domain modgui:GUI ;
 #     rdf:label "screenshot" ;
 #     lv2:documentation """
 # <p>An image with a small representation of the rendered plugin interface.
@@ -245,10 +247,10 @@ and so any resources required should be packed inside mod:resourcesDirectory.
 # </p>
 # """ .
 
-# mod:stylesheet
+# modgui:stylesheet
 #     a rdf:Property ;
 #     rdf:range owl:Thing ;
-#     rdfs:domain mod:GUI ;
+#     rdfs:domain modgui:GUI ;
 #     rdf:label "stylesheet" ;
 #     lv2:documentation """
 # <p>A CSS file that holds all styles used for this plugin. The CSS will be automatically loaded on request. For implementation reasons, only one CSS file per effect is supported.</p>
@@ -256,10 +258,10 @@ and so any resources required should be packed inside mod:resourcesDirectory.
 # <p>Remember that all class names must be preceded by the bundle's name to avoid conflicting with other plugins or general interface.</p>
 # """ .
 
-# mod:javascript
+# modgui:javascript
 #     a rdf:Property ;
 #     rdf:range owl:Thing ;
-#     rdfs:domain mod:GUI ;
+#     rdfs:domain modgui:GUI ;
 #     rdf:label "javascript" ;
 #     lv2:documentation """
 # <p>A Javascript file containing a declaration of an anonymous function which will be called once when plugin interface is first rendered and everytime a port value is changed.</p>

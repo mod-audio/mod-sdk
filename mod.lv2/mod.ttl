@@ -9,7 +9,7 @@
     a owl:Ontology ;
     rdfs:seeAlso <mod.doap.ttl> ;
     lv2:documentation """
-TODO
+<p>TODO</p>
 """ .
 
 mod:brand
