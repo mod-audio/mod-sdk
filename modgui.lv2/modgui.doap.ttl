@@ -10,7 +10,6 @@
     doap:homepage <http://moddevices.com/ns/modgui> ;
     doap:created "2013-05-03" ;
     doap:shortdesc "An LV2 extension to build HTML interfaces for audio plugins." ;
-    doap:description "TODO" ;
     doap:developer <http://falktx.com/myself.html> , <http://hacklab.com.br#lhfagundes> ;
     doap:maintainer <http://falktx.com/myself.html> ;
     doap:release [
@@ -25,7 +24,7 @@
     ] , [
         doap:revision "1.9" ;
         doap:created "2015-07-02" ;
-        #doap:file-release <http://moddevices.com/ns/modgui-1.9.tar.bz2> ;
+        doap:file-release <http://moddevices.com/ns/modgui-1.9.tar.bz2> ;
         dcs:changeset [
             dcs:item [
                 rdfs:label "TODO"
