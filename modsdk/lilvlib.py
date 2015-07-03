@@ -718,9 +718,12 @@ def get_plugin_info(world, plugin):
         else:
             gui['resourcesDirectory'] = lilv.lilv_uri_to_path(modgui_resdir.as_string())
 
-            # check if the modgui is outside the main bundle and in the user dir
-            gui['modificableInPlace'] = bool(bundle not in gui['resourcesDirectory'] and
-                                             os.path.expanduser("~") in gui['resourcesDirectory'])
+            # check if modgui is defined in a separate file
+            gui['usingSeeAlso'] = os.path.exists(os.path.join(bundle, "modgui.ttl"))
+
+            # check if the modgui definition is on its own file and in the user dir
+            gui['modificableInPlace'] = bool((bundle not in gui['resourcesDirectory'] or gui['usingSeeAlso']) and
+                                              os.path.expanduser("~") in gui['resourcesDirectory'])
 
             # icon and settings templates
             modgui_icon  = world.find_nodes(modguigui.me, ns_modgui.iconTemplate    .me, None).get_first()
