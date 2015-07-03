@@ -447,7 +447,6 @@ JqueryClass('wizard', {
         ttlText += '<' + effect.uri + '>\n'
         //ttlText += '    ui:ui modgui:X11UI ;\n'
         ttlText += '    modgui:gui [\n'
-        ttlText += '        a modgui:Gui ;\n'
         ttlText += '        modgui:resourcesDirectory <'+resDir+'> ;\n'
         ttlText += '        modgui:iconTemplate <'+resDir+'/icon-'+slug+'.html> ;\n'
         //ttlText += '        modgui:settingsTemplate <'+resDir+'/settings-'+slug+'.html> ;\n'
