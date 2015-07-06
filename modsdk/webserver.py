@@ -218,7 +218,12 @@ class EffectSave(web.RequestHandler):
             if not os.path.exists(resrcsdir):
                 os.mkdir(resrcsdir)
 
-        with open(os.path.join(bundledir, "modgui.ttl" if data['gui']['usingSeeAlso'] else "manifest.ttl"), 'w') as fd:
+        if 'usingSeeAlso' in data['gui'] and data['gui']['usingSeeAlso']:
+            ttlFile = "modgui.ttl"
+        else:
+            ttlFile = "manifest.ttl"
+
+        with open(os.path.join(bundledir, ttlFile), 'w') as fd:
             fd.write(ttlText)
 
         with open(os.path.join(resrcsdir, iconTemplateFile), 'w') as fd:
