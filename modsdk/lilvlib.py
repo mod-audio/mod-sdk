@@ -1039,7 +1039,7 @@ def get_plugin_info(world, plugin):
                     ranges['maximum'] = 1
                     ranges['default'] = 0
                 else:
-                    ranges['minimum'] = 0.0
+                    ranges['minimum'] = -1.0 if "CV" in types else 0.0
                     ranges['maximum'] = 1.0
                     ranges['default'] = 0.0
 
