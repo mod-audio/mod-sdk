@@ -1023,7 +1023,14 @@ def get_plugin_info(world, plugin):
                         if is_integer(lilv.lilv_node_as_string(xdefault)):
                             warnings.append("port '%s' default value is an integer" % portname)
 
-                    if not (ranges['minimum'] <= ranges['default'] <= ranges['maximum']):
+                    testmin = ranges['minimum']
+                    testmax = ranges['maximum']
+
+                    if "sampleRate" in properties:
+                        testmin *= 48000
+                        testmax *= 48000
+
+                    if not (testmin <= ranges['default'] <= testmax):
                         ranges['default'] = ranges['minimum']
                         errors.append("port '%s' default value is out of bounds" % portname)
 
