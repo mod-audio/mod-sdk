@@ -963,6 +963,9 @@ def get_plugin_info(world, plugin):
         if "Control" in types or "CV" in types:
             isInteger = "integer" in properties
 
+            if isInteger and "CV" in types:
+                errors.append("port '%s' has integer property and CV type" % portname)
+
             xdefault = lilv.lilv_nodes_get_first(port.get_value(ns_lv2core.default.me))
             xminimum = lilv.lilv_nodes_get_first(port.get_value(ns_lv2core.minimum.me))
             xmaximum = lilv.lilv_nodes_get_first(port.get_value(ns_lv2core.maximum.me))
@@ -1039,7 +1042,9 @@ def get_plugin_info(world, plugin):
                     ranges['minimum'] = 0.0
                     ranges['maximum'] = 1.0
                     ranges['default'] = 0.0
-                errors.append("port '%s' is missing value ranges" % portname)
+
+                if "CV" not in types:
+                    errors.append("port '%s' is missing value ranges" % portname)
 
             nodes = port.get_scale_points()
 
