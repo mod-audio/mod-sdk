@@ -19,7 +19,7 @@
     width:79px;
 }
 
-.mod-pedal-lata{{{cns}}} .mod-control-group .mod-knob .mod-knob-image { 
+.mod-pedal-lata{{{cns}}} .mod-control-group .mod-knob .mod-knob-image {
     background-image:url(/resources/knobs/lata/lata.png{{{ns}}});
     background-position:left center;
     background-repeat:no-repeat;
@@ -30,7 +30,7 @@
     width:79px;
 }
 
-.mod-pedal-lata{{{cns}}}.mod-blue .mod-control-group .mod-knob > span.mod-knob-title { 
+.mod-pedal-lata{{{cns}}}.mod-blue .mod-control-group .mod-knob > span.mod-knob-title {
     color:black;
 }
 
