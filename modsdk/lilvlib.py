@@ -529,6 +529,8 @@ def get_plugin_info(world, plugin, useAbsolutePath = True):
 
     if not binary:
         errors.append("plugin binary is missing")
+    elif not useAbsolutePath:
+        binary = binary.replace(bundle,"",1)
 
     # --------------------------------------------------------------------------------------------------------
     # license
