@@ -122,7 +122,8 @@
     width: 88px;
 }
 .mod-pedal .mod-pedal-input .mod-audio-input,
-.mod-pedal .mod-pedal-input .mod-midi-input {
+.mod-pedal .mod-pedal-input .mod-midi-input,
+.mod-pedal .mod-pedal-input .mod-cv-input {
     position: relative;
 /*
     margin-top: 10px;
@@ -130,6 +131,9 @@
 }
 .mod-pedal .mod-pedal-input .mod-midi-input {
     right: -12px;
+}
+.mod-pedal .mod-pedal-input .mod-cv-input {
+    right: -8px;
 }
 .mod-input.expanded .mod-output-jack {
     background-image:url(/resources/audio-jack.png) !important;
@@ -206,7 +210,8 @@
     width: 87px;
 }
 .mod-pedal .mod-pedal-output .mod-audio-output,
-.mod-pedal .mod-pedal-output .mod-midi-output {
+.mod-pedal .mod-pedal-output .mod-midi-output,
+.mod-pedal .mod-pedal-output .mod-cv-output {
     position: relative;
 /*
     margin-top: 10px;
