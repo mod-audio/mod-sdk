@@ -442,7 +442,7 @@ JqueryClass('wizard', {
         var ttlText = ''
         ttlText += '@prefix modgui: <http://moddevices.com/ns/modgui#> .\n'
         ttlText += '@prefix lv2:    <http://lv2plug.in/ns/lv2core#> .\n'
-        ttlText += '@prefix ui:     <http://lv2plug.in/ns/extensions/ui#> .\n'
+        //ttlText += '@prefix ui:     <http://lv2plug.in/ns/extensions/ui#> .\n'
         ttlText += '\n'
         ttlText += '<' + effect.uri + '>\n'
         //ttlText += '    ui:ui modgui:X11UI ;\n'
@@ -503,8 +503,8 @@ JqueryClass('wizard', {
 
             if (panel == "12-sliders")
                 suffix = '100'
-            else if (panel == "10-sliders")
-                suffix = '85'
+            //else if (panel == "10-sliders")
+            //    suffix = '85'
             else if (panel == "9-sliders" || panel == "8-sliders" || panel == "7-sliders")
                 suffix = '75'
             else if (panel == "8-knobs" || panel == "7-knobs")
