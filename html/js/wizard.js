@@ -537,6 +537,7 @@ JqueryClass('wizard', {
         {
             filesToCopy.push('pedals/boxy/boxy.css')
             filesToCopy.push('pedals/boxy-small/'+templateData.color+'.png')
+            filesToCopy.push('pedals/footswitch.png')
         }
         else if (model == "japanese")
         {
