@@ -100,6 +100,7 @@ function GUI(effect, options) {
         'dragStop': new Function(),
         'bypass': new Function(),
         'presetLoad': new Function(),
+        'midiLearn': new Function(),
         'bypassed': false,
         'defaultIconTemplate': 'Template missing',
         'defaultSettingsTemplate': 'Template missing'
@@ -373,6 +374,10 @@ function GUI(effect, options) {
                     port: port,
                     change: function (e, value) {
                         setValue(value)
+                    },
+                    midiLearn: function (e) {
+                        var port_path = $(this).attr('mod-port')
+                        options.midiLearn(port_path)
                     }
                 })
 
@@ -516,6 +521,10 @@ function GUI(effect, options) {
             widget.controlWidget('gestureChange', ev.scale)
             ev.handled = true
         })
+        element[0].addEventListener('dblclick', function (ev) {
+            ev.preventDefault()
+            ev.handled = true
+        })
     }
 
     this.getTemplateData = function (options, skipNamespace) {
@@ -651,6 +660,7 @@ var baseWidget = {
         if (!(self.data('enabled') === false))
             self.data('enabled', true)
         self.bind('valuechange', options.change)
+        self.bind('midilearn', options.midiLearn)
 
         var port = options.port
 
@@ -817,7 +827,7 @@ JqueryClass('film', baseWidget, {
                 $(document).bind('mousemove', moveHandler)
                 self.trigger('filmstart')
             }
-        })
+         })
 
         self.data('wheelBuffer', 0)
         self.bind('mousewheel', function (e) {
