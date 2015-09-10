@@ -1,11 +1,11 @@
 /* = CONTAINER
 ================================================ */
 .mod-pedal-lata{{{cns}}} {
-    background-position:center center;
+    background-position: 0 0;
     background-repeat:no-repeat;
-    height:516px;
+    height:514px;
     position:absolute;
-    width:398px;
+    width:396px;
     border-radius: 120px;
 }
 
