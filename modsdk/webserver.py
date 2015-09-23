@@ -203,10 +203,13 @@ class EffectSave(web.RequestHandler):
             bundledir = os.path.expanduser("~/.lv2/%s.modgui" % (data['name'].replace(" ","_").replace("/","_")))
             resrcsdir = os.path.join(bundledir, "modgui")
 
-            if not os.path.exists(bundledir):
-                os.mkdir(bundledir)
-            if not os.path.exists(resrcsdir):
-                os.mkdir(resrcsdir)
+        bundledir = os.path.abspath(bundledir)
+        resrcsdir = os.path.abspath(resrcsdir)
+
+        if not os.path.exists(bundledir):
+             os.mkdir(bundledir)
+        if not os.path.exists(resrcsdir):
+             os.mkdir(resrcsdir)
 
         if 'usingSeeAlso' in data['gui'] and data['gui']['usingSeeAlso']:
             ttlFile = "modgui.ttl"
