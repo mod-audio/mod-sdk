@@ -272,7 +272,8 @@ function showEffect() {
 
     var gui = new GUI(options, {
         defaultIconTemplate: defaultIconTemplate,
-        defaultSettingsTemplate: defaultSettingsTemplate
+        defaultSettingsTemplate: defaultSettingsTemplate,
+        bypassed: false,
     })
 
     gui.render(null, function(icon, settings) {

@@ -8,6 +8,7 @@ $(document).ready(function() {
             success: function(resp) {
                 var options = {
                     defaultIconTemplate: defaultIconTemplate,
+                    bypassed: false,
                 }
                 new GUI(resp.data, options).render(null, function(icon) {
                     $('#pedalboard-dashboard').append(icon)

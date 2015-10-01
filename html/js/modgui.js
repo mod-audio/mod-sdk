@@ -31,15 +31,19 @@ function shouldSkipPort(port) {
     return false;
 }
 
+var loadedIcons = {}
+var loadedSettings = {}
 var loadedCSSs = {}
 var loadedJSs = {}
 
 function loadDependencies(gui, effect, callback) { //source, effect, bundle, callback) {
+    var iconLoaded = true
+    var settingsLoaded = true
     var cssLoaded = true
     var jsLoaded = true
 
     var cb = function () {
-        if (cssLoaded && jsLoaded) {
+        if (iconLoaded && settingsLoaded && cssLoaded && jsLoaded) {
             setTimeout(callback, 0)
         }
     }
@@ -48,6 +52,34 @@ function loadDependencies(gui, effect, callback) { //source, effect, bundle, cal
     if (effect.source) {
         baseUrl += effect.source
         baseUrl.replace(/\/?$/, '')
+    }
+
+    if (effect.gui.iconTemplate) {
+        if (loadedIcons[effect.uri]) {
+            effect.gui.iconTemplate = loadedIcons[effect.uri]
+        } else {
+            iconLoaded = false
+            var iconUrl = baseUrl + '/effect/icon.html?uri=' + escape(effect.uri)
+            $.get(iconUrl, function (data) {
+                effect.gui.iconTemplate = loadedIcons[effect.uri] = data
+                iconLoaded = true
+                cb()
+            })
+        }
+    }
+
+    if (effect.gui.settingsTemplate) {
+        if (loadedSettings[effect.uri]) {
+            effect.gui.settingsTemplate = loadedSettings[effect.uri]
+        } else {
+            settingsLoaded = false
+            var settingsUrl = baseUrl + '/effect/settings.html?uri=' + escape(effect.uri)
+            $.get(settingsUrl, function (data) {
+                effect.gui.settingsTemplate = loadedSettings[effect.uri] = data
+                settingsLoaded = true
+                cb()
+            })
+        }
     }
 
     if (effect.gui.stylesheet && !loadedCSSs[effect.uri]) {
@@ -93,17 +125,17 @@ function GUI(effect, options) {
     var self = this
 
     options = $.extend({
-        'change': new Function(),
-        'click': new Function(),
-        'dragStart': new Function(),
-        'drag': new Function(),
-        'dragStop': new Function(),
-        'bypass': new Function(),
-        'presetLoad': new Function(),
-        'midiLearn': new Function(),
-        'bypassed': false,
-        'defaultIconTemplate': 'Template missing',
-        'defaultSettingsTemplate': 'Template missing'
+        change: new Function(),
+        click: new Function(),
+        dragStart: new Function(),
+        drag: new Function(),
+        dragStop: new Function(),
+        presetLoad: new Function(),
+        midiLearn: new Function(),
+        bypassed: 1,
+        defaultIconTemplate: 'Template missing',
+        defaultSettingsTemplate: 'Template missing',
+        loadDependencies: true,
     }, options)
 
     if (!effect.gui)
@@ -111,34 +143,39 @@ function GUI(effect, options) {
 
     self.currentValues = {}
 
-    self.dependenciesLoaded = false
     self.dependenciesCallbacks = []
 
-    loadDependencies(this, effect, function () {
+    if (options.loadDependencies) {
+        self.dependenciesLoaded = false
+
+        loadDependencies(this, effect, function () {
+            self.dependenciesLoaded = true
+            for (var i in self.dependenciesCallbacks) {
+                self.dependenciesCallbacks[i]()
+            }
+            self.dependenciesCallbacks = []
+        })
+    } else {
         self.dependenciesLoaded = true
-        for (var i in self.dependenciesCallbacks) {
-            self.dependenciesCallbacks[i]()
-        }
-        self.dependenciesCallbacks = []
-    })
+    }
 
     self.effect = effect
 
     self.bypassed = options.bypassed
 
     this.makePortIndexes = function (ports) {
-        var indexes = {}
-        for (var i in ports) {
+        var i, port, porti, indexes = {}
+
+        for (i in ports) {
             porti = ports[i]
 
             // skip notOnGUI controls
             if (shouldSkipPort(porti))
                 continue
 
-            var port = {
+            port = {
                 widgets: [],
-                enabled: true,
-                value: null
+                enabled: true
             }
             $.extend(port, porti)
 
@@ -158,6 +195,7 @@ function GUI(effect, options) {
             // ready
             indexes[port.symbol] = port
         }
+
         return indexes
     }
 
@@ -178,7 +216,18 @@ function GUI(effect, options) {
         properties: ["toggled", "integer"],
         widgets: [],
         enabled: true,
-        value: options.bypassed
+        value: self.bypassed ? 1 : 0,
+
+        // FIXME
+        default: 1,
+        maximum: 1,
+        minimum: 0,
+        enumeration: false,
+        integer: true,
+        logarithmic: false,
+        toggled: true,
+        trigger: false,
+        scalePoints: []
     }
 
     this.setPortValue = function (symbol, value, source) {
@@ -188,6 +237,9 @@ function GUI(effect, options) {
         var mod_port = source ? source.attr("mod-port") : symbol
         if (!port.enabled || port.value == value)
             return
+        /*
+          FIXME - shouldn't this be done in the host?
+
         if (port.properties.indexOf("trigger") >= 0) {
             // Report the new value and return the widget to old value
             options.change(mod_port, value)
@@ -198,20 +250,28 @@ function GUI(effect, options) {
             }
             return
         }
-        port.value = value
+        */
+
+        // update our own widgets
         self.setPortWidgetsValue(symbol, value, source)
+
+        // let the host know about this change
         options.change(mod_port, value)
-        self.currentValues[symbol] = value
-        self.triggerJS({ type: 'change', symbol: symbol })
     }
 
     this.setPortWidgetsValue = function (symbol, value, source, only_gui) {
         var port = self.controls[symbol]
+
+        port.value = value
+        self.currentValues[symbol] = value
+
         for (var i in port.widgets) {
             if (port.widgets[i] == source)
                 continue
             port.widgets[i].controlWidget('setValue', value, only_gui)
         }
+
+        self.triggerJS({ type: 'change', symbol: symbol, value: value })
     }
 
     this.getPortValue = function (symbol) {
@@ -280,6 +340,21 @@ function GUI(effect, options) {
                 self.settings.find(".mod-address").hide()
             }
 
+            /*
+            TESTING code for presets
+            var p, _presets = []
+            console.log(effect.presets)
+            for (i in effect.presets) {
+                p = effect.presets[i]
+                _presets.push({
+                    name: p.label,
+                    uri: p.uri,
+                    bind: MOD_BIND_NONE,
+                })
+            }
+            desktop.presetManager.presetManager("setPresets", instance, _presets)
+            */
+
             self.triggerJS({ 'type': 'start' })
 
             var preset_select = self.settings.find('[mod-role=presets]')
@@ -327,13 +402,14 @@ function GUI(effect, options) {
     }
 
     this.assignControlFunctionality = function (element, onlySetValues) {
+        var instance = element.attr('mod-instance')
+
         element.find('[mod-role=input-control-port]').each(function () {
             var control = $(this)
             var symbol = $(this).attr('mod-port-symbol')
             var port = self.controls[symbol]
-            var inst = element.attr('mod-instance')
 
-            control.attr("mod-port", (inst ? inst + "/" : "") + symbol)
+            control.attr("mod-port", (instance ? instance + "/" : "") + symbol)
             control.addClass("mod-port")
 
             if (port)
@@ -459,33 +535,53 @@ function GUI(effect, options) {
             var control = $(this)
             var port = self.controls[':bypass']
             port.widgets.push(control)
-            control.switchWidget({
-                port: self.controls[':bypass'],
-                value: options.bypassed,
-                change: function (e, value) {
-                    options.bypass(value)
-                    self.bypassed = value
-                    self.setPortValue(':bypass', value, control)
 
+            control.bypassWidget({
+                port: port,
+                value: self.bypassed,
+                change: function (e, value) {
+                    /*
+                     TESTING - the following code is also on 'changeLights' so we don't need it here?
+                    self.bypassed = value
                     element.find('[mod-role=bypass-light]').each(function () {
                         // NOTE
                         // the element itself will get inverse class ("on" when light is "off"),
                         // because of the switch widget.
-                        if (value == 1)
+                        if (value)
                             $(this).addClass('off').removeClass('on')
                         else
                             $(this).addClass('on').removeClass('off')
                     });
+                    */
+
+                    self.setPortValue(':bypass', value ? 1 : 0, control)
 
                     if (value)
                         control.addClass('on').removeClass('off')
                     else
                         control.addClass('off').removeClass('on')
-                }
-            }).attr('mod-widget', 'switch')
+                },
+                changeLights: function (value) {
+                    self.bypassed = value
+
+                    element.find('[mod-role=bypass-light]').each(function () {
+                        // NOTE
+                        // the element itself will get inverse class ("on" when light is "off"),
+                        // because of the switch widget.
+                        if (value)
+                            $(this).addClass('off').removeClass('on')
+                        else
+                            $(this).addClass('on').removeClass('off')
+                    });
+                },
+            })
+
+            control.attr("mod-port", instance ? instance + "/:bypass" : ":bypass")
+            control.attr('mod-widget', 'bypass')
+            control.addClass("mod-port")
         })
 
-        if (options.bypassed)
+        if (self.bypassed)
             element.find('[mod-role=bypass-light]').addClass('off').removeClass('on')
         else
             element.find('[mod-role=bypass-light]').addClass('on').removeClass('off')
@@ -642,6 +738,7 @@ function JqueryClass() {
         var widgets = {
             'film': 'film',
             'switch': 'switchWidget',
+            'bypass': 'bypassWidget',
             'select': 'selectWidget',
             'custom-select': 'customSelect'
         }
@@ -856,7 +953,7 @@ JqueryClass('film', baseWidget, {
         setTimeout(function () {
             var url = self.css('background-image').replace('url(', '').replace(')', '').replace("'", '').replace('"', '');
             if (! url) {
-                console.log("The background-image for '" + self[0].className + "' is missing, typo in css?")
+                console.log("ERROR: The background-image for '" + self[0].className + "' is missing, typo in css?")
                 return
             }
             var height = self.css('background-size').split(/ /)[1]
@@ -1041,14 +1138,56 @@ JqueryClass('switchWidget', baseWidget, {
     setValue: function (value, only_gui) {
         var self = $(this)
         self.data('value', value)
+
         if (value == self.data('minimum')) {
             self.addClass('off').removeClass('on')
         } else {
             self.addClass('on').removeClass('off')
         }
+
         if (!only_gui)
             self.trigger('valuechange', value)
     }
+})
+
+// this is the same as switchWidget with extra bypass-specific stuff
+JqueryClass('bypassWidget', baseWidget, {
+    init: function (options) {
+        var self = $(this)
+        self.data('changeLights', options.changeLights)
+        self.bypassWidget('config', options)
+        if (options.value != undefined) {
+            self.bypassWidget('setValue', options.value)
+        } else {
+            self.bypassWidget('setValue', options.port.ranges.default)
+        }
+        self.click(function (e) {
+            if (!self.data('enabled'))
+                return self.bypassWidget('prevent', e)
+            var value = self.data('value')
+            if (value == self.data('minimum')) {
+                self.bypassWidget('setValue', self.data('maximum'))
+                self.addClass('on').removeClass('off')
+            } else {
+                self.bypassWidget('setValue', self.data('minimum'))
+                self.addClass('off').removeClass('on')
+            }
+        })
+        return self
+    },
+    setValue: function (value, only_gui) {
+        var self = $(this)
+        self.data('value', value)
+        self.data('changeLights')(value)
+
+        if (value)
+            self.addClass('on').removeClass('off')
+        else
+            self.addClass('off').removeClass('on')
+
+        if (!only_gui)
+            self.trigger('valuechange', value)
+    },
 })
 
 JqueryClass('customSelect', baseWidget, {
