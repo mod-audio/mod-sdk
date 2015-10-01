@@ -12,9 +12,10 @@ from tornado.escape import squeeze
 from modsdk.crypto import Sender
 from modsdk.lilvlib import get_plugin_info
 from modsdk.settings import (PORT, HTML_DIR, WIZARD_DB,
-                             CONFIG_FILE, TEMPLATE_DIR, DEFAULT_ICON_TEMPLATE,
-                             DEFAULT_SETTINGS_TEMPLATE, SCREENSHOT_SCRIPT, MAX_THUMB_WIDTH,
-                             MAX_THUMB_HEIGHT, PHANTOM_BINARY)
+                             CONFIG_FILE, TEMPLATE_DIR,
+                             DEFAULT_ICON_IMAGE, DEFAULT_ICON_TEMPLATE, DEFAULT_SETTINGS_TEMPLATE,
+                             MAX_THUMB_WIDTH, MAX_THUMB_HEIGHT,
+                             SCREENSHOT_SCRIPT, PHANTOM_BINARY)
 
 global cached_bundles, cached_plugins, cached_bundle_plugins
 cached_bundles        = {}
@@ -120,10 +121,13 @@ class EffectImage(web.RequestHandler):
         try:
             path = data['gui'][image]
         except:
-            raise web.HTTPError(404)
+            path = None
 
-        if not os.path.exists(path):
-            raise web.HTTPError(404)
+        if path is None or not os.path.exists(path):
+            try:
+                path = DEFAULT_ICON_IMAGE[image]
+            except:
+                raise web.HTTPError(404)
 
         with open(path, 'rb') as fd:
             self.set_header('Content-type', 'image/png')
