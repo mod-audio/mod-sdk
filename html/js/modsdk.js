@@ -38,6 +38,12 @@ $(document).ready(function() {
         loadEffects()
     })
     $('#screenshot').click(function() {
+        var options = effects.find('option:selected').data()
+        if (options.gui.iconTemplate == null) {
+            alert("Cannot generate screenshot without an Icon!")
+            return
+        }
+
         var iconImg = $('<img>')
         screenshotCanvas.find('img').remove()
         $.ajax({
