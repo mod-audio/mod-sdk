@@ -23,11 +23,28 @@ cached_plugins        = {}
 cached_bundle_plugins = {}
 
 def get_config(key, default=None):
-    try:
-        config = json.loads(open(CONFIG_FILE).read())
-        return config[key]
-    except:
+    if not os.path.exists(CONFIG_FILE):
         return default
+
+    with open(CONFIG_FILE, 'r') as fh:
+        config = json.load(fh)
+
+    if key in config.keys():
+        return config[key]
+
+    return default
+
+#def set_config(key, value):
+    #if os.path.exists(CONFIG_FILE):
+        #with open(CONFIG_FILE, 'r') as fh:
+            #config = json.load(fh)
+    #else:
+        #config = {}
+
+    #config[key] = value
+
+    #with open(CONFIG_FILE, 'w') as fh:
+        #json.dump(config, fh)
 
 def refresh_world():
     bundles        = []
@@ -500,20 +517,18 @@ class BundlePost(web.RequestHandler):
 
 class ConfigurationGet(web.RequestHandler):
     def get(self):
-        try:
-            config = json.loads(open(CONFIG_FILE).read())
-        except:
-            config = {}
+        config = get_config()
         self.set_header('Content-type', 'application/json')
         self.write(json.dumps(config))
 
 class ConfigurationSet(web.RequestHandler):
     def post(self):
+        config  = json.loads(self.request.body) # .decode("utf-8", errors="ignore")
         confdir = os.path.dirname(CONFIG_FILE)
         if not os.path.exists(confdir):
             os.mkdir(confdir)
-        config = json.loads(self.request.body.decode("utf-8", errors="ignore"))
-        open(CONFIG_FILE, 'w').write(json.dumps(config))
+        with open(CONFIG_FILE, 'w') as fh:
+            json.dump(config, fh)
         self.set_header('Content-type', 'application/json')
         self.write(json.dumps(True))
 
