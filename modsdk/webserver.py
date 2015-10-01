@@ -8,6 +8,7 @@ from hashlib import sha1
 from PIL import Image
 
 from tornado import web, options, ioloop, template, httpclient
+from tornado.escape import squeeze
 from modsdk.crypto import Sender
 from modsdk.lilvlib import get_plugin_info
 from modsdk.settings import (PORT, HTML_DIR, WIZARD_DB,
@@ -264,15 +265,21 @@ class Index(web.RequestHandler):
         if not path:
             path = 'index.html'
         loader = template.Loader(HTML_DIR)
-        default_icon_template = open(DEFAULT_ICON_TEMPLATE).read()
-        default_settings_template = open(DEFAULT_SETTINGS_TEMPLATE).read()
+
+        with open(DEFAULT_ICON_TEMPLATE) as fd:
+            default_icon_template = squeeze(fd.read().replace("'", "\\'"))
+
+        with open(DEFAULT_SETTINGS_TEMPLATE) as fd:
+            default_settings_template = squeeze(fd.read().replace("'", "\\'"))
+
         context = {
-            'default_icon_template': default_icon_template.replace("'", "\\'").replace("\n", "\\n"),
-            'default_settings_template': default_settings_template.replace("'", "\\'").replace("\n", "\\n"),
+            'default_icon_template': default_icon_template,
+            'default_settings_template': default_settings_template,
             'wizard_db': json.dumps(json.loads(open(WIZARD_DB).read())),
             'default_developer': os.environ['USER'],
             'default_privkey': os.path.join(os.environ['HOME'], '.ssh', 'id_rsa'),
         }
+
         self.write(loader.load(path).generate(**context))
 
 class Screenshot(web.RequestHandler):
