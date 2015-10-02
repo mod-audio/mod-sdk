@@ -22,12 +22,12 @@
             "1-select-2-knobs": 3,
             "1-select-3-knobs": 4
         },
-        "colors": [ "blue", "brown", "cream", "darkblue", "gray", "green", "orange", "purple", "red", "white", "yellow" ]
+        "colors": [ "black", "blue", "brown", "cream", "cyan", "darkblue", "gray", "green", "orange", "petrol", "pink", "purple", "racing", "red", "white", "wood0", "wood1", "wood2", "wood3", "wood4", "yellow", "zinc" ]
     },
     
     "boxy-small": {
         "panels": { "1-footswitch": 1 },
-        "colors": [ "blue", "brown", "cream", "darkblue", "gray", "green", "orange", "purple", "red", "white", "yellow" ]
+        "colors": [ "black", "blue", "brown", "cream", "cyan", "darkblue", "gray", "green", "orange", "petrol", "pink", "purple", "racing", "red", "white", "wood0", "wood1", "wood2", "wood3", "wood4", "yellow", "zinc" ]
     },
     
     "japanese": {

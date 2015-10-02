@@ -108,6 +108,9 @@
 }
 
 /* SMALL */
+.mod-pedal-boxy{{{cns}}}.mod-boxy50.mod-black {
+    background-image:url(/resources/pedals/boxy-small/black.png{{{ns}}});
+}
 .mod-pedal-boxy{{{cns}}}.mod-boxy50.mod-blue {
     background-image:url(/resources/pedals/boxy-small/blue.png{{{ns}}});
 }
@@ -116,6 +119,9 @@
 }
 .mod-pedal-boxy{{{cns}}}.mod-boxy50.mod-cream {
     background-image:url(/resources/pedals/boxy-small/cream.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy50.mod-cyan {
+    background-image:url(/resources/pedals/boxy-small/cyan.png{{{ns}}});
 }
 .mod-pedal-boxy{{{cns}}}.mod-boxy50.mod-darkblue {
     background-image:url(/resources/pedals/boxy-small/darkblue.png{{{ns}}});
@@ -129,8 +135,17 @@
 .mod-pedal-boxy{{{cns}}}.mod-boxy50.mod-orange {
     background-image:url(/resources/pedals/boxy-small/orange.png{{{ns}}});
 }
+.mod-pedal-boxy{{{cns}}}.mod-boxy50.mod-petrol {
+    background-image:url(/resources/pedals/boxy-small/petrol.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy50.mod-pink {
+    background-image:url(/resources/pedals/boxy-small/pink.png{{{ns}}});
+}
 .mod-pedal-boxy{{{cns}}}.mod-boxy50.mod-purple {
     background-image:url(/resources/pedals/boxy-small/purple.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy50.mod-racing {
+    background-image:url(/resources/pedals/boxy-small/racing.png{{{ns}}});
 }
 .mod-pedal-boxy{{{cns}}}.mod-boxy50.mod-red {
     background-image:url(/resources/pedals/boxy-small/red.png{{{ns}}});
@@ -138,12 +153,33 @@
 .mod-pedal-boxy{{{cns}}}.mod-boxy50.mod-white {
     background-image:url(/resources/pedals/boxy-small/white.png{{{ns}}});
 }
-.mod-pedal-boxy{{{cns}}}.mod-boxy50.yellow {
+.mod-pedal-boxy{{{cns}}}.mod-boxy50.mod-wood0 {
+    background-image:url(/resources/pedals/boxy-small/wood0.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy50.mod-wood1 {
+    background-image:url(/resources/pedals/boxy-small/wood1.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy50.mod-wood2 {
+    background-image:url(/resources/pedals/boxy-small/wood2.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy50.mod-wood3 {
+    background-image:url(/resources/pedals/boxy-small/wood3.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy50.mod-wood4 {
+    background-image:url(/resources/pedals/boxy-small/wood4.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy50.mod-yellow {
     background-image:url(/resources/pedals/boxy-small/yellow.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy50.mod-zinc {
+    background-image:url(/resources/pedals/boxy-small/zinc.png{{{ns}}});
 }
 
 
 /* LARGE */
+.mod-pedal-boxy{{{cns}}}.mod-boxy75.mod-black {
+    background-image:url(/resources/pedals/boxy75/black.png{{{ns}}});
+}
 .mod-pedal-boxy{{{cns}}}.mod-boxy75.mod-blue {
     background-image:url(/resources/pedals/boxy75/blue.png{{{ns}}});
 }
@@ -152,6 +188,9 @@
 }
 .mod-pedal-boxy{{{cns}}}.mod-boxy75.mod-cream {
     background-image:url(/resources/pedals/boxy75/cream.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy75.mod-cyan {
+    background-image:url(/resources/pedals/boxy75/cyan.png{{{ns}}});
 }
 .mod-pedal-boxy{{{cns}}}.mod-boxy75.mod-darkblue {
     background-image:url(/resources/pedals/boxy75/darkblue.png{{{ns}}});
@@ -165,8 +204,17 @@
 .mod-pedal-boxy{{{cns}}}.mod-boxy75.mod-orange {
     background-image:url(/resources/pedals/boxy75/orange.png{{{ns}}});
 }
+.mod-pedal-boxy{{{cns}}}.mod-boxy75.mod-petrol {
+    background-image:url(/resources/pedals/boxy75/petrol.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy75.mod-pink {
+    background-image:url(/resources/pedals/boxy75/pink.png{{{ns}}});
+}
 .mod-pedal-boxy{{{cns}}}.mod-boxy75.mod-purple {
     background-image:url(/resources/pedals/boxy75/purple.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy75.mod-racing {
+    background-image:url(/resources/pedals/boxy75/racing.png{{{ns}}});
 }
 .mod-pedal-boxy{{{cns}}}.mod-boxy75.mod-red {
     background-image:url(/resources/pedals/boxy75/red.png{{{ns}}});
@@ -174,18 +222,162 @@
 .mod-pedal-boxy{{{cns}}}.mod-boxy75.mod-white {
     background-image:url(/resources/pedals/boxy75/white.png{{{ns}}});
 }
-.mod-pedal-boxy{{{cns}}}.mod-boxy75.yellow {
+.mod-pedal-boxy{{{cns}}}.mod-boxy75.mod-wood0 {
+    background-image:url(/resources/pedals/boxy75/wood0.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy75.mod-wood1 {
+    background-image:url(/resources/pedals/boxy75/wood1.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy75.mod-wood2 {
+    background-image:url(/resources/pedals/boxy75/wood2.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy75.mod-wood3 {
+    background-image:url(/resources/pedals/boxy75/wood3.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy75.mod-wood4 {
+    background-image:url(/resources/pedals/boxy75/wood4.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy75.mod-yellow {
     background-image:url(/resources/pedals/boxy75/yellow.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy75.mod-zinc {
+    background-image:url(/resources/pedals/boxy75/zinc.png{{{ns}}});
 }
 
 /* BIGGER */
+.mod-pedal-boxy{{{cns}}}.mod-boxy85.mod-black {
+    background-image:url(/resources/pedals/boxy85/black.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy85.mod-blue {
+    background-image:url(/resources/pedals/boxy85/blue.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy85.mod-brown {
+    background-image:url(/resources/pedals/boxy85/brown.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy85.mod-cream {
+    background-image:url(/resources/pedals/boxy85/cream.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy85.mod-cyan {
+    background-image:url(/resources/pedals/boxy85/cyan.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy85.mod-darkblue {
+    background-image:url(/resources/pedals/boxy85/darkblue.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy85.mod-gray {
+    background-image:url(/resources/pedals/boxy85/gray.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy85.mod-green {
+    background-image:url(/resources/pedals/boxy85/green.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy85.mod-orange {
+    background-image:url(/resources/pedals/boxy85/orange.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy85.mod-petrol {
+    background-image:url(/resources/pedals/boxy85/petrol.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy85.mod-pink {
+    background-image:url(/resources/pedals/boxy85/pink.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy85.mod-purple {
+    background-image:url(/resources/pedals/boxy85/purple.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy85.mod-racing {
+    background-image:url(/resources/pedals/boxy85/racing.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy85.mod-red {
+    background-image:url(/resources/pedals/boxy85/red.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy85.mod-white {
+    background-image:url(/resources/pedals/boxy85/white.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy85.mod-wood0 {
+    background-image:url(/resources/pedals/boxy85/wood0.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy85.mod-wood1 {
+    background-image:url(/resources/pedals/boxy85/wood1.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy85.mod-wood2 {
+    background-image:url(/resources/pedals/boxy85/wood2.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy85.mod-wood3 {
+    background-image:url(/resources/pedals/boxy85/wood3.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy85.mod-wood4 {
+    background-image:url(/resources/pedals/boxy85/wood4.png{{{ns}}});
+}
 .mod-pedal-boxy{{{cns}}}.mod-boxy85.mod-yellow {
     background-image:url(/resources/pedals/boxy85/yellow.png{{{ns}}});
 }
+.mod-pedal-boxy{{{cns}}}.mod-boxy85.mod-zinc {
+    background-image:url(/resources/pedals/boxy85/zinc.png{{{ns}}});
+}
 
 /* HUGE */
+.mod-pedal-boxy{{{cns}}}.mod-boxy100.mod-black {
+    background-image:url(/resources/pedals/boxy100/black.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy100.mod-blue {
+    background-image:url(/resources/pedals/boxy100/blue.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy100.mod-brown {
+    background-image:url(/resources/pedals/boxy100/brown.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy100.mod-cream {
+    background-image:url(/resources/pedals/boxy100/cream.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy100.mod-cyan {
+    background-image:url(/resources/pedals/boxy100/cyan.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy100.mod-darkblue {
+    background-image:url(/resources/pedals/boxy100/darkblue.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy100.mod-gray {
+    background-image:url(/resources/pedals/boxy100/gray.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy100.mod-green {
+    background-image:url(/resources/pedals/boxy100/green.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy100.mod-orange {
+    background-image:url(/resources/pedals/boxy100/orange.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy100.mod-petrol {
+    background-image:url(/resources/pedals/boxy100/petrol.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy100.mod-pink {
+    background-image:url(/resources/pedals/boxy100/pink.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy100.mod-purple {
+    background-image:url(/resources/pedals/boxy100/purple.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy100.mod-racing {
+    background-image:url(/resources/pedals/boxy100/racing.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy100.mod-red {
+    background-image:url(/resources/pedals/boxy100/red.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy100.mod-white {
+    background-image:url(/resources/pedals/boxy100/white.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy100.mod-wood0 {
+    background-image:url(/resources/pedals/boxy100/wood0.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy100.mod-wood1 {
+    background-image:url(/resources/pedals/boxy100/wood1.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy100.mod-wood2 {
+    background-image:url(/resources/pedals/boxy100/wood2.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy100.mod-wood3 {
+    background-image:url(/resources/pedals/boxy100/wood3.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy100.mod-wood4 {
+    background-image:url(/resources/pedals/boxy100/wood4.png{{{ns}}});
+}
 .mod-pedal-boxy{{{cns}}}.mod-boxy100.mod-yellow {
     background-image:url(/resources/pedals/boxy100/yellow.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-boxy100.mod-zinc {
+    background-image:url(/resources/pedals/boxy100/zinc.png{{{ns}}});
 }
 
 
@@ -252,66 +444,42 @@
 }
 
 
-/* = PLUGIN'S AUTHO AND NAME COLOURS
+/* = PLUGIN'S AUTHOR AND NAME COLOURS
 ================================================ */
+.mod-pedal-boxy{{{cns}}}.mod-black h1,
+.mod-pedal-boxy{{{cns}}}.mod-brown h1,
+.mod-pedal-boxy{{{cns}}}.mod-darkblue h1,
+.mod-pedal-boxy{{{cns}}}.mod-orange h1,
+.mod-pedal-boxy{{{cns}}}.mod-petrol h1,
+.mod-pedal-boxy{{{cns}}}.mod-purple h1,
+.mod-pedal-boxy{{{cns}}}.mod-racing h1,
+.mod-pedal-boxy{{{cns}}}.mod-red h1,
+.mod-pedal-boxy{{{cns}}}.mod-wood2 h1,
+.mod-pedal-boxy{{{cns}}}.mod-wood3 h1,
+.mod-pedal-boxy{{{cns}}}.mod-wood4 h1
+{
+    color:white;
+    border-color:white;
+}
+
+.mod-pedal-boxy{{{cns}}}.mod-blue h1,
+.mod-pedal-boxy{{{cns}}}.mod-cream h1,
+.mod-pedal-boxy{{{cns}}}.mod-cyan h1,
+.mod-pedal-boxy{{{cns}}}.mod-blue h1,
+.mod-pedal-boxy{{{cns}}}.mod-gray h1,
+.mod-pedal-boxy{{{cns}}}.mod-pink h1,
+.mod-pedal-boxy{{{cns}}}.mod-white h1,
+.mod-pedal-boxy{{{cns}}}.mod-wood0 h1,
+.mod-pedal-boxy{{{cns}}}.mod-wood1 h1,
+.mod-pedal-boxy{{{cns}}}.mod-yellow h1
+{
+    color:black;
+    border-color: black;
+}
+/*
 .mod-pedal-boxy{{{cns}}}.mod-blue .mod-plugin-brand h1,
-.mod-pedal-boxy{{{cns}}}.mod-blue .mod-plugin-name h1 {
-    color:rgb(0,0,0);
-}
-
-.mod-pedal-boxy{{{cns}}}.mod-brown .mod-plugin-brand h1,
-.mod-pedal-boxy{{{cns}}}.mod-brown .mod-plugin-name h1 {
-    border-color:rgb(255,255,255);
-    color:rgb(255,255,255);
-}
-
-.mod-pedal-boxy{{{cns}}}.mod-cream .mod-plugin-brand h1,
-.mod-pedal-boxy{{{cns}}}.mod-cream .mod-plugin-name h1 {
-    color:rgb(0,0,0);
-}
-
-.mod-pedal-boxy{{{cns}}}.mod-darkblue .mod-plugin-brand h1,
-.mod-pedal-boxy{{{cns}}}.mod-darkblue .mod-plugin-name h1 {
-    border-color:rgb(255,255,255);
-    color:rgb(255,255,255);
-}
-
-.mod-pedal-boxy{{{cns}}}.mod-gray .mod-plugin-brand h1,
-.mod-pedal-boxy{{{cns}}}.mod-gray .mod-plugin-name h1 {
-    color:rgb(0,0,0);
-}
-
-.mod-pedal-boxy{{{cns}}}.mod-green .mod-plugin-brand h1,
-.mod-pedal-boxy{{{cns}}}.mod-green .mod-plugin-name h1 {
-    border-color:rgb(255,255,255);
-    color:rgb(255,255,255);
-}
-
-.mod-pedal-boxy{{{cns}}}.mod-orange .mod-plugin-brand h1,
-.mod-pedal-boxy{{{cns}}}.mod-orange .mod-plugin-name h1 {
-    color:rgb(0,0,0);
-}
-
-.mod-pedal-boxy{{{cns}}}.mod-purple .mod-plugin-brand h1,
-.mod-pedal-boxy{{{cns}}}.mod-purple .mod-plugin-name h1 {
-    border-color:rgb(255,255,255);
-    color:rgb(255,255,255);
-}
-
-.mod-pedal-boxy{{{cns}}}.mod-red .mod-plugin-brand h1,
-.mod-pedal-boxy{{{cns}}}.mod-red .mod-plugin-name h1 {
-    color:rgb(0,0,0);
-}
-
-.mod-pedal-boxy{{{cns}}}.mod-white .mod-plugin-brand h1,
-.mod-pedal-boxy{{{cns}}}.mod-white .mod-plugin-name h1 {
-    color:rgb(0,0,0);
-}
-
-.mod-pedal-boxy{{{cns}}}.mod-yellow .mod-plugin-brand h1,
-.mod-pedal-boxy{{{cns}}}.mod-yellow .mod-plugin-name h1 {
-    color:rgb(0,0,0);
-}
+.mod-pedal-boxy{{{cns}}}.mod-blue .mod-plugin-name h1
+*/
 
 /* = LIGHT ON/OFF
 ================================================ */
@@ -411,37 +579,32 @@
     right:0;
     text-transform:uppercase;
 }
-.mod-pedal-boxy{{{cns}}}.mod-blue .mod-control-group .mod-knob > span.mod-knob-title {
-    color:black;
-}
-.mod-pedal-boxy{{{cns}}}.mod-brown .mod-control-group .mod-knob > span.mod-knob-title {
+.mod-pedal-boxy{{{cns}}}.mod-black .mod-control-group .mod-knob > span.mod-knob-title,
+.mod-pedal-boxy{{{cns}}}.mod-brown .mod-control-group .mod-knob > span.mod-knob-title,
+.mod-pedal-boxy{{{cns}}}.mod-darkblue .mod-control-group .mod-knob > span.mod-knob-title,
+.mod-pedal-boxy{{{cns}}}.mod-orange .mod-control-group .mod-knob > span.mod-knob-title,
+.mod-pedal-boxy{{{cns}}}.mod-petrol .mod-control-group .mod-knob > span.mod-knob-title,
+.mod-pedal-boxy{{{cns}}}.mod-purple .mod-control-group .mod-knob > span.mod-knob-title,
+.mod-pedal-boxy{{{cns}}}.mod-racing .mod-control-group .mod-knob > span.mod-knob-title,
+.mod-pedal-boxy{{{cns}}}.mod-red .mod-control-group .mod-knob > span.mod-knob-title,
+.mod-pedal-boxy{{{cns}}}.mod-wood2 .mod-control-group .mod-knob > span.mod-knob-title,
+.mod-pedal-boxy{{{cns}}}.mod-wood3 .mod-control-group .mod-knob > span.mod-knob-title,
+.mod-pedal-boxy{{{cns}}}.mod-wood4 .mod-control-group .mod-knob > span.mod-knob-title
+{
     color:white;
 }
-.mod-pedal-boxy{{{cns}}}.mod-cream .mod-control-group .mod-knob > span.mod-knob-title {
-    color:black;
-}
-.mod-pedal-boxy{{{cns}}}.mod-darkblue .mod-control-group .mod-knob > span.mod-knob-title {
-    color:white;
-}
-.mod-pedal-boxy{{{cns}}}.mod-gray .mod-control-group .mod-knob > span.mod-knob-title {
-    color:black;
-}
-.mod-pedal-boxy{{{cns}}}.mod-green .mod-control-group .mod-knob > span.mod-knob-title {
-    color:white;
-}
-.mod-pedal-boxy{{{cns}}}.mod-orange .mod-control-group .mod-knob > span.mod-knob-title {
-    color:black;
-}
-.mod-pedal-boxy{{{cns}}}.mod-purple .mod-control-group .mod-knob > span.mod-knob-title {
-    color:white;
-}
-.mod-pedal-boxy{{{cns}}}.mod-red .mod-control-group .mod-knob > span.mod-knob-title {
-    color:black;
-}
-.mod-pedal-boxy{{{cns}}}.mod-white .mod-control-group .mod-knob > span.mod-knob-title {
-    color:black;
-}
-.mod-pedal-boxy{{{cns}}}.mod-yellow .mod-control-group .mod-knob > span.mod-knob-title {
+
+.mod-pedal-boxy{{{cns}}}.mod-blue .mod-control-group .mod-knob > span.mod-knob-title,
+.mod-pedal-boxy{{{cns}}}.mod-cream .mod-control-group .mod-knob > span.mod-knob-title,
+.mod-pedal-boxy{{{cns}}}.mod-cyan .mod-control-group .mod-knob > span.mod-knob-title,
+.mod-pedal-boxy{{{cns}}}.mod-blue .mod-control-group .mod-knob > span.mod-knob-title,
+.mod-pedal-boxy{{{cns}}}.mod-gray .mod-control-group .mod-knob > span.mod-knob-title,
+.mod-pedal-boxy{{{cns}}}.mod-pink .mod-control-group .mod-knob > span.mod-knob-title,
+.mod-pedal-boxy{{{cns}}}.mod-white .mod-control-group .mod-knob > span.mod-knob-title,
+.mod-pedal-boxy{{{cns}}}.mod-wood0 .mod-control-group .mod-knob > span.mod-knob-title,
+.mod-pedal-boxy{{{cns}}}.mod-wood1 .mod-control-group .mod-knob > span.mod-knob-title,
+.mod-pedal-boxy{{{cns}}}.mod-yellow .mod-control-group .mod-knob > span.mod-knob-title
+{
     color:black;
 }
 
@@ -565,48 +728,33 @@
     cursor:pointer;
 }
 
+.mod-pedal-boxy{{{cns}}}.mod-black .mod-enumerated,
+.mod-pedal-boxy{{{cns}}}.mod-brown .mod-enumerated,
+.mod-pedal-boxy{{{cns}}}.mod-darkblue .mod-enumerated,
+.mod-pedal-boxy{{{cns}}}.mod-orange .mod-enumerated,
+.mod-pedal-boxy{{{cns}}}.mod-petrol .mod-enumerated,
+.mod-pedal-boxy{{{cns}}}.mod-purple .mod-enumerated,
+.mod-pedal-boxy{{{cns}}}.mod-racing .mod-enumerated,
+.mod-pedal-boxy{{{cns}}}.mod-red .mod-enumerated,
+.mod-pedal-boxy{{{cns}}}.mod-wood2 .mod-enumerated,
+.mod-pedal-boxy{{{cns}}}.mod-wood3 .mod-enumerated,
+.mod-pedal-boxy{{{cns}}}.mod-wood4 .mod-enumerated
+{
+    background-image:url(/resources/utils/dropdown-arrow-white.png{{{ns}}});
+    color:white;
+}
 
-.mod-pedal-boxy{{{cns}}}.mod-blue .mod-enumerated {
-    background-image:url(/resources/utils/dropdown-arrow-black.png{{{ns}}});
-    color:black;
-}
-.mod-pedal-boxy{{{cns}}}.mod-brown .mod-enumerated {
-    background-image:url(/resources/utils/dropdown-arrow-white.png{{{ns}}});
-    color:white;
-}
-.mod-pedal-boxy{{{cns}}}.mod-cream .mod-enumerated {
-    background-image:url(/resources/utils/dropdown-arrow-black.png{{{ns}}});
-    color:black;
-}
-.mod-pedal-boxy{{{cns}}}.mod-darkblue .mod-enumerated {
-    background-image:url(/resources/utils/dropdown-arrow-white.png{{{ns}}});
-    color:white;
-}
-.mod-pedal-boxy{{{cns}}}.mod-gray .mod-enumerated {
-    background-image:url(/resources/utils/dropdown-arrow-black.png{{{ns}}});
-    color:black;
-}
-.mod-pedal-boxy{{{cns}}}.mod-green .mod-enumerated {
-    background-image:url(/resources/utils/dropdown-arrow-white.png{{{ns}}});
-    color:white;
-}
-.mod-pedal-boxy{{{cns}}}.mod-orange .mod-enumerated {
-    background-image:url(/resources/utils/dropdown-arrow-black.png{{{ns}}});
-    color:black;
-}
-.mod-pedal-boxy{{{cns}}}.mod-purple .mod-enumerated {
-    background-image:url(/resources/utils/dropdown-arrow-white.png{{{ns}}});
-    color:white;
-}
-.mod-pedal-boxy{{{cns}}}.mod-red .mod-enumerated {
-    background-image:url(/resources/utils/dropdown-arrow-black.png{{{ns}}});
-    color:black;
-}
-.mod-pedal-boxy{{{cns}}}.mod-white .mod-enumerated {
-    background-image:url(/resources/utils/dropdown-arrow-black.png{{{ns}}});
-    color:black;
-}
-.mod-pedal-boxy{{{cns}}}.mod-yellow .mod-enumerated {
+.mod-pedal-boxy{{{cns}}}.mod-blue .mod-enumerated,
+.mod-pedal-boxy{{{cns}}}.mod-cream .mod-enumerated,
+.mod-pedal-boxy{{{cns}}}.mod-cyan .mod-enumerated,
+.mod-pedal-boxy{{{cns}}}.mod-blue .mod-enumerated,
+.mod-pedal-boxy{{{cns}}}.mod-gray .mod-enumerated,
+.mod-pedal-boxy{{{cns}}}.mod-pink .mod-enumerated,
+.mod-pedal-boxy{{{cns}}}.mod-white .mod-enumerated,
+.mod-pedal-boxy{{{cns}}}.mod-wood0 .mod-enumerated,
+.mod-pedal-boxy{{{cns}}}.mod-wood1 .mod-enumerated,
+.mod-pedal-boxy{{{cns}}}.mod-yellow .mod-enumerated
+{
     background-image:url(/resources/utils/dropdown-arrow-black.png{{{ns}}});
     color:black;
 }
