@@ -191,21 +191,26 @@ function getEffects(bundle, callback) {
 function loadEffects(callback) {
     var bundle = bundles.val()
     version.hide()
-    getEffects(bundle, function(plugins) {
-        effects.find('option').remove()
-        $('<option>').html('-- Select Effect --').appendTo(effects)
-        for (var uri in plugins) {
-            var plugin = plugins[uri]
-            $('<option>').val(plugin.uri).html(plugin.name).data(plugin).appendTo(effects)
-        }
-        effects.show()
-        if (effects.children().length == 2) {
-            effects.children().first().remove()
-            showEffect()
-        }
-        if (callback != null)
-            callback()
-    })
+    if (bundle) {
+        getEffects(bundle, function(plugins) {
+            effects.find('option').remove()
+            $('<option>').html('-- Select Effect --').appendTo(effects)
+            for (var uri in plugins) {
+                var plugin = plugins[uri]
+                $('<option>').val(plugin.uri).html(plugin.name).data(plugin).appendTo(effects)
+            }
+            effects.show()
+            if (effects.children().length == 2) {
+                effects.children().first().remove()
+                showEffect()
+            }
+            if (callback != null)
+                callback()
+        })
+    } else {
+        effects.hide()
+        content.hide()
+    }
 }
 
 function showEffect() {
