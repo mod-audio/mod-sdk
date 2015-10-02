@@ -22,6 +22,10 @@ cached_bundles        = {}
 cached_plugins        = {}
 cached_bundle_plugins = {}
 
+default_device    = "http://localhost:8888"
+default_developer = os.environ['USER']
+default_privkey   = os.path.join(os.environ['HOME'], '.ssh', 'id_rsa')
+
 def get_config(key, default=None):
     if not os.path.exists(CONFIG_FILE):
         return default
@@ -30,7 +34,9 @@ def get_config(key, default=None):
         config = json.load(fh)
 
     if key in config.keys():
-        return config[key]
+        value = config[key]
+        if value:
+            return value
 
     return default
 
@@ -261,7 +267,7 @@ class EffectSave(web.RequestHandler):
         if not os.path.exists(resrcsdir):
              os.mkdir(resrcsdir)
 
-        if 'usingSeeAlso' in data['gui'] and data['gui']['usingSeeAlso']:
+        if 'usingSeeAlso' in data['gui'].keys() and data['gui']['usingSeeAlso']:
             ttlFile = "modgui.ttl"
         else:
             ttlFile = "manifest.ttl"
@@ -328,8 +334,9 @@ class Index(web.RequestHandler):
             'default_icon_template': default_icon_template,
             'default_settings_template': default_settings_template,
             'wizard_db': json.dumps(wizard_db),
-            'default_developer': os.environ['USER'],
-            'default_privkey': os.path.join(os.environ['HOME'], '.ssh', 'id_rsa'),
+            'default_device'   : default_device,
+            'default_developer': default_developer,
+            'default_privkey'  : default_privkey,
         }
 
         self.write(loader.load(path).generate(**context))
@@ -438,63 +445,83 @@ class Screenshot(web.RequestHandler):
 class BundlePost(web.RequestHandler):
     @web.asynchronous
     def get(self, destination, bundle):
-        print("BundlePost", destination, bundle)
-        return
-        #path = os.path.join(WORKSPACE, bundle)
-        #package = lv2.BundlePackage(path, units_file=UNITS_FILE)
+        while bundle.endswith(os.sep):
+            bundle = bundle[:-1]
 
-        #if destination == 'device':
-            #address = self.get_address('device', 'sdk/install', 'http://localhost:8888')
-            #return self.send_bundle(package, address)
+        bundlename = os.path.basename(bundle)
+        tmpfile    = "/tmp/%s.tgz" % bundlename
+        cwd        = os.path.abspath(os.path.join(bundle, os.path.pardir))
 
-        #if destination == 'cloud':
-            #address = self.get_address('cloud', 'api/sdk/publish', 'http://cloud.moddevices.com')
-            #fields = self.sign_bundle_package(bundle, package)
-            #return self.send_bundle(package, address, fields)
+        proc = subprocess.Popen(['tar', 'czf', tmpfile, '-C', cwd, '--hard-dereference', bundlename],
+                                 cwd=cwd, stdout=subprocess.PIPE)
+
+        def proc_callback(fileno, event):
+            if proc.poll() is None:
+                return
+            loop.remove_handler(fileno)
+
+            if not os.path.exists(tmpfile):
+                print("ERROR in webserver.py: tar failed to create compressed bundle file")
+                return
+
+            with open(tmpfile, 'rb') as fh:
+                data = b64encode(fh.read()).decode("utf-8", errors="ignore")
+
+            os.remove(tmpfile)
+
+            if destination == "device":
+                address = self.get_address('device', 'sdk/install', 'http://localhost:8888')
+                return self.send_bundle(bundlename, data, address)
+
+            if destination == "cloud":
+                address = self.get_address('cloud', 'api/sdk/publish', 'http://cloud.moddevices.com')
+                fields  = self.sign_bundle_package(bundle, data)
+                return self.send_bundle(bundlename, data, address, fields)
+
+        loop = ioloop.IOLoop.instance()
+        loop.add_handler(proc.stdout.fileno(), proc_callback, 16)
 
     def get_address(self, key, uri, default):
         addr = get_config(key, default)
-        if not addr.startswith('http://') and not addr.startswith('https://'):
-            addr = 'http://%s' % addr
-        if addr.endswith('/'):
+        if not addr.startswith(("http://", "https://")):
+            addr = "http://%s" % addr
+        if addr.endswith("/"):
             addr = addr[:-1]
-        if uri.startswith('/'):
+        if uri.startswith("/"):
             uri = uri[1:]
         return '%s/%s' % (addr, uri)
 
-    def sign_bundle_package(self, bundle, package):
+    def sign_bundle_package(self, bundle, data):
         private_key = get_config('private_key',
                                  os.path.join(os.environ['HOME'], '.ssh', 'id_rsa'))
         developer_id = get_config('developer_id', os.environ['USER'])
 
         command = json.dumps({
-                'developer': developer_id,
-                'plugin': bundle,
-                'checksum': sha1(package.read()).hexdigest(),
-                'tstamp': time.time(),
-                })
-        package.seek(0)
-        checksum = sha1(command).hexdigest()
+            'developer': developer_id,
+            'plugin'   : bundle,
+            'checksum' : sha1(data).hexdigest(),
+            'tstamp'   : time.time(),
+        })
+        checksum  = sha1(command).hexdigest()
         signature = Sender(private_key, checksum).pack()
         return {
-            'command': command,
+            'command'  : command,
             'signature': signature,
-            }
+        }
 
-    def send_bundle(self, package, address, fields={}):
-        content_type, body = self.encode_multipart_formdata(package, fields)
+    def send_bundle(self, bundlename, data, address, fields={}):
+        content_type, body = self.encode_multipart_formdata(bundlename, data, fields)
         headers = {
             'Content-Type': content_type,
             'Content-Length': str(len(body)),
-            }
-
+        }
         client = httpclient.AsyncHTTPClient()
         client.fetch(address, self.handle_response, method='POST',
                      headers=headers, body=body, request_timeout=300)
 
     def handle_response(self, response):
         self.set_header('Content-type', 'application/json')
-        if (response.code == 200):
+        if response.code == 200:
             self.write(response.body)
         else:
             self.write(json.dumps({
@@ -503,7 +530,7 @@ class BundlePost(web.RequestHandler):
             }))
         self.finish()
 
-    def encode_multipart_formdata(self, package, fields={}):
+    def encode_multipart_formdata(self, bundlename, data, fields={}):
         boundary = '----------%s' % ''.join([ random.choice('0123456789abcdef') for i in range(22) ])
         body = []
 
@@ -511,28 +538,39 @@ class BundlePost(web.RequestHandler):
             body.append('--%s' % boundary)
             body.append('Content-Disposition: form-data; name="%s"' % key)
             body.append('')
-            body.append(value)
+            body.append('%s' % value)
 
         body.append('--%s' % boundary)
-        body.append('Content-Disposition: form-data; name="package"; filename="%s.tgz"' % package.uid)
+        body.append('Content-Disposition: form-data; name="package"; filename="%s.tgz"' % bundlename)
         body.append('Content-Type: application/octet-stream')
         body.append('')
-        body.append(package.read())
+        body.append(data)
 
         body.append('--%s--' % boundary)
         body.append('')
 
         content_type = 'multipart/form-data; boundary=%s' % boundary
+        body         = '\r\n'.join(body)
 
-        return content_type, '\r\n'.join(body)
+        return content_type, body
 
 class ConfigurationGet(web.RequestHandler):
     def get(self):
+        config = {
+            "device"   : default_device,
+            "developer": default_developer,
+        }
+
         if os.path.exists(CONFIG_FILE):
             with open(CONFIG_FILE, 'r') as fh:
-                config = json.load(fh)
-        else:
-            config = {}
+                config.update(json.load(fh))
+
+        if not config["device"]:
+            config["device"] = default_device
+
+        if not config["developer"]:
+            config["developer"] = default_developer
+
         self.set_header('Content-type', 'application/json')
         self.write(json.dumps(config))
 
