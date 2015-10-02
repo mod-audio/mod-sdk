@@ -340,17 +340,18 @@ function savePublishConfiguration(callback) {
     publishWindow.find('input').each(function() {
         config[this.id] = $(this).val()
     });
-    $.ajax({ url: '/config/set',
-             type: 'POST',
-             data: JSON.stringify(config),
-             success: function() {
-                 callback()
-             },
-             error: function() {
-                 alert("Error: Can't set configuration. Is your server running? Check the logs.")
-             },
-             dataType: 'json'
-          })
+    $.ajax({
+        url: '/config/set',
+        type: 'POST',
+        data: JSON.stringify(config),
+        success: function() {
+            callback()
+        },
+        error: function() {
+            alert("Error: Can't set configuration. Is your server running? Check the logs.")
+        },
+        dataType: 'json'
+    })
     return false
 }
 
