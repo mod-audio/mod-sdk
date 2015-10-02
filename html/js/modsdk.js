@@ -208,6 +208,7 @@ function loadEffects(callback) {
                 callback()
         })
     } else {
+        window.location.hash = ''
         effects.hide()
         content.hide()
     }
