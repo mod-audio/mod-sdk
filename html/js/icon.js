@@ -6,7 +6,11 @@ $(document).ready(function() {
             url: '/effect/get/',
             data: { uri: uri },
             success: function(resp) {
-                new GUI(resp.data, null).render(null, function(icon) {
+                var options = {
+                    defaultIconTemplate: defaultIconTemplate,
+                    bypassed: false,
+                }
+                new GUI(resp.data, options).render(null, function(icon) {
                     $('#pedalboard-dashboard').append(icon)
                 })
             },

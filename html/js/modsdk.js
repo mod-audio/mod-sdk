@@ -17,9 +17,9 @@ $(document).ready(function() {
     $.ajax({
         url: '/config/get',
         success: function(config) {
-            var key
-            for (key in config)
+            for (var key in config) {
                 publishWindow.find('#'+key).val(config[key])
+            }
         },
         error: function() {
             alert("Error: Can't get current configuration. Is your server running? Check the logs.")
@@ -38,6 +38,12 @@ $(document).ready(function() {
         loadEffects()
     })
     $('#screenshot').click(function() {
+        var options = effects.find('option:selected').data()
+        if (options.gui.iconTemplate == null) {
+            alert("Cannot generate screenshot without an Icon!")
+            return
+        }
+
         var iconImg = $('<img>')
         screenshotCanvas.find('img').remove()
         $.ajax({
@@ -64,7 +70,8 @@ $(document).ready(function() {
 
     $('#install').click(function() {
         savePublishConfiguration(function() {
-            $.ajax({ url: '/post/device/' + bundles.val(),
+            $.ajax({
+                url: '/post/device/' + bundles.val(),
                 success: function(result) {
                     if (result.ok)
                         alert("Effect installed")
@@ -184,21 +191,27 @@ function getEffects(bundle, callback) {
 function loadEffects(callback) {
     var bundle = bundles.val()
     version.hide()
-    getEffects(bundle, function(plugins) {
-        effects.find('option').remove()
-        $('<option>').html('-- Select Effect --').appendTo(effects)
-        for (var uri in plugins) {
-            var plugin = plugins[uri]
-            $('<option>').val(plugin.uri).html(plugin.name).data(plugin).appendTo(effects)
-        }
-        effects.show()
-        if (effects.children().length == 2) {
-            effects.children().first().remove()
-            showEffect()
-        }
-        if (callback != null)
-            callback()
-    })
+    if (bundle) {
+        getEffects(bundle, function(plugins) {
+            effects.find('option').remove()
+            $('<option>').html('-- Select Effect --').appendTo(effects)
+            for (var uri in plugins) {
+                var plugin = plugins[uri]
+                $('<option>').val(plugin.uri).html(plugin.name).data(plugin).appendTo(effects)
+            }
+            effects.show()
+            if (effects.children().length == 2) {
+                effects.children().first().remove()
+                showEffect()
+            }
+            if (callback != null)
+                callback()
+        })
+    } else {
+        window.location.hash = ''
+        effects.hide()
+        content.hide()
+    }
 }
 
 function showEffect() {
@@ -266,7 +279,8 @@ function showEffect() {
 
     var gui = new GUI(options, {
         defaultIconTemplate: defaultIconTemplate,
-        defaultSettingsTemplate: defaultSettingsTemplate
+        defaultSettingsTemplate: defaultSettingsTemplate,
+        bypassed: false,
     })
 
     gui.render(null, function(icon, settings) {
@@ -327,17 +341,18 @@ function savePublishConfiguration(callback) {
     publishWindow.find('input').each(function() {
         config[this.id] = $(this).val()
     });
-    $.ajax({ url: '/config/set',
-             type: 'POST',
-             data: JSON.stringify(config),
-             success: function() {
-                 callback()
-             },
-             error: function() {
-                 alert("Error: Can't set configuration. Is your server running? Check the logs.")
-             },
-             dataType: 'json'
-          })
+    $.ajax({
+        url: '/config/set',
+        type: 'POST',
+        data: JSON.stringify(config),
+        success: function() {
+            callback()
+        },
+        error: function() {
+            alert("Error: Can't set configuration. Is your server running? Check the logs.")
+        },
+        dataType: 'json'
+    })
     return false
 }
 

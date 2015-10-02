@@ -8,24 +8,49 @@ from hashlib import sha1
 from PIL import Image
 
 from tornado import web, options, ioloop, template, httpclient
+from tornado.escape import squeeze
 from modsdk.crypto import Sender
 from modsdk.lilvlib import get_plugin_info
 from modsdk.settings import (PORT, HTML_DIR, WIZARD_DB,
-                             CONFIG_FILE, TEMPLATE_DIR, DEFAULT_ICON_TEMPLATE,
-                             DEFAULT_SETTINGS_TEMPLATE, SCREENSHOT_SCRIPT, MAX_THUMB_WIDTH,
-                             MAX_THUMB_HEIGHT, PHANTOM_BINARY)
+                             CONFIG_FILE, TEMPLATE_DIR,
+                             DEFAULT_ICON_IMAGE, DEFAULT_ICON_TEMPLATE, DEFAULT_SETTINGS_TEMPLATE,
+                             MAX_THUMB_WIDTH, MAX_THUMB_HEIGHT,
+                             SCREENSHOT_SCRIPT, PHANTOM_BINARY)
 
 global cached_bundles, cached_plugins, cached_bundle_plugins
 cached_bundles        = {}
 cached_plugins        = {}
 cached_bundle_plugins = {}
 
+default_device    = "http://localhost:8888"
+default_developer = os.environ['USER']
+default_privkey   = os.path.join(os.environ['HOME'], '.ssh', 'id_rsa')
+
 def get_config(key, default=None):
-    try:
-        config = json.loads(open(CONFIG_FILE).read())
-        return config[key]
-    except:
+    if not os.path.exists(CONFIG_FILE):
         return default
+
+    with open(CONFIG_FILE, 'r') as fh:
+        config = json.load(fh)
+
+    if key in config.keys():
+        value = config[key]
+        if value:
+            return value
+
+    return default
+
+#def set_config(key, value):
+    #if os.path.exists(CONFIG_FILE):
+        #with open(CONFIG_FILE, 'r') as fh:
+            #config = json.load(fh)
+    #else:
+        #config = {}
+
+    #config[key] = value
+
+    #with open(CONFIG_FILE, 'w') as fh:
+        #json.dump(config, fh)
 
 def refresh_world():
     bundles        = []
@@ -91,7 +116,10 @@ class EffectList(web.RequestHandler):
             raise web.HTTPError(404)
 
         self.set_header('Content-type', 'application/json')
-        self.write(json.dumps({ 'ok': True, 'data': data }))
+        self.write(json.dumps({
+            'ok': True,
+            'data': data
+        }))
 
 class EffectGet(web.RequestHandler):
     def get(self):
@@ -104,7 +132,10 @@ class EffectGet(web.RequestHandler):
             raise web.HTTPError(404)
 
         self.set_header('Content-type', 'application/json')
-        self.write(json.dumps({ 'ok': True, 'data': data }))
+        self.write(json.dumps({
+            'ok': True,
+            'data': data
+        }))
 
 class EffectImage(web.RequestHandler):
     def get(self, image):
@@ -119,13 +150,38 @@ class EffectImage(web.RequestHandler):
         try:
             path = data['gui'][image]
         except:
+            path = None
+
+        if path is None or not os.path.exists(path):
+            try:
+                path = DEFAULT_ICON_IMAGE[image]
+            except:
+                raise web.HTTPError(404)
+
+        with open(path, 'rb') as fd:
+            self.set_header('Content-type', 'image/png')
+            self.write(fd.read())
+
+class EffectHTML(web.RequestHandler):
+    def get(self, html):
+        uri = self.get_argument('uri')
+
+        try:
+            global cached_plugins
+            data = cached_plugins[uri]
+        except:
+            raise web.HTTPError(404)
+
+        try:
+            path = data['gui']['%sTemplate' % html]
+        except:
             raise web.HTTPError(404)
 
         if not os.path.exists(path):
             raise web.HTTPError(404)
 
         with open(path, 'rb') as fd:
-            self.set_header('Content-type', 'image/png')
+            self.set_header('Content-type', 'text/html')
             self.write(fd.read())
 
 class EffectStylesheet(web.RequestHandler):
@@ -211,7 +267,7 @@ class EffectSave(web.RequestHandler):
         if not os.path.exists(resrcsdir):
              os.mkdir(resrcsdir)
 
-        if 'usingSeeAlso' in data['gui'] and data['gui']['usingSeeAlso']:
+        if 'usingSeeAlso' in data['gui'].keys() and data['gui']['usingSeeAlso']:
             ttlFile = "modgui.ttl"
         else:
             ttlFile = "manifest.ttl"
@@ -264,15 +320,25 @@ class Index(web.RequestHandler):
         if not path:
             path = 'index.html'
         loader = template.Loader(HTML_DIR)
-        default_icon_template = open(DEFAULT_ICON_TEMPLATE).read()
-        default_settings_template = open(DEFAULT_SETTINGS_TEMPLATE).read()
+
+        with open(DEFAULT_ICON_TEMPLATE, 'r') as fd:
+            default_icon_template = squeeze(fd.read().replace("'", "\\'"))
+
+        with open(DEFAULT_SETTINGS_TEMPLATE, 'r') as fd:
+            default_settings_template = squeeze(fd.read().replace("'", "\\'"))
+
+        with open(WIZARD_DB, 'r') as fh:
+            wizard_db = json.load(fh)
+
         context = {
-            'default_icon_template': default_icon_template.replace("'", "\\'").replace("\n", "\\n"),
-            'default_settings_template': default_settings_template.replace("'", "\\'").replace("\n", "\\n"),
-            'wizard_db': json.dumps(json.loads(open(WIZARD_DB).read())),
-            'default_developer': os.environ['USER'],
-            'default_privkey': os.path.join(os.environ['HOME'], '.ssh', 'id_rsa'),
+            'default_icon_template': default_icon_template,
+            'default_settings_template': default_settings_template,
+            'wizard_db': json.dumps(wizard_db),
+            'default_device'   : default_device,
+            'default_developer': default_developer,
+            'default_privkey'  : default_privkey,
         }
+
         self.write(loader.load(path).generate(**context))
 
 class Screenshot(web.RequestHandler):
@@ -379,70 +445,92 @@ class Screenshot(web.RequestHandler):
 class BundlePost(web.RequestHandler):
     @web.asynchronous
     def get(self, destination, bundle):
-        return
-        #path = os.path.join(WORKSPACE, bundle)
-        #package = lv2.BundlePackage(path, units_file=UNITS_FILE)
+        while bundle.endswith(os.sep):
+            bundle = bundle[:-1]
 
-        #if destination == 'device':
-            #address = self.get_address('device', 'sdk/install', 'http://localhost:8888')
-            #return self.send_bundle(package, address)
+        bundlename = os.path.basename(bundle)
+        tmpfile    = "/tmp/%s.tgz" % bundlename
+        cwd        = os.path.abspath(os.path.join(bundle, os.path.pardir))
 
-        #if destination == 'cloud':
-            #address = self.get_address('cloud', 'api/sdk/publish', 'http://cloud.moddevices.com')
-            #fields = self.sign_bundle_package(bundle, package)
-            #return self.send_bundle(package, address, fields)
+        proc = subprocess.Popen(['tar', 'czf', tmpfile, '-C', cwd, '--hard-dereference', bundlename],
+                                 cwd=cwd, stdout=subprocess.PIPE)
+
+        def proc_callback(fileno, event):
+            if proc.poll() is None:
+                return
+            loop.remove_handler(fileno)
+
+            if not os.path.exists(tmpfile):
+                print("ERROR in webserver.py: tar failed to create compressed bundle file")
+                return
+
+            with open(tmpfile, 'rb') as fh:
+                data = b64encode(fh.read()).decode("utf-8", errors="ignore")
+
+            os.remove(tmpfile)
+
+            if destination == "device":
+                address = self.get_address('device', 'sdk/install', 'http://localhost:8888')
+                return self.send_bundle(bundlename, data, address)
+
+            if destination == "cloud":
+                address = self.get_address('cloud', 'api/sdk/publish', 'http://cloud.moddevices.com')
+                fields  = self.sign_bundle_package(bundle, data)
+                return self.send_bundle(bundlename, data, address, fields)
+
+        loop = ioloop.IOLoop.instance()
+        loop.add_handler(proc.stdout.fileno(), proc_callback, 16)
 
     def get_address(self, key, uri, default):
         addr = get_config(key, default)
-        if not addr.startswith('http://') and not addr.startswith('https://'):
-            addr = 'http://%s' % addr
-        if addr.endswith('/'):
+        if not addr.startswith(("http://", "https://")):
+            addr = "http://%s" % addr
+        if addr.endswith("/"):
             addr = addr[:-1]
-        if uri.startswith('/'):
+        if uri.startswith("/"):
             uri = uri[1:]
         return '%s/%s' % (addr, uri)
 
-    def sign_bundle_package(self, bundle, package):
+    def sign_bundle_package(self, bundle, data):
         private_key = get_config('private_key',
                                  os.path.join(os.environ['HOME'], '.ssh', 'id_rsa'))
         developer_id = get_config('developer_id', os.environ['USER'])
 
         command = json.dumps({
-                'developer': developer_id,
-                'plugin': bundle,
-                'checksum': sha1(package.read()).hexdigest(),
-                'tstamp': time.time(),
-                })
-        package.seek(0)
-        checksum = sha1(command).hexdigest()
+            'developer': developer_id,
+            'plugin'   : bundle,
+            'checksum' : sha1(data).hexdigest(),
+            'tstamp'   : time.time(),
+        })
+        checksum  = sha1(command).hexdigest()
         signature = Sender(private_key, checksum).pack()
         return {
-            'command': command,
+            'command'  : command,
             'signature': signature,
-            }
+        }
 
-    def send_bundle(self, package, address, fields={}):
-        content_type, body = self.encode_multipart_formdata(package, fields)
+    def send_bundle(self, bundlename, data, address, fields={}):
+        content_type, body = self.encode_multipart_formdata(bundlename, data, fields)
         headers = {
             'Content-Type': content_type,
             'Content-Length': str(len(body)),
-            }
-
+        }
         client = httpclient.AsyncHTTPClient()
         client.fetch(address, self.handle_response, method='POST',
                      headers=headers, body=body, request_timeout=300)
 
     def handle_response(self, response):
         self.set_header('Content-type', 'application/json')
-        if (response.code == 200):
+        if response.code == 200:
             self.write(response.body)
         else:
-            self.write(json.dumps({ 'ok': False,
-                                    'error': response.body,
-                                    }))
+            self.write(json.dumps({
+                'ok': False,
+                'error': response.body,
+            }))
         self.finish()
 
-    def encode_multipart_formdata(self, package, fields={}):
+    def encode_multipart_formdata(self, bundlename, data, fields={}):
         boundary = '----------%s' % ''.join([ random.choice('0123456789abcdef') for i in range(22) ])
         body = []
 
@@ -450,37 +538,50 @@ class BundlePost(web.RequestHandler):
             body.append('--%s' % boundary)
             body.append('Content-Disposition: form-data; name="%s"' % key)
             body.append('')
-            body.append(value)
+            body.append('%s' % value)
 
         body.append('--%s' % boundary)
-        body.append('Content-Disposition: form-data; name="package"; filename="%s.tgz"' % package.uid)
+        body.append('Content-Disposition: form-data; name="package"; filename="%s.tgz"' % bundlename)
         body.append('Content-Type: application/octet-stream')
         body.append('')
-        body.append(package.read())
+        body.append(data)
 
         body.append('--%s--' % boundary)
         body.append('')
 
         content_type = 'multipart/form-data; boundary=%s' % boundary
+        body         = '\r\n'.join(body)
 
-        return content_type, '\r\n'.join(body)
+        return content_type, body
 
 class ConfigurationGet(web.RequestHandler):
     def get(self):
-        try:
-            config = json.loads(open(CONFIG_FILE).read())
-        except:
-            config = {}
+        config = {
+            "device"   : default_device,
+            "developer": default_developer,
+        }
+
+        if os.path.exists(CONFIG_FILE):
+            with open(CONFIG_FILE, 'r') as fh:
+                config.update(json.load(fh))
+
+        if not config["device"]:
+            config["device"] = default_device
+
+        if not config["developer"]:
+            config["developer"] = default_developer
+
         self.set_header('Content-type', 'application/json')
         self.write(json.dumps(config))
 
 class ConfigurationSet(web.RequestHandler):
     def post(self):
+        config  = json.loads(self.request.body.decode("utf-8", errors="ignore"))
         confdir = os.path.dirname(CONFIG_FILE)
         if not os.path.exists(confdir):
             os.mkdir(confdir)
-        config = json.loads(self.request.body.decode("utf-8", errors="ignore"))
-        open(CONFIG_FILE, 'w').write(json.dumps(config))
+        with open(CONFIG_FILE, 'w') as fh:
+            json.dump(config, fh)
         self.set_header('Content-type', 'application/json')
         self.write(json.dumps(True))
 
@@ -551,6 +652,7 @@ def make_application(port=PORT, output_log=True):
             (r"/effects", EffectList),
             (r"/effect/get/", EffectGet),
             (r"/effect/image/(screenshot|thumbnail).png", EffectImage),
+            (r"/effect/(icon|settings).html", EffectHTML),
             (r"/effect/stylesheet.css", EffectStylesheet),
             (r"/effect/gui.js", EffectJavascript),
             (r"/effect/save", EffectSave),

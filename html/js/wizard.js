@@ -279,7 +279,11 @@ JqueryClass('wizard', {
             iconTemplate: self.wizard('getIconTemplate'),
         }
 
-        new GUI(effect).render(null, function(iconElement) { iconElement.appendTo(icon) }, true)
+        effopts = {
+            bypassed: false,
+            loadDependencies: false,
+        }
+        new GUI(effect, effopts).render(null, function(iconElement) { iconElement.appendTo(icon) }, true)
     },
 
     getIconTemplate: function() {
