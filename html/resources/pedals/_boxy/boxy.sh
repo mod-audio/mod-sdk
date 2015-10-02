@@ -145,7 +145,7 @@ gimp -i -d -f -b '(
                 ))
                 
                 (set! copy_flattened (car (gimp-image-merge-visible-layers image_size CLIP-TO-IMAGE)))
-                
+                (gimp-layer-resize copy_flattened w h 0 0)
                 (file-png-save RUN-NONINTERACTIVE image_size copy_flattened path path 0 9 0 0 0 0 0)
                 
                 (set! sizes_ (cdr sizes_))

@@ -40,6 +40,9 @@
 /* = BACKGROUND IMAGES - Colour of the pedal
 ================================================ */
 /* NORMAL */
+.mod-pedal-boxy{{{cns}}}.mod-black {
+    background-image:url(/resources/pedals/boxy/black.png{{{ns}}});
+}
 .mod-pedal-boxy{{{cns}}}.mod-blue {
     background-image:url(/resources/pedals/boxy/blue.png{{{ns}}});
 }
@@ -48,6 +51,9 @@
 }
 .mod-pedal-boxy{{{cns}}}.mod-cream {
     background-image:url(/resources/pedals/boxy/cream.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-cyan {
+    background-image:url(/resources/pedals/boxy/cyan.png{{{ns}}});
 }
 .mod-pedal-boxy{{{cns}}}.mod-darkblue {
     background-image:url(/resources/pedals/boxy/darkblue.png{{{ns}}});
@@ -61,8 +67,17 @@
 .mod-pedal-boxy{{{cns}}}.mod-orange {
     background-image:url(/resources/pedals/boxy/orange.png{{{ns}}});
 }
+.mod-pedal-boxy{{{cns}}}.mod-petrol {
+    background-image:url(/resources/pedals/boxy/petrol.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-pink {
+    background-image:url(/resources/pedals/boxy/pink.png{{{ns}}});
+}
 .mod-pedal-boxy{{{cns}}}.mod-purple {
     background-image:url(/resources/pedals/boxy/purple.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-racing {
+    background-image:url(/resources/pedals/boxy/racing.png{{{ns}}});
 }
 .mod-pedal-boxy{{{cns}}}.mod-red {
     background-image:url(/resources/pedals/boxy/red.png{{{ns}}});
@@ -70,8 +85,26 @@
 .mod-pedal-boxy{{{cns}}}.mod-white {
     background-image:url(/resources/pedals/boxy/white.png{{{ns}}});
 }
+.mod-pedal-boxy{{{cns}}}.mod-wood0 {
+    background-image:url(/resources/pedals/boxy/wood0.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-wood1 {
+    background-image:url(/resources/pedals/boxy/wood1.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-wood2 {
+    background-image:url(/resources/pedals/boxy/wood2.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-wood3 {
+    background-image:url(/resources/pedals/boxy/wood3.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-wood4 {
+    background-image:url(/resources/pedals/boxy/wood4.png{{{ns}}});
+}
 .mod-pedal-boxy{{{cns}}}.mod-yellow {
     background-image:url(/resources/pedals/boxy/yellow.png{{{ns}}});
+}
+.mod-pedal-boxy{{{cns}}}.mod-zinc {
+    background-image:url(/resources/pedals/boxy/zinc.png{{{ns}}});
 }
 
 /* SMALL */
