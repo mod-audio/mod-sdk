@@ -110,7 +110,10 @@ class EffectList(web.RequestHandler):
             raise web.HTTPError(404)
 
         self.set_header('Content-type', 'application/json')
-        self.write(json.dumps({ 'ok': True, 'data': data }))
+        self.write(json.dumps({
+            'ok': True,
+            'data': data
+        }))
 
 class EffectGet(web.RequestHandler):
     def get(self):
@@ -123,7 +126,10 @@ class EffectGet(web.RequestHandler):
             raise web.HTTPError(404)
 
         self.set_header('Content-type', 'application/json')
-        self.write(json.dumps({ 'ok': True, 'data': data }))
+        self.write(json.dumps({
+            'ok': True,
+            'data': data
+        }))
 
 class EffectImage(web.RequestHandler):
     def get(self, image):
@@ -309,16 +315,19 @@ class Index(web.RequestHandler):
             path = 'index.html'
         loader = template.Loader(HTML_DIR)
 
-        with open(DEFAULT_ICON_TEMPLATE) as fd:
+        with open(DEFAULT_ICON_TEMPLATE, 'r') as fd:
             default_icon_template = squeeze(fd.read().replace("'", "\\'"))
 
-        with open(DEFAULT_SETTINGS_TEMPLATE) as fd:
+        with open(DEFAULT_SETTINGS_TEMPLATE, 'r') as fd:
             default_settings_template = squeeze(fd.read().replace("'", "\\'"))
+
+        with open(WIZARD_DB, 'r') as fh:
+            wizard_db = json.load(fh)
 
         context = {
             'default_icon_template': default_icon_template,
             'default_settings_template': default_settings_template,
-            'wizard_db': json.dumps(json.loads(open(WIZARD_DB).read())),
+            'wizard_db': json.dumps(wizard_db),
             'default_developer': os.environ['USER'],
             'default_privkey': os.path.join(os.environ['HOME'], '.ssh', 'id_rsa'),
         }
@@ -429,6 +438,7 @@ class Screenshot(web.RequestHandler):
 class BundlePost(web.RequestHandler):
     @web.asynchronous
     def get(self, destination, bundle):
+        print("BundlePost", destination, bundle)
         return
         #path = os.path.join(WORKSPACE, bundle)
         #package = lv2.BundlePackage(path, units_file=UNITS_FILE)
@@ -487,9 +497,10 @@ class BundlePost(web.RequestHandler):
         if (response.code == 200):
             self.write(response.body)
         else:
-            self.write(json.dumps({ 'ok': False,
-                                    'error': response.body,
-                                    }))
+            self.write(json.dumps({
+                'ok': False,
+                'error': response.body,
+            }))
         self.finish()
 
     def encode_multipart_formdata(self, package, fields={}):
@@ -517,13 +528,17 @@ class BundlePost(web.RequestHandler):
 
 class ConfigurationGet(web.RequestHandler):
     def get(self):
-        config = get_config()
+        if os.path.exists(CONFIG_FILE):
+            with open(CONFIG_FILE, 'r') as fh:
+                config = json.load(fh)
+        else:
+            config = {}
         self.set_header('Content-type', 'application/json')
         self.write(json.dumps(config))
 
 class ConfigurationSet(web.RequestHandler):
     def post(self):
-        config  = json.loads(self.request.body) # .decode("utf-8", errors="ignore")
+        config  = json.loads(self.request.body.decode("utf-8", errors="ignore"))
         confdir = os.path.dirname(CONFIG_FILE)
         if not os.path.exists(confdir):
             os.mkdir(confdir)

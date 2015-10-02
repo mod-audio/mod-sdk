@@ -17,9 +17,9 @@ $(document).ready(function() {
     $.ajax({
         url: '/config/get',
         success: function(config) {
-            var key
-            for (key in config)
+            for (var key in config) {
                 publishWindow.find('#'+key).val(config[key])
+            }
         },
         error: function() {
             alert("Error: Can't get current configuration. Is your server running? Check the logs.")
@@ -70,7 +70,8 @@ $(document).ready(function() {
 
     $('#install').click(function() {
         savePublishConfiguration(function() {
-            $.ajax({ url: '/post/device/' + bundles.val(),
+            $.ajax({
+                url: '/post/device/' + bundles.val(),
                 success: function(result) {
                     if (result.ok)
                         alert("Effect installed")
