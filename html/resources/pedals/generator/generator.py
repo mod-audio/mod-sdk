@@ -19,16 +19,32 @@
 #         * the image is exported to its final destination as PNG
 
 import os
-
-import boxy, gimp
-
-
+import boxy, gimp, css
 
 def create_css (options, colors, sizes):
-    1
-
+    with open (options["css_source"], "r") as css_file:
+        css_in=css_file.read()
+    bg_str = ""
+    for c in colors:
+        bg_str += css.backgrounds.replace("<COLOR>", c)
+    css_out = css_in.replace("<BACKGROUNDS>", bg_str);
+    col_str = ""
+    for cs in css.colors:
+        cols = { }
+        for c in colors:
+            if not cs[colors[c]]:
+                continue
+            if not colors[c] in cols:
+                cols[colors[c]] = [ ];
+            cols[colors[c]] += [ cs["identifier"].replace("<COLOR>", c) ]
+        for c in cols:
+            col_str += ",\n".join(cols[c]) + "\n"
+            col_str += cs[c] + "\n"
+    with open(options["css_dest"], "w") as out_file:
+        out_file.write(css_out.replace("<COLORS>", col_str))
+    
 def run_gimp (options, colors, sizes, gimp_exec):
-    options["colors"] = "\"" + "\" \"".join(colors) + "\""
+    options["colors"] = "\"" + "\" \"".join(colors.keys()) + "\""
     options["sizes"] = ""
     for s in range(0, len(sizes)):
         options["sizes"] += "\n(list (list %d %d) \"%s%s/\")" % (sizes[s]["x"], sizes[s]["y"], options["chdir"], sizes[s]["folder"])
