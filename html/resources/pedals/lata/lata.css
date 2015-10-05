@@ -102,6 +102,7 @@
 .mod-pedal-lata{{{cns}}}.mod-brown { background-image:url(/resources/pedals/lata/brown.png{{{ns}}}); }
 .mod-pedal-lata{{{cns}}}.mod-star { background-image:url(/resources/pedals/lata/star.png{{{ns}}}); }
 .mod-pedal-lata{{{cns}}}.mod-petrol { background-image:url(/resources/pedals/lata/petrol.png{{{ns}}}); }
+.mod-pedal-lata{{{cns}}}.mod-anonymous { background-image:url(/resources/pedals/lata/anonymous.png{{{ns}}}); }
 .mod-pedal-lata{{{cns}}}.mod-cyan { background-image:url(/resources/pedals/lata/cyan.png{{{ns}}}); }
 .mod-pedal-lata{{{cns}}}.mod-gray { background-image:url(/resources/pedals/lata/gray.png{{{ns}}}); }
 .mod-pedal-lata{{{cns}}}.mod-none { background-image:url(/resources/pedals/lata/none.png{{{ns}}}); }
@@ -146,6 +147,10 @@
 .mod-pedal-lata{{{cns}}}.mod-atomic .mod-enumerated
 {
     background-image:url(/resources/utils/dropdown-arrow-white.png{{{ns}}});
+}
+.mod-pedal-lata{{{cns}}}.mod-anonymous .mod-enumerated
+{
+    background-image:url(/resources/utils/dropdown-arrow-black.png{{{ns}}});
 }
 .mod-pedal-lata{{{cns}}}.mod-humphreys h1,
 .mod-pedal-lata{{{cns}}}.mod-humphreys .mod-enumerated,
@@ -227,6 +232,12 @@
 .mod-pedal-lata{{{cns}}}.mod-atomic .mod-control-group .mod-knob > span.mod-knob-title
 {
     color: white;
+}
+.mod-pedal-lata{{{cns}}}.mod-anonymous h1,
+.mod-pedal-lata{{{cns}}}.mod-anonymous .mod-enumerated,
+.mod-pedal-lata{{{cns}}}.mod-anonymous .mod-control-group .mod-knob > span.mod-knob-title
+{
+    color: #c00;
 }
 .mod-pedal-lata{{{cns}}}.mod-atomic .mod-control-group .mod-knob > span.mod-knob-title
 {

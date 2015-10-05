@@ -8,7 +8,8 @@ options = { "gimp_image"    : "lata.xcf",
             "mask_prefix"   : "mask_",
             "export_suffix" : ".png" }
 
-colors =  { "atomic"        : "atomic",
+colors =  { "anonymous"     : "anonymous",
+            "atomic"        : "atomic",
             "black"         : "white",
             "blue"          : "black",
             "brown"         : "white",
@@ -49,6 +50,9 @@ colors_css = ( { "black" : """{
              "atomic" : """{
     background-image:url(/resources/utils/dropdown-arrow-white.png{{{ns}}});
 }""",
+             "anonymous" : """{
+    background-image:url(/resources/utils/dropdown-arrow-black.png{{{ns}}});
+}""",
              "identifier" : """.mod-pedal-lata{{{cns}}}.mod-<COLOR> .mod-enumerated""" },
              
            { "black" : """{
@@ -62,6 +66,9 @@ colors_css = ( { "black" : """{
 }""",
              "atomic" : """{
     color: white;
+}""",
+             "anonymous" : """{
+    color: #c00;
 }""",
              "identifier" : """.mod-pedal-lata{{{cns}}}.mod-<COLOR> h1,
 .mod-pedal-lata{{{cns}}}.mod-<COLOR> .mod-enumerated,
@@ -80,5 +87,8 @@ colors_css = ( { "black" : """{
 }""",
              "humphreys" : """{
     border-color:white;
+}""",
+             "ANONYMOUS" : """{
+    border-color:#C00;
 }""",
              "identifier" : """.mod-pedal-lata{{{cns}}}.mod-<COLOR> h1""" } )
