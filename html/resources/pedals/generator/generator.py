@@ -19,41 +19,66 @@
 #         * the image is exported to its final destination as PNG
 
 import os
-import boxy, gimp, css
+import sys
+import getopt
+import gimp, css
 
-def create_css (options, colors, sizes):
-    with open (options["css_source"], "r") as css_file:
+def create_css (mod):
+    with open (mod.options["css_source"], "r") as css_file:
         css_in=css_file.read()
     bg_str = ""
-    for c in colors:
-        bg_str += css.backgrounds.replace("<COLOR>", c)
+    for c in mod.colors:
+        bg_str += mod.backgrounds_css.replace("<COLOR>", c)
     css_out = css_in.replace("<BACKGROUNDS>", bg_str);
     col_str = ""
-    for cs in css.colors:
+    for cs in mod.colors_css:
         cols = { }
-        for c in colors:
-            if not cs[colors[c]]:
+        for c in mod.colors:
+            if not cs[mod.colors[c]]:
                 continue
-            if not colors[c] in cols:
-                cols[colors[c]] = [ ];
-            cols[colors[c]] += [ cs["identifier"].replace("<COLOR>", c) ]
+            if not mod.colors[c] in cols:
+                cols[mod.colors[c]] = [ ];
+            cols[mod.colors[c]] += [ cs["identifier"].replace("<COLOR>", c) ]
         for c in cols:
             col_str += ",\n".join(cols[c]) + "\n"
             col_str += cs[c] + "\n"
-    with open(options["css_dest"], "w") as out_file:
+    with open(mod.options["css_dest"], "w") as out_file:
         out_file.write(css_out.replace("<COLORS>", col_str))
     
-def run_gimp (options, colors, sizes, gimp_exec):
-    options["colors"] = "\"" + "\" \"".join(colors.keys()) + "\""
-    options["sizes"] = ""
-    for s in range(0, len(sizes)):
-        options["sizes"] += "\n(list (list %d %d) \"%s%s/\")" % (sizes[s]["x"], sizes[s]["y"], options["chdir"], sizes[s]["folder"])
-    for r in options:
-        gimp_exec = gimp_exec.replace("<" + r.upper() + ">", str(options[r]))
+def run_gimp (mod):
+    mod.options["colors"] = "\"" + "\" \"".join(mod.colors.keys()) + "\""
+    mod.options["sizes"] = ""
+    for s in range(0, len(mod.sizes)):
+        mod.options["sizes"] += "\n(list (list %d %d) \"%s%s/\")" % (mod.sizes[s]["x"], mod.sizes[s]["y"], mod.options["chdir"], mod.sizes[s]["folder"])
+    gimp_exec = gimp.gimp_exec
+    for r in mod.options:
+        gimp_exec = gimp_exec.replace("<" + r.upper() + ">", str(mod.options[r]))
     os.system(gimp_exec)
     
     
 if __name__ == '__main__':
-    run_gimp(boxy.options, boxy.colors, boxy.sizes, gimp.gimp_exec)
-    create_css(boxy.options, boxy.colors, boxy.sizes)
-    exit(0)
+    try:
+        opts, args = getopt.getopt(sys.argv[1:], "ci", ["css", "images"])
+    except getopt.GetoptError as err:
+        print str(err)
+        usage()
+        sys.exit(2)
+    css = False
+    images = False
+    for o, a in opts:
+        if o in ("-c", "--css"):
+            css = True
+        if o in ("-i", "--images"):
+            images = True
+    for a in args:
+        try:
+            mod = __import__(a)
+        except:
+            print "No module named %s" % a
+            continue
+        if (images):
+            print "Creating images for %s..." % a
+            run_gimp(mod)
+        if (css):
+            print "Creating CSS for %s..." % a
+            create_css(mod)
