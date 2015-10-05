@@ -1,0 +1,92 @@
+/* = CONTAINER
+================================================ */
+.mod-pedal-lata{{{cns}}} {
+    background-position: 0 0;
+    background-repeat:no-repeat;
+    height:514px;
+    position:absolute;
+    width:396px;
+    border-radius: 105px;
+}
+
+/* = PLUGIN'S AUTHOR
+================================================ */
+.mod-pedal-lata{{{cns}}} .mod-plugin-brand {
+    left:30px;
+    position:absolute;
+    right:30px;
+    text-align:center;
+    text-transform:uppercase;
+    top:290px;
+}
+
+.mod-pedal-lata{{{cns}}} .mod-plugin-brand h1 {
+    color:#111;
+    font-family:"Nexa";
+    font-size:32px;
+}
+
+/* = PLUGIN'S NAME
+================================================ */
+.mod-pedal-lata{{{cns}}} .mod-plugin-name {
+    left:30px;
+    overflow:hidden;
+    position:absolute;
+    right:30px;
+    text-align:center;
+    top:330px;
+}
+
+.mod-pedal-lata{{{cns}}} .mod-plugin-name h1 {
+    font-family:"Questrial";
+    font-size:24px;
+    line-height:1;
+}
+
+/* = LIGHT ON/OFF
+================================================ */
+.mod-pedal-lata{{{cns}}} .mod-light {
+    height:32px;
+    left:0;
+    margin:0 auto;
+    position:absolute;
+    right:0;
+    top:250px;
+    width:32px;
+}
+
+/* = FOOTSWITCH
+================================================ */
+.mod-pedal-lata{{{cns}}} .mod-footswitch {
+    background-image:url(/resources/pedals/footswitch.png{{{ns}}});
+    background-position:bottom center;
+    background-repeat:no-repeat;
+    background-size:auto 132px;
+    bottom:66px;
+    cursor:pointer;
+    height:66px;
+    width: 66px;
+    left:13px;
+    margin: auto;
+    position:absolute !important;
+    right:13px;
+    z-index:30;
+}
+.mod-pedal-lata{{{cns}}} .mod-footswitch.on {
+    background-position-y: top !important
+}
+
+/* = INPUTS/OUTPUTS
+================================================ */
+.mod-pedal-lata{{{cns}}} .mod-pedal-input,
+.mod-pedal-lata{{{cns}}} .mod-pedal-output {
+    top:136px;
+}
+
+/* = BACKGROUND IMAGES - Colour of the pedal
+================================================ */
+<BACKGROUNDS>
+
+/* = COLORS - Color of the pedals labels
+================================================ */
+<COLORS>
