@@ -1,4 +1,4 @@
-var bundles, effects, content, iconCanvas, settingsCanvas, publishWindow, renderedIcon, version, section
+var bundles, effects, content, iconCanvas, settingsCanvas, deployWindow, renderedIcon, version, section
 var defaultIconTemplate, defaultSettingsTemplate // loaded in index.html
 var DEBUG // holds template debugging info
 $(document).ready(function() {
@@ -12,13 +12,13 @@ $(document).ready(function() {
     iconCanvas = $('#content-icon .canvas')
     screenshotCanvas = $('#content-screenshot .canvas')
     settingsCanvas = $('#content-settings .canvas')
-    publishWindow = $('#content-publish')
+    deployWindow = $('#content-deploy')
 
     $.ajax({
         url: '/config/get',
         success: function(config) {
             for (var key in config) {
-                publishWindow.find('#'+key).val(config[key])
+                deployWindow.find('#'+key).val(config[key])
             }
         },
         error: function() {
@@ -68,10 +68,10 @@ $(document).ready(function() {
         })
     })
 
-    $('#install').click(function() {
-        savePublishConfiguration(function() {
+    $('#deploy').click(function() {
+        saveDeployConfiguration(function() {
             $.ajax({
-                url: '/post/device/' + bundles.val(),
+                url: '/post/' + bundles.val(),
                 success: function(result) {
                     if (result.ok)
                         alert("Effect installed")
@@ -87,26 +87,7 @@ $(document).ready(function() {
         })
     })
 
-    $('#publish').click(function() {
-        savePublishConfiguration(function() {
-            $.ajax({
-                url: '/post/cloud/' + bundles.val(),
-                success: function(result) {
-                    if (result.ok)
-                        alert("Effect published")
-                    else
-                        alert("Cloud said: " + result.error)
-                },
-                error: function(resp) {
-                    alert("Error: Can't publish bundle. Is your server running? Check the logs.")
-                },
-                timeout: 300000,
-                dataType: 'json'
-            })
-        })
-    })
-
-    publishWindow.find('.controls span').click(function() {
+    deployWindow.find('.controls span').click(function() {
         var self = $(this)
         self.parent().find('input').val(self.attr('data'))
     })
@@ -336,9 +317,9 @@ function selectTab(newSection) {
     $('#content-'+section).show()
 }
 
-function savePublishConfiguration(callback) {
+function saveDeployConfiguration(callback) {
     var config = {}
-    publishWindow.find('input').each(function() {
+    deployWindow.find('input').each(function() {
         config[this.id] = $(this).val()
     });
     $.ajax({
