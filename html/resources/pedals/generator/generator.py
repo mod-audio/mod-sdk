@@ -55,21 +55,49 @@ def run_gimp (mod):
         gimp_exec = gimp_exec.replace("<" + r.upper() + ">", str(mod.options[r]))
     os.system(gimp_exec)
     
+def usage():
+    print """Generator for backgrounds and CSS files of MOD stomp boxes.
+
+USAGE:
+    generator.py {-c | --css} {-i | --images} {-h | --help} TYPE [TYPE...]
+
+OPTIONS:
+    -h --help
+        Show this help
+        
+    -c --css
+        Generate CSS file(s)
+        
+    -i --images
+        Generate background images
+
+EXAMPLE:
+    generator.py -c boxy
+        Creates the CSS script for all boxy types
     
+    generator.py -i -c boxy lata
+        Creates CSS and background images for all boxy and lata types"""
+        
 if __name__ == '__main__':
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "ci", ["css", "images"])
+        opts, args = getopt.getopt(sys.argv[1:], "cih", ["css", "images", "help"])
     except getopt.GetoptError as err:
         print str(err)
         usage()
         sys.exit(2)
     css = False
     images = False
+    if not len(opts) or not len(args):
+        usage()
+        exit(0)
     for o, a in opts:
         if o in ("-c", "--css"):
             css = True
         if o in ("-i", "--images"):
             images = True
+        if o in ("-h", "--help"):
+            usage()
+            exit(0)
     for a in args:
         try:
             mod = __import__(a)
