@@ -444,9 +444,16 @@ class Screenshot(web.RequestHandler):
 
 class BundlePost(web.RequestHandler):
     @web.asynchronous
-    def get(self, destination, bundle):
+    def get(self, bundle):
         while bundle.endswith(os.sep):
             bundle = bundle[:-1]
+
+        address = get_config("device", default_device)
+        if not address.startswith(("http://", "https://")):
+            address = "http://%s" % address
+        if address.endswith("/"):
+            address = address[:-1]
+        address = "%s/sdk/install" % address
 
         bundlename = os.path.basename(bundle)
         tmpfile    = "/tmp/%s.tgz" % bundlename
@@ -469,27 +476,10 @@ class BundlePost(web.RequestHandler):
 
             os.remove(tmpfile)
 
-            if destination == "device":
-                address = self.get_address('device', 'sdk/install', 'http://localhost:8888')
-                return self.send_bundle(bundlename, data, address)
-
-            if destination == "cloud":
-                address = self.get_address('cloud', 'api/sdk/publish', 'http://cloud.moddevices.com')
-                fields  = self.sign_bundle_package(bundle, data)
-                return self.send_bundle(bundlename, data, address, fields)
+            return self.send_bundle(bundlename, data, address)
 
         loop = ioloop.IOLoop.instance()
         loop.add_handler(proc.stdout.fileno(), proc_callback, 16)
-
-    def get_address(self, key, uri, default):
-        addr = get_config(key, default)
-        if not addr.startswith(("http://", "https://")):
-            addr = "http://%s" % addr
-        if addr.endswith("/"):
-            addr = addr[:-1]
-        if uri.startswith("/"):
-            uri = uri[1:]
-        return '%s/%s' % (addr, uri)
 
     def sign_bundle_package(self, bundle, data):
         private_key = get_config('private_key',
@@ -660,7 +650,7 @@ def make_application(port=PORT, output_log=True):
             (r"/config/set", ConfigurationSet),
             (r"/(icon.html)?", Index),
             (r"/screenshot", Screenshot),
-            (r"/post/(device|cloud)/(.+)/?", BundlePost),
+            (r"/post/(.+)/?", BundlePost),
             (r"/js/templates.js$", BulkTemplateLoader),
             (r"/resources/(.*)", EffectResource),
             (r"/(.*)", web.StaticFileHandler, {"path": HTML_DIR}),

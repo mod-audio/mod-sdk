@@ -85,7 +85,7 @@
                 <li id="tab-icon">Icon</li>
                 <li id="tab-screenshot">Icon Screenshot</li>
                 <li id="tab-settings">Settings</li>
-                <li id="tab-publish">Publish</li>
+                <li id="tab-deploy">Deploy</li>
             </ul>
 
             <div id="content-info" class="content">
@@ -194,29 +194,14 @@
                 <div class="canvas"></div>
             </div>
 
-            <div id="content-publish" class="content">
+            <div id="content-deploy" class="content">
                 <div class="controls clearfix">
                     <label>Device address</label>
                     <input id="device" type="text" value="{{default_device}}"/>
                     <span id="device-local" data="http://localhost:8888">local</span>
-                    <span id="device-quadra" data="http://192.168.50.1">quadra</span>
+                    <span id="device-duo" data="http://192.168.51.1">duo</span>
                 </div>
-                <button id="install">Install in webserver</button>
-                <div class="controls clearfix">
-                    <label>Cloud address</label>
-                    <input id="cloud" type="text" value=""/>
-                    <span id="cloud-local" data="http://localhost:8888">local</span>
-                    <span id="cloud-official" data="http://cloud-new.moddevices.com">cloud</span>
-                </div>
-                <div class="controls clearfix">
-                    <label>Cloud developer username</label>
-                    <input id="developer" type="text" value="{{default_developer}}"/>
-                </div>
-                <div class="controls clearfix">
-                    <label>Cloud developer RSA key file</label>
-                    <input id="developer" type="text" value="{{default_privkey}}"/>
-                </div>
-                <button id="publish">Publish at cloud</button>
+                <button id="deploy">Deploy via webserver</button>
             </div>
         </div>
         <!-- /content-wrapper -->
