@@ -21,6 +21,7 @@ PORT = 9000
 HTML_DIR = os.path.join(ROOT, 'html')
 WIZARD_DB = os.path.join(HTML_DIR, 'resources/wizard.json')
 TEMPLATE_DIR = os.path.join(HTML_DIR, 'resources/templates')
+DEFAULT_DEVICE = "http://localhost:8888"
 DEFAULT_ICON_TEMPLATE = os.path.join(HTML_DIR, 'resources/templates/pedal-default.html')
 DEFAULT_SETTINGS_TEMPLATE = os.path.join(HTML_DIR, 'resources/settings.html')
 DEFAULT_ICON_IMAGE = {
