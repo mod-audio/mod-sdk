@@ -16,7 +16,8 @@ from tornado.escape import squeeze
 from modsdk.lilvlib import get_plugin_info
 from modsdk.settings import (PORT, HTML_DIR, WIZARD_DB,
                              CONFIG_FILE, TEMPLATE_DIR,
-                             DEFAULT_ICON_IMAGE, DEFAULT_ICON_TEMPLATE, DEFAULT_SETTINGS_TEMPLATE,
+                             DEFAULT_DEVICE, DEFAULT_ICON_IMAGE,
+                             DEFAULT_ICON_TEMPLATE, DEFAULT_SETTINGS_TEMPLATE,
                              MAX_THUMB_WIDTH, MAX_THUMB_HEIGHT,
                              SCREENSHOT_SCRIPT, PHANTOM_BINARY)
 
@@ -24,10 +25,6 @@ global cached_bundles, cached_plugins, cached_bundle_plugins
 cached_bundles        = {}
 cached_plugins        = {}
 cached_bundle_plugins = {}
-
-default_device    = "http://localhost:8888"
-default_developer = os.environ['USER']
-default_privkey   = os.path.join(os.environ['HOME'], '.ssh', 'id_rsa')
 
 def get_config(key, default=None):
     if not os.path.exists(CONFIG_FILE):
@@ -334,12 +331,10 @@ class Index(web.RequestHandler):
             wizard_db = json.load(fh)
 
         context = {
+            'default_device': DEFAULT_DEVICE,
             'default_icon_template': default_icon_template,
             'default_settings_template': default_settings_template,
             'wizard_db': json.dumps(wizard_db),
-            'default_device'   : default_device,
-            'default_developer': default_developer,
-            'default_privkey'  : default_privkey,
         }
 
         self.write(loader.load(path).generate(**context))
@@ -451,7 +446,7 @@ class BundlePost(web.RequestHandler):
         while bundle.endswith(os.sep):
             bundle = bundle[:-1]
 
-        address = get_config("device", default_device)
+        address = get_config("device", DEFAULT_DEVICE)
         if not address.startswith(("http://", "https://")):
             address = "http://%s" % address
         if address.endswith("/"):
@@ -532,8 +527,7 @@ class BundlePost(web.RequestHandler):
 class ConfigurationGet(web.RequestHandler):
     def get(self):
         config = {
-            "device"   : default_device,
-            "developer": default_developer,
+            "device": DEFAULT_DEVICE,
         }
 
         if os.path.exists(CONFIG_FILE):
@@ -541,10 +535,7 @@ class ConfigurationGet(web.RequestHandler):
                 config.update(json.load(fh))
 
         if not config["device"]:
-            config["device"] = default_device
-
-        if not config["developer"]:
-            config["developer"] = default_developer
+            config["device"] = DEFAULT_DEVICE
 
         self.set_header('Content-type', 'application/json')
         self.write(json.dumps(config))
