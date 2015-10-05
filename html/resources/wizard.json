@@ -46,7 +46,7 @@
             "7-knobs" : 7,
             "8-knobs" : 8
         },
-        "colors": [ "black", "blue", "brown", "camouflage", "cream", "cyan", "darkblue", "gray", "green", "humphreys", "orange", "petrol", "pink", "purple", "racing", "red", "white", "yellow" ]
+        "colors": [ "atomic", "black", "blue", "brown", "camouflage", "che", "cream", "cyan", "darkblue", "gray", "green", "humphreys", "orange", "petrol", "pink", "purple", "racing", "red", "star", "skull", "white", "yellow" ]
     },
     "british" : {
         "panels" : {

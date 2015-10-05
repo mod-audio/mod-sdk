@@ -23,7 +23,7 @@ import sys
 import getopt
 import gimp, css
 
-def create_css (mod):
+def create_json (mod):
     with open (mod.options["css_source"], "r") as css_file:
         css_in=css_file.read()
     bg_str = ""
@@ -44,9 +44,39 @@ def create_css (mod):
             col_str += cs[c] + "\n"
     with open(mod.options["css_dest"], "w") as out_file:
         out_file.write(css_out.replace("<COLORS>", col_str))
+        
+def create_css (mod):
+    with open (mod.options["css_source"], "r") as css_file:
+        css_in=css_file.read()
+    bg_str = ""
+    for c in mod.colors:
+        bg_str += mod.backgrounds_css.replace("<COLOR>", c)
+    css_out = css_in.replace("<BACKGROUNDS>", bg_str);
+    col_str = ""
+    for cs in mod.colors_css:
+        cols = { }
+        for c in mod.colors:
+            if not mod.colors[c] in cs:
+                continue
+            if not mod.colors[c] in cols:
+                cols[mod.colors[c]] = [ ];
+            cols[mod.colors[c]] += [ cs["identifier"].replace("<COLOR>", c) ]
+        for c in cols:
+            col_str += ",\n".join(cols[c]) + "\n"
+            col_str += cs[c] + "\n"
+    with open(mod.options["css_dest"], "w") as out_file:
+        out_file.write(css_out.replace("<COLORS>", col_str))
     
 def run_gimp (mod):
-    mod.options["colors"] = "\"" + "\" \"".join(mod.colors.keys()) + "\""
+    cols = mod.colors.keys()
+    for c in mod.colors.keys():
+        p = os.path.join(mod.options["chdir"], mod.sizes[0]['folder'], "%s%s" % (c, mod.options["export_suffix"]))
+        if not force and os.path.isfile(p):
+            cols.remove(c);
+    if not len(cols):
+        print "Nothing to do."
+        return
+    mod.options["colors"] = "\"" + "\" \"".join(cols) + "\""
     mod.options["sizes"] = ""
     for s in range(0, len(mod.sizes)):
         mod.options["sizes"] += "\n(list (list %d %d) \"%s%s/\")" % (mod.sizes[s]["x"], mod.sizes[s]["y"], mod.options["chdir"], mod.sizes[s]["folder"])
@@ -62,11 +92,14 @@ USAGE:
     generator.py {-c | --css} {-i | --images} {-h | --help} TYPE [TYPE...]
 
 OPTIONS:
-    -h --help
-        Show this help
-        
     -c --css
         Generate CSS file(s)
+    
+    -f --force
+        Force re-generation of already existing backgrounds
+    
+    -h --help
+        Show this help
         
     -i --images
         Generate background images
@@ -80,13 +113,14 @@ EXAMPLE:
         
 if __name__ == '__main__':
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "cih", ["css", "images", "help"])
+        opts, args = getopt.getopt(sys.argv[1:], "cihf", ["css", "images", "help", "force"])
     except getopt.GetoptError as err:
         print str(err)
         usage()
         sys.exit(2)
-    css = False
+    css    = False
     images = False
+    force  = False
     if not len(opts) or not len(args):
         usage()
         exit(0)
@@ -98,6 +132,8 @@ if __name__ == '__main__':
         if o in ("-h", "--help"):
             usage()
             exit(0)
+        if o in ("-f", "--force"):
+            force = True
     for a in args:
         try:
             mod = __import__(a)

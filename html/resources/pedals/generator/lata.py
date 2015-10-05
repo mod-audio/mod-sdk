@@ -8,16 +8,18 @@ options = { "gimp_image"    : "lata.xcf",
             "mask_prefix"   : "mask_",
             "export_suffix" : ".png" }
 
-colors =  { "black"         : "white",
+colors =  { "atomic"        : "atomic",
+            "black"         : "white",
             "blue"          : "black",
             "brown"         : "white",
             "camouflage"    : "white",
+            "che"           : "white",
             "cream"         : "black",
             "cyan"          : "black",
             "darkblue"      : "white",
             "gray"          : "black",
             "green"         : "white",
-            "humphreys"     : "red",
+            "humphreys"     : "humphreys",
             "none"          : "white",
             "orange"        : "black",
             "petrol"        : "white",
@@ -25,6 +27,8 @@ colors =  { "black"         : "white",
             "purple"        : "white",
             "racing"        : "white",
             "red"           : "white",
+            "skull"         : "white",
+            "star"          : "white",
             "white"         : "black",
             "yellow"        : "black" }
             
@@ -39,7 +43,10 @@ colors_css = ( { "black" : """{
              "white" : """{
     background-image:url(/resources/utils/dropdown-arrow-white.png{{{ns}}});
 }""",
-             "red" : """{
+             "humphreys" : """{
+    background-image:url(/resources/utils/dropdown-arrow-white.png{{{ns}}});
+}""",
+             "atomic" : """{
     background-image:url(/resources/utils/dropdown-arrow-white.png{{{ns}}});
 }""",
              "identifier" : """.mod-pedal-lata{{{cns}}}.mod-<COLOR> .mod-enumerated""" },
@@ -50,20 +57,28 @@ colors_css = ( { "black" : """{
              "white" : """{
     color:white;
 }""",
-             "red" : """{
+             "humphreys" : """{
+    color: white;
+}""",
+             "atomic" : """{
     color: white;
 }""",
              "identifier" : """.mod-pedal-lata{{{cns}}}.mod-<COLOR> h1,
 .mod-pedal-lata{{{cns}}}.mod-<COLOR> .mod-enumerated,
 .mod-pedal-lata{{{cns}}}.mod-<COLOR> .mod-control-group .mod-knob > span.mod-knob-title""" },
             
+           { "atomic" : """{
+    background: black;
+}""",
+             "identifier" : """.mod-pedal-lata{{{cns}}}.mod-<COLOR> .mod-control-group .mod-knob > span.mod-knob-title""" },
+
            { "black" : """{
     border-color:black;
 }""",
              "white" : """{
     border-color:white;
 }""",
-             "red" : """{
+             "humphreys" : """{
     border-color:white;
 }""",
              "identifier" : """.mod-pedal-lata{{{cns}}}.mod-<COLOR> h1""" } )
