@@ -16,6 +16,7 @@ colors =  { "black"         : "white",
             "darkblue"      : "white",
             "gray"          : "black",
             "green"         : "white",
+            "humphreys"     : "red",
             "none"          : "white",
             "orange"        : "black",
             "petrol"        : "white",
@@ -37,6 +38,9 @@ colors_css = ( { "black" : """{
              "white" : """{
     background-image:url(/resources/utils/dropdown-arrow-white.png{{{ns}}});
 }""",
+             "red" : """{
+    background-image:url(/resources/utils/dropdown-arrow-white.png{{{ns}}});
+}""",
              "identifier" : """.mod-pedal-lata{{{cns}}}.mod-<COLOR> .mod-enumerated""" },
              
            { "black" : """{
@@ -44,6 +48,9 @@ colors_css = ( { "black" : """{
 }""",
              "white" : """{
     color:white;
+}""",
+             "red" : """{
+    color: white;
 }""",
              "identifier" : """.mod-pedal-lata{{{cns}}}.mod-<COLOR> h1,
 .mod-pedal-lata{{{cns}}}.mod-<COLOR> .mod-enumerated,
@@ -53,6 +60,9 @@ colors_css = ( { "black" : """{
     border-color:black;
 }""",
              "white" : """{
+    border-color:white;
+}""",
+             "red" : """{
     border-color:white;
 }""",
              "identifier" : """.mod-pedal-lata{{{cns}}}.mod-<COLOR> h1""" } )

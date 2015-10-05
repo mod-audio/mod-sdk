@@ -91,6 +91,7 @@
 .mod-pedal-lata{{{cns}}}.mod-gray { background-image:url(/resources/pedals/lata/gray.png{{{ns}}}); }
 .mod-pedal-lata{{{cns}}}.mod-darkblue { background-image:url(/resources/pedals/lata/darkblue.png{{{ns}}}); }
 .mod-pedal-lata{{{cns}}}.mod-purple { background-image:url(/resources/pedals/lata/purple.png{{{ns}}}); }
+.mod-pedal-lata{{{cns}}}.mod-humphreys { background-image:url(/resources/pedals/lata/humphreys.png{{{ns}}}); }
 .mod-pedal-lata{{{cns}}}.mod-green { background-image:url(/resources/pedals/lata/green.png{{{ns}}}); }
 .mod-pedal-lata{{{cns}}}.mod-yellow { background-image:url(/resources/pedals/lata/yellow.png{{{ns}}}); }
 .mod-pedal-lata{{{cns}}}.mod-petrol { background-image:url(/resources/pedals/lata/petrol.png{{{ns}}}); }
@@ -128,6 +129,10 @@
 .mod-pedal-lata{{{cns}}}.mod-cream .mod-enumerated
 {
     background-image:url(/resources/utils/dropdown-arrow-black.png{{{ns}}});
+}
+.mod-pedal-lata{{{cns}}}.mod-humphreys .mod-enumerated
+{
+    background-image:url(/resources/utils/dropdown-arrow-white.png{{{ns}}});
 }
 .mod-pedal-lata{{{cns}}}.mod-brown h1,
 .mod-pedal-lata{{{cns}}}.mod-brown .mod-enumerated,
@@ -186,6 +191,12 @@
 {
     color:black;
 }
+.mod-pedal-lata{{{cns}}}.mod-humphreys h1,
+.mod-pedal-lata{{{cns}}}.mod-humphreys .mod-enumerated,
+.mod-pedal-lata{{{cns}}}.mod-humphreys .mod-control-group .mod-knob > span.mod-knob-title
+{
+    color: white;
+}
 .mod-pedal-lata{{{cns}}}.mod-brown h1,
 .mod-pedal-lata{{{cns}}}.mod-none h1,
 .mod-pedal-lata{{{cns}}}.mod-darkblue h1,
@@ -208,5 +219,9 @@
 .mod-pedal-lata{{{cns}}}.mod-cream h1
 {
     border-color:black;
+}
+.mod-pedal-lata{{{cns}}}.mod-humphreys h1
+{
+    border-color:white;
 }
 
