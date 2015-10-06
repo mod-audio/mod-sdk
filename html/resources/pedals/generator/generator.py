@@ -20,8 +20,10 @@
 
 import os
 import sys
+import imp
 import getopt
-import gimp, css
+import gimp
+
 
 def create_json (mod):
     with open (mod.options["css_source"], "r") as css_file:
@@ -136,7 +138,7 @@ if __name__ == '__main__':
             force = True
     for a in args:
         try:
-            mod = __import__(a)
+            mod = imp.load_source(a, os.path.join("configs", "%s.py" % a))
         except:
             print "No module named %s" % a
             continue

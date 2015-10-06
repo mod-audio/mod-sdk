@@ -1,5 +1,5 @@
-options = { "gimp_image"    : "boxy.xcf",
-            "css_source"    : "boxy.css.in",
+options = { "gimp_image"    : "sources/boxy.xcf",
+            "css_source"    : "sources/boxy.css.in",
             "css_dest"      : "../boxy/boxy.css",
             "borderx"       : 12,
             "bordery"       : 29,

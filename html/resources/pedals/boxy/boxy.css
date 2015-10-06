@@ -418,7 +418,7 @@
 }
 
 
-/* = BACKGROUND IMAGES - Colour of the pedal
+/* = BACKGROUND IMAGES - Color of the pedal
 ================================================ */
 .mod-pedal-boxy{{{cns}}}.mod-gold {
     background-image:url(/resources/pedals/boxy/gold.png{{{ns}}});
@@ -887,7 +887,7 @@
 }
 
 
-/* = COLORS - Colour of the pedals labels
+/* = COLORS - Color of the pedals labels
 ================================================ */
 .mod-pedal-boxy{{{cns}}}.mod-tribal2 .mod-enumerated,
 .mod-pedal-boxy{{{cns}}}.mod-purple .mod-enumerated,

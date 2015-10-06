@@ -1,5 +1,5 @@
-options = { "gimp_image"    : "lata.xcf",
-            "css_source"    : "lata.css.in",
+options = { "gimp_image"    : "sources/lata.xcf",
+            "css_source"    : "sources/lata.css.in",
             "css_dest"      : "../lata/lata.css",
             "borderx"       : 0,
             "bordery"       : 0,
