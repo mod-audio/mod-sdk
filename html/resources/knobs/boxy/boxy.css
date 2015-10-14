@@ -5,57 +5,24 @@
 ================================================ */
 .mod-pedal-boxy{{{cns}}} .mod-control-group.mod-copper .mod-knob .mod-knob-image {
     background-image:url(/resources/knobs/boxy/copper.png{{{ns}}});
-}
-.mod-pedal-boxy-small{{{cns}}} .mod-control-group.mod-copper .mod-knob .mod-knob-image {
-    background-image:url(/resources/knobs/boxy/copper.png{{{ns}}});
 }.mod-pedal-boxy{{{cns}}} .mod-control-group.mod-aluminium .mod-knob .mod-knob-image {
-    background-image:url(/resources/knobs/boxy/aluminium.png{{{ns}}});
-}
-.mod-pedal-boxy-small{{{cns}}} .mod-control-group.mod-aluminium .mod-knob .mod-knob-image {
     background-image:url(/resources/knobs/boxy/aluminium.png{{{ns}}});
 }.mod-pedal-boxy{{{cns}}} .mod-control-group.mod-gold .mod-knob .mod-knob-image {
     background-image:url(/resources/knobs/boxy/gold.png{{{ns}}});
-}
-.mod-pedal-boxy-small{{{cns}}} .mod-control-group.mod-gold .mod-knob .mod-knob-image {
-    background-image:url(/resources/knobs/boxy/gold.png{{{ns}}});
 }.mod-pedal-boxy{{{cns}}} .mod-control-group.mod-petrol .mod-knob .mod-knob-image {
-    background-image:url(/resources/knobs/boxy/petrol.png{{{ns}}});
-}
-.mod-pedal-boxy-small{{{cns}}} .mod-control-group.mod-petrol .mod-knob .mod-knob-image {
     background-image:url(/resources/knobs/boxy/petrol.png{{{ns}}});
 }.mod-pedal-boxy{{{cns}}} .mod-control-group.mod-silver .mod-knob .mod-knob-image {
     background-image:url(/resources/knobs/boxy/silver.png{{{ns}}});
-}
-.mod-pedal-boxy-small{{{cns}}} .mod-control-group.mod-silver .mod-knob .mod-knob-image {
-    background-image:url(/resources/knobs/boxy/silver.png{{{ns}}});
 }.mod-pedal-boxy{{{cns}}} .mod-control-group.mod-bronze .mod-knob .mod-knob-image {
-    background-image:url(/resources/knobs/boxy/bronze.png{{{ns}}});
-}
-.mod-pedal-boxy-small{{{cns}}} .mod-control-group.mod-bronze .mod-knob .mod-knob-image {
     background-image:url(/resources/knobs/boxy/bronze.png{{{ns}}});
 }.mod-pedal-boxy{{{cns}}} .mod-control-group.mod-blue .mod-knob .mod-knob-image {
     background-image:url(/resources/knobs/boxy/blue.png{{{ns}}});
-}
-.mod-pedal-boxy-small{{{cns}}} .mod-control-group.mod-blue .mod-knob .mod-knob-image {
-    background-image:url(/resources/knobs/boxy/blue.png{{{ns}}});
 }.mod-pedal-boxy{{{cns}}} .mod-control-group.mod-steel .mod-knob .mod-knob-image {
-    background-image:url(/resources/knobs/boxy/steel.png{{{ns}}});
-}
-.mod-pedal-boxy-small{{{cns}}} .mod-control-group.mod-steel .mod-knob .mod-knob-image {
     background-image:url(/resources/knobs/boxy/steel.png{{{ns}}});
 }.mod-pedal-boxy{{{cns}}} .mod-control-group.mod-purple .mod-knob .mod-knob-image {
     background-image:url(/resources/knobs/boxy/purple.png{{{ns}}});
-}
-.mod-pedal-boxy-small{{{cns}}} .mod-control-group.mod-purple .mod-knob .mod-knob-image {
-    background-image:url(/resources/knobs/boxy/purple.png{{{ns}}});
 }.mod-pedal-boxy{{{cns}}} .mod-control-group.mod-black .mod-knob .mod-knob-image {
     background-image:url(/resources/knobs/boxy/black.png{{{ns}}});
-}
-.mod-pedal-boxy-small{{{cns}}} .mod-control-group.mod-black .mod-knob .mod-knob-image {
-    background-image:url(/resources/knobs/boxy/black.png{{{ns}}});
 }.mod-pedal-boxy{{{cns}}} .mod-control-group.mod-green .mod-knob .mod-knob-image {
-    background-image:url(/resources/knobs/boxy/green.png{{{ns}}});
-}
-.mod-pedal-boxy-small{{{cns}}} .mod-control-group.mod-green .mod-knob .mod-knob-image {
     background-image:url(/resources/knobs/boxy/green.png{{{ns}}});
 }

@@ -32,7 +32,4 @@ colors =  { "aluminium"     : "black",
 
 backgrounds_css = """.mod-pedal-boxy{{{cns}}} .mod-control-group.mod-<COLOR> .mod-knob .mod-knob-image {
     background-image:url(/resources/knobs/boxy/<COLOR>.png{{{ns}}});
-}
-.mod-pedal-boxy-small{{{cns}}} .mod-control-group.mod-<COLOR> .mod-knob .mod-knob-image {
-    background-image:url(/resources/knobs/boxy/<COLOR>.png{{{ns}}});
 }"""
