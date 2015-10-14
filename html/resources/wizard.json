@@ -39,7 +39,7 @@
             "8-knobs": 8
         },
         "colors": [ "black", "blue", "brown", "cream", "cyan", "darkblue", "gray", "green", "orange", "petrol", "pink", "purple", "racing", "red", "white", "yellow" ],
-        "knobs": [ "blue", "brown", "cream", "darkblue", "gray", "green", "orange", "purple", "red", "white", "yellow" ]
+        "knobs": [ "black", "blue", "brown", "cream", "cyan", "darkblue", "gray", "green", "orange", "petrol", "pink", "purple", "racing", "red", "white", "yellow" ]
     },
     "lata" : {
         "panels" : {

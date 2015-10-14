@@ -25,28 +25,6 @@ import getopt
 import gimp
 
 
-def create_json (mod):
-    with open (mod.options["css_source"], "r") as css_file:
-        css_in=css_file.read()
-    bg_str = ""
-    for c in mod.colors:
-        bg_str += mod.backgrounds_css.replace("<COLOR>", c)
-    css_out = css_in.replace("<BACKGROUNDS>", bg_str);
-    col_str = ""
-    for cs in mod.colors_css:
-        cols = { }
-        for c in mod.colors:
-            if not cs[mod.colors[c]]:
-                continue
-            if not mod.colors[c] in cols:
-                cols[mod.colors[c]] = [ ];
-            cols[mod.colors[c]] += [ cs["identifier"].replace("<COLOR>", c) ]
-        for c in cols:
-            col_str += ",\n".join(cols[c]) + "\n"
-            col_str += cs[c] + "\n"
-    with open(mod.options["css_dest"], "w") as out_file:
-        out_file.write(css_out.replace("<COLORS>", col_str))
-        
 def create_css (mod):
     with open (mod.options["css_source"], "r") as css_file:
         css_in=css_file.read()
@@ -69,7 +47,7 @@ def create_css (mod):
     with open(mod.options["css_dest"], "w") as out_file:
         out_file.write(css_out.replace("<COLORS>", col_str))
     
-def run_gimp (mod):
+def create_images (mod):
     cols = mod.colors.keys()
     for c in mod.colors.keys():
         p = os.path.join(mod.options["chdir"], mod.sizes[0]['folder'], "%s%s" % (c, mod.options["export_suffix"]))
@@ -104,7 +82,7 @@ OPTIONS:
         Show this help
         
     -i --images
-        Generate background images
+        Generate background images from GIMP file
 
 EXAMPLE:
     generator.py -c boxy
@@ -144,7 +122,7 @@ if __name__ == '__main__':
             continue
         if (images):
             print "Creating images for %s..." % a
-            run_gimp(mod)
+            create_images(mod)
         if (css):
             print "Creating CSS for %s..." % a
             create_css(mod)
