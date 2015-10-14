@@ -22,12 +22,14 @@
             "1-select-2-knobs": 3,
             "1-select-3-knobs": 4
         },
-        "colors": [ "black", "blue", "brown", "cream", "cyan", "darkblue", "dots", "flowerpower", "gold", "gray", "green", "lava", "orange", "petrol", "pink", "purple", "racing", "red", "slime", "tribal1", "tribal2", "warning", "white", "wood0", "wood1", "wood2", "wood3", "wood4", "yellow", "zinc" ]
+        "colors": [ "black", "blue", "brown", "cream", "cyan", "darkblue", "dots", "flowerpower", "gold", "gray", "green", "lava", "orange", "petrol", "pink", "purple", "racing", "red", "slime", "tribal1", "tribal2", "warning", "white", "wood0", "wood1", "wood2", "wood3", "wood4", "yellow", "zinc" ],
+        "knobs" : [ "aluminium", "black", "blue", "bronze", "copper", "gold", "green", "silver", "steel", "petrol", "purple" ]
     },
     
     "boxy-small": {
         "panels": { "1-footswitch": 1 },
-        "colors": [ "black", "blue", "brown", "cream", "cyan", "darkblue", "dots", "flowerpower", "gold", "gray", "green", "lava", "orange", "petrol", "pink", "purple", "racing", "red", "slime", "tribal1", "tribal2", "warning", "white", "wood0", "wood1", "wood2", "wood3", "wood4", "yellow", "zinc" ]
+        "colors": [ "black", "blue", "brown", "cream", "cyan", "darkblue", "dots", "flowerpower", "gold", "gray", "green", "lava", "orange", "petrol", "pink", "purple", "racing", "red", "slime", "tribal1", "tribal2", "warning", "white", "wood0", "wood1", "wood2", "wood3", "wood4", "yellow", "zinc" ],
+        "knobs" : [ "aluminium", "black", "blue", "bronze", "copper", "gold", "green", "silver", "steel", "petrol", "purple" ]
     },
     
     "japanese": {

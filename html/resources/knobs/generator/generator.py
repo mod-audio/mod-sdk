@@ -16,26 +16,32 @@ import shutil
 import tempfile
 import gimp
 
-def create_css (mod):
-    with open (mod.options["css_source"], "r") as css_file:
+def css (mod):
+    O = mod.options
+    if not "css_source" in O or not O["css_source"] \
+    or not "css_dest" in O or not O["css_dest"]:
+        return
+    with open (O["css_source"], "r") as css_file:
         css_in=css_file.read()
     bg_str = ""
     for c in mod.colors:
         bg_str += mod.backgrounds_css.replace("<COLOR>", c)
     css_out = css_in.replace("<BACKGROUNDS>", bg_str);
-    with open(mod.options["css_dest"], "w") as out_file:
+    with open(O["css_dest"], "w") as out_file:
         out_file.write(css_out.replace("<COLORS>", bg_str))
   
-def create_layers (mod):
-    tmp = tempfile.mkdtemp()
+def layers (mod):
     O = mod.options
+    if not O["blender_image"] or not O["gimp_image"]:
+        return
+    tmp = tempfile.mkdtemp()
     for l in O["layers"]:
         trg = os.path.join(tmp, "%s%s" % (l['layer'], O["export_suffix"]))
         
-        os.system("blender -b %s -t 7 -S %s -o %s/ -a" % (mod.options["blender_image"], l['scene'], tmp))
+        os.system("blender -b %s -t 0 -S %s -o %s/ -a" % (O["blender_image"], l['scene'], tmp))
         os.system("convert %s/0* +append -background none %s" % (tmp, trg))
         
-        exe = gimp.gimp_layer
+        exe = gimp.layer
         exe = exe.replace("<GIMP_IMAGE>",  O['gimp_image'])
         exe = exe.replace("<LAYER_NAME>",  l['layer'])
         exe = exe.replace("<LAYER_INDEX>", str(l['index']))
@@ -43,14 +49,21 @@ def create_layers (mod):
         exe = exe.replace("<LAYER_SRC>",   trg)
         os.system(exe)
     shutil.rmtree(tmp, True)
-        
+    if O['mask_layer']:
+        exe = gimp.mask
+        for r in O:
+            exe = exe.replace("<" + r.upper() + ">", str(O[r]))
+        os.system(exe)
     
-def create_images (mod):
+def images (mod):
+    O = mod.options
+    if not "gimp_image" in O or not O["gimp_image"]:
+        return
     # build colors array with all colors to generate
     cols = mod.colors.keys()
     overs = [ ]
     for c in mod.colors.keys():
-        p = os.path.join(mod.options["chdir"], "%s%s" % (c, mod.options["export_suffix"]))
+        p = os.path.join(O["chdir"], "%s%s" % (c, O["export_suffix"]))
         if not force and os.path.isfile(p):
             cols.remove(c);
         else:
@@ -58,12 +71,12 @@ def create_images (mod):
     if not len(cols):
         print "Nothing to do."
         return
-    op = mod.options["over_prefix"]
-    mod.options["colors"] = "\"" + "\" \"".join(cols) + "\""
-    mod.options["overlays"] = ("\"%s" % op) + ("\" \"%s" % op).join(overs) + "\""
-    exe = gimp.gimp_color
-    for r in mod.options:
-        exe = exe.replace("<" + r.upper() + ">", str(mod.options[r]))
+    op = O["over_prefix"]
+    O["colors"] = "\"" + "\" \"".join(cols) + "\""
+    O["overlays"] = ("\"%s" % op) + ("\" \"%s" % op).join(overs) + "\""
+    exe = gimp.colors
+    for r in O:
+        exe = exe.replace("<" + r.upper() + ">", str(O[r]))
     os.system(exe)
 
 def usage():
@@ -102,37 +115,37 @@ if __name__ == '__main__':
         print str(err)
         usage()
         sys.exit(2)
-    css     = False
-    images  = False
-    blender = False
-    force   = False
+    _css     = False
+    _images  = False
+    _blender = False
+    force    = False
     if not len(opts) or not len(args):
         usage()
         exit(0)
     for o, a in opts:
         if o in ("-c", "--css"):
-            css = True
+            _css = True
         if o in ("-i", "--images"):
-            images = True
+            _images = True
         if o in ("-h", "--help"):
             usage()
             exit(0)
         if o in ("-f", "--force"):
             force = True
         if o in ("-b", "--blender"):
-            blender = True
+            _blender = True
     for a in args:
         try:
             mod = imp.load_source(a, os.path.join("configs", "%s.py" % a))
         except:
             print "No module named %s" % a
             continue
-        if (blender):
+        if (_blender):
             print "Creating layers for %s..." % a
-            create_layers(mod)
-        if (images):
+            layers(mod)
+        if (_images):
             print "Creating images for %s..." % a
-            create_images(mod)
-        if (css):
+            images(mod)
+        if (_css):
             print "Creating CSS for %s..." % a
-            create_css(mod)
+            css(mod)

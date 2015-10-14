@@ -25,8 +25,9 @@ import getopt
 import gimp
 
 
-def create_css (mod):
-    with open (mod.options["css_source"], "r") as css_file:
+def css (mod):
+    O = mod.options
+    with open (O["css_source"], "r") as css_file:
         css_in=css_file.read()
     bg_str = ""
     for c in mod.colors:
@@ -44,26 +45,27 @@ def create_css (mod):
         for c in cols:
             col_str += ",\n".join(cols[c]) + "\n"
             col_str += cs[c] + "\n"
-    with open(mod.options["css_dest"], "w") as out_file:
+    with open(O["css_dest"], "w") as out_file:
         out_file.write(css_out.replace("<COLORS>", col_str))
     
-def create_images (mod):
+def images (mod):
+    O = mod.options
     cols = mod.colors.keys()
     for c in mod.colors.keys():
-        p = os.path.join(mod.options["chdir"], mod.sizes[0]['folder'], "%s%s" % (c, mod.options["export_suffix"]))
+        p = os.path.join(O["chdir"], mod.sizes[0]['folder'], "%s%s" % (c, O["export_suffix"]))
         if not force and os.path.isfile(p):
             cols.remove(c);
     if not len(cols):
         print "Nothing to do."
         return
-    mod.options["colors"] = "\"" + "\" \"".join(cols) + "\""
-    mod.options["sizes"] = ""
+    O["colors"] = "\"" + "\" \"".join(cols) + "\""
+    O["sizes"] = ""
     for s in range(0, len(mod.sizes)):
-        mod.options["sizes"] += "\n(list (list %d %d) \"%s%s/\")" % (mod.sizes[s]["x"], mod.sizes[s]["y"], mod.options["chdir"], mod.sizes[s]["folder"])
-    gimp_exec = gimp.gimp_exec
-    for r in mod.options:
-        gimp_exec = gimp_exec.replace("<" + r.upper() + ">", str(mod.options[r]))
-    os.system(gimp_exec)
+        O["sizes"] += "\n(list (list %d %d) \"%s%s/\")" % (mod.sizes[s]["x"], mod.sizes[s]["y"], mod.options["chdir"], mod.sizes[s]["folder"])
+    exe = gimp.colors
+    for r in O:
+        exe = exe.replace("<" + r.upper() + ">", str(O[r]))
+    os.system(exe)
     
 def usage():
     print """Generator for backgrounds and CSS files of MOD stomp boxes.
@@ -98,17 +100,17 @@ if __name__ == '__main__':
         print str(err)
         usage()
         sys.exit(2)
-    css    = False
-    images = False
-    force  = False
+    _css    = False
+    _images = False
+    force   = False
     if not len(opts) or not len(args):
         usage()
         exit(0)
     for o, a in opts:
         if o in ("-c", "--css"):
-            css = True
+            _css = True
         if o in ("-i", "--images"):
-            images = True
+            _images = True
         if o in ("-h", "--help"):
             usage()
             exit(0)
@@ -120,9 +122,9 @@ if __name__ == '__main__':
         except:
             print "No module named %s" % a
             continue
-        if (images):
+        if (_images):
             print "Creating images for %s..." % a
-            create_images(mod)
-        if (css):
+            images(mod)
+        if (_css):
             print "Creating CSS for %s..." % a
-            create_css(mod)
+            css(mod)
