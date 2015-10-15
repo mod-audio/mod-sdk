@@ -32,24 +32,28 @@ def css (mod):
   
 def layers (mod):
     O = mod.options
-    if not O["blender_image"] or not O["gimp_image"]:
+    if not "blender_image" in O or not O["blender_image"]:
         return
     tmp = tempfile.mkdtemp()
     for l in O["layers"]:
-        trg = os.path.join(tmp, "%s%s" % (l['layer'], O["export_suffix"]))
-        
         os.system("blender -b %s -t 0 -S %s -o %s/ -a" % (O["blender_image"], l['scene'], tmp))
-        os.system("convert %s/0* +append -background none %s" % (tmp, trg))
-        
-        exe = gimp.layer
-        exe = exe.replace("<GIMP_IMAGE>",  O['gimp_image'])
-        exe = exe.replace("<LAYER_NAME>",  l['layer'])
-        exe = exe.replace("<LAYER_INDEX>", str(l['index']))
-        exe = exe.replace("<LAYER_VISIBLE>", str(l['visible']))
-        exe = exe.replace("<LAYER_SRC>",   trg)
-        os.system(exe)
+        if "export" in l:
+            trg = os.path.join(tmp, "%s%s" % (l['export'], O["export_suffix"]))
+            os.system("convert %s/0* +append -background none %s" % (tmp, trg))
+            p = os.path.join(O["chdir"], "%s%s" % (l['export'], O["export_suffix"]))
+            os.system("cp '%s' '%s'" % (trg, p))
+        if "gimp_image" in O and O["gimp_image"]:
+            trg = os.path.join(tmp, "%s%s" % (l['layer'], O["export_suffix"]))
+            os.system("convert %s/0* +append -background none %s" % (tmp, trg))
+            exe = gimp.layer
+            exe = exe.replace("<GIMP_IMAGE>",  O['gimp_image'])
+            exe = exe.replace("<LAYER_NAME>",  l['layer'])
+            exe = exe.replace("<LAYER_INDEX>", str(l['index']))
+            exe = exe.replace("<LAYER_VISIBLE>", str(l['visible']))
+            exe = exe.replace("<LAYER_SRC>",   trg)
+            os.system(exe)
     shutil.rmtree(tmp, True)
-    if O['mask_layer']:
+    if "mask_layer" in O and O['mask_layer'] and "gimp_image" in O and O["gimp_image"]:
         exe = gimp.mask
         for r in O:
             exe = exe.replace("<" + r.upper() + ">", str(O[r]))
