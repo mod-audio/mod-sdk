@@ -75,7 +75,7 @@ def images (mod):
     if not len(cols):
         print "Nothing to do."
         return
-    op = O["over_prefix"] if "over_prefix" in O else ""
+    op = O["over_prefix"] if "over_prefix" in O else "none"
     O["colors"] = "\"" + "\" \"".join(cols) + "\""
     O["overlays"] = ("\"%s" % op) + ("\" \"%s" % op).join(overs) + "\""
     exe = gimp.colors
