@@ -261,7 +261,10 @@ class EffectSave(web.RequestHandler):
 
         bundledir = os.path.abspath(bundledir)
         resrcsdir = os.path.abspath(resrcsdir)
+        lv2dir    = os.path.abspath(os.path.join(bundledir, os.path.pardir))
 
+        if not os.path.exists(lv2dir):
+             os.mkdir(lv2dir)
         if not os.path.exists(bundledir):
              os.mkdir(bundledir)
         if not os.path.exists(resrcsdir):
