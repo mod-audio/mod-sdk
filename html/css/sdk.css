@@ -169,7 +169,7 @@ ul#menu li.selected {
 /* Wizard - basic layout */
 
 #wizard-window .box {
-    height: 605px;
+    height: 745px;
     margin-left: -540px;
     top: 200px;
     width: 1080px;
