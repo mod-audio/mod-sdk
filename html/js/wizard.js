@@ -87,7 +87,6 @@ JqueryClass('wizard', {
             'chooseModel',
             'configure',
             'save_template',
-            'docs',
             'finish'
         ]
 
@@ -107,6 +106,8 @@ JqueryClass('wizard', {
             self.find('#wizard-next').hide()
         else
             self.find('#wizard-next').show()
+
+        self.find('#wizard-next').text((step == steps.length-2) ? "Finish" : "Next")
 
         self.wizard(steps[step])
     },
@@ -631,21 +632,6 @@ JqueryClass('wizard', {
             },
             dataType: 'json'
         })
-    },
-
-    docs: function() {
-        /*
-        var self = $(this)
-        var effect = self.data('effect')
-        var model = self.data('model')
-        var panel = self.data('panel')
-        var canvas = $('#wizard-modifications')
-        var data = self.data('ttlData')
-        $('<li>').html('modgui/'+data.iconTemplate).appendTo(canvas)
-        $('<li>').html('modgui/'+data.templateData).appendTo(canvas)
-        $('<li>').html('modgui/'+data.screenshot).appendTo(canvas)
-        $('<li>').html('modgui/'+data.thumbnail).appendTo(canvas)
-        */
     },
 
     finish: function() {
