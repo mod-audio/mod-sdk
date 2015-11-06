@@ -498,13 +498,22 @@ JqueryClass('wizard', {
 
         if (model == "boxy")
         {
-            var panel = templateData.panel
+            var suffix, panel = templateData.panel
 
             filesToCopy.push('pedals/boxy/boxy.css')
             filesToCopy.push('knobs/boxy/boxy.css')
             filesToCopy.push('pedals/footswitch.png')
+
+            // TODO: selected copy of white, black or no arrows
             filesToCopy.push('utils/dropdown-arrow-black.png')
             filesToCopy.push('utils/dropdown-arrow-white.png')
+
+            if (panel.indexOf("knob") >= 0) {
+                filesToCopy.push('knobs/boxy/'+templateData.knob+'.png')
+            }
+            if (panel.indexOf("slider") >= 0) {
+                filesToCopy.push('pedals/slider.png')
+            }
 
             if (panel == "12-sliders")
                 suffix = '100'
@@ -518,26 +527,6 @@ JqueryClass('wizard', {
                 suffix = ''
 
             filesToCopy.push('pedals/boxy'+suffix+'/'+templateData.color+'.png')
-            filesToCopy.push('knobs/boxy/'+templateData.knob+'.png')
-            
-            //// 1 or 2 knobs
-            //if (panel == "1-knob" || panel == "2-knobs" || panel == "1-select-1-knob" || panel == "1-select-2-knobs")
-            //{
-                //filesToCopy.push('knobs/boxy/boxy.png')
-            //}
-            //// everything else
-            //else
-            //{
-                //if (panel.indexOf("knob") >= 0)
-                //{
-                    //filesToCopy.push('knobs/lata/lata.css')
-                    //filesToCopy.push('knobs/lata/lata.png')
-                //}
-                //if (panel.indexOf("slider") >= 0)
-                //{
-                    //filesToCopy.push('pedals/slider.png')
-                //}
-            //}
         }
         else if (model == "boxy-small")
         {
