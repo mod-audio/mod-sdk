@@ -190,16 +190,16 @@
 .mod-pedal-boxy{{{cns}}}.mod-one-knob .mod-control-group .mod-knob .mod-knob-image {
     background-image:url(/resources/knobs/boxy/boxy.png{{{ns}}});
     background-repeat:no-repeat;
-    background-size:auto 110px;
-    height:110px;
-    width:110px;
+    background-size:auto 90px;
+    height:90px;
+    width:90px;
     margin:0 auto;
 }
 .mod-pedal-boxy{{{cns}}}.mod-one-knob .mod-control-group .mod-knob > span.mod-knob-title {
     font-size:15px;
 }
 .mod-pedal-boxy{{{cns}}}.mod-one-knob .mod-control-group .mod-knob {
-    height:125px;
+    height:103px;
 }
 
 /* TWO KNOBS */
@@ -1054,4 +1054,3 @@
 {
     border-color:black;
 }
-
