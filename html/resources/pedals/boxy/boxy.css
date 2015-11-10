@@ -159,14 +159,13 @@
 /* = KNOBS
 ================================================ */
 .mod-pedal-boxy{{{cns}}} .mod-control-group {
-    margin:20px;
+    margin:20px !important;
     position:relative;
     text-align:center;
     z-index:30;
 }
-.mod-pedal-boxy{{{cns}}}.mod-one-knob .mod-control-group,
-.mod-pedal-boxy{{{cns}}}.mod-two-knobs .mod-control-group {
-    margin:0px 20px;
+.mod-pedal-boxy{{{cns}}} .top {
+    margin-top:0px !important;
 }
 
 .mod-pedal-boxy{{{cns}}} .mod-control-group .mod-knob {
@@ -179,7 +178,7 @@
     display:block;
     font-size:11px;
     font-weight:bold;
-    height:15px;
+    height:12px;
     left:0;
     line-height:1;
     margin:0;
@@ -201,6 +200,7 @@
 }
 .mod-pedal-boxy{{{cns}}}.mod-one-knob .mod-control-group .mod-knob > span.mod-knob-title {
     font-size:15px;
+    height:15px;
 }
 .mod-pedal-boxy{{{cns}}}.mod-one-knob .mod-control-group .mod-knob {
     height:115px;
