@@ -159,7 +159,7 @@
 /* = KNOBS
 ================================================ */
 .mod-pedal-boxy{{{cns}}} .mod-control-group {
-    margin:20px;
+    margin:0px 20px;
     position:relative;
     text-align:center;
     z-index:30;
@@ -175,7 +175,7 @@
     display:block;
     font-size:11px;
     font-weight:bold;
-    height:12px;
+    height:15px;
     left:0;
     line-height:1;
     margin:0;
@@ -190,9 +190,9 @@
 .mod-pedal-boxy{{{cns}}}.mod-one-knob .mod-control-group .mod-knob .mod-knob-image {
     background-image:url(/resources/knobs/boxy/boxy.png{{{ns}}});
     background-repeat:no-repeat;
-    background-size:auto 100px;
-    height:100px;
-    width:100px;
+    background-size:auto 98px;
+    height:98px;
+    width:98px;
     margin:0 auto;
 }
 .mod-pedal-boxy{{{cns}}}.mod-one-knob .mod-control-group .mod-knob > span.mod-knob-title {
