@@ -159,10 +159,14 @@
 /* = KNOBS
 ================================================ */
 .mod-pedal-boxy{{{cns}}} .mod-control-group {
-    margin:0px 20px;
+    margin:20px;
     position:relative;
     text-align:center;
     z-index:30;
+}
+.mod-pedal-boxy{{{cns}}}.mod-one-knob .mod-control-group,
+.mod-pedal-boxy{{{cns}}}.mod-two-knobs .mod-control-group {
+    margin:0px 20px;
 }
 
 .mod-pedal-boxy{{{cns}}} .mod-control-group .mod-knob {
