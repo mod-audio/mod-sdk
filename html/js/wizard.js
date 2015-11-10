@@ -613,7 +613,10 @@ JqueryClass('wizard', {
         var icon   = $(self.find('.wizard-icon').children()[0])
 
         var canvas = self.find('#wizard-thumbnail')
-        canvas.html('')
+        canvas.html('<p>Generating screenshot, please wait...</p>')
+
+        self.find('#wizard-generate-thumbnail').hide()
+        self.find('#wizard-next').hide()
 
         $.ajax({
             url: '/screenshot',
@@ -623,13 +626,20 @@ JqueryClass('wizard', {
                 height: icon.height(),
             },
             success: function(result) {
+                self.find('#wizard-generate-thumbnail').show()
+                self.find('#wizard-next').show()
                 if (result.ok) {
+                    canvas.html('')
                     $('<img class="screenshot">').appendTo(canvas).attr('src', 'data:image/png;base64,'+result.screenshot)
                 } else {
+                    canvas.html('failed')
                     alert('Could not generate thumbnail')
                 }
             },
             error: function(resp) {
+                canvas.html('failed')
+                self.find('#wizard-generate-thumbnail').show()
+                self.find('#wizard-next').show()
                 alert("Error: Can't generate thumbnail. Is your server running? Check the logs.")
             },
             dataType: 'json'
