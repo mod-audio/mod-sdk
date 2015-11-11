@@ -961,7 +961,8 @@ def get_plugin_info(world, plugin, useAbsolutePath = True):
 
         if not psname:
             psname = get_short_port_name(portname)
-            warnings.append("port '%s' has no short name" % portname)
+            if len(psname) > 16:
+                warnings.append("port '%s' name is too big, reduce the name size or provide a shortname" % portname)
 
         elif len(psname) > 16:
             psname = psname[:16]
