@@ -524,7 +524,7 @@ JqueryClass('wizard', {
                 suffix = '85'
             else if (panel == "9-sliders" || panel == "8-sliders" || panel == "7-sliders")
                 suffix = '75'
-            else if (panel == "8-knobs" || panel == "7-knobs" || panel == "4-knobs")
+            else if (panel == "8-knobs" || panel == "7-knobs" || panel == "4-knobs" || panel == "1-select-4-knobs")
                 suffix = '75'
             else
                 suffix = ''
