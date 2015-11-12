@@ -165,6 +165,7 @@ def get_bundle_dirname(bundleuri):
 # @a bundle is a string, consisting of a directory in the filesystem (absolute pathname).
 def get_pedalboard_info(bundle):
     # lilv wants the last character as the separator
+    bundle = os.path.abspath(bundle)
     if not bundle.endswith(os.sep):
         bundle += os.sep
 
@@ -360,17 +361,19 @@ def get_pedalboard_info(bundle):
         else:
             continue
 
-        uri = lilv.lilv_node_as_uri(proto)
+        instance = lilv.lilv_uri_to_path(lilv.lilv_node_as_string(block.me)).replace(bundle,"",1)
+        uri      = lilv.lilv_node_as_uri(proto)
 
         enabled  = lilv.lilv_world_get(world.me, block.me, ns_ingen.enabled.me, None)
         microver = lilv.lilv_world_get(world.me, block.me, ns_lv2core.microVersion.me, None)
         minorver = lilv.lilv_world_get(world.me, block.me, ns_lv2core.minorVersion.me, None)
 
         ingenblocks.append({
-            "uri": uri,
-            "x": lilv.lilv_node_as_float(lilv.lilv_world_get(world.me, block.me, ns_ingen.canvasX.me, None)),
-            "y": lilv.lilv_node_as_float(lilv.lilv_world_get(world.me, block.me, ns_ingen.canvasY.me, None)),
-            "enabled": lilv.lilv_node_as_bool(enabled) if enabled is not None else False,
+            "instance": instance,
+            "uri"     : uri,
+            "x"       : lilv.lilv_node_as_float(lilv.lilv_world_get(world.me, block.me, ns_ingen.canvasX.me, None)),
+            "y"       : lilv.lilv_node_as_float(lilv.lilv_world_get(world.me, block.me, ns_ingen.canvasY.me, None)),
+            "enabled" : lilv.lilv_node_as_bool(enabled) if enabled is not None else False,
             "microVersion": lilv.lilv_node_as_int(microver) if microver else 0,
             "minorVersion": lilv.lilv_node_as_int(minorver) if minorver else 0,
         })
@@ -387,6 +390,7 @@ def get_pedalboard_info(bundle):
 # @a bundle is a string, consisting of a directory in the filesystem (absolute pathname).
 def get_pedalboard_name(bundle):
     # lilv wants the last character as the separator
+    bundle = os.path.abspath(bundle)
     if not bundle.endswith(os.sep):
         bundle += os.sep
 
@@ -674,7 +678,7 @@ def get_plugin_info(world, plugin, useAbsolutePath = True):
             if not lilv.lilv_node_is_uri(bnode):
                 continue
 
-            bpath = os.path.dirname(lilv.lilv_uri_to_path(lilv.lilv_node_as_uri(bnode)))
+            bpath = os.path.abspath(os.path.dirname(lilv.lilv_uri_to_path(lilv.lilv_node_as_uri(bnode))))
 
             if not bpath.endswith(os.sep):
                 bpath += os.sep
@@ -1314,6 +1318,7 @@ def get_plugins_info(bundles):
     # load all bundles
     for bundle in bundles:
         # lilv wants the last character as the separator
+        bundle = os.path.abspath(bundle)
         if not bundle.endswith(os.sep):
             bundle += os.sep
 
