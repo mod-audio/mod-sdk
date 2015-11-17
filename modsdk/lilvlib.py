@@ -958,7 +958,7 @@ def get_plugin_info(world, plugin, useAbsolutePath = True):
             portsymbols.append(portsymbol)
 
         # short name
-        psname = lilv.lilv_nodes_get_first(port.get_value(ns_lv2core.shortname.me))
+        psname = lilv.lilv_nodes_get_first(port.get_value(ns_lv2core.shortName.me))
 
         if psname is not None:
             psname = lilv.lilv_node_as_string(psname) or ""
@@ -971,6 +971,10 @@ def get_plugin_info(world, plugin, useAbsolutePath = True):
         elif len(psname) > 16:
             psname = psname[:16]
             errors.append("port '%s' short name has more than 16 characters" % portname)
+
+        # check for old style shortname
+        if port.get_value(ns_lv2core.shortname.me) is not None:
+            errors.append("port '%s' short name is using old style 'shortname' instead of 'shortName'" % portname)
 
         # port types
         types = [typ.rsplit("#",1)[-1].replace("Port","",1) for typ in get_port_data(port, ns_rdf.type_)]
