@@ -612,7 +612,7 @@ def get_plugin_info(world, plugin, useAbsolutePath = True):
         warnings.append("plugin author homepage is missing")
 
     if not author['email']:
-        warnings.append("plugin author email is missing")
+        pass
     elif author['email'].startswith(bundleuri):
         author['email'] = author['email'].replace(bundleuri,"",1)
         warnings.append("plugin author email entry is missing 'mailto:' prefix")
