@@ -493,6 +493,7 @@ def plugin_has_modgui(world, plugin):
 def get_plugin_info(world, plugin, useAbsolutePath = True):
     # define the needed stuff
     ns_doap    = NS(world, lilv.LILV_NS_DOAP)
+    ns_foaf    = NS(world, lilv.LILV_NS_FOAF)
     ns_rdf     = NS(world, lilv.LILV_NS_RDF)
     ns_rdfs    = NS(world, lilv.LILV_NS_RDFS)
     ns_lv2core = NS(world, lilv.LILV_NS_LV2)
@@ -607,6 +608,18 @@ def get_plugin_info(world, plugin, useAbsolutePath = True):
 
     if not author['name']:
         errors.append("plugin author name is missing")
+
+    if not author['homepage']:
+        prj = plugin.get_value(ns_lv2core.project).get_first()
+        if prj.me is not None:
+            maintainer = lilv.lilv_world_get(world.me, prj.me, ns_doap.maintainer.me, None)
+            if maintainer is not None:
+                homepage = lilv.lilv_world_get(world.me, maintainer, ns_foaf.homepage.me, None)
+                if homepage is not None:
+                    author['homepage'] = lilv.lilv_node_as_string(homepage)
+                del homepage
+            del maintainer
+        del prj
 
     if not author['homepage']:
         warnings.append("plugin author homepage is missing")
@@ -966,13 +979,13 @@ def get_plugin_info(world, plugin, useAbsolutePath = True):
         if not psname:
             psname = get_short_port_name(portname)
             if len(psname) > 16:
-                warnings.append("port '%s' name is too big, reduce the name size or provide a shortname" % portname)
+                warnings.append("port '%s' name is too big, reduce the name size or provide a shortName" % portname)
 
         elif len(psname) > 16:
             psname = psname[:16]
             errors.append("port '%s' short name has more than 16 characters" % portname)
 
-        # check for old style shortname
+        # check for old style shortName
         if port.get_value(ns_lv2core.shortname.me) is not None:
             errors.append("port '%s' short name is using old style 'shortname' instead of 'shortName'" % portname)
 
@@ -1223,7 +1236,7 @@ def get_plugin_info(world, plugin, useAbsolutePath = True):
             'properties' : properties,
             'rangeSteps' : (get_port_data(port, ns_mod.rangeSteps) or get_port_data(port, ns_pprops.rangeSteps) or [None])[0],
             'scalePoints': scalepoints,
-            'shortname'  : psname,
+            'shortName'  : psname,
         })
 
     for p in (plugin.get_port_by_index(i) for i in range(plugin.get_num_ports())):
