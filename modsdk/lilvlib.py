@@ -548,7 +548,17 @@ def get_plugin_info(world, plugin, useAbsolutePath = True):
     license = plugin.get_value(ns_doap.license).get_first().as_string() or ""
 
     if not license:
+        prj = plugin.get_value(ns_lv2core.project).get_first()
+        if prj.me is not None:
+            licsnode = lilv.lilv_world_get(world.me, prj.me, ns_doap.license.me, None)
+            if licsnode is not None:
+                license = lilv.lilv_node_as_string(licsnode)
+            del licsnode
+        del prj
+
+    if not license:
         errors.append("plugin license is missing")
+
     elif license.startswith(bundleuri):
         license = license.replace(bundleuri,"",1)
         warnings.append("plugin license entry is a local path instead of a string")
