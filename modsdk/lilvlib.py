@@ -1014,6 +1014,9 @@ def get_plugin_info(world, plugin, useAbsolutePath = True):
                 #if morphtyp:
                     #types.append(morphtyp.rsplit("#",1)[-1].replace("Port","",1))
 
+        # port designation
+        designation = (get_port_data(port, ns_lv2core.designation) or [""])[0]
+
         # port properties
         properties = [typ.rsplit("#",1)[-1] for typ in get_port_data(port, ns_lv2core.portProperty)]
 
@@ -1120,7 +1123,7 @@ def get_plugin_info(world, plugin, useAbsolutePath = True):
                     ranges['maximum'] = 1.0
                     ranges['default'] = 0.0
 
-                if "CV" not in types:
+                if "CV" not in types and designation != "http://lv2plug.in/ns/lv2core#latency":
                     errors.append("port '%s' is missing value ranges" % portname)
 
             nodes = port.get_scale_points()
@@ -1242,7 +1245,7 @@ def get_plugin_info(world, plugin, useAbsolutePath = True):
                 'render': urender,
                 'symbol': usymbol,
             } if "Control" in types and ulabel and urender and usymbol else {},
-            'designation': (get_port_data(port, ns_lv2core.designation) or [None])[0],
+            'designation': designation,
             'properties' : properties,
             'rangeSteps' : (get_port_data(port, ns_mod.rangeSteps) or get_port_data(port, ns_pprops.rangeSteps) or [None])[0],
             'scalePoints': scalepoints,
