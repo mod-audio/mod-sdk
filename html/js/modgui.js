@@ -125,14 +125,15 @@ function GUI(effect, options) {
     var self = this
 
     options = $.extend({
-        change: new Function(),
+        change: function(symbol, value) {
+            console.log("PARAM CHANGE =>", symbol, value)
+        },
         click: new Function(),
         dragStart: new Function(),
         drag: new Function(),
         dragStop: new Function(),
-        presetLoad: new Function(),
         midiLearn: new Function(),
-        bypassed: 1,
+        bypassed: true,
         defaultIconTemplate: 'Template missing',
         defaultSettingsTemplate: 'Template missing',
         loadDependencies: true,
@@ -253,7 +254,7 @@ function GUI(effect, options) {
         */
 
         // update our own widgets
-        self.setPortWidgetsValue(symbol, value, source)
+        self.setPortWidgetsValue(symbol, value, source, false)
 
         // let the host know about this change
         options.change(mod_port, value)
@@ -342,41 +343,94 @@ function GUI(effect, options) {
                 self.icon.height(self.icon.children().height())
             }, 1)
 
-            if(instance)
+            if (instance)
                 self.settings = $('<div class="mod-settings" mod-instance="' + instance + '">')
             else
                 self.settings = $('<div class="mod-settings">')
+
             self.settings.html(Mustache.render(effect.gui.settingsTemplate || options.defaultSettingsTemplate, templateData))
 
             self.assignControlFunctionality(self.settings, false)
 
-            if (! instance) {
+            if (instance)
+            {
+                var prmel = self.settings.find('.preset-manager')
+                self.presetManager = prmel.presetManager({})
+
+                self.presetManager.on("load", function (e, instance, options) {
+                    console.log("load", instance, options);
+                    $.ajax({
+                        url: '/effect/preset/load/' + instance,
+                        data: {
+                            uri: options.uri
+                        },
+                        success: function (resp) {
+                            self.presetManager.presetManager("setPresetName", options.label)
+                        },
+                        error: function () {
+                        },
+                        cache: false,
+                        dataType: 'json'
+                    })
+                })
+                self.presetManager.on("save", function (e, instance, name, options) {
+                    console.log("save", instance, name, options)
+                    $.ajax({
+                        url: '/effect/preset/save/' + instance,
+                        data: {
+                            name: name
+                        },
+                        success: function (resp) {
+                            console.log(resp)
+                            if (resp.ok) {
+                                self.presetManager.presetManager("addPreset", {
+                                    name: name,
+                                    uri: resp.uri,
+                                    bind: false,
+                                    readonly: true,
+                                })
+                            }
+                        },
+                        error: function () {
+                        },
+                        cache: false,
+                        dataType: 'json'
+                    })
+                })
+                self.presetManager.on("rename", function (e, instance, name, options) {
+                    console.log("rename", instance, name, options)
+                })
+                self.presetManager.on("bind", function (e, instance, options) {
+                    console.log("bind", instance, options)
+                })
+                self.presetManager.on("bindlist", function (e, instance, options) {
+                    console.log("bindlist", instance, options)
+                })
+
+                /*
+                 * bind: MOD_BIND_NONE, MOD_BIND_MIDI, MOD_BIND_KNOB, MOD_BIND_FOOTSWITCH or false
+                 */
+                var p, _presets = []
+                for (var i in effect.presets) {
+                    p = effect.presets[i]
+                    _presets.push({
+                        name: p.label,
+                        uri: p.uri,
+                        bind: false,
+                        readonly: true,
+                    })
+                }
+                self.presetManager.presetManager("setPresets", instance, _presets)
+            }
+            else
+            {
                 self.settings.find(".js-close").hide()
                 self.settings.find(".mod-address").hide()
+                self.settings.find(".preset-manager").hide()
             }
-
-            /*
-            TESTING code for presets
-            var p, _presets = []
-            console.log(effect.presets)
-            for (i in effect.presets) {
-                p = effect.presets[i]
-                _presets.push({
-                    name: p.label,
-                    uri: p.uri,
-                    bind: MOD_BIND_NONE,
-                })
-            }
-            desktop.presetManager.presetManager("setPresets", instance, _presets)
-            */
 
             self.triggerJS({ 'type': 'start' })
 
-            var preset_select = self.settings.find('[mod-role=presets]')
-            preset_select.change(function () {
-                var value = $(this).val()
-                options.presetLoad(value)
-            })
             callback(self.icon, self.settings)
         }
 
@@ -448,7 +502,7 @@ function GUI(effect, options) {
 
                 var valueField = element.find('[mod-role=input-control-value][mod-port-symbol=' + symbol + ']')
 
-                var setValue = function (value) {
+                var setValue = function (value, only_gui) {
                     // When value is changed, let's use format and scalePoints to properly display its value
                     if (isNaN(value))
                         throw "Invalid NaN value"
@@ -458,8 +512,14 @@ function GUI(effect, options) {
                     valueField.data('value', value)
                     valueField.text(label)
 
-                    self.setPortValue(symbol, value, control)
+                    if (only_gui) {
+                        self.setPortWidgetsValue(symbol, value, control, true)
+                    } else {
+                        self.setPortValue(symbol, value, control)
+                    }
                 }
+
+                setValue(port.value, true)
 
                 control.controlWidget({
                     port: port,
@@ -489,7 +549,7 @@ function GUI(effect, options) {
                     valueField.blur(function () {
                         var value = parseFloat(valueField.text())
                         setValue(value)
-                        control.controlWidget('setValue', value)
+                        //control.controlWidget('setValue', value)
                     })
                     valueField.keydown(function (e) {
                         return true
@@ -513,39 +573,6 @@ function GUI(effect, options) {
             }
         });
 
-        if (onlySetValues)
-            return
-
-        element.find('[mod-role=input-control-minimum]').each(function () {
-            var symbol = $(this).attr('mod-port-symbol')
-            if (!symbol) {
-                $(this).html('missing mod-port-symbol attribute')
-                return
-            }
-            var element = self.controls[symbol]
-            if (element === undefined)
-                return
-            var format  = element.units.render || '%.2f'
-            if (element.properties.indexOf("integer") >= 0)
-                format = format.replace(/%\.\d+f/, '%d')
-            $(this).html(sprintf(format, element.ranges.minimum))
-        });
-
-        element.find('[mod-role=input-control-maximum]').each(function () {
-            var symbol = $(this).attr('mod-port-symbol')
-            if (!symbol) {
-                $(this).html('missing mod-port-symbol attribute')
-                return
-            }
-            var element = self.controls[symbol]
-            if (element === undefined)
-                return
-            var format  = element.units.render || '%.2f'
-            if (element.properties.indexOf("integer") >= 0)
-                format = format.replace(/%\.\d+f/, '%d')
-            $(this).html(sprintf(format, element.ranges.maximum))
-        });
-
         element.find('[mod-role=bypass]').each(function () {
             var control = $(this)
             var port = self.controls[':bypass']
@@ -553,7 +580,6 @@ function GUI(effect, options) {
 
             control.bypassWidget({
                 port: port,
-                value: self.bypassed,
                 change: function (e, value) {
                     /*
                      TESTING - the following code is also on 'changeLights' so we don't need it here?
@@ -568,6 +594,7 @@ function GUI(effect, options) {
                             $(this).addClass('on').removeClass('off')
                     });
                     */
+                    self.bypassed = !!value
 
                     self.setPortValue(':bypass', value ? 1 : 0, control)
 
@@ -577,29 +604,93 @@ function GUI(effect, options) {
                         control.addClass('off').removeClass('on')
                 },
                 changeLights: function (value) {
-                    self.bypassed = value
+                    console.log("CHANGE LIGHTS!!", value)
 
                     element.find('[mod-role=bypass-light]').each(function () {
                         // NOTE
                         // the element itself will get inverse class ("on" when light is "off"),
                         // because of the switch widget.
-                        if (value)
-                            $(this).addClass('off').removeClass('on')
-                        else
-                            $(this).addClass('on').removeClass('off')
+//                         if (value)
+//                             $(this).addClass('off').removeClass('on')
+//                         else
+//                             $(this).addClass('on').removeClass('off')
+                      self.setPortWidgetsValue(':bypass', value, $(this), true)
                     });
                 },
             })
+
+            self.setPortWidgetsValue(port.symbol, port.value, control, true)
 
             control.attr("mod-port", instance ? instance + "/:bypass" : ":bypass")
             control.attr('mod-widget', 'bypass')
             control.addClass("mod-port")
         })
 
-        if (self.bypassed)
-            element.find('[mod-role=bypass-light]').addClass('off').removeClass('on')
-        else
-            element.find('[mod-role=bypass-light]').addClass('on').removeClass('off')
+        element.find('[mod-role=bypass-light]').each(function () {
+            self.setPortWidgetsValue(':bypass', self.bypassed ? 1 : 0, $(this), true)
+        })
+
+        if (onlySetValues)
+            return
+
+        element.find('[mod-role=input-control-minimum]').each(function () {
+            var symbol = $(this).attr('mod-port-symbol')
+            if (!symbol) {
+                $(this).html('missing mod-port-symbol attribute')
+                return
+            }
+            var port = self.controls[symbol]
+            if (port === undefined)
+                return
+
+            var format, value
+            if (port.units.render)
+                format = port.units.render
+            else
+                format = '%f'
+
+            if (port.properties.indexOf("integer") >= 0) {
+                format = format.replace(/%\.\d+f/, '%d')
+                value = sprintf(format, port.ranges.minimum)
+            }
+            else {
+                value = sprintf(format, port.ranges.minimum)
+                if (value.length > 8) {
+                    format = format.replace('%f', '%.2f')
+                    value  = sprintf(format, port.ranges.minimum)
+                }
+            }
+            $(this).html(value)
+        });
+
+        element.find('[mod-role=input-control-maximum]').each(function () {
+            var symbol = $(this).attr('mod-port-symbol')
+            if (!symbol) {
+                $(this).html('missing mod-port-symbol attribute')
+                return
+            }
+            var port = self.controls[symbol]
+            if (port === undefined)
+                return
+
+            var format, value
+            if (port.units.render)
+                format = port.units.render
+            else
+                format = '%f'
+
+            if (port.properties.indexOf("integer") >= 0) {
+                format = format.replace(/%\.\d+f/, '%d')
+                value  = sprintf(format, port.ranges.maximum)
+            } else {
+                value = sprintf(format, port.ranges.maximum)
+                if (value.length > 8) {
+                    format = format.replace('%f', '%.2f')
+                    value  = sprintf(format, port.ranges.maximum)
+                }
+            }
+            $(this).html(value)
+        });
 
         // Gestures for tablet. When event starts, we check if it's centered in any widget and stores the widget if so.
         // Following events will be forwarded to proper widget
@@ -817,7 +908,7 @@ var baseWidget = {
         self.data('dragPrecisionHorizontal', Math.ceil(portSteps / 10))
     },
 
-    setValue: function () {
+    setValue: function (value, only_gui) {
         alert('not implemented')
     },
 
@@ -910,9 +1001,12 @@ var baseWidget = {
 JqueryClass('film', baseWidget, {
     init: function (options) {
         var self = $(this)
+        self.data('initialized', false)
+        self.data('initvalue', options.port.ranges.default)
         self.film('getSize', function () {
             self.film('config', options)
-            self.film('setValue', options.port.ranges.default)
+            self.data('initialized', true)
+            self.film('setValue', self.data('initvalue'), true)
         })
 
         self.on('dragstart', function (event) {
@@ -956,21 +1050,32 @@ JqueryClass('film', baseWidget, {
 
     setValue: function (value, only_gui) {
         var self = $(this)
-        var position = self.film('stepsFromValue', value)
-        self.data('position', position)
-        self.film('setRotation', position)
+        if (self.data('initialized')) {
+            var position = self.film('stepsFromValue', value)
+            self.data('position', position)
+            self.film('setRotation', position)
+        } else {
+            self.data('initvalue', value)
+        }
         if (!only_gui)
             self.trigger('valuechange', value)
     },
 
     getSize: function (callback) {
-        var self = $(this)
-        setTimeout(function () {
-            var url = self.css('background-image').replace('url(', '').replace(')', '').replace("'", '').replace('"', '');
+        var self  = $(this)
+        var retry = 0
+        function tryGetAndSetSize() {
+            var url = self.css('background-image')
             if (! url) {
-                console.log("ERROR: The background-image for '" + self[0].className + "' is missing, typo in css?")
+                retry += 1
+                if (retry == 5) {
+                    console.log("ERROR: The background-image for '" + self[0].className + "' is missing, typo in css?")
+                } else {
+                    setTimeout(tryGetAndSetSize, 20)
+                }
                 return
             }
+            url = url.replace('url(', '').replace(')', '').replace("'", '').replace('"', '');
             var height = self.css('background-size').split(/ /)[1]
             if (height)
                 height = parseInt(height.replace(/\D+$/, ''))
@@ -992,7 +1097,8 @@ JqueryClass('film', baseWidget, {
             });
             $('body').append(bgImg);
             bgImg.attr('src', url);
-        }, 1)
+        }
+        tryGetAndSetSize()
     },
 
     mouseDown: function (e) {
@@ -1100,7 +1206,7 @@ JqueryClass('selectWidget', baseWidget, {
     init: function (options) {
         var self = $(this)
         self.selectWidget('config', options)
-        self.selectWidget('setValue', options.port.ranges.default)
+        self.selectWidget('setValue', options.port.ranges.default, true)
         self.change(function () {
             self.trigger('valuechange', parseFloat(self.val()))
         })
@@ -1131,11 +1237,7 @@ JqueryClass('switchWidget', baseWidget, {
     init: function (options) {
         var self = $(this)
         self.switchWidget('config', options)
-        if (options.value != undefined) {
-            self.switchWidget('setValue', options.value)
-        } else {
-            self.switchWidget('setValue', options.port.ranges.default)
-        }
+        self.switchWidget('setValue', options.port.ranges.default, true)
         self.click(function (e) {
             if (!self.data('enabled'))
                 return self.switchWidget('prevent', e)
@@ -1171,21 +1273,17 @@ JqueryClass('bypassWidget', baseWidget, {
         var self = $(this)
         self.data('changeLights', options.changeLights)
         self.bypassWidget('config', options)
-        if (options.value != undefined) {
-            self.bypassWidget('setValue', options.value)
-        } else {
-            self.bypassWidget('setValue', options.port.ranges.default)
-        }
+        self.bypassWidget('setValue', options.port.ranges.default, true)
         self.click(function (e) {
             if (!self.data('enabled'))
                 return self.bypassWidget('prevent', e)
             var value = self.data('value')
             if (value == self.data('minimum')) {
                 self.bypassWidget('setValue', self.data('maximum'))
-                self.addClass('on').removeClass('off')
+//                 self.addClass('on').removeClass('off')
             } else {
                 self.bypassWidget('setValue', self.data('minimum'))
-                self.addClass('off').removeClass('on')
+//                 self.addClass('off').removeClass('on')
             }
         })
         return self
@@ -1209,21 +1307,20 @@ JqueryClass('customSelect', baseWidget, {
     init: function (options) {
         var self = $(this)
         self.customSelect('config', options)
-        self.customSelect('setValue', options.port.ranges.default)
+        self.customSelect('setValue', options.port.ranges.default, true)
         self.find('[mod-role=enumeration-option]').each(function () {
             var opt = $(this)
-            var value = opt.attr('mod-port-value')
             opt.click(function (e) {
                 if (self.data('enabled')) {
+                    var value = opt.attr('mod-port-value')
                     self.customSelect('setValue', value)
                 } else {
                     self.customSelect('prevent', e)
                 }
             })
         });
-        var enumlist = self.find('.mod-enumerated-list')
         self.click(function () {
-            enumlist.toggle()
+            self.find('.mod-enumerated-list').toggle()
         })
 
         return self

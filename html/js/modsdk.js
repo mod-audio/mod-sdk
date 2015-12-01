@@ -130,7 +130,7 @@ function loadBundles() {
                 var uri    = hash.split(/,/)[1]
                 bundles.val(bundle)
                 loadEffects(function() {
-                    if (uri) {
+                    if (uri && effects.val() != uri) {
                         effects.val(uri)
                         showEffect()
                     }
