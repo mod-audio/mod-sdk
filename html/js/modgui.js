@@ -237,14 +237,8 @@ function GUI(effect, options) {
             throw "Invalid NaN value for " + symbol
         var port = self.controls[symbol]
         var mod_port = source ? source.attr("mod-port") : symbol
-        if (!port.enabled) {
-            console.log("setPortValue: not enabled")
+        if (!port.enabled || port.value == value)
             return
-        }
-        if (port.value == value) {
-            console.log("setPortValue: new value equals old one")
-            return
-        }
 
         if (value < port.ranges.minimum) {
             value = port.ranges.minimum
