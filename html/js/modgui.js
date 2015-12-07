@@ -35,6 +35,7 @@ var loadedIcons = {}
 var loadedSettings = {}
 var loadedCSSs = {}
 var loadedJSs = {}
+var isSDK = false
 
 function loadDependencies(gui, effect, callback) { //source, effect, bundle, callback) {
     var iconLoaded = true
@@ -247,20 +248,15 @@ function GUI(effect, options) {
             console.log("setPortValue called with > max value, symbol:", symbol)
         }
 
-        /*
-          FIXME - shouldn't this be done in the host?
-
-        if (port.properties.indexOf("trigger") >= 0) {
-            // Report the new value and return the widget to old value
-            options.change(mod_port, value)
-            if (source) {
-                setTimeout(function () {
-                    source.controlWidget('setValue', port.value)
-                }, 500)
-            }
-            return
+        /* NOTE: This should be done in the host, or at least server-side.
+                 But when running SDK there's no host, so simulate trigger here. */
+        if (isSDK && port.properties.indexOf("trigger") >= 0) {
+            var oldValue = port.value
+            setTimeout(function () {
+                self.setPortWidgetsValue(symbol, oldValue, null, false)
+                options.change(mod_port, oldValue)
+            }, 200)
         }
-        */
 
         // update our own widgets
         self.setPortWidgetsValue(symbol, value, source, false)
@@ -276,7 +272,7 @@ function GUI(effect, options) {
         self.currentValues[symbol] = value
 
         for (var i in port.widgets) {
-            if (port.widgets[i] != source) {
+            if (source == null || port.widgets[i] != source) {
                 port.widgets[i].controlWidget('setValue', value, only_gui)
             }
         }
