@@ -237,8 +237,14 @@ function GUI(effect, options) {
             throw "Invalid NaN value for " + symbol
         var port = self.controls[symbol]
         var mod_port = source ? source.attr("mod-port") : symbol
-        if (!port.enabled || port.value == value)
+        if (!port.enabled) {
+            console.log("setPortValue: not enabled")
             return
+        }
+        if (port.value == value) {
+            console.log("setPortValue: new value equals old one")
+            return
+        }
 
         if (value < port.ranges.minimum) {
             value = port.ranges.minimum
@@ -250,11 +256,10 @@ function GUI(effect, options) {
 
         /* NOTE: This should be done in the host, or at least server-side.
                  But when running SDK there's no host, so simulate trigger here. */
-        if (isSDK && port.properties.indexOf("trigger") >= 0) {
-            var oldValue = port.value
+        if (isSDK && port.properties.indexOf("trigger") >= 0 && value != port.ranges.default) {
             setTimeout(function () {
-                self.setPortWidgetsValue(symbol, oldValue, null, false)
-                options.change(mod_port, oldValue)
+                self.setPortWidgetsValue(symbol, port.ranges.default, null, false)
+                options.change(mod_port, port.ranges.default)
             }, 200)
         }
 
