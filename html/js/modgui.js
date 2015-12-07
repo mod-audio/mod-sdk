@@ -1049,13 +1049,6 @@ JqueryClass('film', baseWidget, {
         return self
     },
 
-    disable: function () {
-        $(this).addClass('disabled').data('enabled', false)
-    },
-    enable: function () {
-        $(this).removeClass('disabled').data('enabled', true)
-    },
-
     setValue: function (value, only_gui) {
         var self = $(this)
         if (self.data('initialized')) {
@@ -1211,6 +1204,7 @@ JqueryClass('selectWidget', baseWidget, {
         self.selectWidget('config', options)
         self.selectWidget('setValue', options.port.ranges.default, true)
         self.change(function () {
+            // nothing special here, no need to call 'setValue'
             self.trigger('valuechange', parseFloat(self.val()))
         })
         return self
@@ -1245,7 +1239,7 @@ JqueryClass('switchWidget', baseWidget, {
             if (!self.data('enabled'))
                 return self.switchWidget('prevent', e)
             var nextValue = (self.data('value') == self.data('minimum')) ? self.data('maximum') : self.data('minimum')
-            self.switchWidget('setValue', nextValue, true)
+            self.switchWidget('setValue', nextValue, false)
         })
         return self
     },
@@ -1275,7 +1269,7 @@ JqueryClass('bypassWidget', baseWidget, {
             if (!self.data('enabled'))
                 return self.bypassWidget('prevent', e)
             var nextValue = (self.data('value') == self.data('minimum')) ? self.data('maximum') : self.data('minimum')
-            self.bypassWidget('setValue', nextValue, true)
+            self.bypassWidget('setValue', nextValue, false)
         })
         return self
     },
@@ -1302,12 +1296,10 @@ JqueryClass('customSelect', baseWidget, {
         self.find('[mod-role=enumeration-option]').each(function () {
             var opt = $(this)
             opt.click(function (e) {
-                if (self.data('enabled')) {
-                    var value = opt.attr('mod-port-value')
-                    self.customSelect('setValue', value)
-                } else {
-                    self.customSelect('prevent', e)
-                }
+                if (!self.data('enabled'))
+                    return self.customSelect('prevent', e)
+                var value = opt.attr('mod-port-value')
+                self.customSelect('setValue', value, false)
             })
         })
         self.click(function () {
