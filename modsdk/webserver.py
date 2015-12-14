@@ -651,7 +651,7 @@ def check_environment():
     for issue in issues:
         print("  - %s" % issue)
     print("")
-    return False
+    return True
 
 def welcome_message():
     print("")
