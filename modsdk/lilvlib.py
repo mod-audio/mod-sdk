@@ -650,13 +650,13 @@ def get_plugin_info(world, plugin, useAbsolutePath = True):
     if not brand:
         brand = author['name'].split(" - ",1)[0].split(" ",1)[0]
         brand = brand.rstrip(",").rstrip(";")
-        if len(brand) > 10:
-            brand = brand[:10]
+        if len(brand) > 11:
+            brand = brand[:11]
         warnings.append("plugin brand is missing")
 
-    elif len(brand) > 10:
-        brand = brand[:10]
-        errors.append("plugin brand has more than 10 characters")
+    elif len(brand) > 11:
+        brand = brand[:11]
+        errors.append("plugin brand has more than 11 characters")
 
     # --------------------------------------------------------------------------------------------------------
     # label
