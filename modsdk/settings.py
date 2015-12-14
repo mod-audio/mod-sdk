@@ -28,7 +28,10 @@ DEFAULT_ICON_IMAGE = {
     'thumbnail' : os.path.join(HTML_DIR, 'resources/pedals/default-thumbnail.png'),
     'screenshot': os.path.join(HTML_DIR, 'resources/pedals/default-screenshot.png')
 }
-PHANTOM_BINARY = '/usr/bin/phantomjs'
+if os.path.exists('/usr/bin/phantomjs'):
+    PHANTOM_BINARY = '/usr/bin/phantomjs'
+else:
+    PHANTOM_BINARY = '/usr/local/bin/phantomjs'
 SCREENSHOT_SCRIPT = os.path.join(ROOT, 'screenshot.js')
 MAX_THUMB_WIDTH = 256
 MAX_THUMB_HEIGHT = 64
