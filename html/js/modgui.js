@@ -790,7 +790,7 @@ function GUI(effect, options) {
             data.effect.ports.control.input = inputs
         }
 
-        if (window.desktop != undefined) {
+        if (isSDK) {
             // this is expensive and only useful for mod-sdk
             DEBUG = JSON.stringify(data, undefined, 4)
         }
@@ -1009,7 +1009,8 @@ JqueryClass('film', baseWidget, {
         })
 
         var moveHandler = function (e) {
-            if (!self.data('enabled')) return
+            if (!self.data('enabled'))
+                return
             self.film('mouseMove', e)
         }
 
@@ -1021,7 +1022,8 @@ JqueryClass('film', baseWidget, {
         }
 
         self.mousedown(function (e) {
-            if (!self.data('enabled')) return self.film('prevent', e)
+            if (!self.data('enabled'))
+                return self.film('prevent', e)
             if (e.which == 1) { // left button
                 self.film('mouseDown', e)
                 $(document).bind('mouseup', upHandler)
@@ -1032,11 +1034,14 @@ JqueryClass('film', baseWidget, {
 
         self.data('wheelBuffer', 0)
         self.bind('mousewheel', function (e) {
+            if (!self.data('enabled'))
+                return self.film('prevent', e)
             self.film('mouseWheel', e)
         })
 
         self.click(function (e) {
-            if (!self.data('enabled')) return self.film('prevent', e)
+            if (!self.data('enabled'))
+                return self.film('prevent', e)
             self.film('mouseClick', e)
         })
 
@@ -1057,13 +1062,20 @@ JqueryClass('film', baseWidget, {
     },
 
     getSize: function (dummy, callback) {
-        var self = $(this)
-        setTimeout(function() {
+        var self  = $(this)
+        var retry = 0
+
+        var tryGetAndSetSize = function () {
             if (dummy && ! self.is(":visible"))
                 return
             var url = self.css('background-image')
-            if (! url) {
-                console.log("ERROR: The background-image for '" + self[0].className + "' is missing, typo in css?")
+            if (!url || url == "none") {
+                retry += 1
+                if (retry == 50) {
+                    console.log("ERROR: The background-image for '" + self[0].className + "' is missing, typo in css?")
+                } else {
+                    setTimeout(tryGetAndSetSize, 100)
+                }
                 return
             }
             url = url.replace('url(', '').replace(')', '').replace(/'/g, '').replace(/"/g, '')
@@ -1072,7 +1084,7 @@ JqueryClass('film', baseWidget, {
                 height = parseInt(height.replace(/\D+$/, ''))
             var bgImg = $('<img />');
             bgImg.css('max-width', '999999999px')
-            bgImg.hide();
+            bgImg.hide()
             bgImg.bind('load', function () {
                 var h = bgImg[0].height || bgImg.height()
                 var w = bgImg[0].width || bgImg.width()
@@ -1085,10 +1097,17 @@ JqueryClass('film', baseWidget, {
                 self.data('size', self.width())
                 bgImg.remove()
                 callback()
-            });
-            $('body').append(bgImg);
-            bgImg.attr('src', url);
-        }, 5)
+                if (! isSDK && desktop != null) {
+                    setTimeout(function() {
+                        //desktop.pedalboard.pedalboard('adapt')
+                    }, 1)
+                }
+            })
+            $('body').append(bgImg)
+            bgImg.attr('src', url)
+        }
+
+        setTimeout(tryGetAndSetSize, 5)
     },
 
     mouseDown: function (e) {
