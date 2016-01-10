@@ -35,7 +35,8 @@ var loadedIcons = {}
 var loadedSettings = {}
 var loadedCSSs = {}
 var loadedJSs = {}
-var isSDK = false
+var isSDK = true
+var newPresetStyle = false
 
 function loadDependencies(gui, effect, callback) { //source, effect, bundle, callback) {
     var iconLoaded = true
@@ -133,6 +134,7 @@ function GUI(effect, options) {
         dragStart: new Function(),
         drag: new Function(),
         dragStop: new Function(),
+        presetLoad: new Function(),
         midiLearn: new Function(),
         bypassed: true,
         defaultIconTemplate: 'Template missing',
@@ -367,79 +369,88 @@ function GUI(effect, options) {
 
             if (instance)
             {
-                var prmel = self.settings.find('.preset-manager')
-                self.presetManager = prmel.presetManager({})
+                if (newPresetStyle)
+                {
+                    var prmel = self.settings.find('.preset-manager')
+                    self.presetManager = prmel.presetManager({})
 
-                self.presetManager.on("load", function (e, instance, options) {
-                    console.log("load", instance, options);
-                    $.ajax({
-                        url: '/effect/preset/load/' + instance,
-                        data: {
-                            uri: options.uri
-                        },
-                        success: function (resp) {
-                            self.presetManager.presetManager("setPresetName", options.label)
-                        },
-                        error: function () {
-                        },
-                        cache: false,
-                        dataType: 'json'
+                    self.presetManager.on("load", function (e, instance, options) {
+                        console.log("load", instance, options);
+                        $.ajax({
+                            url: '/effect/preset/load/' + instance,
+                            data: {
+                                uri: options.uri
+                            },
+                            success: function (resp) {
+                                self.presetManager.presetManager("setPresetName", options.label)
+                            },
+                            error: function () {
+                            },
+                            cache: false,
+                            dataType: 'json'
+                        })
                     })
-                })
-                self.presetManager.on("save", function (e, instance, name, options) {
-                    console.log("save", instance, name, options)
-                    $.ajax({
-                        url: '/effect/preset/save/' + instance,
-                        data: {
-                            name: name
-                        },
-                        success: function (resp) {
-                            console.log(resp)
-                            if (resp.ok) {
-                                self.presetManager.presetManager("addPreset", {
-                                    name: name,
-                                    uri: resp.uri,
-                                    bind: false,
-                                    readonly: true,
-                                })
-                            }
-                        },
-                        error: function () {
-                        },
-                        cache: false,
-                        dataType: 'json'
+                    self.presetManager.on("save", function (e, instance, name, options) {
+                        console.log("save", instance, name, options)
+                        $.ajax({
+                            url: '/effect/preset/save/' + instance,
+                            data: {
+                                name: name
+                            },
+                            success: function (resp) {
+                                console.log(resp)
+                                if (resp.ok) {
+                                    self.presetManager.presetManager("addPreset", {
+                                        name: name,
+                                        uri: resp.uri,
+                                        bind: false,
+                                        readonly: true,
+                                    })
+                                }
+                            },
+                            error: function () {
+                            },
+                            cache: false,
+                            dataType: 'json'
+                        })
                     })
-                })
-                self.presetManager.on("rename", function (e, instance, name, options) {
-                    console.log("rename", instance, name, options)
-                })
-                self.presetManager.on("bind", function (e, instance, options) {
-                    console.log("bind", instance, options)
-                })
-                self.presetManager.on("bindlist", function (e, instance, options) {
-                    console.log("bindlist", instance, options)
-                })
+                    self.presetManager.on("rename", function (e, instance, name, options) {
+                        console.log("rename", instance, name, options)
+                    })
+                    self.presetManager.on("bind", function (e, instance, options) {
+                        console.log("bind", instance, options)
+                    })
+                    self.presetManager.on("bindlist", function (e, instance, options) {
+                        console.log("bindlist", instance, options)
+                    })
 
-                /*
-                 * bind: MOD_BIND_NONE, MOD_BIND_MIDI, MOD_BIND_KNOB, MOD_BIND_FOOTSWITCH or false
-                 */
-                var p, _presets = []
-                for (var i in effect.presets) {
-                    p = effect.presets[i]
-                    _presets.push({
-                        name: p.label,
-                        uri: p.uri,
-                        bind: false,
-                        readonly: true,
+                    // bind: MOD_BIND_NONE, MOD_BIND_MIDI, MOD_BIND_KNOB, MOD_BIND_FOOTSWITCH or false
+                    var p, _presets = []
+                    for (var i in effect.presets) {
+                        p = effect.presets[i]
+                        _presets.push({
+                            name: p.label,
+                            uri: p.uri,
+                            bind: false,
+                            readonly: true,
+                        })
+                    }
+                    self.presetManager.presetManager("setPresets", instance, _presets)
+                }
+                else
+                {
+                    self.settings.find('[mod-role=presets]').change(function () {
+                        var value = $(this).val()
+                        options.presetLoad(value)
                     })
                 }
-                self.presetManager.presetManager("setPresets", instance, _presets)
             }
             else
             {
                 self.settings.find(".js-close").hide()
                 self.settings.find(".mod-address").hide()
                 self.settings.find(".preset-manager").hide()
+                self.settings.find('[mod-role=presets]').hide()
             }
 
             self.triggerJS({ 'type': 'start' })
@@ -795,6 +806,8 @@ function GUI(effect, options) {
             DEBUG = JSON.stringify(data, undefined, 4)
         }
 
+        data.newPresetStyle = newPresetStyle
+
         return data
     }
 
@@ -1098,9 +1111,7 @@ JqueryClass('film', baseWidget, {
                 bgImg.remove()
                 callback()
                 if (! isSDK && desktop != null) {
-                    setTimeout(function() {
-                        //desktop.pedalboard.pedalboard('adapt')
-                    }, 1)
+                    desktop.pedalboard.pedalboard('scheduleAdapt')
                 }
             })
             $('body').append(bgImg)
