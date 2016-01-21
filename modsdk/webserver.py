@@ -460,7 +460,7 @@ class BundlePost(web.RequestHandler):
         tmpfile    = "/tmp/%s.tgz" % bundlename
         cwd        = os.path.abspath(os.path.join(bundle, os.path.pardir))
 
-        proc = subprocess.Popen(['tar', 'czf', tmpfile, '-C', cwd, '--hard-dereference', bundlename],
+        proc = subprocess.Popen(['tar', 'chzf', tmpfile, '-C', cwd, '--hard-dereference', bundlename],
                                  cwd=cwd, stdout=subprocess.PIPE)
 
         def proc_callback(fileno, event):
