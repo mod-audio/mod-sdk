@@ -178,8 +178,11 @@ function GUI(effect, options) {
                 continue
 
             port = {
+                enabled: true,
                 widgets: [],
-                enabled: true
+                format: null,
+                scalePointsIndex: null,
+                valueFields: [],
             }
             $.extend(port, porti)
 
@@ -221,8 +224,11 @@ function GUI(effect, options) {
         widgets: [],
         enabled: true,
         value: self.bypassed ? 1 : 0,
+        format: null,
+        scalePointsIndex: null,
+        valueFields: [],
 
-        // FIXME
+        // FIXME: limits of mustache
         default: 1,
         maximum: 1,
         minimum: 0,
@@ -244,18 +250,20 @@ function GUI(effect, options) {
 
         if (value < port.ranges.minimum) {
             value = port.ranges.minimum
-            console.log("setPortValue called with < min value, symbol:", symbol)
+            console.log("WARNING: setPortValue called with < min value, symbol:", symbol)
         } else if (value > port.ranges.maximum) {
             value = port.ranges.maximum
-            console.log("setPortValue called with > max value, symbol:", symbol)
+            console.log("WARNING: setPortValue called with > max value, symbol:", symbol)
         }
 
-        /* NOTE: This should be done in the host, or at least server-side.
-                 But when running SDK there's no host, so simulate trigger here. */
-        if (isSDK && port.properties.indexOf("trigger") >= 0 && value != port.ranges.default) {
+        // If trigger, switch back to default value after a few miliseconds
+        // Careful not to actually send the change to the host, it's not needed
+        if (port.properties.indexOf("trigger") >= 0 && value != port.ranges.default) {
             setTimeout(function () {
                 self.setPortWidgetsValue(symbol, port.ranges.default, null, false)
-                options.change(mod_port, port.ranges.default)
+
+                // When running SDK there's no host, so simulate trigger here.
+                if (isSDK) options.change(mod_port, port.ranges.default);
             }, 200)
         }
 
@@ -267,24 +275,27 @@ function GUI(effect, options) {
     }
 
     this.setPortWidgetsValue = function (symbol, value, source, only_gui) {
-        var port = self.controls[symbol]
+        var label, valueField, widget,
+            port = self.controls[symbol]
 
         port.value = value
         self.currentValues[symbol] = value
 
         for (var i in port.widgets) {
-            if (source == null || port.widgets[i] != source) {
-                port.widgets[i].controlWidget('setValue', value, only_gui)
+            widget = port.widgets[i]
+            if (source == null || widget != source) {
+                widget.controlWidget('setValue', value, only_gui)
             }
         }
 
-        if (port.valueField) {
-            var label = sprintf(port.format, value)
+        for (var i in port.valueFields) {
+            label = sprintf(port.format, value)
             if (port.scalePointsIndex && port.scalePointsIndex[label])
                 label = port.scalePointsIndex[label].label
 
-            port.valueField.data('value', value)
-            port.valueField.text(label)
+            valueField = port.valueFields[i]
+            valueField.data('value', value)
+            valueField.text(label)
         }
 
         self.triggerJS({ type: 'change', symbol: symbol, value: value })
@@ -304,15 +315,37 @@ function GUI(effect, options) {
     this.disable = function (symbol) {
         var port = self.controls[symbol]
         port.enabled = false
+
+        // disable all related widgets
         for (var i in port.widgets)
             port.widgets[i].controlWidget('disable')
+
+        // disable value fields if needed
+        if (port.properties.indexOf("enumeration") < 0 &&
+            port.properties.indexOf("toggled") < 0 &&
+            port.properties.indexOf("trigger") < 0)
+        {
+            for (var i in port.valueFields)
+                port.valueFields[i].attr('contenteditable', false)
+        }
     }
 
     this.enable = function (symbol) {
         var port = self.controls[symbol]
         port.enabled = true
+
+        // enable all related widgets
         for (var i in port.widgets)
             port.widgets[i].controlWidget('enable')
+
+        // enable value fields if needed
+        if (port.properties.indexOf("enumeration") < 0 &&
+            port.properties.indexOf("toggled") < 0 &&
+            port.properties.indexOf("trigger") < 0)
+        {
+            for (var i in port.valueFields)
+                port.valueFields[i].attr('contenteditable', true)
+        }
     }
 
     this.render = function (instance, callback, skipNamespace) {
@@ -342,21 +375,22 @@ function GUI(effect, options) {
             self.assignIconFunctionality(self.icon)
             self.assignControlFunctionality(self.icon, false)
 
-            // Take the width of the plugin. This is necessary because plugin may have position absolute.
-            // setTimeout is here because plugin has not yet been appended to anywhere, let's wait for
-            // all instructions to be executed.
+            // adjust icon size after adding all basic elements
             setTimeout(function () {
-                if (! instance) {
-                    $('[mod-role="input-audio-port"]').addClass("mod-audio-input")
-                    $('[mod-role="output-audio-port"]').addClass("mod-audio-output")
-                    $('[mod-role="input-midi-port"]').addClass("mod-midi-input")
-                    $('[mod-role="output-midi-port"]').addClass("mod-midi-output")
-                    $('[mod-role="input-cv-port"]').addClass("mod-cv-input")
-                    $('[mod-role="output-cv-port"]').addClass("mod-cv-output")
-                }
-                self.icon.width(self.icon.children().width())
-                self.icon.height(self.icon.children().height())
+                self.icon.width(children.width())
+                self.icon.height(children.height())
+
+                // listen for future resizes
+                children.resize(function () {
+                    self.icon.width(children.width())
+                    self.icon.height(children.height())
+                })
             }, 1)
+
+            self.icon.find('[mod-role=presets]').change(function () {
+                var value = $(this).val()
+                options.presetLoad(value)
+            })
 
             if (instance)
                 self.settings = $('<div class="mod-settings" mod-instance="' + instance + '">')
@@ -451,6 +485,15 @@ function GUI(effect, options) {
                 self.settings.find(".mod-address").hide()
                 self.settings.find(".preset-manager").hide()
                 self.settings.find('[mod-role=presets]').hide()
+
+                setTimeout(function () {
+                    $('[mod-role="input-audio-port"]').addClass("mod-audio-input")
+                    $('[mod-role="output-audio-port"]').addClass("mod-audio-output")
+                    $('[mod-role="input-midi-port"]').addClass("mod-midi-input")
+                    $('[mod-role="output-midi-port"]').addClass("mod-midi-output")
+                    $('[mod-role="input-cv-port"]').addClass("mod-cv-input")
+                    $('[mod-role="output-cv-port"]').addClass("mod-cv-output")
+                }, 1)
             }
 
             self.triggerJS({ 'type': 'start' })
@@ -510,16 +553,22 @@ function GUI(effect, options) {
                 else
                     port.format = '%.2f'
 
-                if (port.properties.indexOf("integer") >= 0)
+                if (port.properties.indexOf("integer") >= 0) {
                     port.format = port.format.replace(/%\.\d+f/, '%d')
+                }
 
-                port.valueField = element.find('[mod-role=input-control-value][mod-port-symbol=' + symbol + ']')
+                var valueField = element.find('[mod-role=input-control-value][mod-port-symbol=' + symbol + ']')
+                port.valueFields.push(valueField)
 
                 if (port.scalePoints && port.scalePoints.length > 0) {
                     port.scalePointsIndex = {}
                     for (var i in port.scalePoints) {
                         port.scalePointsIndex[sprintf(port.format, port.scalePoints[i].value)] = port.scalePoints[i]
                     }
+                }
+
+                if (port.properties.indexOf("expensive") >= 0) {
+                    element.find(".mod-address").hide()
                 }
 
                 control.controlWidget({
@@ -534,37 +583,53 @@ function GUI(effect, options) {
                     }
                 })
 
-                if (port.properties.indexOf("enumeration") < 0) {
+                if (valueField.length > 0 && port.properties.indexOf("enumeration") < 0 &&
+                                             port.properties.indexOf("toggled") < 0 &&
+                                             port.properties.indexOf("trigger") < 0)
+                {
                     // For ports that are not enumerated, we allow
                     // editing the value directly
-                    port.valueField.attr('contenteditable', true)
-                    port.valueField.focus(function () {
-                        port.valueField.text(sprintf(port.format, port.valueField.data('value')))
+                    valueField.attr('contenteditable', true)
+                    valueField.focus(function () {
+                        valueField.text(sprintf(port.format, valueField.data('value')))
                     })
-                    port.valueField.keydown(function (e) {
+                    valueField.keydown(function (e) {
+                        // enter
                         if (e.keyCode == 13) {
-                            port.valueField.blur()
+                            valueField.blur()
                             return false
                         }
-                        return true
+                        // numbers
+                        if (e.keyCode >= 48 && e.keyCode <= 57)
+                            return true;
+                        if (e.keyCode >= 96 && e.keyCode <= 105)
+                            return true;
+                        // backspace and delete
+                        if (e.keyCode == 8 || e.keyCode == 46 || e.keyCode == 110)
+                            return true;
+                        // left, right, dot
+                        if (e.keyCode == 37 || e.keyCode == 39 || e.keyCode == 190)
+                            return true;
+                        // minus
+                        if (e.keyCode == 109 || e.keyCode == 189)
+                            return true;
+                        // prevent key
+                        e.preventDefault();
+                        return false
                     })
-                    port.valueField.blur(function () {
-                        var value = parseFloat(port.valueField.text())
+                    valueField.blur(function () {
+                        var value = parseFloat(valueField.text())
+                        if (isNaN(value)) {
+                            value = valueField.data('value')
+                            valueField.text(sprintf(port.format, value))
+                        }
+                        else if (value < port.ranges.minimum)
+                            value = port.ranges.minimum;
+                        else if (value > port.ranges.maximum)
+                            value = port.ranges.maximum;
                         self.setPortValue(symbol, value, control)
                         // setPortWidgetsValue() skips this control as it's the same as the 'source'
                         control.controlWidget('setValue', value, true)
-                    })
-                    port.valueField.keydown(function (e) {
-                        return true
-                        if (e.keyCode >= 48 && e.keyCode <= 57) {
-                            // It's a number
-                            return true
-                        }
-                        if (e.keyCode == 13) {
-                            // ???
-                            //return true
-                        }
-                        return (e.keyCode == 46 || e.keyCode == 9)
                     })
                 }
 
@@ -904,8 +969,8 @@ var baseWidget = {
         self.data('scalePoints',  port.scalePoints)
 
         if (port.properties.indexOf("logarithmic") >= 0) {
-            self.data('scaleMinimum', Math.log(port.ranges.minimum) / Math.log(2))
-            self.data('scaleMaximum', Math.log(port.ranges.maximum) / Math.log(2))
+            self.data('scaleMinimum', (port.ranges.minimum != 0) ? Math.log(port.ranges.minimum) / Math.log(2) : 0)
+            self.data('scaleMaximum', (port.ranges.maximum != 0) ? Math.log(port.ranges.maximum) / Math.log(2) : 0)
         } else {
             self.data('scaleMinimum', port.ranges.minimum)
             self.data('scaleMaximum', port.ranges.maximum)
@@ -953,6 +1018,11 @@ var baseWidget = {
 
         if (self.data('enumeration'))
             value = self.data('scalePoints')[steps].value
+
+        if (value < self.data('minimum'))
+            value = self.data('minimum')
+        else if (value > self.data('maximum'))
+            value = self.data('maximum')
 
         return value
     },
@@ -1011,7 +1081,7 @@ JqueryClass('film', baseWidget, {
         var self = $(this)
         self.data('initialized', false)
         self.data('initvalue', options.port.ranges.default)
-        self.film('getSize', options.dummy, function () {
+        self.film('getAndSetSize', options.dummy, function () {
             self.film('config', options)
             self.data('initialized', true)
             self.film('setValue', self.data('initvalue'), true)
@@ -1074,51 +1144,41 @@ JqueryClass('film', baseWidget, {
             self.trigger('valuechange', value)
     },
 
-    getSize: function (dummy, callback) {
-        var self  = $(this)
-        var retry = 0
-
-        var tryGetAndSetSize = function () {
+    getAndSetSize: function (dummy, callback) {
+        var self = $(this)
+        var tryGetAndSetSizeNow = function () {
             if (dummy && ! self.is(":visible"))
                 return
-            var url = self.css('background-image')
-            if (!url || url == "none") {
-                retry += 1
-                if (retry == 50) {
-                    console.log("ERROR: The background-image for '" + self[0].className + "' is missing, typo in css?")
-                } else {
-                    setTimeout(tryGetAndSetSize, 100)
-                }
+            if (self.data('initialized'))
+                return
+            var url = self.css('background-image') || "none";
+            url = url.match(/^url\(['"]?([^\)'"]*)['"]?\)/i);
+            if (!url) {
+                console.log("WARNING: The background-image definition for '" + self[0].className + "' was not available, retrying later");
+                self.resize(tryGetAndSetSizeNow)
                 return
             }
-            url = url.replace('url(', '').replace(')', '').replace(/'/g, '').replace(/"/g, '')
-            var height = self.css('background-size').split(/ /)[1]
-            if (height)
-                height = parseInt(height.replace(/\D+$/, ''))
-            var bgImg = $('<img />');
-            bgImg.css('max-width', '999999999px')
-            bgImg.hide()
-            bgImg.bind('load', function () {
-                var h = bgImg[0].height || bgImg.height()
-                var w = bgImg[0].width || bgImg.width()
+            url = url[1];
+            var height = parseInt(self.css('background-size').split(" ")[1] || 0);
+            var bgImg = new Image;
+            bgImg.onload = function () {
+                var w = this.naturalWidth;
+                var h = this.naturalHeight;
+                var sw = self.width();
                 if (w == 0) {
                     new Notification('error', 'Apparently your browser does not support all features you need. Install latest Chromium, Google Chrome or Safari')
                 }
-                if (!height)
-                    height = h
-                self.data('filmSteps', height * w / (self.width() * h))
-                self.data('size', self.width())
-                bgImg.remove()
+                height = height || h;
+                self.data('filmSteps', height * w / (sw * h));
+                self.data('size', sw)
                 callback()
                 if (! isSDK && desktop != null) {
                     desktop.pedalboard.pedalboard('scheduleAdapt')
                 }
-            })
-            $('body').append(bgImg)
-            bgImg.attr('src', url)
+            }
+            bgImg.setAttribute('src', url);
         }
-
-        setTimeout(tryGetAndSetSize, 5)
+        setTimeout(tryGetAndSetSizeNow, 5)
     },
 
     mouseDown: function (e) {
@@ -1146,6 +1206,8 @@ JqueryClass('film', baseWidget, {
         var position = self.data('position')
 
         position += vdiff + hdiff
+        position = Math.min(self.data("filmSteps"), Math.max(0, position));
+
         self.data('position', position)
 
         self.film('setRotation', position)
@@ -1158,8 +1220,13 @@ JqueryClass('film', baseWidget, {
         // Useful for fine tunning and toggle
         var self = $(this)
         var filmSteps = self.data('filmSteps')
-        var position = self.data('position')
-        position = (position + 1) % filmSteps
+        var position = self.data('position')+1
+        if (position >= filmSteps) {
+            if (self.data('enumeration') || self.data('toggled'))
+                position = 0
+            else
+                position = filmSteps-1
+        }
         self.data('position', position)
         self.film('setRotation', position)
         var value = self.film('valueFromSteps', position)
@@ -1174,6 +1241,7 @@ JqueryClass('film', baseWidget, {
         var diff = parseInt(delta / wheelStep)
         var position = self.data('position')
         position += diff
+        position = Math.min(self.data("filmSteps"), Math.max(0, position));
         self.data('position', position)
         if (Math.abs(diff) > 0)
             self.data('lastY', e.pageY)

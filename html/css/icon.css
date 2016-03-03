@@ -5,3 +5,51 @@ body {
 .mod-pedal {
     margin-left:16px;
 }
+
+/**
+ * Typography
+ */
+@font-face {
+  font-family: 'cooper hewitt';
+  src: url('../fonts/cooper/cooperhewitt-semibold-webfont.eot');
+  src: url('../fonts/cooper/cooperhewitt-semibold-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/cooper/cooperhewitt-semibold-webfont.woff2') format('woff2'), url('../fonts/cooper/cooperhewitt-semibold-webfont.woff') format('woff'), url('../fonts/cooper/cooperhewitt-semibold-webfont.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'cooper hewitt';
+  src: url('../fonts/cooper/cooperhewitt-light-webfont.eot');
+  src: url('../fonts/cooper/cooperhewitt-light-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/cooper/cooperhewitt-light-webfont.woff2') format('woff2'), url('../fonts/cooper/cooperhewitt-light-webfont.woff') format('woff'), url('../fonts/cooper/cooperhewitt-light-webfont.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'cooper hewitt';
+  src: url('../fonts/cooper/cooperhewitt-lightitalic-webfont.eot');
+  src: url('../fonts/cooper/cooperhewitt-lightitalic-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/cooper/cooperhewitt-lightitalic-webfont.woff2') format('woff2'), url('../fonts/cooper/cooperhewitt-lightitalic-webfont.woff') format('woff'), url('../fonts/cooper/cooperhewitt-lightitalic-webfont.ttf') format('truetype');
+  font-weight: 300;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'cooper hewitt';
+  src: url('../fonts/cooper/cooperhewitt-bookitalic-webfont.eot');
+  src: url('../fonts/cooper/cooperhewitt-bookitalic-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/cooper/cooperhewitt-bookitalic-webfont.woff2') format('woff2'), url('../fonts/cooper/cooperhewitt-bookitalic-webfont.woff') format('woff'), url('../fonts/cooper/cooperhewitt-bookitalic-webfont.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'cooper hewitt';
+  src: url('../fonts/cooper/cooperhewitt-book-webfont.eot');
+  src: url('../fonts/cooper/cooperhewitt-book-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/cooper/cooperhewitt-book-webfont.woff2') format('woff2'), url('../fonts/cooper/cooperhewitt-book-webfont.woff') format('woff'), url('../fonts/cooper/cooperhewitt-book-webfont.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+code,
+kbd,
+pre,
+samp {
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+#pedalboard-dashboard {
+  font-family: "cooper hewitt", Sans-serif !important;
+}

@@ -10,81 +10,60 @@
 
 /*
 #pedalboard-dashboard {
-    background:#393939 url(../img/background.jpg) repeat;
+    background:#111 url(../img/background.jpg) repeat;
+    background-size: auto 1200px;
     position: absolute;
-    top: 35px;
+    top: 45px;
     left: 0;
-    bottom: 75px;
+    bottom: 45px;
     right: 0;
 }
 */
 
-#pedalboard-actions {
-    background-color:#1b1b1b;
-    background-image:-moz-linear-gradient(top, #222222, #111111);
-    background-image:-webkit-gradient(linear, 0 0, 0 100%, from(#222222), to(#111111));
-    background-image:-webkit-linear-gradient(top, #222222, #111111);
-    background-image:-o-linear-gradient(top, #222222, #111111);
-    background-image:linear-gradient(to bottom, #222222, #111111);
-    background-repeat:repeat-x;
-    border-bottom:1px solid #252525;
-    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff222222', endColorstr='#ff111111', GradientType=0);
-    box-shadow:0 1px 10px rgba(0,0,0,0.1);
-    height:36px; left:0; position:absolute; right:0; top:0;
-    z-index:5;
-}
-
 #zoom-controllers {
-    color:white;
-    font-size:11px;
-    line-height:1;
     position:absolute;
-    right:12px;
-    text-transform:uppercase;
-    top:49px;
+    right:0px;
+    top:0px;
     z-index:10;
 }
 #zoom-controllers > span {
-    background:#1b1b1b;
+    display: inline-block;
+    background: transparent;
     cursor:pointer;
     display:block;
     float:left;
-    height:27px;
-    width:27px;
+    height:45px;
+    width:45px;
+    background-position:center center;
+    background-repeat:no-repeat;
+    background-size:24px;
+    transition: all 0.33s;
+    opacity: 0.66;
+    margin: 0;
+    padding: 0;
 }
-#zoom-controllers > span:hover {
-    background:#333;
-}
+#zoom-controllers > span:hover,
 #zoom-controllers > span:active {
-    background:#222;
+    background-color:#000;
+    opacity: 1;
 }
 #zoom-controllers > span:first-child {
     background-image:url(../img/icn-zoom-out.png);
-    background-position:center center;
-    background-repeat:no-repeat;
-    background-size:18px;
-    border-radius:4px 0 0 4px;
-    border-right:1px solid #292929;
 }
 #zoom-controllers > span:last-child {
     background-image:url(../img/icn-zoom-in.png);
-    background-position:center center;
-    background-repeat:no-repeat;
-    background-size:18px;
-    border-left:1px solid #292929;
-    border-radius:0 4px 4px 0;
 }
 
 
 /* Pedalboard Info - Header */
 #pedalboard-info {
-    height:35px;
-    left:0;
+    height:100%;
+    position: absolute;
+    left:45px;
+    right: 90px;
     margin:0;
-    padding:0 10px;
-    position:absolute;
-    right:71px;
-    z-index:2;
+    padding:0;
+    display: inline-block;
 }
 
 #pedalboard-info .title {
@@ -148,7 +127,7 @@
 #pedalboard-info .actions .separator {
     border-left:1px dotted #444;
     display:inline-block;
-    height:35px;
+    height:100%;
     margin:0 6px;
 }
 
@@ -239,7 +218,6 @@
 
 #pedalboard-sharing-popup .item-list .item {
     background:#2b2b2b;
-    border-radius:6px;
     display:block;
     float:left;
     height:18px;
@@ -535,10 +513,10 @@ svg .light {
     stroke: rgba(0,0,0,0.66);
 }
 .mod-cv svg .cable {
-    stroke: #F0546C; /*FIXME*/
+    stroke: #B86743;
 }
 .mod-cv svg .light {
-    stroke: #F0A3C4; /*FIXME*/
+    stroke: #E48E67;
 }
 
 svg .connecting-shadow { fill: none; stroke: #077; stroke-width: 10; z-index: 1000; }
@@ -713,7 +691,6 @@ svg .connecting-light { fill: none; stroke: #6FF; stroke-width: 1; z-index: 1000
 
 .save-popup .box {
     background:white;
-    border-radius:9px;
     left:50%;
     margin:-150px -168px;
     padding:18px;
@@ -751,6 +728,19 @@ svg .connecting-light { fill: none; stroke: #6FF; stroke-width: 1; z-index: 1000
 }
 
 
+#midi-device-window .mod-box {
+    width:500px;
+    margin:-150px -280px;
+}
+#midi-device-list {
+    width:500px;
+}
+#midi-device-window input {
+    vertical-align:text-top;
+    margin-right:3px;
+}
+
+
 #registration-form.mod-box {
     width:329px;
 }
@@ -765,7 +755,6 @@ svg .connecting-light { fill: none; stroke: #6FF; stroke-width: 1; z-index: 1000
 #registration-form .error {
     background:#f2dede;
     border:1px solid #eed3d7;
-    border-radius:4px;
     color:#b94a48;
     margin-bottom:18px;
     padding:9px;
@@ -873,7 +862,6 @@ svg .connecting-light { fill: none; stroke: #6FF; stroke-width: 1; z-index: 1000
 
 #share-window img.screenshot {
     background-color: #292929;
-    border-radius: 5px;
 }
 
 
@@ -911,9 +899,6 @@ svg .connecting-light { fill: none; stroke: #6FF; stroke-width: 1; z-index: 1000
 
 .mod-button {
     transition: all 0.3s;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
     padding: 0.2em 0.5em;
     display: inline-block;
     color: white;
@@ -941,12 +926,6 @@ svg .connecting-light { fill: none; stroke: #6FF; stroke-width: 1; z-index: 1000
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#555555), color-stop(100%,#444444));
     background: -webkit-linear-gradient(top, #555555 0%,#444444 100%);
     background: linear-gradient(to bottom, #555555 0%,#444444 100%);
-}
-
-.mod-button-bar .mod-button {
-    -webkit-border-radius: 0px;
-    -moz-border-radius: 0px;
-    border-radius: 0px;
 }
 
 .mod-light .mod-button {
@@ -1115,7 +1094,7 @@ svg .connecting-light { fill: none; stroke: #6FF; stroke-width: 1; z-index: 1000
 
 
 .mod-confirm .mod-icon {
-    background-image: url(../img/icons/white/confirm.png) !important;
+    background-image: url(../img/icons/36/confirm.png) !important;
 }
 
 
@@ -1225,7 +1204,7 @@ svg .connecting-light { fill: none; stroke: #6FF; stroke-width: 1; z-index: 1000
 
 
 .preset-manager .mod-button-bar .mod-button {
-    width: 49.0%;
+    width: 50%;
     text-align: center;
 }
 
@@ -1252,17 +1231,43 @@ svg .connecting-light { fill: none; stroke: #6FF; stroke-width: 1; z-index: 1000
     padding: 0 5px;
     box-sizing: border-box;
 }
+.preset-manager .mod-list .mod-list-item.editing .preset-manager-preset-name {
+    opacity: 0;
+}
+
+.preset-manager .mod-list .preset-manager-preset-entry {
+    display: none;
+    font-size: 1.2em;
+    height: 50px;
+    line-height: 50px;
+    border: none;
+    padding: 0 5px;
+    box-sizing: border-box;
+    box-shadow: none;
+    background: transparent;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.preset-manager .mod-list .mod-list-item.editing .preset-manager-preset-entry {
+    display: block;
+}
+
+
 .preset-manager .mod-list .preset-manager-preset-bindstate {
     display: inline-block;
 }
+
 .preset-manager .mod-list .mod-button {
     position: absolute;
     top: 3px;
-    right: 3px;
+}
+.preset-manager .mod-list .mod-button.mod-button-remove {
+    right: 58px;
 }
 .preset-manager .mod-list .mod-button.mod-button-bind {
-    right: 113px;
+    right: 3px;
 }
 .preset-manager .mod-list .mod-button.mod-button-edit {
-    right: 58px;
+    right: 113px;
 }
