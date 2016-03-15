@@ -26,6 +26,14 @@ cached_bundles        = {}
 cached_plugins        = {}
 cached_bundle_plugins = {}
 
+def symbolify(name):
+    if len(name) == 0:
+        return "_"
+    name = re.sub("[^_a-zA-Z0-9]+", "_", name)
+    if name[0].isdigit():
+        name = "_" + name
+    return name
+
 def get_config(key, default=None):
     if not os.path.exists(CONFIG_FILE):
         return default
@@ -256,7 +264,7 @@ class EffectSave(web.RequestHandler):
 
         else:
             # TODO: make sure bundledir doesn't exist
-            bundledir = os.path.expanduser("~/.lv2/%s.modgui" % (data['name'].replace(" ","_").replace("/","_")))
+            bundledir = os.path.expanduser("~/.lv2/%s.modgui" % symbolify(data['name']))
             resrcsdir = os.path.join(bundledir, "modgui")
 
         bundledir = os.path.abspath(bundledir)
