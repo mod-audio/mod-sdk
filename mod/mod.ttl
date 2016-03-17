@@ -20,7 +20,7 @@ mod:brand
         owl:DatatypeProperty ;
     rdfs:label "brand" ;
     rdfs:range xsd:string ;
-    rdfs:comment "TODO, maximum 10 characters" .
+    rdfs:comment "TODO, maximum 11 characters" .
 
 mod:label
     a rdf:Property ,
@@ -60,6 +60,13 @@ mod:rangeSteps
     rdfs:label "number of value steps" ;
     rdfs:seeAlso pprops:rangeSteps ;
     rdfs:comment "A custom rangeSteps value specific to MOD devices, used in place of pprops:rangeSteps." .
+
+mod:releaseNumber
+    a rdf:Property ,
+        owl:DatatypeProperty ,
+        owl:FunctionalProperty ;
+    rdfs:label "release number" ;
+    rdfs:comment "The MOD build release number of a bundle." .
 
 mod:notStompboxCapable
     a lv2:Feature ;

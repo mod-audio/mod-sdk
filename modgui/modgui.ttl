@@ -60,7 +60,7 @@ Support for those resources is being deprecated, and so any resources required s
 </p>
 """ .
 
-modgui:GUI
+modgui:Gui
     a rdfs:Class,
         owl:Class ;
     rdfs:label "Graphical User Interface" ;
@@ -101,7 +101,7 @@ modgui:gui
     a rdf:Property ,
         owl:ObjectProperty ;
     rdfs:label "graphical user interface" ;
-    rdfs:range modgui:GUI ;
+    rdfs:range modgui:Gui ;
     rdfs:domain lv2:Plugin ;
     rdfs:comment "Relates a plugin to the a MOD Graphical User Interface" .
 
@@ -110,7 +110,7 @@ modgui:resourcesDirectory
         owl:ObjectProperty ;
     rdfs:label "resources directory" ;
     rdfs:range owl:Thing ;
-    rdfs:domain modgui:GUI ;
+    rdfs:domain modgui:Gui ;
     lv2:documentation """
 <p>
 This is a URI that resolves to a directory inside the bundle.
@@ -127,7 +127,7 @@ modgui:iconTemplate
         owl:ObjectProperty ;
     rdfs:label "icon template" ;
     rdfs:range owl:Thing ;
-    rdfs:domain modgui:GUI ;
+    rdfs:domain modgui:Gui ;
     lv2:documentation """
 <p>
 A template that will be used to render the HTML icon of this plugin.
@@ -287,7 +287,7 @@ modgui:settingsTemplate
         owl:ObjectProperty ;
     rdfs:label "settings template" ;
     rdfs:range owl:Thing ;
-    rdfs:domain modgui:GUI ;
+    rdfs:domain modgui:Gui ;
     lv2:documentation """
 <p>
 A template that will be used to render the HTML settings panel of this plugin. The
@@ -305,7 +305,7 @@ modgui:javascript
         owl:ObjectProperty ;
     rdfs:label "javascript" ;
     rdfs:range owl:Thing ;
-    rdfs:domain modgui:GUI ;
+    rdfs:domain modgui:Gui ;
     lv2:documentation """
 <p>
 A Javascript file containing a declaration of an anonymous function which will be called once when plugin interface is first rendered and everytime a port value is changed.
@@ -329,7 +329,7 @@ modgui:stylesheet
         owl:ObjectProperty ;
     rdfs:label "stylesheet" ;
     rdfs:range owl:Thing ;
-    rdfs:domain modgui:GUI ;
+    rdfs:domain modgui:Gui ;
     lv2:documentation """
 <p>
 A CSS file that holds all styles used for this plugin.
@@ -352,7 +352,7 @@ modgui:templateData
     owl:deprecated true ;
     rdfs:label "template data" ;
     rdfs:range owl:Thing ;
-    rdfs:domain modgui:GUI ;
+    rdfs:domain modgui:Gui ;
     lv2:documentation """
 <p>
 The data that will be used to render the templates defined in modgui:iconTemplate
@@ -405,7 +405,7 @@ modgui:screenshot
         owl:ObjectProperty ;
     rdfs:label "screenshot" ;
     rdfs:range owl:Thing ;
-    rdfs:domain modgui:GUI ;
+    rdfs:domain modgui:Gui ;
     lv2:documentation """
 <p>
 An image with a real size screenshot of the rendered plugin interface.
@@ -418,7 +418,7 @@ modgui:thumbnail
         owl:ObjectProperty ;
     rdfs:label "screenshot" ;
     rdfs:range owl:Thing ;
-    rdfs:domain modgui:GUI ;
+    rdfs:domain modgui:Gui ;
     lv2:documentation """
 <p>
 An image with a small representation of the rendered plugin interface.
@@ -431,7 +431,7 @@ modgui:brand
         owl:DatatypeProperty ;
     rdfs:label "brand" ;
     rdfs:range xsd:string ;
-    rdfs:domain modgui:GUI ;
+    rdfs:domain modgui:Gui ;
     rdfs:comment """The brand selected when building a modgui through the MOD SDK.""" .
 
 modgui:label
@@ -439,7 +439,7 @@ modgui:label
         owl:DatatypeProperty ;
     rdfs:label "label" ;
     rdfs:range xsd:string ;
-    rdfs:domain modgui:GUI ;
+    rdfs:domain modgui:Gui ;
     rdfs:comment """The label selected when building a modgui through the MOD SDK.""" .
 
 modgui:model
@@ -447,7 +447,7 @@ modgui:model
         owl:DatatypeProperty ;
     rdfs:label "model" ;
     rdfs:range xsd:string ;
-    rdfs:domain modgui:GUI ;
+    rdfs:domain modgui:Gui ;
     rdfs:comment """The model selected when building a modgui through the MOD SDK.""" .
 
 modgui:panel
@@ -455,7 +455,7 @@ modgui:panel
         owl:DatatypeProperty ;
     rdfs:label "panel" ;
     rdfs:range xsd:string ;
-    rdfs:domain modgui:GUI ;
+    rdfs:domain modgui:Gui ;
     rdfs:comment """The panel selected when building a modgui through the MOD SDK.""" .
 
 modgui:color
@@ -463,7 +463,7 @@ modgui:color
         owl:DatatypeProperty ;
     rdfs:label "color" ;
     rdfs:range xsd:string ;
-    rdfs:domain modgui:GUI ;
+    rdfs:domain modgui:Gui ;
     rdfs:comment """The color selected when building a modgui through the MOD SDK.""" .
 
 modgui:knob
@@ -471,7 +471,7 @@ modgui:knob
         owl:DatatypeProperty ;
     rdfs:label "knob" ;
     rdfs:range xsd:string ;
-    rdfs:domain modgui:GUI ;
+    rdfs:domain modgui:Gui ;
     rdfs:comment """The knob selected when building a modgui through the MOD SDK.""" .
 
 modgui:brand
@@ -479,7 +479,7 @@ modgui:brand
         owl:DatatypeProperty ;
     rdfs:label "brand" ;
     rdfs:range xsd:string ;
-    rdfs:domain modgui:GUI ;
+    rdfs:domain modgui:Gui ;
     rdfs:comment """The brand selected when building a modgui through the MOD SDK.""" .
 
 modgui:Port
@@ -513,7 +513,7 @@ TODO: Document the rest.
 modgui:port
     a rdf:Property ,
         owl:ObjectProperty ;
-    rdfs:domain modgui:GUI ;
+    rdfs:domain modgui:Gui ;
     rdfs:range modgui:Port ;
     rdfs:label "port" ;
     rdfs:comment """A port on a MOD GUI.""" .
