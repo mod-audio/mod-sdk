@@ -40,7 +40,7 @@ data_files = data_dir(share, 'html')
 data_files += [(share, ['screenshot.js'])]
 
 setup(name = 'modsdk',
-      version = '1.9.1',
+      version = '2.0.0',
       description = 'MOD plugin SDK.',
       author = "Filipe Coelho, Luis Fagundes",
       author_email = "falktx@moddevices.com",
