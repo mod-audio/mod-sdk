@@ -23,10 +23,10 @@ Just type:
 
 You can get the `pip command here`_.
 
-You'll need phantomjs to render screenshots and `pillow`_ to build png images.
+You'll need lilv to scan plugins, phantomjs to render screenshots and `pillow`_ to build png images.
 If you use a Debian-based GNU/Linux distribution (like Ubuntu), you can do this with::
 
-    $ sudo apt-get install phantomjs python3-pil python3-pystache python3-tornado
+    $ sudo apt-get install liblilv-dev phantomjs python3-pil python3-pystache python3-tornado
 
 Run
 ---
