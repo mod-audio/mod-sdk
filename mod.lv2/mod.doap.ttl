@@ -8,14 +8,14 @@
     doap:license <http://opensource.org/licenses/isc> ;
     doap:name "MOD" ;
     doap:homepage <http://moddevices.com/ns/mod> ;
-    doap:created "2015-07-01" ;
-    doap:shortdesc "Properties for describing MOD related data." ;
+    doap:created "2016-03-28" ;
+    doap:shortdesc "Properties for describing MOD Devices related data." ;
     doap:developer <http://falktx.com/myself.html> ;
     doap:maintainer <http://falktx.com/myself.html> ;
     doap:release [
-        doap:revision "0.0" ;
-        doap:created "2015-07-01" ;
-        doap:file-release <http://moddevices.com/ns/mod-0.0.tar.bz2> ;
+        doap:revision "1.0" ;
+        doap:created "2016-03-28" ;
+        doap:file-release <https://github.com/moddevices/mod-sdk/archive/v2.0.0.tar.gz> ;
         dcs:changeset [
             dcs:item [
                 rdfs:label "First stable release."

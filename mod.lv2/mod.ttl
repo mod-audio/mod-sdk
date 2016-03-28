@@ -20,14 +20,14 @@ mod:brand
         owl:DatatypeProperty ;
     rdfs:label "brand" ;
     rdfs:range xsd:string ;
-    rdfs:comment "TODO, maximum 11 characters" .
+    rdfs:comment "A short plugin brand name. Maximum of 11 characters" .
 
 mod:label
     a rdf:Property ,
         owl:DatatypeProperty ;
     rdfs:label "label" ;
     rdfs:range xsd:string ;
-    rdfs:comment "TODO, maximum 16 characters" .
+    rdfs:comment "A short plugin label. Maximum of 16 characters" .
 
 mod:default
     a rdf:Property ,
@@ -66,7 +66,7 @@ mod:releaseNumber
         owl:DatatypeProperty ,
         owl:FunctionalProperty ;
     rdfs:label "release number" ;
-    rdfs:comment "The MOD build release number of a bundle." .
+    rdfs:comment "The MOD build release number of a bundle. This number is auto-incremented everytime the cloud rebuilds or updates the plugin." .
 
 mod:notStompboxCapable
     a lv2:Feature ;

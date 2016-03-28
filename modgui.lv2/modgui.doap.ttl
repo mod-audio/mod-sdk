@@ -10,7 +10,8 @@
     doap:homepage <http://moddevices.com/ns/modgui> ;
     doap:created "2013-05-03" ;
     doap:shortdesc "An LV2 extension to build HTML interfaces for audio plugins." ;
-    doap:developer <http://falktx.com/myself.html> , <http://hacklab.com.br#lhfagundes> ;
+    doap:developer <http://falktx.com/myself.html> ,
+                   <http://hacklab.com.br#lhfagundes> ;
     doap:maintainer <http://falktx.com/myself.html> ;
     doap:release [
         doap:revision "1.0" ;
@@ -22,12 +23,12 @@
             ]
         ]
     ] , [
-        doap:revision "1.9" ;
-        doap:created "2015-07-02" ;
-        doap:file-release <http://moddevices.com/ns/modgui-1.9.tar.bz2> ;
+        doap:revision "2.0" ;
+        doap:created "2016-03-28" ;
+        doap:file-release <https://github.com/moddevices/mod-sdk/archive/v2.0.0.tar.gz> ;
         dcs:changeset [
             dcs:item [
-                rdfs:label "TODO"
+                rdfs:label "Code rewrite and domain switch."
             ]
         ]
     ] .
