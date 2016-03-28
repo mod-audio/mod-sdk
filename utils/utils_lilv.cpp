@@ -1,5 +1,5 @@
 /*
- * MOD-UI utilities
+ * MOD-SDK utilities
  * Copyright (C) 2015-2016 Filipe Coelho <falktx@falktx.com>
  *
  * This program is free software; you can redistribute it and/or
@@ -33,12 +33,14 @@
 
 #include <algorithm>
 #include <cassert>
+#include <fstream>
 #include <list>
 #include <map>
 #include <string>
 #include <vector>
 
-#define OS_SEP '/'
+#define OS_SEP     '/'
+#define OS_SEP_STR "/"
 
 namespace std {
 typedef list<string> stringlist;
@@ -1007,6 +1009,14 @@ const PluginInfo& _get_plugin_info(const LilvPlugin* const p, const NamespaceDef
         info.gui.resourcesDirectory = resdir;
         resdir = nullptr;
 
+        // check if modgui is defined in a separate file
+        const std::string bundlestr = std::string(bundle) + OS_SEP_STR "modgui.ttl";
+        info.gui.usingSeeAlso = std::ifstream(bundlestr).good();
+
+        // check if the modgui definition is on its own file and in the user dir
+        info.gui.modificableInPlace = ((strstr(info.gui.resourcesDirectory, bundle) == nullptr || info.gui.usingSeeAlso) &&
+                                       strncmp(info.gui.resourcesDirectory, HOME, HOMElen) == 0);
+
         // icon and settings templates
         if (LilvNode* const modgui_icon = lilv_world_get(W, modguigui, ns.modgui_iconTemplate, nullptr))
         {
@@ -1962,7 +1972,6 @@ void cleanup(void)
 
     _plug_lastsize = 0;
 
-
     for (auto& map : PLUGNFO)
     {
         PluginInfo& info = map.second;
@@ -2010,7 +2019,12 @@ const PluginInfo* const* get_bundle_plugins(const char* bundle)
 
     const std::string bundlepath = bundlepath_;
 
-    const size_t newsize = BUNDLED_PLUGINS.count(bundlepath);
+    if (BUNDLED_PLUGINS.count(bundlepath) == 0)
+        return nullptr;
+
+    const std::stringlist& bundleplugins(BUNDLED_PLUGINS[bundlepath]);
+
+    const size_t newsize = bundleplugins.size();
 
     if (newsize == 0)
     {
@@ -2040,11 +2054,14 @@ const PluginInfo* const* get_bundle_plugins(const char* bundle)
 
     const LilvPlugins* const plugins = lilv_world_get_all_plugins(W);
     const NamespaceDefinitions ns;
-    int curIndex = 0;
+    size_t curIndex = 0;
 
     // Make a list of all installed bundles
-    for (const std::string& uri : BUNDLED_PLUGINS[bundlepath])
+    for (const std::string& uri : bundleplugins)
     {
+        if (curIndex >= newsize)
+            break;
+
         if (std::find(BLACKLIST.begin(), BLACKLIST.end(), uri) != BLACKLIST.end())
             continue;
 

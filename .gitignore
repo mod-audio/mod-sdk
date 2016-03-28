@@ -9,3 +9,4 @@ MANIFEST.in
 build/
 documentation/
 html/resources/.git*
+utils/test
