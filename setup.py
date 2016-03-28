@@ -40,10 +40,10 @@ data_files = data_dir(share, 'html')
 data_files += [(share, ['screenshot.js'])]
 
 setup(name = 'modsdk',
-      version = '1.1.1',
+      version = '1.9.1',
       description = 'MOD plugin SDK.',
-      author = "Luis Fagundes",
-      author_email = "lhfagundes@hacklab.com.br",
+      author = "Filipe Coelho, Luis Fagundes",
+      author_email = "falktx@moddevices.com",
       license = "GPLv3",
       packages = find_packages(),
       install_requires = [ 'pystache>=0.5.3', 'pillow>=2.4.0', 'tornado>=3.2' ],
