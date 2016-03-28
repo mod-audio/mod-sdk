@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import json
-import lilv
 import os
 import random
 import re
@@ -13,7 +12,6 @@ from base64 import b64encode
 from PIL import Image
 from tornado import web, options, ioloop, template, httpclient
 from tornado.escape import squeeze
-from modsdk.lilvlib import get_plugin_info
 from modsdk.settings import (PORT, HTML_DIR, WIZARD_DB,
                              CONFIG_FILE, TEMPLATE_DIR,
                              DEFAULT_DEVICE, DEFAULT_ICON_IMAGE,
@@ -21,10 +19,53 @@ from modsdk.settings import (PORT, HTML_DIR, WIZARD_DB,
                              MAX_THUMB_WIDTH, MAX_THUMB_HEIGHT,
                              SCREENSHOT_SCRIPT, PHANTOM_BINARY)
 
-global cached_bundles, cached_plugins, cached_bundle_plugins
-cached_bundles        = {}
-cached_plugins        = {}
-cached_bundle_plugins = {}
+# pylilv is a PITA to install, don't require it
+try:
+    import lilv
+    haveLilv = True
+except:
+    haveLilv = False
+
+if haveLilv:
+    print("Using pylilv for plugin info (with checks)")
+    from modsdk.utils import (init as lv2_init2,
+                              cleanup as lv2_cleanup2,
+                              get_bundle_plugins as get_bundle_plugins2,
+                              get_all_bundles)
+    from modsdk.lilvlib import get_plugin_info as get_plugin_info2
+
+    global _W
+
+    def lv2_init():
+        global _W
+        _W = lilv.World()
+        _W.load_all()
+        lv2_init2()
+
+    def lv2_cleanup():
+        global _W
+        _W = None
+        lv2_cleanup2()
+
+    def get_plugin_info(uri):
+        global _W
+        ps = _W.get_all_plugins()
+        pn = _W.new_uri(uri)
+        pl = ps.get_by_uri(pn)
+        return get_plugin_info2(_W, pl, True)
+
+    def get_bundle_plugins(bundle):
+        return [get_plugin_info(p['uri']) for p in get_bundle_plugins2(bundle)]
+
+# otherwise use raw lilv code, skipping checks
+else:
+    print("Using raw lilv for plugin info (without checks)")
+
+    from modsdk.utils import (init as lv2_init,
+                              cleanup as lv2_cleanup,
+                              get_all_bundles,
+                              get_bundle_plugins,
+                              get_plugin_info)
 
 def symbolify(name):
     if len(name) == 0:
@@ -60,72 +101,19 @@ def get_config(key, default=None):
     #with open(CONFIG_FILE, 'w') as fh:
         #json.dump(config, fh)
 
-def refresh_world():
-    bundles        = []
-    plugins        = {}
-    bundle_plugins = {}
-
-    world = lilv.World()
-    world.load_all()
-
-    for p in world.get_all_plugins():
-        info   = get_plugin_info(world, p)
-        bnodes = lilv.lilv_plugin_get_data_uris(p.me)
-
-        it = lilv.lilv_nodes_begin(bnodes)
-        while not lilv.lilv_nodes_is_end(bnodes, it):
-            bundle = lilv.lilv_nodes_get(bnodes, it)
-            it     = lilv.lilv_nodes_next(bnodes, it)
-
-            if bundle is None:
-                continue
-            if not lilv.lilv_node_is_uri(bundle):
-                continue
-
-            bundle = os.path.dirname(lilv.lilv_uri_to_path(lilv.lilv_node_as_uri(bundle)))
-
-            if not bundle.endswith(os.sep):
-                bundle += os.sep
-
-            if bundle not in bundles:
-                bundles.append(bundle)
-                bundle_plugins[bundle] = []
-
-            for info2 in bundle_plugins[bundle]:
-                if info2['uri'] == info['uri']:
-                    break
-            else:
-                bundle_plugins[bundle].append(info)
-
-        plugins[info['uri']] = info
-
-    del world
-
-    global cached_bundles, cached_plugins, cached_bundle_plugins
-    cached_bundles        = bundles
-    cached_plugins        = plugins
-    cached_bundle_plugins = bundle_plugins
-
 class BundleList(web.RequestHandler):
     def get(self):
-        global cached_bundles
-
         self.set_header('Content-type', 'application/json')
-        self.write(json.dumps(cached_bundles))
+        self.write(json.dumps(get_all_bundles()))
 
 class EffectList(web.RequestHandler):
     def get(self):
         bundle = self.get_argument('bundle')
-
-        try:
-            global cached_bundle_plugins
-            data = cached_bundle_plugins[bundle]
-        except:
-            raise web.HTTPError(404)
+        data   = get_bundle_plugins(bundle)
 
         self.set_header('Content-type', 'application/json')
         self.write(json.dumps({
-            'ok': True,
+            'ok': len(data) > 0,
             'data': data
         }))
 
@@ -134,9 +122,9 @@ class EffectGet(web.RequestHandler):
         uri = self.get_argument('uri')
 
         try:
-            global cached_plugins
-            data = cached_plugins[uri]
+            data = get_plugin_info(uri)
         except:
+            print("get failed")
             raise web.HTTPError(404)
 
         self.set_header('Content-type', 'application/json')
@@ -150,8 +138,7 @@ class EffectImage(web.RequestHandler):
         uri = self.get_argument('uri')
 
         try:
-            global cached_plugins
-            data = cached_plugins[uri]
+            data = get_plugin_info(uri)
         except:
             raise web.HTTPError(404)
 
@@ -175,8 +162,7 @@ class EffectHTML(web.RequestHandler):
         uri = self.get_argument('uri')
 
         try:
-            global cached_plugins
-            data = cached_plugins[uri]
+            data = get_plugin_info(uri)
         except:
             raise web.HTTPError(404)
 
@@ -197,8 +183,7 @@ class EffectStylesheet(web.RequestHandler):
         uri = self.get_argument('uri')
 
         try:
-            global cached_plugins
-            data = cached_plugins[uri]
+            data = get_plugin_info(uri)
         except:
             raise web.HTTPError(404)
 
@@ -219,8 +204,7 @@ class EffectJavascript(web.RequestHandler):
         uri = self.get_argument('uri')
 
         try:
-            global cached_plugins
-            data = cached_plugins[uri]
+            data = get_plugin_info(uri)
         except:
             raise web.HTTPError(404)
 
@@ -251,9 +235,9 @@ class EffectSave(web.RequestHandler):
                 raise web.HTTPError(404)
 
         try:
-            global cached_plugins
-            data = cached_plugins[uri]
+            data = get_plugin_info(uri)
         except:
+            print("ERROR in webserver.py: get_plugin_info for '%s' failed" % uri)
             self.set_header('Content-type', 'application/json')
             self.write(json.dumps(False))
             return
@@ -321,7 +305,8 @@ class EffectSave(web.RequestHandler):
                 with open(localfile, 'wb') as locald:
                     locald.write(fild.read())
 
-        refresh_world()
+        lv2_cleanup()
+        lv2_init()
 
         self.set_header('Content-type', 'application/json')
         self.write(json.dumps(True))
@@ -358,9 +343,9 @@ class Screenshot(web.RequestHandler):
         self.height = self.get_argument('height')
 
         try:
-            global cached_plugins
-            self.data = cached_plugins[self.uri]
+            self.data = get_plugin_info(self.uri)
         except:
+            self.data = None
             raise web.HTTPError(404)
 
         self.make_screenshot()
@@ -599,8 +584,7 @@ class EffectResource(web.StaticFileHandler):
             return self.shared_resource(path)
 
         try:
-            global cached_plugins
-            data = cached_plugins[uri]
+            data = get_plugin_info(uri)
         except:
             raise web.HTTPError(404)
 
@@ -611,7 +595,7 @@ class EffectResource(web.StaticFileHandler):
 
         try:
             super(EffectResource, self).initialize(root)
-            super(EffectResource, self).get(path)
+            return super(EffectResource, self).get(path)
         except web.HTTPError as e:
             if e.status_code != 404:
                 raise e
@@ -621,9 +605,9 @@ class EffectResource(web.StaticFileHandler):
 
     def shared_resource(self, path):
         super(EffectResource, self).initialize(os.path.join(HTML_DIR, 'resources'))
-        super(EffectResource, self).get(path)
+        return super(EffectResource, self).get(path)
 
-def make_application(port=PORT, output_log=True):
+def make_application(port=PORT, output_log=False):
     application = web.Application([
             (r"/bundles", BundleList),
             (r"/effects", EffectList),
@@ -641,7 +625,7 @@ def make_application(port=PORT, output_log=True):
             (r"/js/templates.js$", BulkTemplateLoader),
             (r"/resources/(.*)", EffectResource),
             (r"/(.*)", web.StaticFileHandler, {"path": HTML_DIR}),
-            ], debug=True)
+            ], debug=output_log)
 
     application.listen(port)
     if output_log:
@@ -671,10 +655,13 @@ def welcome_message():
           " and point to http://localhost:%d" % PORT)
 
 def run():
-    if check_environment():
-        refresh_world()
-        welcome_message()
-        make_application().start()
+    if not check_environment():
+        return
+
+    lv2_init()
+    welcome_message()
+    make_application().start()
+    lv2_cleanup()
 
 if __name__ == "__main__":
     run()

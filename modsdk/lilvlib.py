@@ -1327,6 +1327,17 @@ def get_plugin_info(world, plugin, useAbsolutePath = True):
     }
 
 # ------------------------------------------------------------------------------------------------------------
+# get_plugin_info_helper
+
+# Get info from a simple URI, without the need of your own lilv world
+# This is used in get_plugins_info below and MOD-SDK
+def get_plugin_info_helper(uri):
+    world = lilv.World()
+    world.load_all()
+    plugins = world.get_all_plugins()
+    return [get_plugin_info(world, p, False) for p in plugins]
+
+# ------------------------------------------------------------------------------------------------------------
 # get_plugins_info
 
 # Get plugin-related info from a list of lv2 bundles

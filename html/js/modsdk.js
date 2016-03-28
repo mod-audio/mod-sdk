@@ -227,7 +227,12 @@ function showEffect() {
 
     var errors, warnings
 
-    if (options.errors.length || options.warnings.length)
+    if (options.errors == null || options.warnings == null)
+    {
+        errors = ''
+        warnings = '<p>NOTE: Cannot run plugin static checks in your current setup.</p>'
+    }
+    else if (options.errors.length || options.warnings.length)
     {
         if (options.errors.length) {
             errors = '<p><b>Errors:</b></p><ol>'

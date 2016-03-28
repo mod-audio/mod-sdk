@@ -1,8 +1,11 @@
 *~
+*.o
 *.pyc
+*.so
 config.json
 .DS_Store
 MANIFEST.in
 
+build/
 documentation/
 html/resources/.git*

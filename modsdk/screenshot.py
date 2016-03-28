@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import os, glob, lilv, subprocess, random, argparse
+import os, glob, subprocess, random, argparse
 from PIL import Image
-from modsdk.webserver import make_application
-from modsdk.lilvlib import get_plugin_info
 from modsdk.settings import (ROOT, PHANTOM_BINARY, SCREENSHOT_SCRIPT,
                              MAX_THUMB_WIDTH, MAX_THUMB_HEIGHT)
+from modsdk.webserver import (make_application,
+                              lv2_init, lv2_cleanup,
+                              get_bundle_plugins,
+                              get_plugin_info)
 
 #maximum width and height
 WIDTH = 1920
@@ -17,80 +19,30 @@ PORT = 9123
 
 class BundleQueue(object):
     def __init__(self, bundles):
-        world = lilv.World()
-        world.load_all()
-
-        # lookup all bundles used by lilv world
-        loaded_bundles = []
-
-        for p in world.get_all_plugins():
-            bnodes = lilv.lilv_plugin_get_data_uris(p.me)
-
-            it = lilv.lilv_nodes_begin(bnodes)
-            while not lilv.lilv_nodes_is_end(bnodes, it):
-                bundle = lilv.lilv_nodes_get(bnodes, it)
-                it     = lilv.lilv_nodes_next(bnodes, it)
-
-                if bundle is None:
-                    continue
-                if not lilv.lilv_node_is_uri(bundle):
-                    continue
-
-                bundle = os.path.dirname(lilv.lilv_uri_to_path(lilv.lilv_node_as_uri(bundle)))
-
-                if not bundle.endswith(os.sep):
-                    bundle += os.sep
-                if bundle not in loaded_bundles:
-                    loaded_bundles.append(bundle)
-
-        # load requested bundles not part of world
-        for bundle in bundles:
-            if bundle not in loaded_bundles:
-                bundlenode = lilv.lilv_new_file_uri(world.me, None, bundle)
-                world.load_bundle(bundlenode)
-                lilv.lilv_node_free(bundlenode)
+        bundles = [os.path.abspath(b) for b in bundles]
 
         # make a list of plugin info related to our bundles
-        self.bundles_info = {}
+        self.bundles_info = dict((b, []) for b in bundles)
+
+        # load info from all the bundles
+        loaded_bundles = []
+
         for bundle in bundles:
-            self.bundles_info[bundle] = []
+            plugins = get_bundle_plugins(bundle)
 
-        for p in world.get_all_plugins():
-            info   = get_plugin_info(world, p)
-            bnodes = lilv.lilv_plugin_get_data_uris(p.me)
+            if len(plugins) == 0:
+                continue
+            if bundle in loaded_bundles:
+                continue
+            loaded_bundles.append(bundle)
 
-            it = lilv.lilv_nodes_begin(bnodes)
-            while not lilv.lilv_nodes_is_end(bnodes, it):
-                bundle = lilv.lilv_nodes_get(bnodes, it)
-                it     = lilv.lilv_nodes_next(bnodes, it)
-
-                if bundle is None:
-                    continue
-                if not lilv.lilv_node_is_uri(bundle):
-                    continue
-
-                bundle = os.path.dirname(lilv.lilv_uri_to_path(lilv.lilv_node_as_uri(bundle)))
-
-                if not bundle.endswith(os.sep):
-                    bundle += os.sep
-
-                if bundle not in bundles:
-                    continue
-
-                for info2 in self.bundles_info[bundle]:
-                    if info2['uri'] == info['uri']:
-                        break
-                else:
-                    self.bundles_info[bundle].append(info)
-
-        # done
-        del world
+            self.bundles_info[bundle] = plugins
 
         # save list of bundles that we want to generate screenshots for
-        self.bundle_queue = bundles
+        self.bundle_queue = loaded_bundles
 
         # create web server
-        self.webserver = make_application(port=PORT, output_log=False)
+        self.webserver = make_application(port=PORT, output_log=True)
         self.webserver.add_callback(self.next_bundle)
 
     def run(self):
@@ -169,7 +121,7 @@ class BundleQueue(object):
                 max_x = max(max_x, width)
                 max_y = max(max_y, height)
         # now crop
-        return img.crop((min_x, min_y, max_x, max_y))
+        return img.crop([int(i) for i in (min_x, min_y, max_x, max_y)])
 
 def run():
     parser = argparse.ArgumentParser(description='Generates screenshot of all effects inside a bundle')
@@ -184,7 +136,9 @@ def run():
         if bundle not in bundles:
             bundles.append(bundle)
 
+    lv2_init()
     BundleQueue(bundles).run()
+    lv2_cleanup()
 
 if __name__ == '__main__':
     run()
