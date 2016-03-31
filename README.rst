@@ -14,28 +14,25 @@ This SDK provides the following funcionality:
 
 To use the SDK, developers should adjust their LV2_PATH to where LV2 bundles reside, run a local webserver (modsdk command) and open a webkit-based browser at http://localhost:9000.
 
-Install
+Build
 -------
 
-Just type:
-
-    $ pip install modsdk
-
-You can get the `pip command here`_.
-
-You'll need lilv to scan plugins, phantomjs to render screenshots and `pillow`_ to build png images.
-If you use a Debian-based GNU/Linux distribution (like Ubuntu), you can do this with::
+We use lilv to scan plugins, phantomjs to render screenshots and `pillow`_ to build png images.
+If you use a Debian-based GNU/Linux distribution (like Ubuntu), you can install all this with::
 
     $ sudo apt-get install liblilv-dev phantomjs python3-pil python3-pystache python3-tornado
 
 Run
 ---
 
-Run the server::
+If you don't want to install, simply run::
+
+    $ ./development_server.py
+
+If you installed mod-sdk, you can run the server like so::
 
     $ modsdk
 
-Open your webkit based browser (I use Chromium) and point to http://localhost:9000.
+Then open your browser (webkit based is preferable) and point to http://localhost:9000.
 
-.. _pip command here: http://pip.openplans.org/
 .. _pillow: http://pillow.readthedocs.org/en/latest/
