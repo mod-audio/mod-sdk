@@ -23,6 +23,8 @@ class mod_utils_installer(install):
 MANIFEST = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'MANIFEST.in')
 
 def data_dir(prefix, dirname):
+    if dirname == "html/resources/sources":
+        return []
     data_files = []
     html_files = []
     for fname in os.listdir(dirname):
