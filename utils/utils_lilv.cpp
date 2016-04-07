@@ -42,6 +42,18 @@
 #define OS_SEP     '/'
 #define OS_SEP_STR "/"
 
+#ifndef HAVE_NEW_LILV
+#warning Your current lilv version is too old, please update it
+char* lilv_file_uri_parse2(const char* uri, const char*)
+{
+    if (const char* const parsed = lilv_uri_to_path(uri))
+        return strdup(parsed);
+    return nullptr;
+}
+#define lilv_free(x) free(x)
+#define lilv_file_uri_parse(x,y) lilv_file_uri_parse2(x,y)
+#endif
+
 namespace std {
 typedef list<string> stringlist;
 }
