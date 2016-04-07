@@ -22,6 +22,10 @@ If you use a Debian-based GNU/Linux distribution (like Ubuntu), you can install 
 
     $ sudo apt-get install liblilv-dev phantomjs python3-pil python3-pystache python3-tornado
 
+After you have all dependencies installed, build it with::
+
+    $ python3 setup.py build
+
 Run
 ---
 
@@ -29,7 +33,11 @@ If you don't want to install, simply run::
 
     $ ./development_server.py
 
-If you installed mod-sdk, you can run the server like so::
+To install mod-sdk, run::
+
+    $ [sudo] python3 setup.py install
+
+After install you can run the server like so::
 
     $ modsdk
 
