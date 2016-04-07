@@ -1760,8 +1760,10 @@ const PluginInfo& _get_plugin_info(const LilvPlugin* const p, const NamespaceDef
         if (prindex > 1)
             _sort_presets_data(presets, prindex);
 
+#ifdef HAVE_NEW_LILV
         for (const LilvNode* presetnode : loadedPresetResourceNodes)
             lilv_world_unload_resource(W, presetnode);
+#endif
 
         info.presets = presets;
 
