@@ -23,14 +23,14 @@
       <div id="titlebox">
         <h1 id="title">MOD</h1>
         <div id="subtitle"><a href="http://moddevices.com/ns/mod">http://moddevices.com/ns/mod</a></div>
-        <div id="shortdesc">Properties for describing MOD related data.</div>
+        <div id="shortdesc">Properties for describing MOD Devices related data.</div>
       </div>
       <table id="meta">
         <!--<tr><th>URI</th><td><a href="http://moddevices.com/ns/mod">http://moddevices.com/ns/mod</a></td></tr>
             <tr><th>Version</th><td>@REVISION@</td></tr>-->
         <!--<tr><th>Prefixes</th><td><span><a href="http://ontologi.es/doap-changeset#">dcs</a> <a href="http://usefulinc.com/ns/doap#">doap</a> <a href="http://xmlns.com/foaf/0.1/">foaf</a> <a href="http://lv2plug.in/ns/lv2core#">lv2</a> <a href="http://moddevices.com/ns/mod#">mod</a> <a href="http://www.w3.org/2002/07/owl#">owl</a> <a href="http://lv2plug.in/ns/ext/port-props#">pprops</a> <a href="http://www.w3.org/1999/02/22-rdf-syntax-ns#">rdf</a> <a href="http://www.w3.org/2000/01/rdf-schema#">rdfs</a> <a href="http://www.w3.org/2001/XMLSchema#">xsd</a> </span></td></tr>-->
-        <tr><th>Version</th><td>0.0 <span class="warning">EXPERIMENTAL</span></td></tr>
-        <tr><th>Date</th><td>2016-03-17</td></tr>
+        <tr><th>Version</th><td>1.0</td></tr>
+        <tr><th>Date</th><td>2016-04-09</td></tr>
         <tr><th>Discuss</th><td><a href="mailto:None">None</a> <a href="None">(subscribe)</a></td></tr>
         <tr><th class="metahead">Developer</th><td><span class="author" property="doap:developer">Filipe Coelho</span></td></tr><tr><th class="metahead">Maintainer</th><td><span class="author" property="doap:maintainer">Filipe Coelho</span></td></tr>
       </table>
@@ -40,7 +40,7 @@
       <li><a href="#sec-index">Index</a></li>
       <li><a href="#sec-reference">Reference</a></li>
       <li><a href="#sec-history">History</a></li>
-      <li><a href="/home/falktx/FOSS/GIT-mine/MOD/mod-sdk/documentation/mod/group__manifest.html">API</a></li>
+      <li><a href="/home/falktx/Personal/FOSS/Git-mine/mod-sdk/documentation/mod/group__manifest.html">API</a></li>
     </ul>
   </div>
 
@@ -67,7 +67,7 @@ This is a vocabulary for describing extra plugin data specific to MOD software a
   <div class="content">
   <div class="specterm" id="brand" about="http://moddevices.com/ns/mod#brand">
 <h3>Property <a href="#brand">mod:brand</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">brand</div><div property="rdfs:comment"><p>TODO, maximum 11 characters</p></div></div>
+<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">brand</div><div property="rdfs:comment"><p>A short plugin brand name. Maximum of 11 characters</p></div></div>
 <table class="terminfo"><tr><th>OWL Type</th><td>Datatype Property</td></tr>
 <tr><th>Range</th><td><a href="http://www.w3.org/2001/XMLSchema#string" about="http://moddevices.com/ns/mod#brand" rel="rdfs:range" resource="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></td></tr>
 </table>
@@ -86,7 +86,7 @@ This is a vocabulary for describing extra plugin data specific to MOD software a
 
 <div class="specterm" id="label" about="http://moddevices.com/ns/mod#label">
 <h3>Property <a href="#label">mod:label</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">label</div><div property="rdfs:comment"><p>TODO, maximum 16 characters</p></div></div>
+<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">label</div><div property="rdfs:comment"><p>A short plugin label. Maximum of 16 characters</p></div></div>
 <table class="terminfo"><tr><th>OWL Type</th><td>Datatype Property</td></tr>
 <tr><th>Range</th><td><a href="http://www.w3.org/2001/XMLSchema#string" about="http://moddevices.com/ns/mod#label" rel="rdfs:range" resource="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></td></tr>
 </table>
@@ -126,7 +126,7 @@ This is a vocabulary for describing extra plugin data specific to MOD software a
 
 <div class="specterm" id="releaseNumber" about="http://moddevices.com/ns/mod#releaseNumber">
 <h3>Property <a href="#releaseNumber">mod:releaseNumber</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">release number</div><div property="rdfs:comment"><p>The MOD build release number of a bundle.</p></div></div>
+<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">release number</div><div property="rdfs:comment"><p>The MOD build release number of a bundle. This number is auto-incremented everytime the cloud rebuilds or updates the plugin.</p></div></div>
 <table class="terminfo"><tr><th>OWL Type</th><td>Datatype Property</td></tr>
 </table>
 </div>
@@ -152,7 +152,7 @@ Plugins are assumed to be suitable for Stompbox mode by default, and MUST provid
   <h2 class="sec" id="sec-history">History</h2>
   <div class="content">
   <dl>
-<dt><a href="http://moddevices.com/ns/mod-0.0.tar.bz2">Version 0.0</a> (2015-07-01)</dt>
+<dt><a href="https://github.com/moddevices/mod-sdk/archive/v2.0.0.tar.gz">Version 1.0</a> (2016-03-28)</dt>
 <dd><ul>
 <li>First stable release.</li>
 </ul></dd></dl>

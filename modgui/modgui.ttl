@@ -53,10 +53,7 @@ To provide this interface for Icon and Settings, the following resources can be 
 
 <p>
 <em>Note</em>:
-The To help the creation of interfaces, several base layouts have been created in the mod-resources project.
-Some plugins that first implemented the modgui interface will expect the host to provide those resources,
-and so they may reference media resources that are not packed inside the bundle.
-Support for those resources is being deprecated, and so any resources required should be packed inside modgui:resourcesDirectory.
+To help the creation of interfaces, several base layouts have been created in the mod-sdk project.
 </p>
 """ .
 
@@ -506,7 +503,7 @@ modgui:Port
 <p>The class which represents a MOD GUI port.</p>
 
 <p>
-TODO: Document the rest.
+This is used by the SDK wizard to save the last selected state of each knob or combo-box on the screen.
 </p>
 """ .
 
