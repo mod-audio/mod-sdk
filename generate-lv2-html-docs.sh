@@ -22,7 +22,7 @@ if [ ! -d documentation ]; then
 fi
 
 if [ ! -f documentation/style.css ]; then
-  git clone git://github.com/portalmod/mod-sdk --depth 1 -b gh-pages documentation
+  git clone git://github.com/moddevices/mod-sdk --depth 1 -b gh-pages documentation
 fi
 
 cp mod.lv2/*    documentation/mod/
