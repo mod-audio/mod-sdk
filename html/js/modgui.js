@@ -109,9 +109,18 @@ function loadDependencies(gui, effect, callback) { //source, effect, bundle, cal
                 url: jsUrl,
                 success: function (code) {
                     var method;
-                    eval('method = ' + code)
+                    try {
+                        eval('method = ' + code)
+                    } catch (err) {
+                        method = null
+                        console.log("Failed to evaluate javascript for '"+effect.uri+"' plugin")
+                    }
                     loadedJSs[effect.uri] = method
                     gui.jsCallback = method
+                    jsLoaded = true
+                    cb()
+                },
+                error: function () {
                     jsLoaded = true
                     cb()
                 },
@@ -496,7 +505,8 @@ function GUI(effect, options) {
                 }, 1)
             }
 
-            self.triggerJS({ 'type': 'start' })
+            self.jsStarted = true
+            self.triggerJS({ type: 'start' })
 
             callback(self.icon, self.settings)
         }
@@ -876,11 +886,12 @@ function GUI(effect, options) {
         return data
     }
 
-    this.jsData = {}
+    this.jsStarted = false
 
     this.triggerJS = function (event) {
-        if (!self.jsCallback)
+        if (!self.jsCallback || !self.jsStarted)
             return
+        /*
         var e = {
             event: event,
             values: self.currentValues,
@@ -890,7 +901,17 @@ function GUI(effect, options) {
         };
         if (event.symbol)
             e.port = self.controls[event.symbol]
-        self.jsCallback(e)
+        */
+        event.icon     = self.icon
+        event.settings = self.settings
+
+
+        try {
+            self.jsCallback(event)
+        } catch (err) {
+            self.jsCallback = null
+            console.log("A plugin javascript code is broken and has been disabled")
+        }
     }
 }
 
@@ -1105,6 +1126,7 @@ JqueryClass('film', baseWidget, {
         }
 
         self.mousedown(function (e) {
+            e.preventDefault();
             if (!self.data('enabled'))
                 return self.film('prevent', e)
             if (e.which == 1) { // left button
@@ -1220,13 +1242,28 @@ JqueryClass('film', baseWidget, {
         // Useful for fine tunning and toggle
         var self = $(this)
         var filmSteps = self.data('filmSteps')
-        var position = self.data('position')+1
-        if (position >= filmSteps) {
-            if (self.data('enumeration') || self.data('toggled'))
-                position = 0
-            else
-                position = filmSteps-1
+        var position = self.data('position')
+
+        if (e.shiftKey) {
+            // going down
+            position -= 1
+            if (position < 0) {
+                if (self.data('enumeration') || self.data('toggled'))
+                    position = filmSteps-1
+                else
+                    position = 0
+            }
+        } else {
+            // going up
+            position += 1
+            if (position >= filmSteps) {
+                if (self.data('enumeration') || self.data('toggled'))
+                    position = 0
+                else
+                    position = filmSteps-1
+            }
         }
+
         self.data('position', position)
         self.film('setRotation', position)
         var value = self.film('valueFromSteps', position)
@@ -1236,7 +1273,8 @@ JqueryClass('film', baseWidget, {
     mouseWheel: function (e) {
         var self = $(this)
         var wheelStep = 30
-        var delta = self.data('wheelBuffer') + e.originalEvent.wheelDelta
+        var delta = ('wheelDelta' in e.originalEvent) ? e.originalEvent.wheelDelta : -wheelStep * e.originalEvent.detail;
+        delta += self.data('wheelBuffer')
         self.data('wheelBuffer', delta % wheelStep)
         var diff = parseInt(delta / wheelStep)
         var position = self.data('position')
