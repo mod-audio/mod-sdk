@@ -13,7 +13,7 @@ from PIL import Image
 from tornado import web, options, ioloop, template, httpclient
 from tornado.escape import squeeze
 from modsdk.settings import (PORT, HTML_DIR, WIZARD_DB,
-                             CONFIG_FILE, TEMPLATE_DIR,
+                             CONFIG_FILE, TEMPLATE_DIR, LV2_DIR,
                              DEFAULT_DEVICE, DEFAULT_ICON_IMAGE,
                              DEFAULT_ICON_TEMPLATE, DEFAULT_SETTINGS_TEMPLATE,
                              MAX_THUMB_WIDTH, MAX_THUMB_HEIGHT,
@@ -222,6 +222,11 @@ class EffectJavascript(web.RequestHandler):
 
 class EffectSave(web.RequestHandler):
     def post(self):
+        if not LV2_DIR:
+            self.set_header('Content-type', 'application/json')
+            self.write(json.dumps(False))
+            return
+
         uri = self.get_argument('uri')
         ttlText = self.get_argument('ttlText')
         filesToCopy = [os.path.join(HTML_DIR, "resources", fil) for fil in json.loads(self.get_argument('filesToCopy'))]
@@ -247,8 +252,17 @@ class EffectSave(web.RequestHandler):
             bundledir = os.path.join(resrcsdir, os.path.pardir)
 
         else:
-            # TODO: make sure bundledir doesn't exist
-            bundledir = os.path.expanduser("~/.lv2/%s.modgui" % symbolify(data['name']))
+            bundlname = symbolify(data['name'])
+            bundledir = "%s/%s.modgui" % (LV2_DIR, bundlname)
+
+            # if bundle already exists, generate a new random bundle name
+            if os.path.exists(bundledir):
+                while True:
+                    bundledir = "%s/%s-%i.modgui" % (LV2_DIR, bundlname, random.randint(1,99999))
+                    if os.path.exists(bundledir):
+                        continue
+                    break
+
             resrcsdir = os.path.join(bundledir, "modgui")
 
         bundledir = os.path.abspath(bundledir)
@@ -331,6 +345,7 @@ class Index(web.RequestHandler):
             'default_icon_template': default_icon_template,
             'default_settings_template': default_settings_template,
             'wizard_db': json.dumps(wizard_db),
+            'write_access': 1 if LV2_DIR else 0,
         }
 
         self.write(loader.load(path).generate(**context))

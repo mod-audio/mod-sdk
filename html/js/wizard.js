@@ -1,11 +1,16 @@
-var wizard_db // populated in index.html
+var wizard_db, write_access // populated in index.html
 $(document).ready(function() {
     var wizard = $('#wizard-window')
     wizard.wizard(wizard_db)
 
-    $('#wizard').click(function() {
-        wizard.wizard('open')
-    })
+    if (write_access) {
+        $('#wizard').click(function() {
+            wizard.wizard('open')
+        })
+        $('#wizard_nobutton').hide()
+    } else {
+        $('#wizard').hide()
+    }
 })
 
 JqueryClass('wizard', {

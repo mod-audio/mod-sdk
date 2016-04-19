@@ -37,3 +37,16 @@ MAX_THUMB_WIDTH = 256
 MAX_THUMB_HEIGHT = 64
 
 CONFIG_FILE = os.path.expanduser("~/.local/share/mod-data/sdk-config.json")
+
+LV2_PATH = os.getenv("LV2_PATH")
+
+if not LV2_PATH: # might be set but empty
+    LV2_DIR  = os.path.expanduser("~/.lv2")
+    LV2_PATH = LV2_DIR + ":/usr/lib/lv2:/usr/local/lib/lv2"
+else:
+    for path in LV2_PATH.split(":"):
+        if os.access(path, os.W_OK):
+            LV2_DIR = path
+            break
+    else:
+        LV2_DIR = ""
