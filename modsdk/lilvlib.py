@@ -369,8 +369,8 @@ def get_pedalboard_info(bundle):
         uri      = lilv.lilv_node_as_uri(proto)
 
         enabled  = lilv.lilv_world_get(world.me, block.me, ns_ingen.enabled.me, None)
-        microver = lilv.lilv_world_get(world.me, block.me, ns_lv2core.microVersion.me, None)
         minorver = lilv.lilv_world_get(world.me, block.me, ns_lv2core.minorVersion.me, None)
+        microver = lilv.lilv_world_get(world.me, block.me, ns_lv2core.microVersion.me, None)
 
         ingenblocks.append({
             "instance": instance,
@@ -378,8 +378,8 @@ def get_pedalboard_info(bundle):
             "x"       : lilv.lilv_node_as_float(lilv.lilv_world_get(world.me, block.me, ns_ingen.canvasX.me, None)),
             "y"       : lilv.lilv_node_as_float(lilv.lilv_world_get(world.me, block.me, ns_ingen.canvasY.me, None)),
             "enabled" : lilv.lilv_node_as_bool(enabled) if enabled is not None else False,
-            "microVersion": lilv.lilv_node_as_int(microver) if microver else 0,
             "minorVersion": lilv.lilv_node_as_int(minorver) if minorver else 0,
+            "microVersion": lilv.lilv_node_as_int(microver) if microver else 0,
         })
 
     info['connections'] = ingenarcs
@@ -583,33 +583,33 @@ def get_plugin_info(world, plugin, useAbsolutePath = True):
 
     if microver.me is None and minorver.me is None:
         errors.append("plugin is missing version information")
-        microVersion = 0
         minorVersion = 0
+        microVersion = 0
 
     else:
-        if microver.me is  None:
-            errors.append("plugin is missing microVersion")
-            microVersion = 0
-        else:
-            microVersion = microver.as_int()
-
         if minorver.me is None:
             errors.append("plugin is missing minorVersion")
             minorVersion = 0
         else:
             minorVersion = minorver.as_int()
 
-    del microver
+        if microver.me is None:
+            errors.append("plugin is missing microVersion")
+            microVersion = 0
+        else:
+            microVersion = microver.as_int()
+
     del minorver
+    del microver
 
-    version = "%d.%d" % (microVersion, minorVersion)
+    version = "%d.%d" % (minorVersion, microVersion)
 
-    if minorVersion == 0 and microVersion == 0:
-        stability = "experimental"
-    elif minorVersion % 2 == 0:
-        stability = "stable" if microVersion % 2 == 0 else "testing"
+    if minorVersion == 0:
+        stability = "experimental" if microVersion == 0 else "testing"
+    elif minorVersion % 2 != 0:
+        stability = "testing" if microVersion % 2 != 0 else "unstable"
     else:
-        stability = "unstable"
+        stability = "stable"
 
     # --------------------------------------------------------------------------------------------------------
     # author
