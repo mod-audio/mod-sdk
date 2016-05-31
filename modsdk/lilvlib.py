@@ -604,10 +604,15 @@ def get_plugin_info(world, plugin, useAbsolutePath = True):
 
     version = "%d.%d" % (minorVersion, microVersion)
 
+    # 0.x is experimental
     if minorVersion == 0:
-        stability = "experimental" if microVersion == 0 else "testing"
-    elif minorVersion % 2 != 0:
-        stability = "testing" if microVersion % 2 != 0 else "unstable"
+        stability = "experimental"
+
+    # odd x.2 or 2.x is testing/development
+    elif minorVersion % 2 != 0 or microVersion % 2 != 0:
+        stability = "testing"
+
+    # otherwise it's stable
     else:
         stability = "stable"
 
