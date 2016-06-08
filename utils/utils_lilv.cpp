@@ -744,34 +744,16 @@ const PluginInfo& _get_plugin_info(const LilvPlugin* const p, const NamespaceDef
     // --------------------------------------------------------------------------------------------------------
     // version
 
+    if (LilvNodes* const minorvers = lilv_plugin_get_value(p, ns.lv2core_minorVersion))
     {
-        LilvNodes* const minorvers = lilv_plugin_get_value(p, ns.lv2core_minorVersion);
-        LilvNodes* const microvers = lilv_plugin_get_value(p, ns.lv2core_microVersion);
+        info.minorVersion = lilv_node_as_int(lilv_nodes_get_first(minorvers));
+        lilv_nodes_free(minorvers);
+    }
 
-        if (minorvers == nullptr && microvers == nullptr)
-        {
-            info.microVersion = 0;
-            info.minorVersion = 0;
-        }
-        else
-        {
-            if (minorvers == nullptr)
-                info.minorVersion = 0;
-            else
-                info.minorVersion = lilv_node_as_int(lilv_nodes_get_first(minorvers));
-
-            if (microvers == nullptr)
-                info.microVersion = 0;
-            else
-                info.microVersion = lilv_node_as_int(lilv_nodes_get_first(microvers));
-
-            lilv_nodes_free(minorvers);
-            lilv_nodes_free(microvers);
-        }
-
-        char versiontmpstr[32+1] = { '\0' };
-        snprintf(versiontmpstr, 32, "%d.%d", info.minorVersion, info.microVersion);
-        info.version = strdup(versiontmpstr);
+    if (LilvNodes* const microvers = lilv_plugin_get_value(p, ns.lv2core_microVersion))
+    {
+        info.microVersion = lilv_node_as_int(lilv_nodes_get_first(microvers));
+        lilv_nodes_free(microvers);
     }
 
     // 0.x is experimental
