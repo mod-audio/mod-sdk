@@ -127,8 +127,6 @@ typedef struct {
     const char* const* category;
     int microVersion;
     int minorVersion;
-    int release;
-    int builder;
     const char* version;
     const char* stability;
     PluginAuthor author;
