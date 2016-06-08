@@ -240,6 +240,7 @@ class PluginInfo(Structure):
         ("microVersion", c_int),
         ("minorVersion", c_int),
         ("release", c_int),
+        ("builder", c_int),
         ("version", c_char_p),
         ("stability", c_char_p),
         ("author", PluginAuthor),

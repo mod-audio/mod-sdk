@@ -273,6 +273,7 @@ struct NamespaceDefinitions {
           mod_maximum              (lilv_new_uri(W, LILV_NS_MOD    "maximum"           )),
           mod_rangeSteps           (lilv_new_uri(W, LILV_NS_MOD    "rangeSteps"        )),
           mod_release              (lilv_new_uri(W, LILV_NS_MOD    "releaseNumber"     )),
+          mod_builder              (lilv_new_uri(W, LILV_NS_MOD    "builderVersion"    )),
           modgui_gui               (lilv_new_uri(W, LILV_NS_MODGUI "gui"               )),
           modgui_resourcesDirectory(lilv_new_uri(W, LILV_NS_MODGUI "resourcesDirectory")),
           modgui_iconTemplate      (lilv_new_uri(W, LILV_NS_MODGUI "iconTemplate"      )),
@@ -324,6 +325,7 @@ struct NamespaceDefinitions {
         lilv_node_free(mod_maximum);
         lilv_node_free(mod_rangeSteps);
         lilv_node_free(mod_release);
+        lilv_node_free(mod_builder);
         lilv_node_free(modgui_gui);
         lilv_node_free(modgui_resourcesDirectory);
         lilv_node_free(modgui_iconTemplate);
@@ -785,6 +787,16 @@ const PluginInfo& _get_plugin_info(const LilvPlugin* const p, const NamespaceDef
     else
     {
         info.release = 0;
+    }
+
+    if (LilvNodes* const buildernode = lilv_plugin_get_value(p, ns.mod_builder))
+    {
+        info.builder = lilv_node_as_int(lilv_nodes_get_first(buildernode));
+        lilv_nodes_free(buildernode);
+    }
+    else
+    {
+        info.builder = 0;
     }
 
     // 0.x is experimental
