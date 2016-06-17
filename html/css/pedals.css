@@ -215,18 +215,6 @@ body > .mod-settings.mod-window-visible {
     padding:0 18px;
 }
 
-.mod-presets {
-    margin:0;
-    padding: 0 18px;
-}
-.mod-presets select {
-    color: #000;
-    background-color: #FFFFFE; /* forces mod-remote to use custom combo-box bg */
-}
-.preset-manager {
-    color: #000;
-}
-
 /* = KNOB
 ================================================ */
 .mod-pedal-settings .mod-knob {
@@ -318,7 +306,7 @@ body > .mod-settings.mod-window-visible {
 
 .mod-pedal-settings .mod-enumerated .mod-enumerated-list {
     color:#fff;
-    height:103px;
+    height:95px;
     overflow:auto;
     position:relative;
 }

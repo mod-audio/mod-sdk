@@ -3,14 +3,6 @@
         <h1 class="alignleft">{{effect.name}}</h1>
         <button class="js-close alignright btn btn-danger">Close</button>
     </header>
-    <div class="mod-presets clearfix">
-        <select  mod-role="presets">
-            <option value="">---</option>
-            {{#effect.presets}}
-            <option mod-role="preset-label" value="{{uri}}">{{label}}</option>
-            {{/effect.presets}}
-        </select>
-    </div>
     <div class="mod-controls clearfix">
         <div class="mod-control-group clearfix">
             <div class="mod-switch bypass">
@@ -19,6 +11,44 @@
                 <div class="mod-switch-image" mod-role="bypass"></div>
                 <div class="mod-address" mod-role="bypass-address"></div>
             </div>
+
+            <!-- PRESET LIST -->
+            <div class="mod-enumerated mod-presets">
+                <span class="mod-enumerated-title">
+                    <form>
+                        Preset list&emsp;&emsp;
+                        <span>
+                            <label><input type="radio" name="preset_type" autocomplete="off" class="radio-preset radio-preset-factory" value="factory" checked="checked"> Factory</label>
+                        </span>
+                        &emsp;
+                        <span>
+                            <label><input type="radio" name="preset_type" autocomplete="off" class="radio-preset radio-preset-user" value="user"> User</label>
+                        </span>
+                    </form>
+                </span>
+                <div class="mod-enumerated-list mod-preset-factory" mod-widget="custom-select">
+                    {{#presets.factory}}
+                    <div mod-role="enumeration-option" mod-uri="{{uri}}">{{label}}</div>
+                    {{/presets.factory}}
+                </div>
+                <div class="mod-enumerated-list mod-preset-user mod-hidden" mod-widget="custom-select">
+                    {{#presets.user}}
+                    <div mod-role="enumeration-option" mod-uri="{{uri}}" mod-path="{{path}}">{{label}}</div>
+                    {{/presets.user}}
+                </div>
+                <footer>
+                    <button class="btn btn-xs btn-primary preset-btn-save disabled" title="Save"></button>
+                    <button class="btn btn-xs btn-primary preset-btn-save-as" title="Save as"></button>
+                    <button class="btn btn-xs btn-primary preset-btn-rename disabled" title="Rename"></button>
+                    <button class="btn btn-xs btn-primary preset-btn-delete disabled" title="Delete"></button>
+                    <button class="btn btn-xs btn-primary preset-btn-assign-sel disabled">Assign selected</button>
+                    <span class="assign-all">
+                        <button class="btn btn-xs btn-primary preset-btn-assign-all" mod-role="presets-address">Assign all</button>
+                    </span>
+                </footer>
+            </div>
+            <!-- END PRESET LIST -->
+
             {{#effect.ports.control.input}}
             {{#enumeration}}
             <div class="mod-enumerated">

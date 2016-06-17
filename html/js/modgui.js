@@ -36,7 +36,6 @@ var loadedSettings = {}
 var loadedCSSs = {}
 var loadedJSs = {}
 var isSDK = true
-var newPresetStyle = false
 
 function loadDependencies(gui, effect, callback) { //source, effect, bundle, callback) {
     var iconLoaded = true
@@ -139,12 +138,26 @@ function GUI(effect, options) {
         change: function(symbol, value) {
             console.log("PARAM CHANGE =>", symbol, value)
         },
-        click: new Function(),
-        dragStart: new Function(),
-        drag: new Function(),
-        dragStop: new Function(),
-        presetLoad: new Function(),
-        midiLearn: new Function(),
+        click: function (event) {
+        },
+        dragStart: function () {
+            return true
+        },
+        drag: function (e, ui) {
+        },
+        dragStop: function (e, ui) {
+        },
+        presetLoad: function (uri) {
+        },
+        presetSaveNew: function (name, callback) {
+            callback({ok:false})
+        },
+        presetSaveReplace: function (uri, bundlepath, name, callback) {
+            callback({ok:false})
+        },
+        presetDelete: function (uri, bundlepath, callback) {
+            callback()
+        },
         bypassed: true,
         defaultIconTemplate: 'Template missing',
         defaultSettingsTemplate: 'Template missing',
@@ -153,8 +166,6 @@ function GUI(effect, options) {
 
     if (!effect.gui)
         effect.gui = {}
-
-    self.currentValues = {}
 
     self.dependenciesCallbacks = []
 
@@ -175,6 +186,7 @@ function GUI(effect, options) {
     self.effect = effect
 
     self.bypassed = options.bypassed
+    self.currentPreset = ""
 
     this.makePortIndexes = function (ports) {
         var i, port, porti, indexes = {}
@@ -234,6 +246,7 @@ function GUI(effect, options) {
         enabled: true,
         value: self.bypassed ? 1 : 0,
         format: null,
+        scalePoints: [],
         scalePointsIndex: null,
         valueFields: [],
 
@@ -246,7 +259,25 @@ function GUI(effect, options) {
         logarithmic: false,
         toggled: true,
         trigger: false,
-        scalePoints: []
+    }
+
+    // The same with bypass applies to presets, as ':presets' symbol
+    self.controls[':presets'] = {
+        name: 'Presets',
+        symbol: ':presets',
+        ranges: {
+            minimum: -1,
+            maximum: 0,
+            default: -1,
+        },
+        properties: ["enumeration", "integer"],
+        widgets: [],
+        enabled: true,
+        value: -1,
+        format: null,
+        scalePoints: [],
+        scalePointsIndex: null,
+        valueFields: []
     }
 
     this.setPortValue = function (symbol, value, source) {
@@ -288,7 +319,6 @@ function GUI(effect, options) {
             port = self.controls[symbol]
 
         port.value = value
-        self.currentValues[symbol] = value
 
         for (var i in port.widgets) {
             widget = port.widgets[i]
@@ -314,28 +344,73 @@ function GUI(effect, options) {
         return self.controls[symbol].value
     }
 
-    this.serializePreset = function () {
-        var data = {}
-        for (var symbol in self.controls)
-            data[symbol] = self.controls[symbol].value
-        return data
+    this.selectPreset = function (value) {
+        self.currentPreset = value
+
+        var bundlepath,
+            presetElem,
+            presetElems = [
+            self.icon.find('[mod-role=presets]'),
+            self.settings.find('.mod-presets')
+        ]
+        for (var i in presetElems) {
+            presetElem = presetElems[i]
+            presetElem.find('[mod-role=enumeration-option]').removeClass("selected")
+            if (value) {
+                bundlepath = presetElem.find('[mod-role=enumeration-option][mod-uri="' + value + '"]').addClass("selected").attr('mod-path')
+            }
+        }
+
+        if (value) {
+            // TODO: implement addressing for single presets
+            //presetElem.find('.preset-btn-assign-sel').removeClass("disabled")
+
+            if (bundlepath) {
+                presetElem.find('.preset-btn-save').removeClass("disabled")
+            } else {
+                presetElem.find('.preset-btn-save').addClass("disabled")
+            }
+
+            if (bundlepath && presetElem.data('enabled')) {
+                presetElem.find('.preset-btn-rename').removeClass("disabled")
+                presetElem.find('.preset-btn-delete').removeClass("disabled")
+            } else {
+                presetElem.find('.preset-btn-rename').addClass("disabled")
+                presetElem.find('.preset-btn-delete').addClass("disabled")
+            }
+        } else {
+            presetElem.find('.preset-btn-save').addClass("disabled")
+            presetElem.find('.preset-btn-rename').addClass("disabled")
+            presetElem.find('.preset-btn-delete').addClass("disabled")
+            presetElem.find('.preset-btn-assign-sel').addClass("disabled")
+        }
     }
 
     this.disable = function (symbol) {
         var port = self.controls[symbol]
         port.enabled = false
 
-        // disable all related widgets
-        for (var i in port.widgets)
-            port.widgets[i].controlWidget('disable')
+        if (symbol == ":presets") {
+            self.icon.find('[mod-role=presets]').controlWidget('disable')
+            var presetElem = self.settings.find('.mod-presets')
+            presetElem.data('enabled', false)
+            presetElem.find('.preset-btn-rename').addClass("disabled")
+            presetElem.find('.preset-btn-delete').addClass("disabled")
+        } else {
+            // disable all related widgets
+            for (var i in port.widgets) {
+                port.widgets[i].controlWidget('disable')
+            }
 
-        // disable value fields if needed
-        if (port.properties.indexOf("enumeration") < 0 &&
-            port.properties.indexOf("toggled") < 0 &&
-            port.properties.indexOf("trigger") < 0)
-        {
-            for (var i in port.valueFields)
-                port.valueFields[i].attr('contenteditable', false)
+            // disable value fields if needed
+            if (port.properties.indexOf("enumeration") < 0 &&
+                port.properties.indexOf("toggled") < 0 &&
+                port.properties.indexOf("trigger") < 0)
+            {
+                for (var i in port.valueFields) {
+                    port.valueFields[i].attr('contenteditable', false)
+                }
+            }
         }
     }
 
@@ -343,17 +418,25 @@ function GUI(effect, options) {
         var port = self.controls[symbol]
         port.enabled = true
 
-        // enable all related widgets
-        for (var i in port.widgets)
-            port.widgets[i].controlWidget('enable')
+        if (symbol == ":presets") {
+            self.icon.find('[mod-role=presets]').controlWidget('enable')
+            self.settings.find('.mod-presets').data('enabled', true)
+            self.selectPreset(self.currentPreset)
+        } else {
+            // enable all related widgets
+            for (var i in port.widgets) {
+                port.widgets[i].controlWidget('enable')
+            }
 
-        // enable value fields if needed
-        if (port.properties.indexOf("enumeration") < 0 &&
-            port.properties.indexOf("toggled") < 0 &&
-            port.properties.indexOf("trigger") < 0)
-        {
-            for (var i in port.valueFields)
-                port.valueFields[i].attr('contenteditable', true)
+            // enable value fields if needed
+            if (port.properties.indexOf("enumeration") < 0 &&
+                port.properties.indexOf("toggled") < 0 &&
+                port.properties.indexOf("trigger") < 0)
+            {
+                for (var i in port.valueFields) {
+                    port.valueFields[i].attr('contenteditable', true)
+                }
+            }
         }
     }
 
@@ -384,18 +467,6 @@ function GUI(effect, options) {
             self.assignIconFunctionality(self.icon)
             self.assignControlFunctionality(self.icon, false)
 
-            // adjust icon size after adding all basic elements
-            setTimeout(function () {
-                self.icon.width(children.width())
-                self.icon.height(children.height())
-
-                // listen for future resizes
-                children.resize(function () {
-                    self.icon.width(children.width())
-                    self.icon.height(children.height())
-                })
-            }, 1)
-
             self.icon.find('[mod-role=presets]').change(function () {
                 var value = $(this).val()
                 options.presetLoad(value)
@@ -406,107 +477,197 @@ function GUI(effect, options) {
             else
                 self.settings = $('<div class="mod-settings">')
 
+            // split presets, factory vs user
+            var preset, presets = {
+                factory: [],
+                user: []
+            }
+            for (var i in self.effect.presets) {
+                preset = self.effect.presets[i]
+                if (preset.path) {
+                    presets.user.push(preset)
+                } else {
+                    presets.factory.push(preset)
+                }
+            }
+            templateData.presets = presets
+
             self.settings.html(Mustache.render(effect.gui.settingsTemplate || options.defaultSettingsTemplate, templateData))
 
             self.assignControlFunctionality(self.settings, false)
 
-            if (instance)
+            var presetElem = self.settings.find('.mod-presets')
+
+            if (instance && (self.effect.presets.length > 0 || self.effect.ports.control.input.length > 0))
             {
-                if (newPresetStyle)
-                {
-                    var prmel = self.settings.find('.preset-manager')
-                    self.presetManager = prmel.presetManager({})
+                presetElem.data('enabled', true)
 
-                    self.presetManager.on("load", function (e, instance, options) {
-                        console.log("load", instance, options);
-                        $.ajax({
-                            url: '/effect/preset/load/' + instance,
-                            data: {
-                                uri: options.uri
-                            },
-                            success: function (resp) {
-                                self.presetManager.presetManager("setPresetName", options.label)
-                            },
-                            error: function () {
-                            },
-                            cache: false,
-                            dataType: 'json'
-                        })
-                    })
-                    self.presetManager.on("save", function (e, instance, name, options) {
-                        console.log("save", instance, name, options)
-                        $.ajax({
-                            url: '/effect/preset/save/' + instance,
-                            data: {
-                                name: name
-                            },
-                            success: function (resp) {
-                                console.log(resp)
-                                if (resp.ok) {
-                                    self.presetManager.presetManager("addPreset", {
-                                        name: name,
-                                        uri: resp.uri,
-                                        bind: false,
-                                        readonly: true,
-                                    })
-                                }
-                            },
-                            error: function () {
-                            },
-                            cache: false,
-                            dataType: 'json'
-                        })
-                    })
-                    self.presetManager.on("rename", function (e, instance, name, options) {
-                        console.log("rename", instance, name, options)
-                    })
-                    self.presetManager.on("bind", function (e, instance, options) {
-                        console.log("bind", instance, options)
-                    })
-                    self.presetManager.on("bindlist", function (e, instance, options) {
-                        console.log("bindlist", instance, options)
-                    })
-
-                    // bind: MOD_BIND_NONE, MOD_BIND_MIDI, MOD_BIND_KNOB, MOD_BIND_FOOTSWITCH or false
-                    var p, _presets = []
-                    for (var i in effect.presets) {
-                        p = effect.presets[i]
-                        _presets.push({
-                            name: p.label,
-                            uri: p.uri,
-                            bind: false,
-                            readonly: true,
-                        })
+                var getCurrentPresetItem = function () {
+                    if (! self.currentPreset) {
+                        return null
                     }
-                    self.presetManager.presetManager("setPresets", instance, _presets)
+                    var opt = presetElem.find('[mod-role=enumeration-option][mod-uri="' + self.currentPreset + '"]')
+                    if (opt.length == 0) {
+                        return null
+                    }
+                    return opt
                 }
-                else
-                {
-                    self.settings.find('[mod-role=presets]').change(function () {
-                        var value = $(this).val()
-                        options.presetLoad(value)
+
+                var presetItemClicked = function (e) {
+                    if (!presetElem.data('enabled'))
+                        return presetElem.customSelect('prevent', e)
+
+                    var value = $(this).attr('mod-uri')
+                    options.presetLoad(value)
+                }
+
+                presetElem.find('.preset-btn-save').click(function () {
+                    if ($(this).hasClass('disabled')) {
+                        return
+                    }
+                    var item = getCurrentPresetItem()
+                    if (! item) {
+                        return
+                    }
+                    var name = item.text() || "Untitled",
+                        path = item.attr('mod-path'),
+                        uri  = item.attr('mod-uri')
+                    if (! path || ! uri) {
+                        return
+                    }
+                    options.presetSaveReplace(uri, path, name, function (resp) {
                     })
+                })
+
+                presetElem.find('.preset-btn-save-as').click(function () {
+                    var name = "",
+                        item = getCurrentPresetItem()
+                    if (item) {
+                        name = item.text()
+                    }
+                    desktop.openPresetSaveWindow(name, function (newName) {
+                        options.presetSaveNew(newName, function (resp) {
+                            var newItem = $('<div mod-role="enumeration-option" mod-uri="'+resp.uri+'" mod-path="'+resp.bundle+'">'+newName+'</div>')
+                            newItem.appendTo(presetElem.find('.mod-preset-user')).click(presetItemClicked)
+
+                            presetElem.find('.radio-preset-user').click()
+                            presetElem.find('.preset-btn-assign-all').removeClass("disabled")
+
+                            self.selectPreset(resp.uri)
+                        })
+                    })
+                })
+
+                presetElem.find('.preset-btn-rename').click(function () {
+                    if ($(this).hasClass('disabled') || ! presetElem.data('enabled')) {
+                        return
+                    }
+                    var item = getCurrentPresetItem()
+                    if (! item) {
+                        return
+                    }
+                    var name = name = item.text(),
+                        path = item.attr('mod-path'),
+                        uri  = item.attr('mod-uri')
+                    if (! path || ! uri) {
+                        return
+                    }
+                    desktop.openPresetSaveWindow(name, function (newName) {
+                        options.presetSaveReplace(uri, path, newName, function (resp) {
+                            item.text(newName)
+                        })
+                    })
+                })
+
+                presetElem.find('.preset-btn-delete').click(function () {
+                    if ($(this).hasClass('disabled') || ! presetElem.data('enabled')) {
+                        return
+                    }
+                    var item = getCurrentPresetItem()
+                    if (! item) {
+                        return
+                    }
+                    var path = item.attr('mod-path')
+                    if (! path) {
+                        return
+                    }
+                    options.presetDelete(self.currentPreset, path, function () {
+                        self.selectPreset("")
+                        item.remove()
+                    })
+                })
+
+                presetElem.find('.radio-preset-factory').click(function () {
+                    presetElem.find('.mod-preset-user').hide()
+                    presetElem.find('.mod-preset-factory').show()
+                })
+                presetElem.find('.radio-preset-user').click(function () {
+                    presetElem.find('.mod-preset-factory').hide()
+                    presetElem.find('.mod-preset-user').show()
+                })
+                presetElem.find('[mod-role=enumeration-option]').each(function () {
+                    $(this).click(presetItemClicked)
+                })
+
+                if (presets.factory.length == 0) {
+                    presetElem.find('.mod-enumerated-title').find('span').hide()
+                    presetElem.find('.mod-preset-factory').hide()
+                    presetElem.find('.mod-preset-user').show()
+
+                    if (presets.user.length == 0) {
+                        presetElem.find('.preset-btn-assign-all').addClass("disabled")
+                    }
                 }
             }
             else
             {
+                presetElem.hide()
+            }
+
+            if (! instance) {
                 self.settings.find(".js-close").hide()
                 self.settings.find(".mod-address").hide()
-                self.settings.find(".preset-manager").hide()
-                self.settings.find('[mod-role=presets]').hide()
+            }
 
-                setTimeout(function () {
+            // adjust icon size after adding all basic elements
+            setTimeout(function () {
+                var width = children.width(),
+                    height = children.height()
+
+                if (width != 0 && height != 0) {
+                    self.icon.width(width)
+                    self.icon.height(height)
+                }
+
+                if (! instance) {
                     $('[mod-role="input-audio-port"]').addClass("mod-audio-input")
                     $('[mod-role="output-audio-port"]').addClass("mod-audio-output")
                     $('[mod-role="input-midi-port"]').addClass("mod-midi-input")
                     $('[mod-role="output-midi-port"]').addClass("mod-midi-output")
                     $('[mod-role="input-cv-port"]').addClass("mod-cv-input")
                     $('[mod-role="output-cv-port"]').addClass("mod-cv-output")
-                }, 1)
-            }
+                }
 
+                // listen for future resizes
+                children.resize(function () {
+                    width = children.width()
+                    height = children.height()
+                    if (width != 0 && height != 0) {
+                        self.icon.width(width)
+                        self.icon.height(height)
+                    }
+                })
+            }, 1)
+
+            var jsPorts = []
+            for (var i in self.controls) {
+                jsPorts.push({
+                    symbol: self.controls[i].symbol,
+                    value : self.controls[i].value
+                })
+            }
             self.jsStarted = true
-            self.triggerJS({ type: 'start' })
+            self.triggerJS({ type: 'start', ports: jsPorts })
 
             callback(self.icon, self.settings)
         }
@@ -586,10 +747,6 @@ function GUI(effect, options) {
                     port: port,
                     change: function (e, value) {
                         self.setPortValue(symbol, value, control)
-                    },
-                    midiLearn: function (e) {
-                        var port_path = $(this).attr('mod-port')
-                        options.midiLearn(port_path)
                     }
                 })
 
@@ -824,7 +981,7 @@ function GUI(effect, options) {
             data.cns = '_' + escape(options.uri).split("/").join("_").split("%").join("_").split(".").join("_")
         }
 
-        // fill fields that might be present on modgui data
+        // fill fields that might not be present on modgui data
         if (!data.brand)
             data.brand = effect.gui.brand || ""
         if (!data.label)
@@ -859,8 +1016,7 @@ function GUI(effect, options) {
         if (data.effect.ports.control.input)
         {
             inputs = []
-            for (var i in data.effect.ports.control.input)
-            {
+            for (var i in data.effect.ports.control.input) {
                 var port = data.effect.ports.control.input[i]
                 if (shouldSkipPort(port))
                     continue
@@ -881,8 +1037,6 @@ function GUI(effect, options) {
             DEBUG = JSON.stringify(data, undefined, 4)
         }
 
-        data.newPresetStyle = newPresetStyle
-
         return data
     }
 
@@ -891,20 +1045,9 @@ function GUI(effect, options) {
     this.triggerJS = function (event) {
         if (!self.jsCallback || !self.jsStarted)
             return
-        /*
-        var e = {
-            event: event,
-            values: self.currentValues,
-            icon: self.icon,
-            settings: self.settings,
-            data: self.jsData
-        };
-        if (event.symbol)
-            e.port = self.controls[event.symbol]
-        */
+
         event.icon     = self.icon
         event.settings = self.settings
-
 
         try {
             self.jsCallback(event)
@@ -959,7 +1102,6 @@ var baseWidget = {
         if (!(self.data('enabled') === false))
             self.data('enabled', true)
         self.bind('valuechange', options.change)
-        self.bind('midilearn', options.midiLearn)
 
         var port = options.port
 
