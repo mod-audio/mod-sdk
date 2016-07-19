@@ -30,7 +30,7 @@
             <tr><th>Version</th><td>@REVISION@</td></tr>-->
         <!--<tr><th>Prefixes</th><td><span><a href="http://ontologi.es/doap-changeset#">dcs</a> <a href="http://usefulinc.com/ns/doap#">doap</a> <a href="http://xmlns.com/foaf/0.1/">foaf</a> <a href="http://lv2plug.in/ns/lv2core#">lv2</a> <a href="http://moddevices.com/ns/modgui#">modgui</a> <a href="http://www.w3.org/2002/07/owl#">owl</a> <a href="http://lv2plug.in/ns/ext/port-props#">pprops</a> <a href="http://www.w3.org/1999/02/22-rdf-syntax-ns#">rdf</a> <a href="http://www.w3.org/2000/01/rdf-schema#">rdfs</a> <a href="http://lv2plug.in/ns/extensions/units#">units</a> <a href="http://www.w3.org/2001/XMLSchema#">xsd</a> </span></td></tr>-->
         <tr><th>Version</th><td>2.0</td></tr>
-        <tr><th>Date</th><td>2016-04-09</td></tr>
+        <tr><th>Date</th><td>2016-07-19</td></tr>
         <tr><th>Discuss</th><td><a href="mailto:None">None</a> <a href="None">(subscribe)</a></td></tr>
         <tr><th class="metahead">Developers</th><td><span class="author" property="doap:developer">Luis Fagundes</span>, <span class="author" property="doap:developer">Filipe Coelho</span></td></tr><tr><th class="metahead">Maintainer</th><td><span class="author" property="doap:maintainer">Filipe Coelho</span></td></tr>
       </table>
@@ -40,7 +40,7 @@
       <li><a href="#sec-index">Index</a></li>
       <li><a href="#sec-reference">Reference</a></li>
       <li><a href="#sec-history">History</a></li>
-      <li><a href="/home/falktx/Personal/FOSS/Git-mine/mod-sdk/documentation/modgui/group__manifest.html">API</a></li>
+      <li><a href="/home/falktx/FOSS/GIT-mine/MOD/mod-sdk/documentation/modgui/group__manifest.html">API</a></li>
     </ul>
   </div>
 
@@ -114,41 +114,41 @@ The web interface definition for this plugin.<br/>
 It's defined by html templates for icon and settings panel, plus css, images and other media that's contained in the resources directory.
 </p>
 </div></div>
-<table class="terminfo"><tr><th>Restriction on <a href="#thumbnail" >modgui:thumbnail</a></th><td><table class="restriction"><tr><th><a href="http://www.w3.org/2002/07/owl#cardinality" >owl:cardinality</a></th>
-<td>1</td></tr>
-</table>
-<span>A modgui MUST have a thumbnail.</span>
-</td></tr><tr><th>Restriction on <a href="#resourcesDirectory" >modgui:resourcesDirectory</a></th><td><table class="restriction"><tr><th><a href="http://www.w3.org/2002/07/owl#cardinality" >owl:cardinality</a></th>
+<table class="terminfo"><tr><th>Restriction on <a href="#resourcesDirectory" >modgui:resourcesDirectory</a></th><td><table class="restriction"><tr><th><a href="http://www.w3.org/2002/07/owl#cardinality" >owl:cardinality</a></th>
 <td>1</td></tr>
 </table>
 <span>A modgui MUST have a resources directory.</span>
-</td></tr><tr><th>Restriction on <a href="#screenshot" >modgui:screenshot</a></th><td><table class="restriction"><tr><th><a href="http://www.w3.org/2002/07/owl#cardinality" >owl:cardinality</a></th>
-<td>1</td></tr>
-</table>
-<span>A modgui MUST have a screenshot.</span>
 </td></tr><tr><th>Restriction on <a href="#stylesheet" >modgui:stylesheet</a></th><td><table class="restriction"><tr><th><a href="http://www.w3.org/2002/07/owl#cardinality" >owl:cardinality</a></th>
 <td>1</td></tr>
 </table>
 <span>A modgui MUST have a stylesheet.</span>
+</td></tr><tr><th>Restriction on <a href="#screenshot" >modgui:screenshot</a></th><td><table class="restriction"><tr><th><a href="http://www.w3.org/2002/07/owl#cardinality" >owl:cardinality</a></th>
+<td>1</td></tr>
+</table>
+<span>A modgui MUST have a screenshot.</span>
+</td></tr><tr><th>Restriction on <a href="#thumbnail" >modgui:thumbnail</a></th><td><table class="restriction"><tr><th><a href="http://www.w3.org/2002/07/owl#cardinality" >owl:cardinality</a></th>
+<td>1</td></tr>
+</table>
+<span>A modgui MUST have a thumbnail.</span>
 </td></tr><tr><th>Restriction on <a href="#iconTemplate" >modgui:iconTemplate</a></th><td><table class="restriction"><tr><th><a href="http://www.w3.org/2002/07/owl#cardinality" >owl:cardinality</a></th>
 <td>1</td></tr>
 </table>
 <span>A modgui MUST have an icon template.</span>
-</td></tr><tr><th>In domain of</th><td><a href="#screenshot" >modgui:screenshot</a></td></tr>
-<tr><td></td><td><a href="#settingsTemplate" >modgui:settingsTemplate</a></td></tr>
-<tr><td></td><td><a href="#panel" >modgui:panel</a></td></tr>
-<tr><td></td><td><a href="#port" >modgui:port</a></td></tr>
-<tr><td></td><td><a href="#color" >modgui:color</a></td></tr>
-<tr><td></td><td><a href="#brand" >modgui:brand</a></td></tr>
+</td></tr><tr><th>In domain of</th><td><a href="#thumbnail" >modgui:thumbnail</a></td></tr>
+<tr><td></td><td><a href="#resourcesDirectory" >modgui:resourcesDirectory</a></td></tr>
+<tr><td></td><td><a href="#knob" >modgui:knob</a></td></tr>
+<tr><td></td><td><a href="#label" >modgui:label</a></td></tr>
+<tr><td></td><td><a href="#templateData" >modgui:templateData</a></td></tr>
+<tr><td></td><td><a href="#stylesheet" >modgui:stylesheet</a></td></tr>
 <tr><td></td><td><a href="#iconTemplate" >modgui:iconTemplate</a></td></tr>
 <tr><td></td><td><a href="#javascript" >modgui:javascript</a></td></tr>
-<tr><td></td><td><a href="#resourcesDirectory" >modgui:resourcesDirectory</a></td></tr>
-<tr><td></td><td><a href="#thumbnail" >modgui:thumbnail</a></td></tr>
-<tr><td></td><td><a href="#label" >modgui:label</a></td></tr>
 <tr><td></td><td><a href="#model" >modgui:model</a></td></tr>
-<tr><td></td><td><a href="#templateData" >modgui:templateData</a></td></tr>
-<tr><td></td><td><a href="#knob" >modgui:knob</a></td></tr>
-<tr><td></td><td><a href="#stylesheet" >modgui:stylesheet</a></td></tr>
+<tr><td></td><td><a href="#settingsTemplate" >modgui:settingsTemplate</a></td></tr>
+<tr><td></td><td><a href="#port" >modgui:port</a></td></tr>
+<tr><td></td><td><a href="#panel" >modgui:panel</a></td></tr>
+<tr><td></td><td><a href="#brand" >modgui:brand</a></td></tr>
+<tr><td></td><td><a href="#screenshot" >modgui:screenshot</a></td></tr>
+<tr><td></td><td><a href="#color" >modgui:color</a></td></tr>
 <tr><th>In range of</th><td><a href="#gui" >modgui:gui</a></td></tr>
 </table>
 </div>
@@ -163,7 +163,11 @@ It's defined by html templates for icon and settings panel, plus css, images and
 This is used by the SDK wizard to save the last selected state of each knob or combo-box on the screen.
 </p>
 </div></div>
-<table class="terminfo"><tr><th>Restriction on <a href="http://lv2plug.in/ns/lv2core#symbol" >lv2:symbol</a></th><td><table class="restriction"><tr><th><a href="http://www.w3.org/2002/07/owl#cardinality" >owl:cardinality</a></th>
+<table class="terminfo"><tr><th>Restriction on <a href="http://lv2plug.in/ns/lv2core#name" >lv2:name</a></th><td><table class="restriction"><tr><th><a href="http://www.w3.org/2002/07/owl#minCardinality" >owl:minCardinality</a></th>
+<td>1</td></tr>
+</table>
+<span>A port MUST have exactly one lv2:name.</span>
+</td></tr><tr><th>Restriction on <a href="http://lv2plug.in/ns/lv2core#symbol" >lv2:symbol</a></th><td><table class="restriction"><tr><th><a href="http://www.w3.org/2002/07/owl#cardinality" >owl:cardinality</a></th>
 <td>1</td></tr>
 </table>
 <span>A port MUST have exactly one lv2:symbol.</span>
@@ -171,10 +175,6 @@ This is used by the SDK wizard to save the last selected state of each knob or c
 <td>1</td></tr>
 </table>
 <span>A port MUST have exactly one lv2:index.</span>
-</td></tr><tr><th>Restriction on <a href="http://lv2plug.in/ns/lv2core#name" >lv2:name</a></th><td><table class="restriction"><tr><th><a href="http://www.w3.org/2002/07/owl#minCardinality" >owl:minCardinality</a></th>
-<td>1</td></tr>
-</table>
-<span>A port MUST have exactly one lv2:name.</span>
 </td></tr><tr><th>In range of</th><td><a href="#port" >modgui:port</a></td></tr>
 </table>
 </div>

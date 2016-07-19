@@ -30,7 +30,7 @@
             <tr><th>Version</th><td>@REVISION@</td></tr>-->
         <!--<tr><th>Prefixes</th><td><span><a href="http://ontologi.es/doap-changeset#">dcs</a> <a href="http://usefulinc.com/ns/doap#">doap</a> <a href="http://xmlns.com/foaf/0.1/">foaf</a> <a href="http://lv2plug.in/ns/lv2core#">lv2</a> <a href="http://moddevices.com/ns/mod#">mod</a> <a href="http://www.w3.org/2002/07/owl#">owl</a> <a href="http://lv2plug.in/ns/ext/port-props#">pprops</a> <a href="http://www.w3.org/1999/02/22-rdf-syntax-ns#">rdf</a> <a href="http://www.w3.org/2000/01/rdf-schema#">rdfs</a> <a href="http://www.w3.org/2001/XMLSchema#">xsd</a> </span></td></tr>-->
         <tr><th>Version</th><td>1.0</td></tr>
-        <tr><th>Date</th><td>2016-04-09</td></tr>
+        <tr><th>Date</th><td>2016-07-19</td></tr>
         <tr><th>Discuss</th><td><a href="mailto:None">None</a> <a href="None">(subscribe)</a></td></tr>
         <tr><th class="metahead">Developer</th><td><span class="author" property="doap:developer">Filipe Coelho</span></td></tr><tr><th class="metahead">Maintainer</th><td><span class="author" property="doap:maintainer">Filipe Coelho</span></td></tr>
       </table>
@@ -40,7 +40,7 @@
       <li><a href="#sec-index">Index</a></li>
       <li><a href="#sec-reference">Reference</a></li>
       <li><a href="#sec-history">History</a></li>
-      <li><a href="/home/falktx/Personal/FOSS/Git-mine/mod-sdk/documentation/mod/group__manifest.html">API</a></li>
+      <li><a href="/home/falktx/FOSS/GIT-mine/MOD/mod-sdk/documentation/mod/group__manifest.html">API</a></li>
     </ul>
   </div>
 
@@ -56,7 +56,7 @@ This is a vocabulary for describing extra plugin data specific to MOD software a
   <h2 class="sec" id="sec-index">Index</h2>
   <div class="content" id="index">
   <table class="index"><thead><tr><th>Properties</th><th>Instances</th><th>Files</th></tr></thead>
-<tbody><tr><td><ul><li><a href="#brand">brand</a></li><li><a href="#default">default</a></li><li><a href="#label">label</a></li><li><a href="#maximum">maximum</a></li><li><a href="#minimum">minimum</a></li><li><a href="#rangeSteps">rangeSteps</a></li><li><a href="#releaseNumber">releaseNumber</a></li></ul></td>
+<tbody><tr><td><ul><li><a href="#brand">brand</a></li><li><a href="#builderVersion">builderVersion</a></li><li><a href="#default">default</a></li><li><a href="#label">label</a></li><li><a href="#maximum">maximum</a></li><li><a href="#minimum">minimum</a></li><li><a href="#rangeSteps">rangeSteps</a></li><li><a href="#releaseNumber">releaseNumber</a></li></ul></td>
 <td><ul><li><a href="#notStompboxCapable">notStompboxCapable</a></li></ul></td>
 <td><ul><li><a href="mod.doap.ttl">mod.doap.ttl</a></li><li><a href="mod.ttl">mod.ttl</a></li></ul></td>
 </tr></tbody></table>
@@ -70,6 +70,14 @@ This is a vocabulary for describing extra plugin data specific to MOD software a
 <div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">brand</div><div property="rdfs:comment"><p>A short plugin brand name. Maximum of 11 characters</p></div></div>
 <table class="terminfo"><tr><th>OWL Type</th><td>Datatype Property</td></tr>
 <tr><th>Range</th><td><a href="http://www.w3.org/2001/XMLSchema#string" about="http://moddevices.com/ns/mod#brand" rel="rdfs:range" resource="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></td></tr>
+</table>
+</div>
+</div>
+
+<div class="specterm" id="builderVersion" about="http://moddevices.com/ns/mod#builderVersion">
+<h3>Property <a href="#builderVersion">mod:builderVersion</a></h3>
+<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">builder version</div><div property="rdfs:comment"><p>The version of the MOD cloud builder used to compile a plugin.</p></div></div>
+<table class="terminfo"><tr><th>OWL Type</th><td>Datatype Property</td></tr>
 </table>
 </div>
 </div>
