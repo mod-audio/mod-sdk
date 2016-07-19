@@ -37,6 +37,14 @@
     width:421px;
 }
 
+/* PORTS
+================================================ */
+
+.mod-pedal-boxy{{{cns}}}.mod-boxy50 .mod-pedal-input,
+.mod-pedal-boxy{{{cns}}}.mod-boxy50 .mod-pedal-output {
+    top: 66px;
+}
+
 /* = PLUGIN'S AUTHOR
 ================================================ */
 .mod-pedal-boxy{{{cns}}} .mod-plugin-brand {
