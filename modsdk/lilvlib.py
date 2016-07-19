@@ -211,6 +211,7 @@ def get_pedalboard_info(bundle):
     ns_rdf      = NS(world, lilv.LILV_NS_RDF)
     ns_lv2core  = NS(world, lilv.LILV_NS_LV2)
     ns_ingen    = NS(world, "http://drobilla.net/ns/ingen#")
+    ns_mod      = NS(world, "http://moddevices.com/ns/mod#")
     ns_modpedal = NS(world, "http://moddevices.com/ns/modpedal#")
 
     # check if the plugin is a pedalboard
@@ -369,6 +370,8 @@ def get_pedalboard_info(bundle):
         uri      = lilv.lilv_node_as_uri(proto)
 
         enabled  = lilv.lilv_world_get(world.me, block.me, ns_ingen.enabled.me, None)
+        builder  = lilv.lilv_world_get(world.me, block.me, ns_mod.builderVersion.me, None)
+        release  = lilv.lilv_world_get(world.me, block.me, ns_mod.releaseNumber.me, None)
         minorver = lilv.lilv_world_get(world.me, block.me, ns_lv2core.minorVersion.me, None)
         microver = lilv.lilv_world_get(world.me, block.me, ns_lv2core.microVersion.me, None)
 
@@ -378,6 +381,8 @@ def get_pedalboard_info(bundle):
             "x"       : lilv.lilv_node_as_float(lilv.lilv_world_get(world.me, block.me, ns_ingen.canvasX.me, None)),
             "y"       : lilv.lilv_node_as_float(lilv.lilv_world_get(world.me, block.me, ns_ingen.canvasY.me, None)),
             "enabled" : lilv.lilv_node_as_bool(enabled) if enabled is not None else False,
+            "builder" : lilv.lilv_node_as_int(builder) if builder else 0,
+            "release" : lilv.lilv_node_as_int(release) if release else 0,
             "minorVersion": lilv.lilv_node_as_int(minorver) if minorver else 0,
             "microVersion": lilv.lilv_node_as_int(microver) if microver else 0,
         })
