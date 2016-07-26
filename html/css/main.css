@@ -1537,6 +1537,10 @@ pre,
 samp {
   font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
 }
-.canvas {
+.canvas * {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
   font-family: "cooper hewitt", Sans-serif !important;
+  font-weight: 500;
 }
