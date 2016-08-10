@@ -22,6 +22,10 @@ If you use a Debian-based GNU/Linux distribution (like Ubuntu), you can install 
 
     $ sudo apt-get install liblilv-dev phantomjs python3-pil python3-pystache python3-tornado
 
+If necessary, install setuptools ::
+
+    $ sudo apt-get install python3-setuptools
+
 After you have all dependencies installed, build it with::
 
     $ python3 setup.py build
