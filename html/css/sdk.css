@@ -45,6 +45,7 @@ ul#menu li.selected {
 
 .content .canvas {
     padding-top: 15px;
+    color: rgb(51, 51, 51);
 }
 
 .content button {

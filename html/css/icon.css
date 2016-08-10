@@ -6,6 +6,74 @@ body {
     margin-left:16px;
 }
 
+/* = Clearfix
+================================================ */
+.clearfix:after, .container:after {
+    content:"\0020";
+    display:block;
+    height:0;
+    clear:both;
+    visibility:hidden;
+    overflow:hidden;
+}
+.clearfix, .container {
+    display:block;
+}
+.clear {
+    clear:both;
+}
+
+.box {
+    padding:10px;
+}
+
+.alignleft {
+    float:left;
+}
+.alignright {
+    float:right;
+}
+
+.textcenter {
+    text-align:center;
+}
+.textright  {
+    text-align:right;
+}
+
+.bottom {
+    margin-bottom:0 !important;
+    padding-bottom:0 !important;
+}
+.left {
+    margin-left:0 !important;
+    padding-left:0 !important;
+}
+.right {
+    margin-right:0 !important;
+    padding-right:0 !important;
+}
+.top {
+    margin-top:0 !important;
+    padding-top:0 !important;
+}
+
+.nobullets {
+    list-style:none;
+}
+
+.hidden {
+    display:none;
+}
+
+::selection {
+    background:transparent;
+}
+
+pre::selection, pre b::selection {
+    background:#8888ff;
+}
+
 /**
  * Typography
  */
@@ -50,6 +118,10 @@ pre,
 samp {
   font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
 }
+
+/**
+ * Special
+ */
 #pedalboard-dashboard * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
