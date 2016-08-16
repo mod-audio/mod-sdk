@@ -575,10 +575,10 @@ def get_plugin_info(world, plugin, useAbsolutePath = True):
     # --------------------------------------------------------------------------------------------------------
     # comment
 
-    comment = plugin.get_value(ns_rdfs.comment).get_first().as_string().strip() or ""
+    comment = (plugin.get_value(ns_rdfs.comment).get_first().as_string() or "").strip()
 
     # sneaky empty comments!
-    if comment == len(comment) * comment[0]:
+    if len(comment) > 0 and comment == len(comment) * comment[0]:
         comment = ""
 
     if not comment:
