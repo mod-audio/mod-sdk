@@ -55,14 +55,18 @@ function loadDependencies(gui, effect, callback) { //source, effect, bundle, cal
         baseUrl.replace(/\/?$/, '')
     }
 
+    var version    = [effect.builder, effect.microVersion, effect.minorVersion, effect.release].join('_')
+    var escapeduri = escape(effect.uri)
+    var plughash   = escapeduri + version
+
     if (effect.gui.iconTemplate) {
-        if (loadedIcons[effect.uri]) {
-            effect.gui.iconTemplate = loadedIcons[effect.uri]
+        if (loadedIcons[plughash]) {
+            effect.gui.iconTemplate = loadedIcons[plughash]
         } else {
             iconLoaded = false
-            var iconUrl = baseUrl + '/effect/icon.html?uri=' + escape(effect.uri)
+            var iconUrl = baseUrl + '/effect/icon.html?uri=' + escapeduri + '&ver=' + version
             $.get(iconUrl, function (data) {
-                effect.gui.iconTemplate = loadedIcons[effect.uri] = data
+                effect.gui.iconTemplate = loadedIcons[plughash] = data
                 iconLoaded = true
                 cb()
             })
@@ -70,40 +74,40 @@ function loadDependencies(gui, effect, callback) { //source, effect, bundle, cal
     }
 
     if (effect.gui.settingsTemplate) {
-        if (loadedSettings[effect.uri]) {
-            effect.gui.settingsTemplate = loadedSettings[effect.uri]
+        if (loadedSettings[plughash]) {
+            effect.gui.settingsTemplate = loadedSettings[plughash]
         } else {
             settingsLoaded = false
-            var settingsUrl = baseUrl + '/effect/settings.html?uri=' + escape(effect.uri)
+            var settingsUrl = baseUrl + '/effect/settings.html?uri=' + escapeduri + '&ver=' + version
             $.get(settingsUrl, function (data) {
-                effect.gui.settingsTemplate = loadedSettings[effect.uri] = data
+                effect.gui.settingsTemplate = loadedSettings[plughash] = data
                 settingsLoaded = true
                 cb()
             })
         }
     }
 
-    if (effect.gui.stylesheet && !loadedCSSs[effect.uri]) {
+    if (effect.gui.stylesheet && !loadedCSSs[plughash]) {
         cssLoaded = false
-        var cssUrl = baseUrl + '/effect/stylesheet.css?uri=' + escape(effect.uri)
+        var cssUrl = baseUrl + '/effect/stylesheet.css?uri=' + escapeduri + '&ver=' + version
         $.get(cssUrl, function (data) {
               data = Mustache.render(data, {
-                         ns : '?uri=' + escape(effect.uri),
-                         cns: '_' + escape(effect.uri).split("/").join("_").split("%").join("_").split(".").join("_")
+                         ns : '?uri=' + escapeduri + '&ver=' + version,
+                         cns: '_' + escapeduri.split("/").join("_").split("%").join("_").split(".").join("_") + version
                      })
             $('<style type="text/css">').text(data).appendTo($('head'))
-            loadedCSSs[effect.uri] = true
+            loadedCSSs[plughash] = true
             cssLoaded = true
             cb()
         })
     }
 
     if (effect.gui.javascript) {
-        if (loadedJSs[effect.uri]) {
-            gui.jsCallback = loadedJSs[effect.uri]
+        if (loadedJSs[plughash]) {
+            gui.jsCallback = loadedJSs[plughash]
         } else {
             jsLoaded = false
-            var jsUrl = baseUrl + '/effect/gui.js?uri=' + escape(effect.uri)
+            var jsUrl = baseUrl + '/effect/gui.js?uri=' + escapeduri + '&ver=' + version
             $.ajax({
                 url: jsUrl,
                 success: function (code) {
@@ -114,7 +118,7 @@ function loadDependencies(gui, effect, callback) { //source, effect, bundle, cal
                         method = null
                         console.log("Failed to evaluate javascript for '"+effect.uri+"' plugin")
                     }
-                    loadedJSs[effect.uri] = method
+                    loadedJSs[plughash] = method
                     gui.jsCallback = method
                     jsLoaded = true
                     cb()
@@ -184,6 +188,7 @@ function GUI(effect, options) {
     }
 
     self.effect = effect
+    self.instance = null
 
     self.bypassed = options.bypassed
     self.currentPreset = ""
@@ -284,7 +289,7 @@ function GUI(effect, options) {
         if (isNaN(value))
             throw "Invalid NaN value for " + symbol
         var port = self.controls[symbol]
-        var mod_port = source ? source.attr("mod-port") : symbol
+        var mod_port = source ? source.attr("mod-port") : (self.instance ? self.instance+'/'+symbol : symbol)
         if (!port.enabled || port.value == value)
             return
 
@@ -294,17 +299,6 @@ function GUI(effect, options) {
         } else if (value > port.ranges.maximum) {
             value = port.ranges.maximum
             console.log("WARNING: setPortValue called with > max value, symbol:", symbol)
-        }
-
-        // If trigger, switch back to default value after a few miliseconds
-        // Careful not to actually send the change to the host, it's not needed
-        if (port.properties.indexOf("trigger") >= 0 && value != port.ranges.default) {
-            setTimeout(function () {
-                self.setPortWidgetsValue(symbol, port.ranges.default, null, false)
-
-                // When running SDK there's no host, so simulate trigger here.
-                if (isSDK) options.change(mod_port, port.ranges.default);
-            }, 200)
         }
 
         // update our own widgets
@@ -337,6 +331,21 @@ function GUI(effect, options) {
             valueField.text(label)
         }
 
+        self.triggerJS({ type: 'change', symbol: symbol, value: value })
+
+        // If trigger, switch back to default value after a few miliseconds
+        // Careful not to actually send the change to the host, it's not needed
+        if (port.properties.indexOf("trigger") >= 0 && value != port.ranges.default) {
+            setTimeout(function () {
+                self.setPortWidgetsValue(symbol, port.ranges.default, null, false)
+
+                // When running SDK there's no host, so simulate trigger here.
+                if (isSDK) options.change(mod_port, port.ranges.default);
+            }, 200)
+        }
+    }
+
+    this.setOutputPortValue = function (symbol, value) {
         self.triggerJS({ type: 'change', symbol: symbol, value: value })
     }
 
@@ -441,6 +450,8 @@ function GUI(effect, options) {
     }
 
     this.render = function (instance, callback, skipNamespace) {
+        self.instance = instance
+
         var render = function () {
             if (instance)
                 self.icon = $('<div mod-instance="' + instance + '" class="mod-pedal">')
@@ -540,6 +551,9 @@ function GUI(effect, options) {
                 })
 
                 presetElem.find('.preset-btn-save-as').click(function () {
+                    if (desktop == null) {
+                        return
+                    }
                     var name = "",
                         item = getCurrentPresetItem()
                     if (item) {
@@ -559,6 +573,9 @@ function GUI(effect, options) {
                 })
 
                 presetElem.find('.preset-btn-rename').click(function () {
+                    if (desktop == null) {
+                        return
+                    }
                     if ($(this).hasClass('disabled') || ! presetElem.data('enabled')) {
                         return
                     }
@@ -659,11 +676,41 @@ function GUI(effect, options) {
                 })
             }, 1)
 
-            var jsPorts = []
-            for (var i in self.controls) {
+            // make list of ports to pass to javascript 'start' event
+            var port, value, jsPorts = [{
+                symbol: ":bypass",
+                value : self.bypassed ? 1 : 0
+            }]
+            // inputs
+            for (var i in self.effect.ports.control.input) {
+                port = self.effect.ports.control.input[i]
+
+                if (self.controls[port.symbol] != null) {
+                    value = self.controls[port.symbol].value
+                } else if (port.ranges.default !== undefined) {
+                    value = port.ranges.default
+                } else {
+                    value = port.ranges.minimum
+                }
+
                 jsPorts.push({
-                    symbol: self.controls[i].symbol,
-                    value : self.controls[i].value
+                    symbol: port.symbol,
+                    value : value
+                })
+            }
+            // outputs
+            for (var i in self.effect.ports.control.output) {
+                port = self.effect.ports.control.output[i]
+
+                if (port.ranges.default !== undefined) {
+                    value = port.ranges.default
+                } else {
+                    value = port.ranges.minimum
+                }
+
+                jsPorts.push({
+                    symbol: port.symbol,
+                    value : value
                 })
             }
             self.jsStarted = true
@@ -683,7 +730,7 @@ function GUI(effect, options) {
         var render = function () {
             var icon = $('<div class="mod-pedal dummy">')
             icon.html(Mustache.render(effect.gui.iconTemplate || options.defaultIconTemplate,
-                self.getTemplateData(effect, false)))
+                      self.getTemplateData(effect, false)))
             self.assignControlFunctionality(icon, true)
             callback(icon)
         }
@@ -973,27 +1020,30 @@ function GUI(effect, options) {
         var data = $.extend({}, options.gui.templateData)
         data.effect = options
 
+        var version    = [options.builder, options.microVersion, options.minorVersion, options.release].join('_')
+        var escapeduri = escape(options.uri)
+
         if (skipNamespace) {
             data.ns  = ''
             data.cns = '_sdk'
         } else {
-            data.ns  = '?uri=' + escape(options.uri)
-            data.cns = '_' + escape(options.uri).split("/").join("_").split("%").join("_").split(".").join("_")
+            data.ns  = '?uri=' + escapeduri + '&ver=' + version,
+            data.cns = '_' + escapeduri.split("/").join("_").split("%").join("_").split(".").join("_") + version
         }
 
         // fill fields that might not be present on modgui data
         if (!data.brand)
-            data.brand = effect.gui.brand || ""
+            data.brand = options.gui.brand || ""
         if (!data.label)
-            data.label = effect.gui.label || ""
+            data.label = options.gui.label || ""
         if (!data.color)
-            data.color = effect.gui.color
+            data.color = options.gui.color
         if (!data.knob)
-            data.knob = effect.gui.knob
+            data.knob = options.gui.knob
         if (!data.model)
-            data.model = effect.gui.model
+            data.model = options.gui.model
         if (!data.panel)
-            data.panel = effect.gui.panel
+            data.panel = options.gui.panel
         if (!data.controls)
             data.controls = options.gui.ports || {}
 
@@ -1040,17 +1090,30 @@ function GUI(effect, options) {
         return data
     }
 
+    this.jsData = {}
     this.jsStarted = false
+
+    this.jsFuncs = {
+        // added in v1: allow plugin js code to change plugin controls
+        set_port_value: function (symbol, value) {
+            self.setPortValue(symbol, value, null)
+        }
+    }
 
     this.triggerJS = function (event) {
         if (!self.jsCallback || !self.jsStarted)
             return
 
+        // bump this everytime the data structure or funtions change
+        event.api_version = 1
+
+        // normal data
+        event.data     = self.jsData
         event.icon     = self.icon
         event.settings = self.settings
 
         try {
-            self.jsCallback(event)
+            self.jsCallback(event, self.jsFuncs)
         } catch (err) {
             self.jsCallback = null
             console.log("A plugin javascript code is broken and has been disabled")
@@ -1242,6 +1305,7 @@ var baseWidget = {
 JqueryClass('film', baseWidget, {
     init: function (options) {
         var self = $(this)
+        self.data('dragged', false)
         self.data('initialized', false)
         self.data('initvalue', options.port.ranges.default)
         self.film('getAndSetSize', options.dummy, function () {
@@ -1264,7 +1328,6 @@ JqueryClass('film', baseWidget, {
             self.film('mouseUp', e)
             $(document).unbind('mouseup', upHandler)
             $(document).unbind('mousemove', moveHandler)
-                //self.trigger('filmstop')
         }
 
         self.mousedown(function (e) {
@@ -1289,6 +1352,12 @@ JqueryClass('film', baseWidget, {
         self.click(function (e) {
             if (!self.data('enabled'))
                 return self.film('prevent', e)
+            if (self.data('dragged')) {
+                /* If we get a click after dragging the knob, ignore the click.
+                   This happens when the user releases the mouse while hovering the knob.
+                   We DO NOT want this click event, as it will bump the current value again. */
+                return
+            }
             self.film('mouseClick', e)
         })
 
@@ -1337,7 +1406,7 @@ JqueryClass('film', baseWidget, {
                 self.data('size', sw)
                 callback()
                 if (! isSDK && desktop != null) {
-                    desktop.pedalboard.pedalboard('scheduleAdapt')
+                    desktop.pedalboard.pedalboard('scheduleAdapt', false)
                 }
             }
             bgImg.setAttribute('src', url);
@@ -1347,6 +1416,7 @@ JqueryClass('film', baseWidget, {
 
     mouseDown: function (e) {
         var self = $(this)
+        self.data('dragged', false)
         self.data('lastY', e.pageY)
         self.data('lastX', e.pageX)
     },
@@ -1357,6 +1427,8 @@ JqueryClass('film', baseWidget, {
 
     mouseMove: function (e) {
         var self = $(this)
+        self.data('dragged', true)
+
         var vdiff = self.data('lastY') - e.pageY
         vdiff = parseInt(vdiff / self.data('dragPrecisionVertical'))
         var hdiff = e.pageX - self.data('lastX')
