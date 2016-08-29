@@ -1038,6 +1038,9 @@ def get_plugin_info(world, plugin, useAbsolutePath = True):
         # port designation
         designation = (get_port_data(port, ns_lv2core.designation) or [""])[0]
 
+        # port rangeSteps
+        rangeSteps = (get_port_data(port, ns_mod.rangeSteps) or get_port_data(port, ns_pprops.rangeSteps) or [None])[0]
+
         # port properties
         properties = [typ.rsplit("#",1)[-1] for typ in get_port_data(port, ns_lv2core.portProperty)]
 
@@ -1269,7 +1272,7 @@ def get_plugin_info(world, plugin, useAbsolutePath = True):
             'comment'    : pcomment,
             'designation': designation,
             'properties' : properties,
-            'rangeSteps' : (get_port_data(port, ns_mod.rangeSteps) or get_port_data(port, ns_pprops.rangeSteps) or [None])[0],
+            'rangeSteps' : rangeSteps,
             'scalePoints': scalepoints,
             'shortName'  : psname,
         })
