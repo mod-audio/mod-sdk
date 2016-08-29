@@ -1032,6 +1032,9 @@ def get_plugin_info(world, plugin, useAbsolutePath = True):
                 #if morphtyp:
                     #types.append(morphtyp.rsplit("#",1)[-1].replace("Port","",1))
 
+        # port comment
+        pcomment = (get_port_data(port, ns_rdfs.comment) or [""])[0]
+
         # port designation
         designation = (get_port_data(port, ns_lv2core.designation) or [""])[0]
 
@@ -1263,6 +1266,7 @@ def get_plugin_info(world, plugin, useAbsolutePath = True):
                 'render': urender,
                 'symbol': usymbol,
             } if "Control" in types and ulabel and urender and usymbol else {},
+            'comment'    : pcomment,
             'designation': designation,
             'properties' : properties,
             'rangeSteps' : (get_port_data(port, ns_mod.rangeSteps) or get_port_data(port, ns_pprops.rangeSteps) or [None])[0],
