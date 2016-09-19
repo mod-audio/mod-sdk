@@ -18,11 +18,10 @@
 #ifndef MOD_SDK_FAST_LILV_H_INCLUDED
 #define MOD_SDK_FAST_LILV_H_INCLUDED
 
-#ifdef __cplusplus
-#include <cstdint>
-extern "C" {
-#else
 #include <stdint.h>
+
+#ifdef __cplusplus
+extern "C" {
 #endif
 
 #define MOD_API __attribute__ ((visibility("default")))

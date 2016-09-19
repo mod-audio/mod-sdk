@@ -1,8 +1,11 @@
 
 CXX ?= g++
 
-CXXFLAGS += -Wall -Wextra -Wshadow -std=gnu++0x -fPIC -O3
+CXXFLAGS += -Wall -Wextra -Wshadow -std=gnu++0x -fPIC -O3 -Wno-deprecated-declarations
+
+ifneq ($(shell uname -s),Darwin)
 LDFLAGS += -Wl,-O1 -Wl,--no-undefined -Wl,--strip-all
+endif
 
 ifeq ($(shell pkg-config --atleast-version=0.22.0 lilv-0 && echo true), true)
 CXXFLAGS += -DHAVE_NEW_LILV

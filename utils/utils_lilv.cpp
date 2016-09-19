@@ -99,88 +99,6 @@ static size_t HOMElen = strlen(HOME);
     nullptr                                          \
 }
 
-// Blacklisted plugins, which don't work properly on MOD for various reasons
-static const std::vector<std::string> BLACKLIST = {
-    "urn:50m30n3:plugins:SO-404",
-    "urn:50m30n3:plugins:SO-666",
-    "urn:50m30n3:plugins:SO-kl5",
-    "urn:juce:JuceDemoHost",
-    "urn:juced:DrumSynth",
-    "file:///usr/lib/lv2/MonoEffect.ingen/MonoEffect.ttl",
-    "file:///usr/lib/lv2/MonoInstrument.ingen/MonoInstrument.ttl",
-    "file:///usr/lib/lv2/StereoEffect.ingen/StereoEffect.ttl",
-    "file:///usr/lib/lv2/StereoInstrument.ingen/StereoInstrument.ttl",
-    "http://calf.sourceforge.net/plugins/Analyzer",
-    "http://distrho.sf.net/plugins/ProM",
-    "http://drumgizmo.org/lv2",
-    "http://drumkv1.sourceforge.net/lv2",
-    "http://factorial.hu/plugins/lv2/ir",
-    "http://gareus.org/oss/lv2/meters#BBCM6",
-    "http://gareus.org/oss/lv2/meters#BBCmono",
-    "http://gareus.org/oss/lv2/meters#BBCstereo",
-    "http://gareus.org/oss/lv2/meters#bitmeter",
-    "http://gareus.org/oss/lv2/meters#COR",
-    "http://gareus.org/oss/lv2/meters#dBTPmono",
-    "http://gareus.org/oss/lv2/meters#dBTPstereo",
-    "http://gareus.org/oss/lv2/meters#DINmono",
-    "http://gareus.org/oss/lv2/meters#DINstereo",
-    "http://gareus.org/oss/lv2/meters#dr14mono",
-    "http://gareus.org/oss/lv2/meters#dr14stereo",
-    "http://gareus.org/oss/lv2/meters#EBUmono",
-    "http://gareus.org/oss/lv2/meters#EBUr128",
-    "http://gareus.org/oss/lv2/meters#EBUstereo",
-    "http://gareus.org/oss/lv2/meters#goniometer",
-    "http://gareus.org/oss/lv2/meters#K12mono",
-    "http://gareus.org/oss/lv2/meters#K12stereo",
-    "http://gareus.org/oss/lv2/meters#K14mono",
-    "http://gareus.org/oss/lv2/meters#K14stereo",
-    "http://gareus.org/oss/lv2/meters#K20mono",
-    "http://gareus.org/oss/lv2/meters#K20stereo",
-    "http://gareus.org/oss/lv2/meters#NORmono",
-    "http://gareus.org/oss/lv2/meters#NORstereo",
-    "http://gareus.org/oss/lv2/meters#phasewheel",
-    "http://gareus.org/oss/lv2/meters#SigDistHist",
-    "http://gareus.org/oss/lv2/meters#spectr30mono",
-    "http://gareus.org/oss/lv2/meters#spectr30stereo",
-    "http://gareus.org/oss/lv2/meters#stereoscope",
-    "http://gareus.org/oss/lv2/meters#TPnRMSmono",
-    "http://gareus.org/oss/lv2/meters#TPnRMSstereo",
-    "http://gareus.org/oss/lv2/meters#VUmono",
-    "http://gareus.org/oss/lv2/meters#VUstereo",
-    "http://gareus.org/oss/lv2/mixtri#lv2",
-    "http://gareus.org/oss/lv2/onsettrigger#bassdrum_mono",
-    "http://gareus.org/oss/lv2/onsettrigger#bassdrum_stereo",
-    "http://gareus.org/oss/lv2/sisco#3chan",
-    "http://gareus.org/oss/lv2/sisco#4chan",
-    "http://gareus.org/oss/lv2/sisco#Mono",
-    "http://gareus.org/oss/lv2/sisco#Stereo",
-    "http://gareus.org/oss/lv2/tuna#one",
-    "http://gareus.org/oss/lv2/tuna#two",
-    "http://github.com/nicklan/drmr",
-    "http://invadarecords.com/plugins/lv2/meter",
-    "http://kxstudio.sf.net/carla/plugins/carlapatchbay",
-    "http://kxstudio.sf.net/carla/plugins/carlapatchbay16",
-    "http://kxstudio.sf.net/carla/plugins/carlapatchbay32",
-    "http://kxstudio.sf.net/carla/plugins/carlapatchbay3s",
-    "http://kxstudio.sf.net/carla/plugins/carlarack",
-    "http://kxstudio.sf.net/carla/plugins/bigmeter",
-    "http://kxstudio.sf.net/carla/plugins/midipattern",
-    "http://kxstudio.sf.net/carla/plugins/midisequencer",
-    "http://kxstudio.sf.net/carla/plugins/notes",
-    "http://linuxsampler.org/plugins/linuxsampler",
-    "http://lv2plug.in/plugins/eg-scope#Mono",
-    "http://lv2plug.in/plugins/eg-scope#Stereo",
-    "http://pianoteq.com/lv2/Pianoteq4",
-    "http://pianoteq.com/lv2/Pianoteq4_5chan",
-    "http://samplv1.sourceforge.net/lv2",
-    "http://teragonaudio.com/BeatCounter.html",
-    "http://teragonaudio.com/ExtraNotes.html",
-    "http://www.klangfreund.com/lufsmeter",
-    "http://www.klangfreund.com/lufsmetermultichannel",
-    "http://www.wodgod.com/newtonator/1.0",
-    "https://github.com/HiFi-LoFi/KlangFalter",
-};
-
 // --------------------------------------------------------------------------------------------------------
 
 inline bool ends_with(const std::string& value, const std::string ending)
@@ -387,7 +305,6 @@ static const char* const kCategoryMixerPlugin[] = { "Utility", "Mixer", nullptr 
 static const char* const kStabilityExperimental = "experimental";
 static const char* const kStabilityStable = "stable";
 static const char* const kStabilityTesting = "testing";
-static const char* const kStabilityUnstable = "unstable";
 
 // label, render, symbol
 static const char* const kUnit_s[] = { "seconds", "%f s", "s" };
@@ -1003,7 +920,7 @@ const PluginInfo& _get_plugin_info(const LilvPlugin* const p, const NamespaceDef
 
         // check if modgui is defined in a separate file
         const std::string bundlestr = std::string(bundle) + OS_SEP_STR "modgui.ttl";
-        info.gui.usingSeeAlso = std::ifstream(bundlestr).good();
+        info.gui.usingSeeAlso = std::ifstream(bundlestr.c_str()).good();
 
         // check if the modgui definition is on its own file and in the user dir
         info.gui.modificableInPlace = ((strstr(info.gui.resourcesDirectory, bundle) == nullptr || info.gui.usingSeeAlso) &&
@@ -2070,9 +1987,6 @@ const PluginInfo* const* get_bundle_plugins(const char* bundle)
     {
         if (curIndex >= newsize)
             break;
-
-        if (std::find(BLACKLIST.begin(), BLACKLIST.end(), uri) != BLACKLIST.end())
-            continue;
 
         // check if it's already cached
         if (PLUGNFO.count(uri) > 0 && PLUGNFO[uri].valid)
