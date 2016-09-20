@@ -514,3 +514,41 @@ modgui:port
     rdfs:range modgui:Port ;
     rdfs:label "port" ;
     rdfs:comment """A port on a MOD GUI.""" .
+
+modgui:MonitoredOutput
+    a rdfs:Class ,
+        owl:Class ;
+    rdfs:label "Monitored Output" ;
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty lv2:symbol ;
+        owl:cardinality 1 ;
+        rdfs:comment "A monitored output MUST have exactly one lv2:symbol." ;
+    ] ;
+    lv2:documentation """
+<p>The class which represents a MOD GUI monitored output (control port).</p>
+
+<p>
+A MOD GUI that wants to receive notifications of control output values can do so by listing output port symbols.
+The host will keep track of port changes and notify the MOD GUI when it happens.
+</p>
+<p>
+To enable monitor of output ports add the following code to your MOD GUI definition, modifying as needed:
+<code>                   <br/><br/>
+    modgui:monitoredOutputs [ <br/>
+&nbsp;  lv2:symbol "out1" ;   <br/>
+    ] , [                     <br/>
+&nbsp;  lv2:symbol "out2" ;   <br/>
+    ] ;                       <br/><br/>
+</code>
+The MOD GUI will receive the events in its javascript function, just like it does for input controls.
+</p>
+""" .
+
+modgui:monitoredOutputs
+    a rdf:Property ,
+        owl:ObjectProperty ;
+    rdfs:domain modgui:Gui ;
+    rdfs:range modgui:MonitoredOutput ;
+    rdfs:label "monitored outputs" ;
+    rdfs:comment """A monitored output on a MOD GUI.""" .
