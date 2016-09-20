@@ -30,3 +30,5 @@ cp modgui.lv2/* documentation/modgui/
 
 lv2specgen.py $(pwd)/mod.lv2/manifest.ttl    /usr/share/lv2specgen/ ../style.css $(pwd)/documentation/mod/index.html    $(pwd)/documentation/mod    "" -i -p mod
 lv2specgen.py $(pwd)/modgui.lv2/manifest.ttl /usr/share/lv2specgen/ ../style.css $(pwd)/documentation/modgui/index.html $(pwd)/documentation/modgui "" -i -p modgui
+
+sed -i "/group__manifest.html/d" documentation/*/index.html
