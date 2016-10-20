@@ -13,7 +13,7 @@ from PIL import Image
 from tornado import web, options, ioloop, template, httpclient
 from tornado.escape import squeeze
 from modsdk.settings import (PORT, HTML_DIR, WIZARD_DB,
-                             CONFIG_FILE, TEMPLATE_DIR, LV2_DIR,
+                             CONFIG_FILE, CONFIG_DIR, TEMPLATE_DIR, LV2_DIR,
                              DEFAULT_DEVICE, DEFAULT_ICON_IMAGE,
                              DEFAULT_ICON_TEMPLATE, DEFAULT_SETTINGS_TEMPLATE,
                              MAX_THUMB_WIDTH, MAX_THUMB_HEIGHT,
@@ -652,6 +652,10 @@ def check_environment():
     issues = []
     if not os.path.isfile(PHANTOM_BINARY):
         issues.append("PhantomJS not found. Please install it and make sure the binary is located at %s" % PHANTOM_BINARY)
+
+    if not os.path.exists(CONFIG_DIR):
+        os.makedirs(CONFIG_DIR)
+
     if len(issues) == 0:
         return True
     print("\nPlease configure your environment properly. The following issues were found:\n")
