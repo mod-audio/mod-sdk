@@ -30,7 +30,7 @@
             <tr><th>Version</th><td>@REVISION@</td></tr>-->
         <!--<tr><th>Prefixes</th><td><span><a href="http://ontologi.es/doap-changeset#">dcs</a> <a href="http://usefulinc.com/ns/doap#">doap</a> <a href="http://xmlns.com/foaf/0.1/">foaf</a> <a href="http://lv2plug.in/ns/lv2core#">lv2</a> <a href="http://moddevices.com/ns/mod#">mod</a> <a href="http://www.w3.org/2002/07/owl#">owl</a> <a href="http://lv2plug.in/ns/ext/port-props#">pprops</a> <a href="http://www.w3.org/1999/02/22-rdf-syntax-ns#">rdf</a> <a href="http://www.w3.org/2000/01/rdf-schema#">rdfs</a> <a href="http://www.w3.org/2001/XMLSchema#">xsd</a> </span></td></tr>-->
         <tr><th>Version</th><td>1.0</td></tr>
-        <tr><th>Date</th><td>2016-09-20</td></tr>
+        <tr><th>Date</th><td>2016-11-04</td></tr>
         <tr><th>Discuss</th><td><a href="mailto:None">None</a> <a href="None">(subscribe)</a></td></tr>
         <tr><th class="metahead">Developer</th><td><span class="author" property="doap:developer">Filipe Coelho</span></td></tr><tr><th class="metahead">Maintainer</th><td><span class="author" property="doap:maintainer">Filipe Coelho</span></td></tr>
       </table>
@@ -56,7 +56,7 @@ This is a vocabulary for describing extra plugin data specific to MOD software a
   <div class="content" id="index">
   <table class="index"><thead><tr><th>Properties</th><th>Instances</th><th>Files</th></tr></thead>
 <tbody><tr><td><ul><li><a href="#brand">brand</a></li><li><a href="#builderVersion">builderVersion</a></li><li><a href="#default">default</a></li><li><a href="#label">label</a></li><li><a href="#maximum">maximum</a></li><li><a href="#minimum">minimum</a></li><li><a href="#rangeSteps">rangeSteps</a></li><li><a href="#releaseNumber">releaseNumber</a></li></ul></td>
-<td><ul><li><a href="#notStompboxCapable">notStompboxCapable</a></li></ul></td>
+<td><ul><li><a href="#notStompboxCapable">notStompboxCapable</a></li><li><a href="#tapTempo">tapTempo</a></li></ul></td>
 <td><ul><li><a href="mod.doap.ttl">mod.doap.ttl</a></li><li><a href="mod.ttl">mod.ttl</a></li></ul></td>
 </tr></tbody></table>
   </div>
@@ -148,6 +148,14 @@ Plugins are assumed to be suitable for Stompbox mode by default, and MUST provid
 </p>
 </div></div>
 <table class="terminfo"><tr><th>Type</th><td><a href="http://lv2plug.in/ns/lv2core#Feature" about="http://moddevices.com/ns/mod#notStompboxCapable" rel="rdf:type" resource="http://lv2plug.in/ns/lv2core#Feature">lv2:Feature</a></td></tr>
+</table>
+</div>
+</div>
+
+<div class="specterm" id="tapTempo" about="http://moddevices.com/ns/mod#tapTempo">
+<h3>Instance <a href="#tapTempo">mod:tapTempo</a></h3>
+<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">tap tempo</div><div property="rdfs:comment"><p>Indicates that the port is suitable for a MOD foot-switch addressing, by using hardware-side tap tempo. Please note that a unit of time is required on the port for tap tempo to work properly. The supported unit types are 'ms', 's', 'Hz' and 'bpm'.</p></div></div>
+<table class="terminfo"><tr><th>Type</th><td><a href="http://lv2plug.in/ns/lv2core#PortProperty" about="http://moddevices.com/ns/mod#tapTempo" rel="rdf:type" resource="http://lv2plug.in/ns/lv2core#PortProperty">lv2:PortProperty</a></td></tr>
 </table>
 </div>
 </div>

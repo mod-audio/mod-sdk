@@ -75,6 +75,11 @@ mod:releaseNumber
     rdfs:label "release number" ;
     rdfs:comment "The MOD build release number of a bundle. This number is auto-incremented everytime the cloud rebuilds or updates the plugin." .
 
+mod:tapTempo
+    a lv2:PortProperty ;
+    rdfs:label "tap tempo" ;
+    rdfs:comment "Indicates that the port is suitable for a MOD foot-switch addressing, by using hardware-side tap tempo. Please note that a unit of time is required on the port for tap tempo to work properly. The supported unit types are 'ms', 's', 'Hz' and 'bpm'." .
+
 mod:notStompboxCapable
     a lv2:Feature ;
     rdfs:label "not stompbox capable" ;
