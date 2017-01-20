@@ -90,10 +90,11 @@ def get_category(nodes):
         'ConverterPlugin': ['Utility', 'Converter'],
         'FunctionPlugin': ['Utility', 'Function'],
         'MixerPlugin': ['Utility', 'Mixer'],
+        'MIDIFilterPlugin': ['MIDI-Filter', 'Filter'],
     }
 
     def fill_in_category(node):
-        category = node.as_string().replace("http://lv2plug.in/ns/lv2core#","")
+        category = node.as_string().replace("http://lv2plug.in/ns/lv2core#","").replace("http://moddevices.com/ns/mod#","")
         if category in category_indexes.keys():
             return category_indexes[category]
         return []
