@@ -90,7 +90,7 @@ def get_category(nodes):
         'ConverterPlugin': ['Utility', 'Converter'],
         'FunctionPlugin': ['Utility', 'Function'],
         'MixerPlugin': ['Utility', 'Mixer'],
-        'MIDIFilterPlugin': ['MIDI-Filter', 'Filter'],
+        'MIDIPlugin': ['MIDI', 'Utility'],
     }
 
     def fill_in_category(node):
