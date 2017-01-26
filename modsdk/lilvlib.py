@@ -53,7 +53,7 @@ def get_short_port_name(portName):
 # ------------------------------------------------------------------------------------------------------------
 
 def get_category(nodes):
-    category_indexes = {
+    lv2_category_indexes = {
         'DelayPlugin': ['Delay'],
         'DistortionPlugin': ['Distortion'],
         'WaveshaperPlugin': ['Distortion', 'Waveshaper'],
@@ -92,16 +92,45 @@ def get_category(nodes):
         'MixerPlugin': ['Utility', 'Mixer'],
         'MIDIPlugin': ['MIDI', 'Utility'],
     }
+    mod_category_indexes = {
+        'DelayPlugin': ['Delay'],
+        'DistortionPlugin': ['Distortion'],
+        'DynamicsPlugin': ['Dynamics'],
+        'FilterPlugin': ['Filter'],
+        'GeneratorPlugin': ['Generator'],
+        'ModulatorPlugin': ['Modulator'],
+        'ReverbPlugin': ['Reverb'],
+        'SimulatorPlugin': ['Simulator'],
+        'SpatialPlugin': ['Spatial'],
+        'SpectralPlugin': ['Spectral'],
+        'UtilityPlugin': ['Utility'],
+        'MIDIPlugin': ['MIDI'],
+    }
 
-    def fill_in_category(node):
-        category = node.as_string().replace("http://lv2plug.in/ns/lv2core#","").replace("http://moddevices.com/ns/mod#","")
-        if category in category_indexes.keys():
-            return category_indexes[category]
+    def fill_in_lv2_category(node):
+        category = node.as_string().replace("http://lv2plug.in/ns/lv2core#","")
+        if category in lv2_category_indexes.keys():
+            return lv2_category_indexes[category]
         return []
+
+    def fill_in_mod_category(node):
+        category = node.as_string().replace("http://moddevices.com/ns/mod#","")
+        if category in mod_category_indexes.keys():
+            return mod_category_indexes[category]
+        return []
+
     categories = []
-    for cat in [cat for catlist in LILV_FOREACH(nodes, fill_in_category) for cat in catlist]:
+    for cat in [cat for catlist in LILV_FOREACH(nodes, fill_in_mod_category) for cat in catlist]:
         if cat not in categories:
             categories.append(cat)
+
+    if len(categories) > 0:
+        return categories
+
+    for cat in [cat for catlist in LILV_FOREACH(nodes, fill_in_lv2_category) for cat in catlist]:
+        if cat not in categories:
+            categories.append(cat)
+
     return categories
 
 def get_port_data(port, subj):
