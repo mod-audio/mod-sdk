@@ -90,7 +90,7 @@ def get_category(nodes):
         'ConverterPlugin': ['Utility', 'Converter'],
         'FunctionPlugin': ['Utility', 'Function'],
         'MixerPlugin': ['Utility', 'Mixer'],
-        'MIDIPlugin': ['MIDI', 'Utility'],
+        #'MIDIPlugin': ['MIDI', 'Utility'],
     }
     mod_category_indexes = {
         'DelayPlugin': ['Delay'],
