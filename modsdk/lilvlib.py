@@ -104,7 +104,7 @@ def get_category(nodes):
         'SpatialPlugin': ['Spatial'],
         'SpectralPlugin': ['Spectral'],
         'UtilityPlugin': ['Utility'],
-        'MIDIPlugin': ['MIDI'],
+        'MIDIPlugin': ['Utility', 'MIDI'],
     }
 
     def fill_in_lv2_category(node):
