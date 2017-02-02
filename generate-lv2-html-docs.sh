@@ -28,7 +28,9 @@ fi
 cp mod.lv2/*    documentation/mod/
 cp modgui.lv2/* documentation/modgui/
 
-lv2specgen.py $(pwd)/mod.lv2/manifest.ttl    /usr/share/lv2specgen/ ../style.css $(pwd)/documentation/mod/index.html    $(pwd)/documentation/mod    "" -i -p mod
-lv2specgen.py $(pwd)/modgui.lv2/manifest.ttl /usr/share/lv2specgen/ ../style.css $(pwd)/documentation/modgui/index.html $(pwd)/documentation/modgui "" -i -p modgui
+lv2specgen.py $(pwd)/mod.lv2/manifest.ttl    $(pwd)/documentation/mod/index.html    --style-uri="../style.css" -i -r $(pwd)/documentation/mod    -p mod
+lv2specgen.py $(pwd)/modgui.lv2/manifest.ttl $(pwd)/documentation/modgui/index.html --style-uri="../style.css" -i -r $(pwd)/documentation/modgui -p modgui
 
 sed -i "/group__manifest.html/d" documentation/*/index.html
+sed -i "s|../documentation/mod/||" documentation/mod/index.html
+sed -i "s|../documentation/modgui/||" documentation/modgui/index.html
