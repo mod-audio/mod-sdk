@@ -80,6 +80,90 @@ mod:tapTempo
     rdfs:label "tap tempo" ;
     rdfs:comment "Indicates that the port is suitable for a MOD foot-switch addressing, by using hardware-side tap tempo. Please note that a unit of time is required on the port for tap tempo to work properly. The supported unit types are 'ms', 's', 'Hz' and 'bpm'." .
 
+mod:DelayPlugin
+        a rdfs:Class ,
+                owl:Class ;
+        rdfs:subClassOf lv2:Plugin ;
+        rdfs:label "Delay" ;
+        rdfs:comment """Forces Delay as the plugin category.""" .
+
+mod:DistortionPlugin
+        a rdfs:Class ,
+                owl:Class ;
+        rdfs:subClassOf lv2:Plugin ;
+        rdfs:label "Distortion" ;
+        rdfs:comment """Forces Distortion as the plugin category.""" .
+
+mod:DynamicsPlugin
+        a rdfs:Class ,
+                owl:Class ;
+        rdfs:subClassOf lv2:Plugin ;
+        rdfs:label "Dynamics" ;
+        rdfs:comment """Forces Dynamics as the plugin category.""" .
+
+mod:FilterPlugin
+        a rdfs:Class ,
+                owl:Class ;
+        rdfs:subClassOf lv2:Plugin ;
+        rdfs:label "Filter" ;
+        rdfs:comment """Forces Filter as the plugin category.""" .
+
+mod:GeneratorPlugin
+        a rdfs:Class ,
+                owl:Class ;
+        rdfs:subClassOf lv2:Plugin ;
+        rdfs:label "Generator" ;
+        rdfs:comment """Forces Generator as the plugin category.""" .
+
+mod:ModulatorPlugin
+        a rdfs:Class ,
+                owl:Class ;
+        rdfs:subClassOf lv2:Plugin ;
+        rdfs:label "Modulator" ;
+        rdfs:comment """Forces Modulator as the plugin category.""" .
+
+mod:ReverbPlugin
+        a rdfs:Class ,
+                owl:Class ;
+        rdfs:subClassOf lv2:Plugin ;
+        rdfs:label "Reverb" ;
+        rdfs:comment """Forces Reverb as the plugin category.""" .
+
+mod:SimulatorPlugin
+        a rdfs:Class ,
+                owl:Class ;
+        rdfs:subClassOf lv2:Plugin ;
+        rdfs:label "" ;
+        rdfs:comment """Forces Simulator as the plugin category.""" .
+
+mod:SpatialPlugin
+        a rdfs:Class ,
+                owl:Class ;
+        rdfs:subClassOf lv2:Plugin ;
+        rdfs:label "Spatial" ;
+        rdfs:comment """Forces Spatial as the plugin category.""" .
+
+mod:SpectralPlugin
+        a rdfs:Class ,
+                owl:Class ;
+        rdfs:subClassOf lv2:Plugin ;
+        rdfs:label "Spectral" ;
+        rdfs:comment """Forces Spectral as the plugin category.""" .
+
+mod:UtilityPlugin
+        a rdfs:Class ,
+                owl:Class ;
+        rdfs:subClassOf lv2:Plugin ;
+        rdfs:label "Utility" ;
+        rdfs:comment """Forces Utility as the plugin category.""" .
+
+mod:MIDIPlugin
+        a rdfs:Class ,
+                owl:Class ;
+        rdfs:subClassOf lv2:Plugin ;
+        rdfs:label "MIDI Utility" ;
+        rdfs:comment """Forces MIDI Utility as the plugin category.""" .
+
 mod:notStompboxCapable
     a lv2:Feature ;
     rdfs:label "not stompbox capable" ;
