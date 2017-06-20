@@ -164,6 +164,13 @@ mod:MIDIPlugin
         rdfs:label "MIDI Utility" ;
         rdfs:comment """Forces MIDI Utility as the plugin category.""" .
 
+mod:MaxGenPlugin
+        a rdfs:Class ,
+                owl:Class ;
+        rdfs:subClassOf lv2:Plugin ;
+        rdfs:label "MAX gen~ Plugin" ;
+        rdfs:comment """A plugin made with MAX gen~ export function.""" .
+
 mod:notStompboxCapable
     a lv2:Feature ;
     rdfs:label "not stompbox capable" ;
