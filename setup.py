@@ -23,7 +23,9 @@ class mod_utils_installer(install):
 MANIFEST = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'MANIFEST.in')
 
 def data_dir(prefix, dirname):
-    if dirname == "html/resources/sources":
+    if dirname in ("html/resources/sources",
+                   "html/resources/knobs/generator",
+                   "html/resources/pedals/generator"):
         return []
     data_files = []
     html_files = []
