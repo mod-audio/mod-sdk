@@ -36,7 +36,7 @@ SCREENSHOT_SCRIPT = os.path.join(ROOT, 'screenshot.js')
 MAX_THUMB_WIDTH = 256
 MAX_THUMB_HEIGHT = 64
 
-CONFIG_DIR = os.path.expanduser("~/.local/share/mod-data")
+CONFIG_DIR = os.getenv("MOD_DATA_DIR", os.path.expanduser("~/.local/share/mod-data"))
 CONFIG_FILE = os.path.join(CONFIG_DIR, "sdk-config.json")
 
 LV2_PATH = os.getenv("LV2_PATH")
