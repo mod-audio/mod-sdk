@@ -247,13 +247,20 @@ class EffectSave(web.RequestHandler):
             self.write(json.dumps(False))
             return
 
-        if 'modificableInPlace' in data['gui'] and data['gui']['modificableInPlace']:
-            resrcsdir = data['gui']['resourcesDirectory']
-            bundledir = os.path.join(resrcsdir, os.path.pardir)
+        if not data['gui']['resourcesDirectory']:
+            bundledir  = data['bundles'][0]
+            resrcsdir  = os.path.join(bundledir, "modgui")
+            appendMode = True
+
+        elif data['gui']['modificableInPlace']:
+            resrcsdir  = data['gui']['resourcesDirectory']
+            bundledir  = os.path.join(resrcsdir, os.path.pardir)
+            appendMode = False
 
         else:
-            bundlname = symbolify(data['name'])
-            bundledir = "%s/%s.modgui" % (LV2_DIR, bundlname)
+            bundlname  = symbolify(data['name'])
+            bundledir  = "%s/%s.modgui" % (LV2_DIR, bundlname)
+            appendMode = False
 
             # if bundle already exists, generate a new random bundle name
             if os.path.exists(bundledir):
@@ -276,10 +283,14 @@ class EffectSave(web.RequestHandler):
         if not os.path.exists(resrcsdir):
              os.mkdir(resrcsdir)
 
-        if 'usingSeeAlso' in data['gui'].keys() and data['gui']['usingSeeAlso']:
+        if data['gui']['usingSeeAlso'] or appendMode:
             ttlFile = "modgui.ttl"
         else:
             ttlFile = "manifest.ttl"
+
+        if appendMode:
+            with open(os.path.join(bundledir, "manifest.ttl"), 'a') as fd:
+                fd.write("<%s> rdfs:seeAlso <modgui.ttl> .\n" % (data['uri'],))
 
         with open(os.path.join(bundledir, ttlFile), 'w') as fd:
             fd.write(ttlText)

@@ -924,7 +924,7 @@ const PluginInfo& _get_plugin_info(const LilvPlugin* const p, const NamespaceDef
 
         // check if the modgui definition is on its own file and in the user dir
         info.gui.modificableInPlace = ((strstr(info.gui.resourcesDirectory, bundle) == nullptr || info.gui.usingSeeAlso) &&
-                                       strncmp(info.gui.resourcesDirectory, HOME, HOMElen) == 0);
+                                        strncmp(info.gui.resourcesDirectory, HOME, HOMElen) == 0);
 
         // icon and settings templates
         if (LilvNode* const modgui_icon = lilv_world_get(W, modguigui, ns.modgui_iconTemplate, nullptr))

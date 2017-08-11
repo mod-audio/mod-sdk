@@ -790,7 +790,11 @@ def get_plugin_info(world, plugin, useAbsolutePath = True):
     # --------------------------------------------------------------------------------------------------------
     # gui
 
-    gui = {}
+    gui = {
+        'resourcesDirectory': "",
+        'modificableInPlace': False,
+        'usingSeeAlso': False
+    }
 
     if modguigui is None or modguigui.me is None:
         warnings.append("no modgui available")
@@ -811,7 +815,7 @@ def get_plugin_info(world, plugin, useAbsolutePath = True):
 
                 # check if the modgui definition is on its own file and in the user dir
                 gui['modificableInPlace'] = bool((bundle not in gui['resourcesDirectory'] or gui['usingSeeAlso']) and
-                                                os.path.expanduser("~") in gui['resourcesDirectory'])
+                                                  os.path.expanduser("~") in gui['resourcesDirectory'])
             else:
                 gui['resourcesDirectory'] = modgui_resdir.as_string().replace(bundleuri,"",1)
 
