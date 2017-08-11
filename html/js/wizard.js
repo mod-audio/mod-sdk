@@ -11,6 +11,10 @@ $(document).ready(function() {
     } else {
         $('#wizard').hide()
     }
+
+    if (deviceMode) {
+        $('#tab-deploy').hide()
+    }
 })
 
 JqueryClass('wizard', {

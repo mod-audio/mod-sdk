@@ -39,6 +39,8 @@ MAX_THUMB_HEIGHT = 64
 CONFIG_DIR = os.getenv("MOD_DATA_DIR", os.path.expanduser("~/.local/share/mod-data"))
 CONFIG_FILE = os.path.join(CONFIG_DIR, "sdk-config.json")
 
+DEVICE_MODE = bool(int(os.getenv("MOD_DEVICE_MODE", 0)))
+
 LV2_PATH = os.getenv("LV2_PATH")
 
 if not LV2_PATH: # might be set but empty

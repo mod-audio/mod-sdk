@@ -230,7 +230,7 @@ function showEffect() {
     if (options.errors == null || options.warnings == null)
     {
         errors = ''
-        warnings = '<p>NOTE: Cannot run plugin static checks in your current setup.</p>'
+        warnings = deviceMode ? '' : '<p>NOTE: Cannot run plugin static checks in your current setup.</p>'
     }
     else if (options.errors.length || options.warnings.length)
     {

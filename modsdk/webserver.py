@@ -12,7 +12,7 @@ from base64 import b64encode
 from PIL import Image
 from tornado import web, options, ioloop, template, httpclient
 from tornado.escape import squeeze
-from modsdk.settings import (PORT, HTML_DIR, WIZARD_DB,
+from modsdk.settings import (PORT, HTML_DIR, WIZARD_DB, DEVICE_MODE,
                              CONFIG_FILE, CONFIG_DIR, TEMPLATE_DIR, LV2_DIR,
                              DEFAULT_DEVICE, DEFAULT_ICON_IMAGE,
                              DEFAULT_ICON_TEMPLATE, DEFAULT_SETTINGS_TEMPLATE,
@@ -356,7 +356,8 @@ class Index(web.RequestHandler):
             'default_icon_template': default_icon_template,
             'default_settings_template': default_settings_template,
             'wizard_db': json.dumps(wizard_db),
-            'write_access': 1 if LV2_DIR else 0,
+            'device_mode': 'true' if DEVICE_MODE else 'false',
+            'write_access': 'true' if LV2_DIR else 'false',
         }
 
         self.write(loader.load(path).generate(**context))
