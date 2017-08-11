@@ -10,3 +10,7 @@ build/
 documentation/
 html/resources/.git*
 utils/test
+
+.kdev4/
+.project.kdev4
+utils/.kdev_include_paths
