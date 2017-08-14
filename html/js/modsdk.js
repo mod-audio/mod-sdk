@@ -55,6 +55,19 @@ $(document).ready(function() {
             },
             success: function(result) {
                 if (result.ok) {
+                    if (deviceMode) {
+                        $.ajax({
+                            url: 'http://' + window.location.hostname + '/sdk/update',
+                            type: 'POST',
+                            data: {
+                                bundle: bundles.val(),
+                                uri   : effects.val(),
+                            },
+                            success: function () {},
+                            error: function () {},
+                            dataType: 'json'
+                        })
+                    }
                     $('<img class="thumb">').appendTo(screenshotCanvas).attr('src', 'data:image/png;base64,'+result.thumbnail)
                     $('<img class="screenshot">').appendTo(screenshotCanvas).attr('src', 'data:image/png;base64,'+result.screenshot)
                 } else {

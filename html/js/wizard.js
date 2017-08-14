@@ -606,33 +606,11 @@ JqueryClass('wizard', {
                 stylesheetFile: 'stylesheet-'+slug+'.css',
             },
             success: function() {
-                if (deviceMode) {
-                    self.wizard('trigger_device_rescan', effect.bundle, effect.uri)
-                }
                 //self.wizard('generate_thumbnail')
             },
             error: function() {
                 self.wizard('previous')
                 alert("Error: Can't save your effect configuration. Is your server running? Check the logs.")
-            },
-            dataType: 'json'
-        })
-    },
-
-    trigger_device_rescan: function(bundle, uri) {
-        // TODO
-        $.ajax({
-            url: 'http://localhost/sdk/update',
-            type: 'POST',
-            data: JSON.stringify({
-                'bundle': bundle,
-                'uri'   : uri,
-            }),
-            success: function(resp) {
-                console.log(resp)
-            },
-            error: function(resp) {
-                console.log(resp)
             },
             dataType: 'json'
         })
@@ -678,6 +656,28 @@ JqueryClass('wizard', {
     },
 
     finish: function() {
-        document.location.reload()
+        if (deviceMode) {
+            var self   = $(this)
+            var effect = self.data('effect')
+            console.log(effect)
+
+            $.ajax({
+                url: 'http://' + window.location.hostname + '/sdk/update',
+                type: 'POST',
+                data: {
+                    bundle: effect.bundles[0],
+                    uri   : effect.uri,
+                },
+                success: function () {
+                    document.location.reload()
+                },
+                error: function () {
+                    document.location.reload()
+                },
+                dataType: 'json'
+            })
+        } else {
+            document.location.reload()
+        }
     }
 })
