@@ -101,6 +101,59 @@ def get_config(key, default=None):
     #with open(CONFIG_FILE, 'w') as fh:
         #json.dump(config, fh)
 
+class TimelessRequestHandler(web.RequestHandler):
+    def compute_etag(self):
+        return None
+
+    def set_default_headers(self):
+        self._headers.pop("Date")
+
+    def should_return_304(self):
+        return False
+
+class TimelessStaticFileHandler(web.StaticFileHandler):
+    def get_cache_time(self, path, modified, mime_type):
+        return 0
+
+    def get_modified_time(self):
+        return None
+
+    def set_default_headers(self):
+        self._headers.pop("Date")
+
+    def set_extra_headers(self, path):
+        self.set_header("Cache-Control", "public, max-age=31536000")
+
+    def should_return_304(self):
+        return self.check_etag_header()
+
+class JsonRequestHandler(TimelessRequestHandler):
+    def write(self, data):
+        # TODO: if something is sending strings out, we need to stop it
+        # it's likely something using write(json.dumps(...))
+        # we want to prevent that as it causes issues under Mac OS
+
+        if isinstance(data, (bytes, unicode_type, dict)):
+            TimelessRequestHandler.write(self, data)
+            self.finish()
+            return
+
+        self.set_header("Content-Type", "application/json; charset=UTF-8")
+
+        if data is True:
+            data = "true"
+
+        elif data is False:
+            data = "false"
+
+        else:
+            if not isinstance(data, list):
+                print("FIXME: Got new data type for JsonRequestHandler.write():", type(data), "msg:", data)
+            data = json.dumps(data)
+
+        TimelessRequestHandler.write(self, data)
+        self.finish()
+
 class BundleList(web.RequestHandler):
     def get(self):
         self.set_header('Content-type', 'application/json')
