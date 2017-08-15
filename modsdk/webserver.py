@@ -360,6 +360,9 @@ class Index(web.RequestHandler):
             'write_access': 'true' if LV2_DIR else 'false',
         }
 
+        lv2_cleanup()
+        lv2_init()
+
         self.write(loader.load(path).generate(**context))
 
 class Screenshot(web.RequestHandler):
