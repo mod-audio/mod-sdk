@@ -34,12 +34,12 @@ ul#menu li.selected {
     border: 1px solid white;
     border-radius: 0 5px 0 0;
     color: white;
-    height: 600px;
+    width: 90%;
+    height: 80%;
     left: 32px;
     padding: 15px;
     position: absolute;
     top: 75px;
-    width: 900px;
     z-index: 1;
 }
 
