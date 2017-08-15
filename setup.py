@@ -4,7 +4,7 @@
 from distutils.command.build import build
 from setuptools import setup, find_packages
 from setuptools.command.install import install
-from shutil import copyfile
+from shutil import copyfile, rmtree
 import os, sys
 
 class mod_utils_builder(build):
@@ -14,6 +14,7 @@ class mod_utils_builder(build):
 
 class mod_utils_installer(install):
     def run(self):
+        rmtree(os.path.join(self.install_data, "share", "mod-sdk"))
         install.run(self)
         source = "utils/libmod_utils.so"
         target = os.path.join(self.install_lib, "modsdk", "libmod_utils.so")
@@ -40,7 +41,7 @@ def data_dir(prefix, dirname):
 
 open(MANIFEST, 'w').write('include screenshot.js\n')
 share = os.path.join('share', 'mod-sdk')
-data_files = data_dir(share, 'html')
+data_files  = data_dir(share, 'html')
 data_files += [(share, ['screenshot.js'])]
 
 setup(name = 'modsdk',
@@ -54,19 +55,18 @@ setup(name = 'modsdk',
       data_files = data_files,
       entry_points = {
           'console_scripts': [
-            'modsdk = modsdk.webserver:run',
-            'modsdk-screenshot = modsdk.screenshot:run',
-            ]
-          },
+              'modsdk = modsdk.webserver:run',
+              'modsdk-screenshot = modsdk.screenshot:run',
+          ]
+      },
       classifiers = [
           'Intended Audience :: Developers',
           'Natural Language :: English',
           'Operating System :: OS Independent',
           'Programming Language :: Python',
-        ],
+      ],
       include_package_data = True,
       url = 'http://github.com/moddevices/mod-sdk',
-      cmdclass={'build': mod_utils_builder,
+      cmdclass={'build'  : mod_utils_builder,
                 'install': mod_utils_installer},
-
 )
