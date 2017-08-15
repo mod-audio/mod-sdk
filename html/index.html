@@ -74,7 +74,7 @@
       defaultIconTemplate = '{{default_icon_template}}'
       defaultSettingsTemplate = '{{default_settings_template}}'
       wizard_db    = JSON.parse('{{wizard_db}}')
-      deviceMode   = {{device_mode}}
+      device_mode  = {{device_mode}}
       write_access = {{write_access}}
     </script>
     <script src="js/modgui.js" type="text/javascript" charset="utf-8"></script>
@@ -202,6 +202,7 @@
                         <a href="http://web1.moddevices.com/shared/ns/modgui/" target="_blank">http://moddevices.com/ns/modgui</a>.</p>
                     <p id="wizard_nobutton"><b>You do not have write access to any folder in LV2_PATH,
                         running the wizard is not possible.</b></p>
+                    <p id="wizard_noeditable"><b>Cannot customize bundles with more than one plugin.</b></p>
                     <button id="wizard">Launch Wizard</button>
                     <button class="debug">Debug</button>
                 </div>

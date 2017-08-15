@@ -1,5 +1,5 @@
 var bundles, effects, content, iconCanvas, settingsCanvas, deployWindow, renderedIcon, version, section
-var defaultIconTemplate, defaultSettingsTemplate // loaded in index.html
+var defaultIconTemplate, defaultSettingsTemplate, device_mode, write_access // loaded in index.html
 var DEBUG // holds template debugging info
 $(document).ready(function() {
     var firstSection = $('ul#menu li').first().attr('id').replace(/^tab-/, '')
@@ -55,7 +55,7 @@ $(document).ready(function() {
             },
             success: function(result) {
                 if (result.ok) {
-                    if (deviceMode) {
+                    if (device_mode) {
                         $.ajax({
                             url: 'http://' + window.location.hostname + '/sdk/update',
                             type: 'POST',
@@ -196,7 +196,14 @@ function loadEffects(callback) {
             effects.show()
             if (effects.children().length == 2) {
                 effects.children().first().remove()
+                if (device_mode && write_access) {
+                    $('#wizard_noeditable').hide()
+                    $('#wizard').show()
+                }
                 showEffect()
+            } else if (device_mode && write_access) {
+                $('#wizard').hide()
+                $('#wizard_noeditable').show()
             }
             if (callback != null)
                 callback()
@@ -243,7 +250,7 @@ function showEffect() {
     if (options.errors == null || options.warnings == null)
     {
         errors = ''
-        warnings = deviceMode ? '' : '<p>NOTE: Cannot run plugin static checks in your current setup.</p>'
+        warnings = device_mode ? '' : '<p>NOTE: Cannot run plugin static checks in your current setup.</p>'
     }
     else if (options.errors.length || options.warnings.length)
     {

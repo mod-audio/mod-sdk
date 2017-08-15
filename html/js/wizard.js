@@ -1,4 +1,4 @@
-var wizard_db, write_access // populated in index.html
+var wizard_db, device_mode, write_access // populated in index.html
 $(document).ready(function() {
     var wizard = $('#wizard-window')
     wizard.wizard(wizard_db)
@@ -12,8 +12,10 @@ $(document).ready(function() {
         $('#wizard').hide()
     }
 
-    if (deviceMode) {
+    if (device_mode) {
         $('#tab-deploy').hide()
+    } else {
+        $('#wizard_noeditable').hide()
     }
 })
 
@@ -656,7 +658,7 @@ JqueryClass('wizard', {
     },
 
     finish: function() {
-        if (deviceMode) {
+        if (device_mode) {
             var self   = $(this)
             var effect = self.data('effect')
             console.log(effect)
