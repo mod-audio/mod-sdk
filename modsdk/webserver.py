@@ -159,18 +159,17 @@ class BundleList(web.RequestHandler):
         self.set_header('Content-type', 'application/json')
         self.write(json.dumps(get_all_bundles()))
 
-class EffectList(web.RequestHandler):
+class EffectList(JsonRequestHandler):
     def get(self):
         bundle = self.get_argument('bundle')
         data   = get_bundle_plugins(bundle)
 
-        self.set_header('Content-type', 'application/json')
-        self.write(json.dumps({
+        self.write({
             'ok': len(data) > 0,
             'data': data
-        }))
+        })
 
-class EffectGet(web.RequestHandler):
+class EffectGet(JsonRequestHandler):
     def get(self):
         uri = self.get_argument('uri')
 
@@ -180,11 +179,10 @@ class EffectGet(web.RequestHandler):
             print("get failed")
             raise web.HTTPError(404)
 
-        self.set_header('Content-type', 'application/json')
-        self.write(json.dumps({
+        self.write({
             'ok': True,
             'data': data
-        }))
+        })
 
 class EffectImage(web.RequestHandler):
     def get(self, image):
@@ -273,11 +271,10 @@ class EffectJavascript(web.RequestHandler):
             self.set_header('Content-type', 'text/plain')
             self.write(fd.read())
 
-class EffectSave(web.RequestHandler):
+class EffectSave(JsonRequestHandler):
     def post(self):
         if not LV2_DIR:
-            self.set_header('Content-type', 'application/json')
-            self.write(json.dumps(False))
+            self.write(False)
             return
 
         uri = self.get_argument('uri')
@@ -386,10 +383,9 @@ class EffectSave(web.RequestHandler):
         lv2_cleanup()
         lv2_init()
 
-        self.set_header('Content-type', 'application/json')
-        self.write(json.dumps(True))
+        self.write(True)
 
-class Index(web.RequestHandler):
+class Index(TimelessRequestHandler):
     def get(self, path):
         if not path:
             path = 'index.html'
@@ -418,7 +414,7 @@ class Index(web.RequestHandler):
 
         self.write(loader.load(path).generate(**context))
 
-class Screenshot(web.RequestHandler):
+class Screenshot(JsonRequestHandler):
     @web.asynchronous
     def get(self):
         self.uri    = self.get_argument('uri')
@@ -498,9 +494,7 @@ class Screenshot(web.RequestHandler):
             'thumbnail': b64encode(thumbnail_data).decode("utf-8", errors="ignore"),
         }
 
-        self.set_header('Content-type', 'application/json')
-        self.write(json.dumps(result))
-        self.finish()
+        self.write(result)
 
     def crop(self, img):
         # first find latest non-transparent pixel in both width and height
@@ -603,7 +597,7 @@ class BundlePost(web.RequestHandler):
 
         return content_type, body
 
-class ConfigurationGet(web.RequestHandler):
+class ConfigurationGet(JsonRequestHandler):
     def get(self):
         config = {
             "device": DEFAULT_DEVICE,
@@ -616,10 +610,9 @@ class ConfigurationGet(web.RequestHandler):
         if not config["device"]:
             config["device"] = DEFAULT_DEVICE
 
-        self.set_header('Content-type', 'application/json')
-        self.write(json.dumps(config))
+        self.write(config)
 
-class ConfigurationSet(web.RequestHandler):
+class ConfigurationSet(JsonRequestHandler):
     def post(self):
         config  = json.loads(self.request.body.decode("utf-8", errors="ignore"))
         confdir = os.path.dirname(CONFIG_FILE)
@@ -627,8 +620,7 @@ class ConfigurationSet(web.RequestHandler):
             os.mkdir(confdir)
         with open(CONFIG_FILE, 'w') as fh:
             json.dump(config, fh)
-        self.set_header('Content-type', 'application/json')
-        self.write(json.dumps(True))
+        self.write(True)
 
 class BulkTemplateLoader(web.RequestHandler):
     def get(self):
@@ -645,7 +637,7 @@ class BulkTemplateLoader(web.RequestHandler):
                           )
                        )
 
-class EffectResource(web.StaticFileHandler):
+class EffectResource(TimelessStaticFileHandler):
 
     def initialize(self):
         # Overrides StaticFileHandler initialize
