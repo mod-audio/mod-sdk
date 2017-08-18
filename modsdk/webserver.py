@@ -322,30 +322,7 @@ class EffectSave(JsonRequestHandler):
             self.write(False)
             return
 
-        if not data['gui']['resourcesDirectory']:
-            bundledir  = data['bundles'][0]
-            resrcsdir  = os.path.join(bundledir, "modgui")
-            appendMode = True
-
-        elif data['gui']['modificableInPlace']:
-            resrcsdir  = data['gui']['resourcesDirectory']
-            bundledir  = os.path.join(resrcsdir, os.path.pardir)
-            appendMode = False
-
-        else:
-            bundlname  = symbolify(data['name'])
-            bundledir  = "%s/%s.modgui" % (LV2_DIR, bundlname)
-            appendMode = False
-
-            # if bundle already exists, generate a new random bundle name
-            if os.path.exists(bundledir):
-                while True:
-                    bundledir = "%s/%s-%i.modgui" % (LV2_DIR, bundlname, random.randint(1,99999))
-                    if os.path.exists(bundledir):
-                        continue
-                    break
-
-            resrcsdir = os.path.join(bundledir, "modgui")
+        bundledir, resrcsdir, appendMode = self.get_bundle_location(data)
 
         bundledir = os.path.abspath(bundledir)
         resrcsdir = os.path.abspath(resrcsdir)
@@ -409,6 +386,44 @@ class EffectSave(JsonRequestHandler):
         lv2_init()
 
         self.write(True)
+
+    def get_bundle_location(self, data):
+        # check for resourcesDirectory property (no modgui available if invalid)
+        if not data['gui']['resourcesDirectory']:
+            bundledir = data['bundles'][0]
+
+            # check if we can use plugin bundle dir as output for modgui
+            if os.path.isdir(bundledir) and os.access(bundledir, os.W_OK):
+                resrcsdir = os.path.join(bundledir, "modgui")
+                return (bundledir, resrcsdir, True)
+
+        # check for modificableInPlace property (custom bundle.modgui folder)
+        if data['gui']['modificableInPlace']:
+            resrcsdir = data['gui']['resourcesDirectory']
+
+            # make sure it's safe to use
+            if os.path.isdir(resrcsdir) and os.access(resrcsdir, os.W_OK):
+                bundledir = os.path.join(resrcsdir, os.path.pardir)
+                return (bundledir, resrcsdir, False)
+
+        # if we get here, we need to create a new modgui folder
+        bundlname  = symbolify(data['name'])
+        bundledir  = "%s/%s.modgui" % (LV2_DIR, bundlname)
+        appendMode = False
+
+        # never use modgui.ttl for new modguis
+        data['gui']['usingSeeAlso'] = False
+
+        # if bundle already exists, generate a new random bundle name
+        if os.path.exists(bundledir):
+            while True:
+                bundledir = "%s/%s-%i.modgui" % (LV2_DIR, bundlname, random.randint(1,99999))
+                if os.path.exists(bundledir):
+                    continue
+                break
+
+        resrcsdir = os.path.join(bundledir, "modgui")
+        return (bundledir, resrcsdir, False)
 
 class Index(TimelessRequestHandler):
     def get(self, path):
