@@ -12,6 +12,7 @@ from base64 import b64encode
 from PIL import Image
 from tornado import web, options, ioloop, template, httpclient
 from tornado.escape import squeeze
+from tornado.util import unicode_type
 from modsdk.settings import (PORT, HTML_DIR, WIZARD_DB, DEVICE_MODE,
                              CONFIG_FILE, CONFIG_DIR, TEMPLATE_DIR, LV2_DIR,
                              DEFAULT_DEVICE, DEFAULT_ICON_IMAGE,
@@ -154,10 +155,9 @@ class JsonRequestHandler(TimelessRequestHandler):
         TimelessRequestHandler.write(self, data)
         self.finish()
 
-class BundleList(web.RequestHandler):
+class BundleList(JsonRequestHandler):
     def get(self):
-        self.set_header('Content-type', 'application/json')
-        self.write(json.dumps(get_all_bundles()))
+        self.write(get_all_bundles())
 
 class EffectList(JsonRequestHandler):
     def get(self):
@@ -180,12 +180,52 @@ class EffectGet(JsonRequestHandler):
             raise web.HTTPError(404)
 
         self.write({
-            'ok': True,
+            'ok'  : True,
             'data': data
         })
 
-class EffectImage(web.RequestHandler):
-    def get(self, image):
+class EffectResource(TimelessStaticFileHandler):
+
+    def initialize(self):
+        # Overrides StaticFileHandler initialize
+        pass
+
+    def get(self, path):
+        path = path.replace("{{{cns}}}","").replace("{{{ns}}}","")
+
+        try:
+            uri = self.get_argument('uri')
+        except:
+            if path.endswith(".css"):
+                self.absolute_path = os.path.join(HTML_DIR, 'resources', path)
+                with open(self.absolute_path, 'r') as fd:
+                    self.set_header('Content-type', 'text/css')
+                    self.write(fd.read().replace("{{{cns}}}","_sdk").replace("{{{ns}}}",""))
+                    return
+
+            return self.shared_resource(path)
+
+        try:
+            root = get_plugin_info(uri)['gui']['resourcesDirectory']
+        except:
+            raise web.HTTPError(404)
+
+        try:
+            super(EffectResource, self).initialize(root)
+            return super(EffectResource, self).get(path)
+        except web.HTTPError as e:
+            if e.status_code != 404:
+                raise e
+            self.shared_resource(path)
+        except IOError:
+            raise web.HTTPError(404)
+
+    def shared_resource(self, path):
+        super(EffectResource, self).initialize(os.path.join(HTML_DIR, 'resources'))
+        return super(EffectResource, self).get(path)
+
+class EffectImage(TimelessStaticFileHandler):
+    def initialize(self):
         uri = self.get_argument('uri')
 
         try:
@@ -194,7 +234,20 @@ class EffectImage(web.RequestHandler):
             raise web.HTTPError(404)
 
         try:
-            path = data['gui'][image]
+            self.modgui = data['gui']
+        except:
+            raise web.HTTPError(404)
+
+        try:
+            root = self.modgui['resourcesDirectory']
+        except:
+            raise web.HTTPError(404)
+
+        return TimelessStaticFileHandler.initialize(self, root)
+
+    def parse_url_path(self, image):
+        try:
+            path = self.modgui[image]
         except:
             path = None
 
@@ -203,10 +256,45 @@ class EffectImage(web.RequestHandler):
                 path = DEFAULT_ICON_IMAGE[image]
             except:
                 raise web.HTTPError(404)
+            else:
+                TimelessStaticFileHandler.initialize(self, os.path.dirname(path))
 
-        with open(path, 'rb') as fd:
-            self.set_header('Content-type', 'image/png')
-            self.write(fd.read())
+        return path
+
+class EffectFile(TimelessStaticFileHandler):
+    def initialize(self):
+        # return custom type directly. The browser will do the parsing
+        self.custom_type = None
+
+        uri = self.get_argument('uri')
+
+        try:
+            self.modgui = get_plugin_info(uri)['gui']
+        except:
+            raise web.HTTPError(404)
+
+        try:
+            root = self.modgui['resourcesDirectory']
+        except:
+            raise web.HTTPError(404)
+
+        return TimelessStaticFileHandler.initialize(self, root)
+
+    def parse_url_path(self, prop):
+        try:
+            path = self.modgui[prop]
+        except:
+            raise web.HTTPError(404)
+
+        if prop in ("iconTemplate", "settingsTemplate", "stylesheet", "javascript"):
+            self.custom_type = "text/plain; charset=UTF-8"
+
+        return path
+
+    def get_content_type(self):
+        if self.custom_type is not None:
+            return self.custom_type
+        return TimelessStaticFileHandler.get_content_type(self)
 
 class EffectHTML(web.RequestHandler):
     def get(self, html):
@@ -293,8 +381,7 @@ class EffectSave(JsonRequestHandler):
             data = get_plugin_info(uri)
         except:
             print("ERROR in webserver.py: get_plugin_info for '%s' failed" % uri)
-            self.set_header('Content-type', 'application/json')
-            self.write(json.dumps(False))
+            self.write(False)
             return
 
         if not data['gui']['resourcesDirectory']:
@@ -563,7 +650,7 @@ class BundlePost(web.RequestHandler):
                      headers=headers, body=body, request_timeout=300)
 
     def handle_response(self, response):
-        self.set_header('Content-type', 'application/json')
+        self.set_header("Content-Type", "application/json; charset=UTF-8")
         if response.code == 200:
             self.write(response.body)
         else:
@@ -637,57 +724,13 @@ class BulkTemplateLoader(web.RequestHandler):
                           )
                        )
 
-class EffectResource(TimelessStaticFileHandler):
-
-    def initialize(self):
-        # Overrides StaticFileHandler initialize
-        pass
-
-    def get(self, path):
-        path = path.replace("{{{cns}}}","").replace("{{{ns}}}","")
-
-        try:
-            uri = self.get_argument('uri')
-        except:
-            if path.endswith(".css"):
-                self.absolute_path = os.path.join(HTML_DIR, 'resources', path)
-                with open(self.absolute_path, 'r') as fd:
-                    self.set_header('Content-type', 'text/css')
-                    self.write(fd.read().replace("{{{cns}}}","_sdk").replace("{{{ns}}}",""))
-                    return
-
-            return self.shared_resource(path)
-
-        try:
-            data = get_plugin_info(uri)
-        except:
-            raise web.HTTPError(404)
-
-        try:
-            root = data['gui']['resourcesDirectory']
-        except:
-            raise web.HTTPError(404)
-
-        try:
-            super(EffectResource, self).initialize(root)
-            return super(EffectResource, self).get(path)
-        except web.HTTPError as e:
-            if e.status_code != 404:
-                raise e
-            self.shared_resource(path)
-        except IOError:
-            raise web.HTTPError(404)
-
-    def shared_resource(self, path):
-        super(EffectResource, self).initialize(os.path.join(HTML_DIR, 'resources'))
-        return super(EffectResource, self).get(path)
-
 def make_application(port=PORT, output_log=False):
     application = web.Application([
             (r"/bundles", BundleList),
             (r"/effects", EffectList),
             (r"/effect/get/", EffectGet),
             (r"/effect/image/(screenshot|thumbnail).png", EffectImage),
+            (r"/effect/file/(.*)", EffectFile),
             (r"/effect/(icon|settings).html", EffectHTML),
             (r"/effect/stylesheet.css", EffectStylesheet),
             (r"/effect/gui.js", EffectJavascript),
