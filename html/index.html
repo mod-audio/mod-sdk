@@ -22,50 +22,50 @@
     <meta name="msapplication-TileImage" content="img/favicon/ms-icon-144x144.png">
     <meta name="theme-color" content="#111111">
 
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="css/main.css"/>
-    <link rel="stylesheet" type="text/css" href="css/dashboard.css"/>
-    <link rel="stylesheet" type="text/css" href="css/fonts.css"/>
-    <link rel="stylesheet" type="text/css" href="css/pedals.css"/>
-    <link rel="stylesheet" type="text/css" href="css/sdk.css"/>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css?v={{version}}"/>
+    <link rel="stylesheet" type="text/css" href="css/main.css?v={{version}}"/>
+    <link rel="stylesheet" type="text/css" href="css/dashboard.css?v={{version}}"/>
+    <link rel="stylesheet" type="text/css" href="css/fonts.css?v={{version}}"/>
+    <link rel="stylesheet" type="text/css" href="css/pedals.css?v={{version}}"/>
+    <link rel="stylesheet" type="text/css" href="css/sdk.css?v={{version}}"/>
 
     <!-- DEFAULT -->
-    <link rel="stylesheet" type="text/css" href="resources/pedals/default.css"/>
+    <link rel="stylesheet" type="text/css" href="resources/pedals/default.css?v={{version}}"/>
 
     <!-- JAPANESE -->
-    <link rel="stylesheet" type="text/css" href="resources/pedals/japanese/japanese.css"/>
-    <link rel="stylesheet" type="text/css" href="resources/knobs/japanese/japanese.css"/>
+    <link rel="stylesheet" type="text/css" href="resources/pedals/japanese/japanese.css?v={{version}}"/>
+    <link rel="stylesheet" type="text/css" href="resources/knobs/japanese/japanese.css?v={{version}}"/>
 
     <!-- BOXY -->
-    <link rel="stylesheet" type="text/css" href="resources/pedals/boxy/boxy.css"/>
-    <link rel="stylesheet" type="text/css" href="resources/knobs/boxy/boxy.css"/>
+    <link rel="stylesheet" type="text/css" href="resources/pedals/boxy/boxy.css?v={{version}}"/>
+    <link rel="stylesheet" type="text/css" href="resources/knobs/boxy/boxy.css?v={{version}}"/>
 
     <!-- LATA -->
-    <link rel="stylesheet" type="text/css" href="resources/pedals/lata/lata.css"/>
-    <link rel="stylesheet" type="text/css" href="resources/knobs/lata/lata.css"/>
+    <link rel="stylesheet" type="text/css" href="resources/pedals/lata/lata.css?v={{version}}"/>
+    <link rel="stylesheet" type="text/css" href="resources/knobs/lata/lata.css?v={{version}}"/>
 
     <!-- BRITISH -->
-    <link rel="stylesheet" type="text/css" href="resources/pedals/british/british.css"/>
+    <link rel="stylesheet" type="text/css" href="resources/pedals/british/british.css?v={{version}}"/>
 
     <!-- HEAD MODEL 001 -->
-    <link rel="stylesheet" type="text/css" href="resources/heads/model-001/model-001.css"/>
+    <link rel="stylesheet" type="text/css" href="resources/heads/model-001/model-001.css?v={{version}}"/>
 
     <!-- COMBO MODEL 001 -->
-    <link rel="stylesheet" type="text/css" href="resources/combos/model-001/model-001.css"/>
+    <link rel="stylesheet" type="text/css" href="resources/combos/model-001/model-001.css?v={{version}}"/>
 
     <!-- RACK MODEL 001 -->
-    <link rel="stylesheet" type="text/css" href="resources/racks/model-001/model-001.css"/>
+    <link rel="stylesheet" type="text/css" href="resources/racks/model-001/model-001.css?v={{version}}"/>
 
-    <script src="js/jquery-1.9.1.min.js"></script>
-    <script src="js/jquery-ui-1.10.1.custom.min.js"></script>
-    <script src="js/jquery.ui.touch-punch.min.js"></script>
-    <script src="js/jquery.ba-resize.min.js"></script>
-    <script src="js/mustache.js"></script>
-    <script src="js/jquery.svg.js"></script>
-    <script src="js/sprintf-0.6.js"></script>
-    <script src="js/jquery.mousewheel.min.js"></script>
-    <script src="js/jquery.textareaAutoResize.js"></script>
-    <script src="js/raphael-min.js"></script>
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js?v={{version}}"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.10.1.custom.min.js?v={{version}}"></script>
+    <script type="text/javascript" src="js/jquery.ui.touch-punch.min.js?v={{version}}"></script>
+    <script type="text/javascript" src="js/jquery.ba-resize.min.js?v={{version}}"></script>
+    <script type="text/javascript" src="js/mustache.js?v={{version}}"></script>
+    <script type="text/javascript" src="js/jquery.svg.js?v={{version}}"></script>
+    <script type="text/javascript" src="js/sprintf-0.6.js?v={{version}}"></script>
+    <script type="text/javascript" src="js/jquery.mousewheel.min.js?v={{version}}"></script>
+    <script type="text/javascript" src="js/jquery.textareaAutoResize.js?v={{version}}"></script>
+    <script type="text/javascript" src="js/raphael-min.js?v={{version}}"></script>
     <script>
       {% autoescape None %}
       var desktop = null
@@ -73,14 +73,15 @@
       var SAMPLERATE = 48000
       defaultIconTemplate = '{{default_icon_template}}'
       defaultSettingsTemplate = '{{default_settings_template}}'
+      VERSION      = '{{version}}'
       wizard_db    = JSON.parse('{{wizard_db}}')
       device_mode  = {{device_mode}}
       write_access = {{write_access}}
     </script>
-    <script src="js/modgui.js" type="text/javascript" charset="utf-8"></script>
-    <script src="js/modsdk.js" type="text/javascript" charset="utf-8"></script>
-    <script src="js/wizard.js" type="text/javascript" charset="utf-8"></script>
-    <script src="js/templates.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="js/modgui.js?v={{version}}"></script>
+    <script type="text/javascript" src="js/modsdk.js?v={{version}}"></script>
+    <script type="text/javascript" src="js/wizard.js?v={{version}}"></script>
+    <script type="text/javascript" src="js/templates.js?v={{version}}"></script>
     <script>
       isSDK = true
     </script>

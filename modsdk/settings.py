@@ -53,3 +53,11 @@ else:
             break
     else:
         LV2_DIR = ""
+
+IMAGE_VERSION_PATH = os.environ.pop('MOD_IMAGE_VERSION_PATH', '/etc/mod-release/release')
+
+if os.path.isfile(IMAGE_VERSION_PATH):
+    with open(IMAGE_VERSION_PATH, 'r') as fh:
+        IMAGE_VERSION = fh.read().strip() or None
+else:
+    IMAGE_VERSION = None

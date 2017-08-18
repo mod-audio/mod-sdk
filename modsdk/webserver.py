@@ -10,10 +10,11 @@ import subprocess
 
 from base64 import b64encode
 from PIL import Image
+from time import time
 from tornado import web, options, ioloop, template, httpclient
-from tornado.escape import squeeze
+from tornado.escape import squeeze, url_escape
 from tornado.util import unicode_type
-from modsdk.settings import (PORT, HTML_DIR, WIZARD_DB, DEVICE_MODE,
+from modsdk.settings import (PORT, HTML_DIR, WIZARD_DB, DEVICE_MODE, IMAGE_VERSION,
                              CONFIG_FILE, CONFIG_DIR, TEMPLATE_DIR, LV2_DIR,
                              DEFAULT_DEVICE, DEFAULT_ICON_IMAGE,
                              DEFAULT_ICON_TEMPLATE, DEFAULT_SETTINGS_TEMPLATE,
@@ -296,69 +297,6 @@ class EffectFile(TimelessStaticFileHandler):
             return self.custom_type
         return TimelessStaticFileHandler.get_content_type(self)
 
-class EffectHTML(web.RequestHandler):
-    def get(self, html):
-        uri = self.get_argument('uri')
-
-        try:
-            data = get_plugin_info(uri)
-        except:
-            raise web.HTTPError(404)
-
-        try:
-            path = data['gui']['%sTemplate' % html]
-        except:
-            raise web.HTTPError(404)
-
-        if not os.path.exists(path):
-            raise web.HTTPError(404)
-
-        with open(path, 'rb') as fd:
-            self.set_header('Content-type', 'text/html')
-            self.write(fd.read())
-
-class EffectStylesheet(web.RequestHandler):
-    def get(self):
-        uri = self.get_argument('uri')
-
-        try:
-            data = get_plugin_info(uri)
-        except:
-            raise web.HTTPError(404)
-
-        try:
-            path = data['gui']['stylesheet']
-        except:
-            raise web.HTTPError(404)
-
-        if not os.path.exists(path):
-            raise web.HTTPError(404)
-
-        with open(path, 'rb') as fd:
-            self.set_header('Content-type', 'text/css')
-            self.write(fd.read())
-
-class EffectJavascript(web.RequestHandler):
-    def get(self):
-        uri = self.get_argument('uri')
-
-        try:
-            data = get_plugin_info(uri)
-        except:
-            raise web.HTTPError(404)
-
-        try:
-            path = data['gui']['javascript']
-        except:
-            raise web.HTTPError(404)
-
-        if not os.path.exists(path):
-            raise web.HTTPError(404)
-
-        with open(path, 'rb') as fd:
-            self.set_header('Content-type', 'text/plain')
-            self.write(fd.read())
-
 class EffectSave(JsonRequestHandler):
     def post(self):
         if not LV2_DIR:
@@ -474,6 +412,23 @@ class EffectSave(JsonRequestHandler):
 
 class Index(TimelessRequestHandler):
     def get(self, path):
+        # Caching strategy.
+        # 1. If we don't have a version parameter, redirect
+        curVersion = self.get_version()
+        try:
+            version = url_escape(self.get_argument('v'))
+        except web.MissingArgumentError:
+            uri  = self.request.uri
+            uri += '&' if self.request.query else '?'
+            uri += 'v=%s' % curVersion
+            self.redirect(uri)
+            return
+        # 2. Make sure version is correct
+        if IMAGE_VERSION is not None and version != curVersion:
+            uri = self.request.uri.replace('v=%s' % version, 'v=%s' % curVersion)
+            self.redirect(uri)
+            return
+
         if not path:
             path = 'index.html'
         loader = template.Loader(HTML_DIR)
@@ -491,6 +446,7 @@ class Index(TimelessRequestHandler):
             'default_device': DEFAULT_DEVICE,
             'default_icon_template': default_icon_template,
             'default_settings_template': default_settings_template,
+            'version': self.get_argument('v'),
             'wizard_db': json.dumps(wizard_db),
             'device_mode': 'true' if DEVICE_MODE else 'false',
             'write_access': 'true' if LV2_DIR else 'false',
@@ -500,6 +456,13 @@ class Index(TimelessRequestHandler):
         lv2_init()
 
         self.write(loader.load(path).generate(**context))
+
+    def get_version(self):
+        if IMAGE_VERSION is not None and len(IMAGE_VERSION) > 1:
+            # strip initial 'v' from version if present
+            version = IMAGE_VERSION[1:] if IMAGE_VERSION[0] == "v" else IMAGE_VERSION
+            return url_escape(version)
+        return str(int(time()))
 
 class Screenshot(JsonRequestHandler):
     @web.asynchronous
@@ -731,9 +694,6 @@ def make_application(port=PORT, output_log=False):
             (r"/effect/get/", EffectGet),
             (r"/effect/image/(screenshot|thumbnail).png", EffectImage),
             (r"/effect/file/(.*)", EffectFile),
-            (r"/effect/(icon|settings).html", EffectHTML),
-            (r"/effect/stylesheet.css", EffectStylesheet),
-            (r"/effect/gui.js", EffectJavascript),
             (r"/effect/save", EffectSave),
             (r"/config/get", ConfigurationGet),
             (r"/config/set", ConfigurationSet),
