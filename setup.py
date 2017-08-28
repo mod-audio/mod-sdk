@@ -14,9 +14,9 @@ class mod_utils_builder(build):
 
 class mod_utils_installer(install):
     def run(self):
-        oldsharepath = os.path.join(self.install_data, "share", "mod-sdk")
-        if os.path.exists(oldsharepath):
-            rmtree(oldsharepath)
+        sharepath = os.path.join(self.install_data, "share", "mod-sdk")
+        if os.path.exists(sharepath):
+            rmtree(sharepath)
         install.run(self)
         source = "utils/libmod_utils.so"
         target = os.path.join(self.install_lib, "modsdk", "libmod_utils.so")

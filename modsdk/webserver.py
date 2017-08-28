@@ -10,9 +10,11 @@ import subprocess
 
 from base64 import b64encode
 from PIL import Image
+from time import time
 from tornado import web, options, ioloop, template, httpclient
-from tornado.escape import squeeze
-from modsdk.settings import (PORT, HTML_DIR, WIZARD_DB, DEVICE_MODE,
+from tornado.escape import squeeze, url_escape
+from tornado.util import unicode_type
+from modsdk.settings import (PORT, HTML_DIR, WIZARD_DB, DEVICE_MODE, IMAGE_VERSION,
                              CONFIG_FILE, CONFIG_DIR, TEMPLATE_DIR, LV2_DIR,
                              DEFAULT_DEVICE, DEFAULT_ICON_IMAGE,
                              DEFAULT_ICON_TEMPLATE, DEFAULT_SETTINGS_TEMPLATE,
@@ -101,23 +103,74 @@ def get_config(key, default=None):
     #with open(CONFIG_FILE, 'w') as fh:
         #json.dump(config, fh)
 
-class BundleList(web.RequestHandler):
-    def get(self):
-        self.set_header('Content-type', 'application/json')
-        self.write(json.dumps(get_all_bundles()))
+class TimelessRequestHandler(web.RequestHandler):
+    def compute_etag(self):
+        return None
 
-class EffectList(web.RequestHandler):
+    def set_default_headers(self):
+        self._headers.pop("Date")
+
+    def should_return_304(self):
+        return False
+
+class TimelessStaticFileHandler(web.StaticFileHandler):
+    def get_cache_time(self, path, modified, mime_type):
+        return 0
+
+    def get_modified_time(self):
+        return None
+
+    def set_default_headers(self):
+        self._headers.pop("Date")
+
+    def set_extra_headers(self, path):
+        self.set_header("Cache-Control", "public, max-age=31536000")
+
+    def should_return_304(self):
+        return self.check_etag_header()
+
+class JsonRequestHandler(TimelessRequestHandler):
+    def write(self, data):
+        # TODO: if something is sending strings out, we need to stop it
+        # it's likely something using write(json.dumps(...))
+        # we want to prevent that as it causes issues under Mac OS
+
+        if isinstance(data, (bytes, unicode_type, dict)):
+            TimelessRequestHandler.write(self, data)
+            self.finish()
+            return
+
+        self.set_header("Content-Type", "application/json; charset=UTF-8")
+
+        if data is True:
+            data = "true"
+
+        elif data is False:
+            data = "false"
+
+        else:
+            if not isinstance(data, list):
+                print("FIXME: Got new data type for JsonRequestHandler.write():", type(data), "msg:", data)
+            data = json.dumps(data)
+
+        TimelessRequestHandler.write(self, data)
+        self.finish()
+
+class BundleList(JsonRequestHandler):
+    def get(self):
+        self.write(get_all_bundles())
+
+class EffectList(JsonRequestHandler):
     def get(self):
         bundle = self.get_argument('bundle')
         data   = get_bundle_plugins(bundle)
 
-        self.set_header('Content-type', 'application/json')
-        self.write(json.dumps({
+        self.write({
             'ok': len(data) > 0,
             'data': data
-        }))
+        })
 
-class EffectGet(web.RequestHandler):
+class EffectGet(JsonRequestHandler):
     def get(self):
         uri = self.get_argument('uri')
 
@@ -127,14 +180,53 @@ class EffectGet(web.RequestHandler):
             print("get failed")
             raise web.HTTPError(404)
 
-        self.set_header('Content-type', 'application/json')
-        self.write(json.dumps({
-            'ok': True,
+        self.write({
+            'ok'  : True,
             'data': data
-        }))
+        })
 
-class EffectImage(web.RequestHandler):
-    def get(self, image):
+class EffectResource(TimelessStaticFileHandler):
+
+    def initialize(self):
+        # Overrides StaticFileHandler initialize
+        pass
+
+    def get(self, path):
+        path = path.replace("{{{cns}}}","").replace("{{{ns}}}","")
+
+        try:
+            uri = self.get_argument('uri')
+        except:
+            if path.endswith(".css"):
+                self.absolute_path = os.path.join(HTML_DIR, 'resources', path)
+                with open(self.absolute_path, 'r') as fd:
+                    self.set_header('Content-type', 'text/css')
+                    self.write(fd.read().replace("{{{cns}}}","_sdk").replace("{{{ns}}}",""))
+                    return
+
+            return self.shared_resource(path)
+
+        try:
+            root = get_plugin_info(uri)['gui']['resourcesDirectory']
+        except:
+            raise web.HTTPError(404)
+
+        try:
+            super(EffectResource, self).initialize(root)
+            return super(EffectResource, self).get(path)
+        except web.HTTPError as e:
+            if e.status_code != 404:
+                raise e
+            self.shared_resource(path)
+        except IOError:
+            raise web.HTTPError(404)
+
+    def shared_resource(self, path):
+        super(EffectResource, self).initialize(os.path.join(HTML_DIR, 'resources'))
+        return super(EffectResource, self).get(path)
+
+class EffectImage(TimelessStaticFileHandler):
+    def initialize(self):
         uri = self.get_argument('uri')
 
         try:
@@ -143,7 +235,20 @@ class EffectImage(web.RequestHandler):
             raise web.HTTPError(404)
 
         try:
-            path = data['gui'][image]
+            self.modgui = data['gui']
+        except:
+            raise web.HTTPError(404)
+
+        try:
+            root = self.modgui['resourcesDirectory']
+        except:
+            raise web.HTTPError(404)
+
+        return TimelessStaticFileHandler.initialize(self, root)
+
+    def parse_url_path(self, image):
+        try:
+            path = self.modgui[image]
         except:
             path = None
 
@@ -152,79 +257,50 @@ class EffectImage(web.RequestHandler):
                 path = DEFAULT_ICON_IMAGE[image]
             except:
                 raise web.HTTPError(404)
+            else:
+                TimelessStaticFileHandler.initialize(self, os.path.dirname(path))
 
-        with open(path, 'rb') as fd:
-            self.set_header('Content-type', 'image/png')
-            self.write(fd.read())
+        return path
 
-class EffectHTML(web.RequestHandler):
-    def get(self, html):
+class EffectFile(TimelessStaticFileHandler):
+    def initialize(self):
+        # return custom type directly. The browser will do the parsing
+        self.custom_type = None
+
         uri = self.get_argument('uri')
 
         try:
-            data = get_plugin_info(uri)
+            self.modgui = get_plugin_info(uri)['gui']
         except:
             raise web.HTTPError(404)
 
         try:
-            path = data['gui']['%sTemplate' % html]
+            root = self.modgui['resourcesDirectory']
         except:
             raise web.HTTPError(404)
 
-        if not os.path.exists(path):
-            raise web.HTTPError(404)
+        return TimelessStaticFileHandler.initialize(self, root)
 
-        with open(path, 'rb') as fd:
-            self.set_header('Content-type', 'text/html')
-            self.write(fd.read())
-
-class EffectStylesheet(web.RequestHandler):
-    def get(self):
-        uri = self.get_argument('uri')
-
+    def parse_url_path(self, prop):
         try:
-            data = get_plugin_info(uri)
+            path = self.modgui[prop]
         except:
             raise web.HTTPError(404)
 
-        try:
-            path = data['gui']['stylesheet']
-        except:
-            raise web.HTTPError(404)
+        if prop in ("iconTemplate", "settingsTemplate", "stylesheet", "javascript"):
+            self.custom_type = "text/plain; charset=UTF-8"
 
-        if not os.path.exists(path):
-            raise web.HTTPError(404)
+        return path
 
-        with open(path, 'rb') as fd:
-            self.set_header('Content-type', 'text/css')
-            self.write(fd.read())
+    def get_content_type(self):
+        if self.custom_type is not None:
+            return self.custom_type
+        return TimelessStaticFileHandler.get_content_type(self)
 
-class EffectJavascript(web.RequestHandler):
-    def get(self):
-        uri = self.get_argument('uri')
-
-        try:
-            data = get_plugin_info(uri)
-        except:
-            raise web.HTTPError(404)
-
-        try:
-            path = data['gui']['javascript']
-        except:
-            raise web.HTTPError(404)
-
-        if not os.path.exists(path):
-            raise web.HTTPError(404)
-
-        with open(path, 'rb') as fd:
-            self.set_header('Content-type', 'text/plain')
-            self.write(fd.read())
-
-class EffectSave(web.RequestHandler):
+class EffectSave(JsonRequestHandler):
     def post(self):
         if not LV2_DIR:
-            self.set_header('Content-type', 'application/json')
-            self.write(json.dumps(False))
+            self.write(False)
             return
 
         uri = self.get_argument('uri')
@@ -243,34 +319,10 @@ class EffectSave(web.RequestHandler):
             data = get_plugin_info(uri)
         except:
             print("ERROR in webserver.py: get_plugin_info for '%s' failed" % uri)
-            self.set_header('Content-type', 'application/json')
-            self.write(json.dumps(False))
+            self.write(False)
             return
 
-        if not data['gui']['resourcesDirectory']:
-            bundledir  = data['bundles'][0]
-            resrcsdir  = os.path.join(bundledir, "modgui")
-            appendMode = True
-
-        elif data['gui']['modificableInPlace']:
-            resrcsdir  = data['gui']['resourcesDirectory']
-            bundledir  = os.path.join(resrcsdir, os.path.pardir)
-            appendMode = False
-
-        else:
-            bundlname  = symbolify(data['name'])
-            bundledir  = "%s/%s.modgui" % (LV2_DIR, bundlname)
-            appendMode = False
-
-            # if bundle already exists, generate a new random bundle name
-            if os.path.exists(bundledir):
-                while True:
-                    bundledir = "%s/%s-%i.modgui" % (LV2_DIR, bundlname, random.randint(1,99999))
-                    if os.path.exists(bundledir):
-                        continue
-                    break
-
-            resrcsdir = os.path.join(bundledir, "modgui")
+        bundledir, resrcsdir, appendMode = self.get_bundle_location(data)
 
         bundledir = os.path.abspath(bundledir)
         resrcsdir = os.path.abspath(resrcsdir)
@@ -333,11 +385,65 @@ class EffectSave(web.RequestHandler):
         lv2_cleanup()
         lv2_init()
 
-        self.set_header('Content-type', 'application/json')
-        self.write(json.dumps(True))
+        self.write(True)
 
-class Index(web.RequestHandler):
+    def get_bundle_location(self, data):
+        # check for resourcesDirectory property (no modgui available if invalid)
+        if not data['gui']['resourcesDirectory']:
+            bundledir = data['bundles'][0]
+
+            # check if we can use plugin bundle dir as output for modgui
+            if os.path.isdir(bundledir) and os.access(bundledir, os.W_OK):
+                resrcsdir = os.path.join(bundledir, "modgui")
+                return (bundledir, resrcsdir, True)
+
+        # check for modificableInPlace property (custom bundle.modgui folder)
+        if data['gui']['modificableInPlace']:
+            resrcsdir = data['gui']['resourcesDirectory']
+
+            # make sure it's safe to use
+            if os.path.isdir(resrcsdir) and os.access(resrcsdir, os.W_OK):
+                bundledir = os.path.join(resrcsdir, os.path.pardir)
+                return (bundledir, resrcsdir, False)
+
+        # if we get here, we need to create a new modgui folder
+        bundlname  = symbolify(data['name'])
+        bundledir  = "%s/%s.modgui" % (LV2_DIR, bundlname)
+        appendMode = False
+
+        # never use modgui.ttl for new modguis
+        data['gui']['usingSeeAlso'] = False
+
+        # if bundle already exists, generate a new random bundle name
+        if os.path.exists(bundledir):
+            while True:
+                bundledir = "%s/%s-%i.modgui" % (LV2_DIR, bundlname, random.randint(1,99999))
+                if os.path.exists(bundledir):
+                    continue
+                break
+
+        resrcsdir = os.path.join(bundledir, "modgui")
+        return (bundledir, resrcsdir, False)
+
+class Index(TimelessRequestHandler):
     def get(self, path):
+        # Caching strategy.
+        # 1. If we don't have a version parameter, redirect
+        curVersion = self.get_version()
+        try:
+            version = url_escape(self.get_argument('v'))
+        except web.MissingArgumentError:
+            uri  = self.request.uri
+            uri += '&' if self.request.query else '?'
+            uri += 'v=%s' % curVersion
+            self.redirect(uri)
+            return
+        # 2. Make sure version is correct
+        if IMAGE_VERSION is not None and version != curVersion:
+            uri = self.request.uri.replace('v=%s' % version, 'v=%s' % curVersion)
+            self.redirect(uri)
+            return
+
         if not path:
             path = 'index.html'
         loader = template.Loader(HTML_DIR)
@@ -355,6 +461,7 @@ class Index(web.RequestHandler):
             'default_device': DEFAULT_DEVICE,
             'default_icon_template': default_icon_template,
             'default_settings_template': default_settings_template,
+            'version': self.get_argument('v'),
             'wizard_db': json.dumps(wizard_db),
             'device_mode': 'true' if DEVICE_MODE else 'false',
             'write_access': 'true' if LV2_DIR else 'false',
@@ -365,7 +472,14 @@ class Index(web.RequestHandler):
 
         self.write(loader.load(path).generate(**context))
 
-class Screenshot(web.RequestHandler):
+    def get_version(self):
+        if IMAGE_VERSION is not None and len(IMAGE_VERSION) > 1:
+            # strip initial 'v' from version if present
+            version = IMAGE_VERSION[1:] if IMAGE_VERSION[0] == "v" else IMAGE_VERSION
+            return url_escape(version)
+        return str(int(time()))
+
+class Screenshot(JsonRequestHandler):
     @web.asynchronous
     def get(self):
         self.uri    = self.get_argument('uri')
@@ -445,9 +559,7 @@ class Screenshot(web.RequestHandler):
             'thumbnail': b64encode(thumbnail_data).decode("utf-8", errors="ignore"),
         }
 
-        self.set_header('Content-type', 'application/json')
-        self.write(json.dumps(result))
-        self.finish()
+        self.write(result)
 
     def crop(self, img):
         # first find latest non-transparent pixel in both width and height
@@ -516,7 +628,7 @@ class BundlePost(web.RequestHandler):
                      headers=headers, body=body, request_timeout=300)
 
     def handle_response(self, response):
-        self.set_header('Content-type', 'application/json')
+        self.set_header("Content-Type", "application/json; charset=UTF-8")
         if response.code == 200:
             self.write(response.body)
         else:
@@ -550,7 +662,7 @@ class BundlePost(web.RequestHandler):
 
         return content_type, body
 
-class ConfigurationGet(web.RequestHandler):
+class ConfigurationGet(JsonRequestHandler):
     def get(self):
         config = {
             "device": DEFAULT_DEVICE,
@@ -563,10 +675,9 @@ class ConfigurationGet(web.RequestHandler):
         if not config["device"]:
             config["device"] = DEFAULT_DEVICE
 
-        self.set_header('Content-type', 'application/json')
-        self.write(json.dumps(config))
+        self.write(config)
 
-class ConfigurationSet(web.RequestHandler):
+class ConfigurationSet(JsonRequestHandler):
     def post(self):
         config  = json.loads(self.request.body.decode("utf-8", errors="ignore"))
         confdir = os.path.dirname(CONFIG_FILE)
@@ -574,8 +685,7 @@ class ConfigurationSet(web.RequestHandler):
             os.mkdir(confdir)
         with open(CONFIG_FILE, 'w') as fh:
             json.dump(config, fh)
-        self.set_header('Content-type', 'application/json')
-        self.write(json.dumps(True))
+        self.write(True)
 
 class BulkTemplateLoader(web.RequestHandler):
     def get(self):
@@ -592,60 +702,13 @@ class BulkTemplateLoader(web.RequestHandler):
                           )
                        )
 
-class EffectResource(web.StaticFileHandler):
-
-    def initialize(self):
-        # Overrides StaticFileHandler initialize
-        pass
-
-    def get(self, path):
-        path = path.replace("{{{cns}}}","").replace("{{{ns}}}","")
-
-        try:
-            uri = self.get_argument('uri')
-        except:
-            if path.endswith(".css"):
-                self.absolute_path = os.path.join(HTML_DIR, 'resources', path)
-                with open(self.absolute_path, 'r') as fd:
-                    self.set_header('Content-type', 'text/css')
-                    self.write(fd.read().replace("{{{cns}}}","_sdk").replace("{{{ns}}}",""))
-                    return
-
-            return self.shared_resource(path)
-
-        try:
-            data = get_plugin_info(uri)
-        except:
-            raise web.HTTPError(404)
-
-        try:
-            root = data['gui']['resourcesDirectory']
-        except:
-            raise web.HTTPError(404)
-
-        try:
-            super(EffectResource, self).initialize(root)
-            return super(EffectResource, self).get(path)
-        except web.HTTPError as e:
-            if e.status_code != 404:
-                raise e
-            self.shared_resource(path)
-        except IOError:
-            raise web.HTTPError(404)
-
-    def shared_resource(self, path):
-        super(EffectResource, self).initialize(os.path.join(HTML_DIR, 'resources'))
-        return super(EffectResource, self).get(path)
-
 def make_application(port=PORT, output_log=False):
     application = web.Application([
             (r"/bundles", BundleList),
             (r"/effects", EffectList),
             (r"/effect/get/", EffectGet),
             (r"/effect/image/(screenshot|thumbnail).png", EffectImage),
-            (r"/effect/(icon|settings).html", EffectHTML),
-            (r"/effect/stylesheet.css", EffectStylesheet),
-            (r"/effect/gui.js", EffectJavascript),
+            (r"/effect/file/(.*)", EffectFile),
             (r"/effect/save", EffectSave),
             (r"/config/get", ConfigurationGet),
             (r"/config/set", ConfigurationSet),
