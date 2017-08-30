@@ -444,8 +444,6 @@ class Index(TimelessRequestHandler):
             self.redirect(uri)
             return
 
-        if not path:
-            path = 'index.html'
         loader = template.Loader(HTML_DIR)
 
         with open(DEFAULT_ICON_TEMPLATE, 'r') as fd:
@@ -467,8 +465,13 @@ class Index(TimelessRequestHandler):
             'write_access': 'true' if LV2_DIR else 'false',
         }
 
-        lv2_cleanup()
-        lv2_init()
+        if not path:
+            path = 'index.html'
+        section = path.split('.',1)[0]
+
+        if section == 'index':
+            lv2_cleanup()
+            lv2_init()
 
         self.write(loader.load(path).generate(**context))
 
