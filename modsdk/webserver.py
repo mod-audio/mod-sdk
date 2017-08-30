@@ -427,22 +427,33 @@ class EffectSave(JsonRequestHandler):
 
 class Index(TimelessRequestHandler):
     def get(self, path):
-        # Caching strategy.
-        # 1. If we don't have a version parameter, redirect
-        curVersion = self.get_version()
-        try:
-            version = url_escape(self.get_argument('v'))
-        except web.MissingArgumentError:
-            uri  = self.request.uri
-            uri += '&' if self.request.query else '?'
-            uri += 'v=%s' % curVersion
-            self.redirect(uri)
-            return
-        # 2. Make sure version is correct
-        if IMAGE_VERSION is not None and version != curVersion:
-            uri = self.request.uri.replace('v=%s' % version, 'v=%s' % curVersion)
-            self.redirect(uri)
-            return
+        if not path:
+            path = 'index.html'
+        section = path.split('.',1)[0]
+
+        if section == 'index':
+            # Caching strategy.
+            # 1. If we don't have a version parameter, redirect
+            curVersion = self.get_version()
+            try:
+                version = url_escape(self.get_argument('v'))
+            except web.MissingArgumentError:
+                uri  = self.request.uri
+                uri += '&' if self.request.query else '?'
+                uri += 'v=%s' % curVersion
+                self.redirect(uri)
+                return
+            # 2. Make sure version is correct
+            if IMAGE_VERSION is not None and version != curVersion:
+                uri = self.request.uri.replace('v=%s' % version, 'v=%s' % curVersion)
+                self.redirect(uri)
+                return
+
+            lv2_cleanup()
+            lv2_init()
+
+        else:
+            version = self.get_version()
 
         loader = template.Loader(HTML_DIR)
 
@@ -459,19 +470,11 @@ class Index(TimelessRequestHandler):
             'default_device': DEFAULT_DEVICE,
             'default_icon_template': default_icon_template,
             'default_settings_template': default_settings_template,
-            'version': self.get_argument('v'),
+            'version': version,
             'wizard_db': json.dumps(wizard_db),
             'device_mode': 'true' if DEVICE_MODE else 'false',
             'write_access': 'true' if LV2_DIR else 'false',
         }
-
-        if not path:
-            path = 'index.html'
-        section = path.split('.',1)[0]
-
-        if section == 'index':
-            lv2_cleanup()
-            lv2_init()
 
         self.write(loader.load(path).generate(**context))
 
@@ -535,6 +538,7 @@ class Screenshot(JsonRequestHandler):
 
         img = Image.open(fh)
         img = self.crop(img)
+        img.convert('RGB')
         img.save(screenshot_path)
         width, height = img.size
         if width > MAX_THUMB_WIDTH:
@@ -543,7 +547,6 @@ class Screenshot(JsonRequestHandler):
         if height > MAX_THUMB_HEIGHT:
             height = MAX_THUMB_HEIGHT
             width = width * MAX_THUMB_HEIGHT / height
-        img.convert('RGB')
         img.thumbnail((width, height), Image.ANTIALIAS)
         img.save(thumbnail_path)
 
@@ -570,6 +573,7 @@ class Screenshot(JsonRequestHandler):
         min_y = int(self.height)
         max_x = 0
         max_y = 0
+        cropd = False
         for i, px in enumerate(img.getdata()):
             if px[3] > 0:
                 width = i % img.size[0]
@@ -578,6 +582,9 @@ class Screenshot(JsonRequestHandler):
                 min_y = min(min_y, height)
                 max_x = max(max_x, width)
                 max_y = max(max_y, height)
+                cropd = True
+        if not cropd:
+            return img
         # now crop
         return img.crop((min_x, min_y, max_x, max_y))
 
