@@ -23,7 +23,8 @@ $(document).ready(function() {
         },
         error: function() {
             alert("Error: Can't get current configuration. Is your server running? Check the logs.")
-        }
+        },
+        cache: false,
     })
 
     version = $('#version')
@@ -65,6 +66,7 @@ $(document).ready(function() {
                             },
                             success: function () {},
                             error: function () {},
+                            cache: false,
                             dataType: 'json'
                         })
                     }
@@ -77,6 +79,7 @@ $(document).ready(function() {
             error: function(resp) {
                 alert("Error: Can't generate thumbnail. Is your server running? Check the logs.")
             },
+            cache: false,
             dataType: 'json'
         })
     })
@@ -95,6 +98,7 @@ $(document).ready(function() {
                     alert("Error: Can't install bundle. Is your server running? Check the logs.")
                 },
                 timeout: 300000,
+                cache: false,
                 dataType: 'json'
               })
         })
@@ -153,6 +157,7 @@ function loadBundles() {
         error: function(resp) {
             alert("Error: Can't get list of bundles. Is your server running? Check the logs.")
         },
+        cache: false,
         dataType: 'json'
     })
 }
@@ -178,6 +183,7 @@ function getEffects(bundle, callback) {
         error: function(resp) {
             alert("Error: Can't get list of effects. Is your server running? Check the logs.")
         },
+        cache: false,
         dataType: 'json'
     })
 }
@@ -357,6 +363,7 @@ function saveDeployConfiguration(callback) {
         error: function() {
             alert("Error: Can't set configuration. Is your server running? Check the logs.")
         },
+        cache: false,
         dataType: 'json'
     })
     return false

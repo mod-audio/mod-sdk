@@ -614,6 +614,7 @@ JqueryClass('wizard', {
                 self.wizard('previous')
                 alert("Error: Can't save your effect configuration. Is your server running? Check the logs.")
             },
+            cache: false,
             dataType: 'json'
         })
     },
@@ -653,6 +654,7 @@ JqueryClass('wizard', {
                 self.find('#wizard-next').show()
                 alert("Error: Can't generate thumbnail. Is your server running? Check the logs.")
             },
+            cache: false,
             dataType: 'json'
         })
     },
@@ -676,6 +678,7 @@ JqueryClass('wizard', {
                 error: function () {
                     document.location.reload()
                 },
+                cache: false,
                 dataType: 'json'
             })
         } else {
