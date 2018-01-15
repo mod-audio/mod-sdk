@@ -174,6 +174,11 @@ class EffectGet(JsonRequestHandler):
     def get(self):
         uri = self.get_argument('uri')
 
+        # workaround to support fragment in URLs
+        # https://github.com/ariya/phantomjs/issues/12667
+        # https://github.com/moddevices/mod-sdk/issues/1
+        uri = uri.replace('%23', '#')
+
         try:
             data = get_plugin_info(uri)
         except:
