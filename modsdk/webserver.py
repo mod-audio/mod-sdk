@@ -7,11 +7,12 @@ import random
 import re
 import shutil
 import subprocess
+import pyinotify
 
 from base64 import b64encode
 from PIL import Image
 from time import time
-from tornado import web, options, ioloop, template, httpclient
+from tornado import web, options, ioloop, template, httpclient, websocket
 from tornado.escape import squeeze, url_escape
 from tornado.util import unicode_type
 from modsdk.settings import (PORT, HTML_DIR, WIZARD_DB, DEVICE_MODE, IMAGE_VERSION,
@@ -717,6 +718,41 @@ class BulkTemplateLoader(web.RequestHandler):
                           )
                        )
 
+class BundleMonitor(websocket.WebSocketHandler):
+    def open(self):
+        self.wm = pyinotify.WatchManager()
+        self.notifier = pyinotify.Notifier(self.wm, timeout=0)
+        self.watch = None
+
+    def on_message(self, bundle):
+        self.clear_watches()
+        path = os.path.join(LV2_DIR, bundle)
+        watch = self.wm.add_watch(path, pyinotify.ALL_EVENTS)
+        self.watch = watch[path]
+        print("\n\nMONITORING %s\n\n" % path)
+        self.schedule()
+
+    def on_close(self):
+        self.clear_watches()
+
+    def schedule(self):
+        ioloop.IOLoop.instance().add_callback(self.check)
+
+    def check(self):
+        if not self.watch:
+            return
+        if self.notifier.check_events():
+            self.notifier.read_events()
+            self.write_message("reload")
+        self.schedule()
+
+    def clear_watches(self):
+        if self.watch is None:
+            return
+
+        self.wm.rm_watch(self.watch)
+        self.watch = None
+
 def make_application(port=PORT, output_log=False):
     application = web.Application([
             (r"/bundles", BundleList),
@@ -732,6 +768,7 @@ def make_application(port=PORT, output_log=False):
             (r"/post/(.+)/?", BundlePost),
             (r"/js/templates.js$", BulkTemplateLoader),
             (r"/resources/(.*)", EffectResource),
+            (r"/monitor", BundleMonitor),
             (r"/(.*)", web.StaticFileHandler, {"path": HTML_DIR}),
             ], debug=output_log)
 
