@@ -15,6 +15,7 @@ from time import time
 from tornado import web, options, ioloop, template, httpclient, websocket
 from tornado.escape import squeeze, url_escape
 from tornado.util import unicode_type
+from .bundlemonitor import BundleMonitor
 from modsdk.settings import (PORT, HTML_DIR, WIZARD_DB, DEVICE_MODE, IMAGE_VERSION,
                              CONFIG_FILE, CONFIG_DIR, TEMPLATE_DIR, LV2_DIR,
                              DEFAULT_DEVICE, DEFAULT_ICON_IMAGE,
@@ -718,40 +719,18 @@ class BulkTemplateLoader(web.RequestHandler):
                           )
                        )
 
-class BundleMonitor(websocket.WebSocketHandler):
+class BundleMonitorWebsocket(websocket.WebSocketHandler):
     def open(self):
-        self.wm = pyinotify.WatchManager()
-        self.notifier = pyinotify.Notifier(self.wm, timeout=0)
-        self.watch = None
+        self.monitor = BundleMonitor(self.notify)
 
     def on_message(self, bundle):
-        self.clear_watches()
-        path = os.path.join(LV2_DIR, bundle)
-        watch = self.wm.add_watch(path, pyinotify.ALL_EVENTS)
-        self.watch = watch[path]
-        print("\n\nMONITORING %s\n\n" % path)
-        self.schedule()
+        self.monitor.monitor(bundle)
 
     def on_close(self):
-        self.clear_watches()
+        self.monitor.clear()
 
-    def schedule(self):
-        ioloop.IOLoop.instance().add_callback(self.check)
-
-    def check(self):
-        if not self.watch:
-            return
-        if self.notifier.check_events():
-            self.notifier.read_events()
-            self.write_message("reload")
-        self.schedule()
-
-    def clear_watches(self):
-        if self.watch is None:
-            return
-
-        self.wm.rm_watch(self.watch)
-        self.watch = None
+    def notify(self):
+        self.write_message("reload")
 
 def make_application(port=PORT, output_log=False):
     application = web.Application([
@@ -768,7 +747,7 @@ def make_application(port=PORT, output_log=False):
             (r"/post/(.+)/?", BundlePost),
             (r"/js/templates.js$", BulkTemplateLoader),
             (r"/resources/(.*)", EffectResource),
-            (r"/monitor", BundleMonitor),
+            (r"/monitor", BundleMonitorWebsocket),
             (r"/(.*)", web.StaticFileHandler, {"path": HTML_DIR}),
             ], debug=output_log)
 

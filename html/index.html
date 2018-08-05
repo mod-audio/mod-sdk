@@ -69,6 +69,7 @@
     <script>
       {% autoescape None %}
       var desktop = null
+      var monitor = null
       var TEMPLATES  = {}
       var SAMPLERATE = 48000
       defaultIconTemplate = '{{default_icon_template}}'
@@ -82,7 +83,9 @@
     <script type="text/javascript" src="js/modsdk.js?v={{version}}"></script>
     <script type="text/javascript" src="js/wizard.js?v={{version}}"></script>
     <script type="text/javascript" src="js/templates.js?v={{version}}"></script>
+    <script type="text/javascript" src="js/monitor.js"></script>
     <script>
+      var monitor = new BundleMonitor();
       isSDK = true
     </script>
 </head>

@@ -58,13 +58,26 @@ function loadDependencies(gui, effect, callback) { //source, effect, bundle, cal
     var version    = [effect.builder, effect.microVersion, effect.minorVersion, effect.release].join('_')
     var escapeduri = escape(effect.uri)
     var plughash   = escapeduri + version
+    var cache = 1
+    if (isSDK) {
+        cache = Math.random().toString().replace('0.', '');
+        var caches = [ loadedIcons, loadedSettings, loadedCSSs, loadedJSs ];
+        if (loadedCSSs[plughash]) {
+            loadedCSSs[plughash].remove();
+        }
+        for (var i in caches) {
+            if (caches[i][plughash]) {
+                delete caches[i][plughash];
+            }
+        }
+    }
 
     if (effect.gui.iconTemplate) {
         if (loadedIcons[plughash]) {
             effect.gui.iconTemplate = loadedIcons[plughash]
         } else {
             iconLoaded = false
-            var iconUrl = baseUrl + '/effect/file/iconTemplate?uri='+escapeduri+'&v='+version+'&r='+VERSION
+            var iconUrl = baseUrl + '/effect/file/iconTemplate?uri='+escapeduri+'&v='+version+'&r='+VERSION+'&cache='+cache
             $.get(iconUrl, function (data) {
                 effect.gui.iconTemplate = loadedIcons[plughash] = data
                 iconLoaded = true
@@ -78,7 +91,7 @@ function loadDependencies(gui, effect, callback) { //source, effect, bundle, cal
             effect.gui.settingsTemplate = loadedSettings[plughash]
         } else {
             settingsLoaded = false
-            var settingsUrl = baseUrl + '/effect/file/settingsTemplate?uri='+escapeduri+'&v='+version+'&r='+VERSION
+            var settingsUrl = baseUrl + '/effect/file/settingsTemplate?uri='+escapeduri+'&v='+version+'&r='+VERSION+'&cache='+cache
             $.get(settingsUrl, function (data) {
                 effect.gui.settingsTemplate = loadedSettings[plughash] = data
                 settingsLoaded = true
@@ -89,14 +102,14 @@ function loadDependencies(gui, effect, callback) { //source, effect, bundle, cal
 
     if (effect.gui.stylesheet && !loadedCSSs[plughash]) {
         cssLoaded = false
-        var cssUrl = baseUrl + '/effect/file/stylesheet?uri='+escapeduri+'&v='+version+'&r='+VERSION
+        var cssUrl = baseUrl + '/effect/file/stylesheet?uri='+escapeduri+'&v='+version+'&r='+VERSION+'&cache='+cache
         $.get(cssUrl, function (data) {
               data = Mustache.render(data, {
                          ns : '?uri=' + escapeduri + '&v=' + version,
                          cns: '_' + escapeduri.split("/").join("_").split("%").join("_").split(".").join("_") + version
                      })
-            $('<style type="text/css">').text(data).appendTo($('head'))
-            loadedCSSs[plughash] = true
+            var css = $('<style type="text/css">').text(data).appendTo($('head'))
+            loadedCSSs[plughash] = css
             cssLoaded = true
             cb()
         })
@@ -107,7 +120,7 @@ function loadDependencies(gui, effect, callback) { //source, effect, bundle, cal
             gui.jsCallback = loadedJSs[plughash]
         } else {
             jsLoaded = false
-            var jsUrl = baseUrl+'/effect/file/javascript?uri='+escapeduri+'&v='+version+'&r='+VERSION
+            var jsUrl = baseUrl+'/effect/file/javascript?uri='+escapeduri+'&v='+version+'&r='+VERSION+'&cache='+cache
             $.ajax({
                 url: jsUrl,
                 success: function (code) {
