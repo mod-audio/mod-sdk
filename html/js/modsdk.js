@@ -163,6 +163,7 @@ function loadBundles() {
 }
 
 function getEffects(bundle, callback) {
+    monitor.watch(bundle, showEffect);
     window.location.hash = bundle
     if (!bundle) {
         effects.hide()

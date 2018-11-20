@@ -69,6 +69,7 @@
     <script>
       {% autoescape None %}
       var desktop = null
+      var monitor = null
       var TEMPLATES  = {}
       var SAMPLERATE = 48000
       defaultIconTemplate = '{{default_icon_template}}'
@@ -82,7 +83,9 @@
     <script type="text/javascript" src="js/modsdk.js?v={{version}}"></script>
     <script type="text/javascript" src="js/wizard.js?v={{version}}"></script>
     <script type="text/javascript" src="js/templates.js?v={{version}}"></script>
+    <script type="text/javascript" src="js/monitor.js"></script>
     <script>
+      var monitor = new BundleMonitor();
       isSDK = true
     </script>
 </head>
@@ -301,6 +304,28 @@
             </div>
 
             <div id="wizard-step-2" class="step">
+              <h2>The changes below are about to be saved.</h2>
+              <div>
+                <p>
+                  <ul id="staged-changes">
+                    <li><b>manifest.ttl</b> will be edited</li>
+                    <li><b>modgui.ttl</b> will be created</li>
+                    <li>HTML and CSS files will be created</li>
+                    <li>Background and element images will be copied to bundle</li>
+                  </ul>
+                </p>
+                <p><br/></p>
+                <p>
+                  <b>
+                    ATTENTION:
+                    Any existing files will be overriden by automatic generated ones.
+                    If you have done custom layout work on these files, your changes will be lost.
+                  </b>
+                </p>
+              </div>
+            </div>
+
+            <div id="wizard-step-3" class="step">
                 <h2>That's it!</h2>
                 <div>
                     <p>
@@ -319,6 +344,7 @@
                     </p>
                 </div>
             </div>
+
         </div>
         <!-- /box -->
     </div>

@@ -4,6 +4,7 @@ body {
 }
 .mod-pedal {
     margin-left:16px;
+	position: absolute;
 }
 
 /* = Clearfix

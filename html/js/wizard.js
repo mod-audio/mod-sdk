@@ -97,6 +97,7 @@ JqueryClass('wizard', {
         var steps = [
             'chooseModel',
             'configure',
+            'generate_template',
             'save_template',
             'finish'
         ]
@@ -446,7 +447,7 @@ JqueryClass('wizard', {
         return $(this).data('effect')['name'].toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '').replace(/-+/g, '-')
     },
 
-    save_template: function() {
+    generate_template: function() {
         var self   = $(this)
         var effect = self.data('effect')
         var slug   = self.wizard('slug')
@@ -596,17 +597,32 @@ JqueryClass('wizard', {
             filesToCopy.push('utils/dropdown-arrow-white.png')
         }
 
+        var changes = {
+            uri: effect.uri,
+            ttlText: ttlText,
+            filesToCopy: JSON.stringify(filesToCopy),
+            iconTemplateData: self.wizard('getIconTemplate'),
+            iconTemplateFile: 'icon-'+slug+'.html',
+            stylesheetFile: 'stylesheet-'+slug+'.css',
+        }
+
+        self.data('stagedChanges', changes);
+
+        $('#staged-changes #ttl').text(changes.ttlText);
+
+    },
+
+    save_template: function() {
+        var self = $(this);
+        var changes = self.data('stagedChanges');
+        if (!changes) {
+            alert('no changes to save!');
+            return;
+        }
         $.ajax({
             url: '/effect/save',
             type: 'POST',
-            data: {
-                uri: effect.uri,
-                ttlText: ttlText,
-                filesToCopy: JSON.stringify(filesToCopy),
-                iconTemplateData: self.wizard('getIconTemplate'),
-                iconTemplateFile: 'icon-'+slug+'.html',
-                stylesheetFile: 'stylesheet-'+slug+'.css',
-            },
+            data: changes,
             success: function() {
                 //self.wizard('generate_thumbnail')
             },

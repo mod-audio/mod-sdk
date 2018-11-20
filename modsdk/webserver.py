@@ -7,13 +7,15 @@ import random
 import re
 import shutil
 import subprocess
+import pyinotify
 
 from base64 import b64encode
 from PIL import Image
 from time import time
-from tornado import web, options, ioloop, template, httpclient
+from tornado import web, options, ioloop, template, httpclient, websocket
 from tornado.escape import squeeze, url_escape
 from tornado.util import unicode_type
+from .bundlemonitor import BundleMonitor
 from modsdk.settings import (PORT, HTML_DIR, WIZARD_DB, DEVICE_MODE, IMAGE_VERSION,
                              CONFIG_FILE, CONFIG_DIR, TEMPLATE_DIR, LV2_DIR,
                              DEFAULT_DEVICE, DEFAULT_ICON_IMAGE,
@@ -173,6 +175,11 @@ class EffectList(JsonRequestHandler):
 class EffectGet(JsonRequestHandler):
     def get(self):
         uri = self.get_argument('uri')
+
+        # workaround to support fragment in URLs
+        # https://github.com/ariya/phantomjs/issues/12667
+        # https://github.com/moddevices/mod-sdk/issues/1
+        uri = uri.replace('%23', '#')
 
         try:
             data = get_plugin_info(uri)
@@ -712,6 +719,19 @@ class BulkTemplateLoader(web.RequestHandler):
                           )
                        )
 
+class BundleMonitorWebsocket(websocket.WebSocketHandler):
+    def open(self):
+        self.monitor = BundleMonitor(self.notify)
+
+    def on_message(self, bundle):
+        self.monitor.monitor(bundle)
+
+    def on_close(self):
+        self.monitor.clear()
+
+    def notify(self):
+        self.write_message("reload")
+
 def make_application(port=PORT, output_log=False):
     application = web.Application([
             (r"/bundles", BundleList),
@@ -727,6 +747,7 @@ def make_application(port=PORT, output_log=False):
             (r"/post/(.+)/?", BundlePost),
             (r"/js/templates.js$", BulkTemplateLoader),
             (r"/resources/(.*)", EffectResource),
+            (r"/monitor", BundleMonitorWebsocket),
             (r"/(.*)", web.StaticFileHandler, {"path": HTML_DIR}),
             ], debug=output_log)
 
