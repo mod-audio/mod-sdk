@@ -52,13 +52,13 @@ You can also use the SDK Docker Image.
 
 Choose a folder where you will store your LV2 plugins bundles. In this folder place all the bundles you want to test with the SDK
 
-Pull the SDK image from Docker Hub.
+Pull the SDK image from Docker Hub::
 
     $ docker pull moddevices/modsdk
 
 You only need to run this command the first time. It will download the image and store it locally.
 
-Once the download is completed, run the following command, replacing the path with the path of the folder where you are storing your LV2 bundles.
+Once the download is completed, run the following command, replacing the path with the path of the folder where you are storing your LV2 bundles::
 
     $ docker run -p 9000:9000 -v /Users/my-user/my-lv2-folder:/lv2 moddevices/modsdk
 
@@ -67,7 +67,7 @@ Now open your browser and visit `localhost:9000`
 Building the Docker Image
 _________________________
 
-If you want to build the image locally using the provided Dockerfile, from the root of this repository type:
+If you want to build the image locally using the provided Dockerfile, from the root of this repository type::
 
     $ docker build -t modsdk .
 
