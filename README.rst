@@ -62,7 +62,7 @@ Once the download is completed, run the following command, replacing the path wi
 
     $ docker run -p 9000:9000 -v /Users/my-user/my-lv2-folder:/lv2 moddevices/modsdk
 
-Now open your browser and visit `localhost:9000`
+Now open your browser and visit http://localhost:9000.
 
 Building the Docker Image
 _________________________
