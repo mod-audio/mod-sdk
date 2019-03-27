@@ -28,8 +28,13 @@ fi
 cp mod.lv2/*    documentation/mod/
 cp modgui.lv2/* documentation/modgui/
 
-lv2specgen.py $(pwd)/mod.lv2/manifest.ttl    $(pwd)/documentation/mod/index.html    --style-uri="../style.css" -i -r $(pwd)/documentation/mod    -p mod
-lv2specgen.py $(pwd)/modgui.lv2/manifest.ttl $(pwd)/documentation/modgui/index.html --style-uri="../style.css" -i -r $(pwd)/documentation/modgui -p modgui
+# Linux distribution packages of LV2 are notoriously outdated. Clone
+# the official LV2 repo and adjust the following variable:
+LV2SPECGEN="$HOME/Downloads/github/lv2/lv2specgen/lv2specgen.py"
+
+python2 $LV2SPECGEN $(pwd)/mod.lv2/manifest.ttl $(pwd)/documentation/mod/index.html --style-uri="../style.css" -i -r $(pwd)/documentation/mod -p mod
+
+python2 $LV2SPECGEN $(pwd)/modgui.lv2/manifest.ttl $(pwd)/documentation/modgui/index.html --style-uri="../style.css" -i -r $(pwd)/documentation/modgui -p modgui
 
 sed -i "/group__manifest.html/d" documentation/*/index.html
 sed -i "s|../documentation/mod/||" documentation/mod/index.html
