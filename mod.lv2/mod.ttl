@@ -171,6 +171,13 @@ mod:MaxGenPlugin
         rdfs:label "MAX gen~ Plugin" ;
         rdfs:comment """A plugin made with MAX gen~ export function.""" .
 
+mod:ControlVoltagePlugin
+        a rdfs:Class ,
+                owl:Class ;
+        rdfs:subClassOf lv2:Plugin ;
+        rdfs:label "Control Voltage" ;
+        rdfs:comment """Forces Control Voltage as the plugin category.""" .
+
 mod:notStompboxCapable
     a lv2:Feature ;
     rdfs:label "not stompbox capable" ;
@@ -179,4 +186,11 @@ mod:notStompboxCapable
 Indicates that the plugin is not suitable for use in the MOD Stompbox mode.<br/>
 Plugins are assumed to be suitable for Stompbox mode by default, and MUST provide this as an optional feature in case that's not true.
 </p>
+""" .
+
+mod:tempoRelatedDynamicScalePoints
+    a lv2:PortProperty ;
+    rdfs:label "tempo related dynamic scale points" ;
+    rdfs:comment """
+<p>Indicates that the port is suitable for scale points related to musical tempo, e.g. 'quarter note'. Please note that a unit is required on the port.</p>
 """ .

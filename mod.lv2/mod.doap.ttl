@@ -11,7 +11,8 @@
     doap:created "2016-03-28" ;
     doap:shortdesc "Properties for describing MOD Devices related data." ;
     doap:developer <http://falktx.com/myself.html> ;
-    doap:maintainer <http://falktx.com/myself.html> ;
+    doap:developer <https://github.com/jkbd/> ;
+    doap:maintainer <https://github.com/jkbd/> ;
     doap:release [
         doap:revision "1.0" ;
         doap:created "2016-03-28" ;
@@ -21,9 +22,26 @@
                 rdfs:label "First stable release."
             ]
         ]
-    ] .
+    ] , [
+        doap:revision "1.1" ;
+	doap:created "2019-03-27" ;
+        doap:file-release <https://github.com/moddevices/mod-sdk/archive/v2.0.0.tar.gz> ;
+        dcs:blame <https://github.com/jkbd/> ;
+        dcs:changeset [
+            dcs:item [
+                rdfs:label "Add ControlVoltagePlugin category."
+            ] , [
+                rdfs:label "Add tempoRelatedDynamicScalePoints."
+            ]
+        ]
+    ].
 
 <http://falktx.com/myself.html>
     a foaf:Person ;
     foaf:name "Filipe Coelho" ;
     foaf:mbox <mailto:falktx@falktx.com> .
+
+<https://github.com/jkbd/>
+    a foaf:Person ;
+    foaf:name "Jakob Duebel" ;
+    foaf:mbox <mailto:jakob@moddevices.com> .
