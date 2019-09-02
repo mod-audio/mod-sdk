@@ -195,6 +195,6 @@ mod:tempoRelatedDynamicScalePoints
 <p>
 Indicates that the port is suitable for scale points related to musical tempo, e.g. 'quarter note'.<br/>
 Please note that a unit of time is required on the port for tap tempo to work properly.
-The supported unit types are 'ms', 's', 'min', 'Hz', 'MHz' and 'kHz'." .
+The supported unit types are 'ms', 's', 'min', 'Hz', 'MHz' and 'kHz'.
 </p>
 """ .
