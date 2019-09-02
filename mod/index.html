@@ -30,7 +30,7 @@
             <tr><th>Version</th><td>@REVISION@</td></tr>-->
         <!--<tr><th>Prefixes</th><td><span><a href="http://ontologi.es/doap-changeset#">dcs</a> <a href="http://usefulinc.com/ns/doap#">doap</a> <a href="http://xmlns.com/foaf/0.1/">foaf</a> <a href="http://lv2plug.in/ns/lv2core#">lv2</a> <a href="http://moddevices.com/ns/mod#">mod</a> <a href="http://www.w3.org/2002/07/owl#">owl</a> <a href="http://lv2plug.in/ns/ext/port-props#">pprops</a> <a href="http://www.w3.org/1999/02/22-rdf-syntax-ns#">rdf</a> <a href="http://www.w3.org/2000/01/rdf-schema#">rdfs</a> <a href="http://www.w3.org/2001/XMLSchema#">xsd</a> </span></td></tr>-->
         <tr><th>Version</th><td>1.2</td></tr>
-        <tr><th>Date</th><td>2019-03-27</td></tr>
+        <tr><th>Date</th><td>2019-09-02</td></tr>
         <tr><th>Discuss</th><td><a href="mailto:None">None</a> <a href="None">(subscribe)</a></td></tr>
         <tr><th class="metahead">Developers</th><td><span class="author" property="doap:developer">Filipe Coelho</span>, <span class="author" property="doap:developer">Jakob Duebel</span></td></tr><tr><th class="metahead">Maintainer</th><td><span class="author" property="doap:maintainer">Jakob Duebel</span></td></tr>
       </table>
@@ -291,7 +291,11 @@ Plugins are assumed to be suitable for Stompbox mode by default, and MUST provid
 <div class="specterm" id="tempoRelatedDynamicScalePoints" about="http://moddevices.com/ns/mod#tempoRelatedDynamicScalePoints">
 <h3>Instance <a href="#tempoRelatedDynamicScalePoints">mod:tempoRelatedDynamicScalePoints</a></h3>
 <div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">tempo related dynamic scale points</div><div property="rdfs:comment"><p>
-&lt;p&gt;Indicates that the port is suitable for scale points related to musical tempo, e.g. 'quarter note'. Please note that a unit is required on the port.&lt;/p&gt;
+&lt;p&gt;
+Indicates that the port is suitable for scale points related to musical tempo, e.g. 'quarter note'.&lt;br/&gt;
+Please note that a unit of time is required on the port for tap tempo to work properly.
+The supported unit types are 'ms', 's', 'min', 'Hz', 'MHz' and 'kHz'." .
+&lt;/p&gt;
 </p></div></div>
 <table class="terminfo"><tr><th>Type</th><td><a href="http://lv2plug.in/ns/lv2core#PortProperty" about="http://moddevices.com/ns/mod#tempoRelatedDynamicScalePoints" rel="rdf:type" resource="http://lv2plug.in/ns/lv2core#PortProperty">lv2:PortProperty</a></td></tr>
 </table>

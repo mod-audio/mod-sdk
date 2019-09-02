@@ -192,5 +192,9 @@ mod:tempoRelatedDynamicScalePoints
     a lv2:PortProperty ;
     rdfs:label "tempo related dynamic scale points" ;
     rdfs:comment """
-<p>Indicates that the port is suitable for scale points related to musical tempo, e.g. 'quarter note'. Please note that a unit is required on the port.</p>
+<p>
+Indicates that the port is suitable for scale points related to musical tempo, e.g. 'quarter note'.<br/>
+Please note that a unit of time is required on the port for tap tempo to work properly.
+The supported unit types are 'ms', 's', 'min', 'Hz', 'MHz' and 'kHz'." .
+</p>
 """ .

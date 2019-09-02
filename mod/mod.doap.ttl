@@ -31,7 +31,7 @@
             dcs:item [
                 rdfs:label "Add ControlVoltagePlugin category."
             ] , [
-                rdfs:label "Add tempoRelatedDynamicScalePoints."	    
+                rdfs:label "Add tempoRelatedDynamicScalePoints."
             ]
         ]
     ].
