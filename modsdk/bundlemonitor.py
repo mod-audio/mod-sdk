@@ -29,7 +29,7 @@ class BundleMonitor:
 
         self.mask = pyinotify.IN_DELETE | pyinotify.IN_CREATE  | pyinotify.IN_CLOSE_WRITE
         self.wm = pyinotify.WatchManager()
-        self.notifier = pyinotify.Notifier(self.wm, EventHandler(self), timeout=0)
+        self.notifier = pyinotify.Notifier(self.wm, EventHandler(self), timeout=100)
 
     def monitor(self, bundle):
         self.clear()
