@@ -459,7 +459,7 @@ body > .mod-settings.mod-window-visible {
     background-image:url(/resources/pedals/footswitch.png);
     background-position:left center;
     background-repeat:no-repeat;
-    background-size:auto 64px;
+    background-size:64px auto;
     height:64px;
     left:47px;
     position:absolute;
