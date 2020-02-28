@@ -10,9 +10,8 @@
     doap:homepage <http://moddevices.com/ns/mod> ;
     doap:created "2016-03-28" ;
     doap:shortdesc "Properties for describing MOD Devices related data." ;
-    doap:developer <http://falktx.com/myself.html> ;
-    doap:developer <https://github.com/jkbd/> ;
-    doap:maintainer <https://github.com/jkbd/> ;
+    doap:developer <https://falktx.com/> , <https://github.com/jkbd/> ;
+    doap:maintainer <https://falktx.com/> ;
     doap:release [
         doap:revision "1.0" ;
         doap:created "2016-03-28" ;
@@ -24,7 +23,7 @@
         ]
     ] , [
         doap:revision "1.1" ;
-	doap:created "2019-03-27" ;
+        doap:created "2019-03-27" ;
         doap:file-release <https://github.com/moddevices/mod-sdk/archive/v2.0.0.tar.gz> ;
         dcs:blame <https://github.com/jkbd/> ;
         dcs:changeset [
@@ -34,9 +33,25 @@
                 rdfs:label "Add tempoRelatedDynamicScalePoints."
             ]
         ]
+    ] , [
+        doap:revision "1.2" ;
+        doap:created "2020-02-28" ;
+        doap:file-release <https://github.com/moddevices/mod-sdk/archive/v2.0.0.tar.gz> ;
+        dcs:blame <https://github.com/jkbd/> ;
+        dcs:changeset [
+            dcs:item [
+                rdfs:label "Add CVPort port type."
+            ] , [
+                rdfs:label "Add volts unit."
+            ] , [
+                rdfs:label "Add buildId and buildEnvironment for tracking origin of plugin build."
+            ] , [
+                rdfs:label "Specify rdfs:range for mod:builderVersion and mod:releaseNumber."
+            ]
+        ]
     ].
 
-<http://falktx.com/myself.html>
+<https://falktx.com/>
     a foaf:Person ;
     foaf:name "Filipe Coelho" ;
     foaf:mbox <mailto:falktx@falktx.com> .

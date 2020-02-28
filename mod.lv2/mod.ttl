@@ -4,6 +4,7 @@
 @prefix pprops: <http://lv2plug.in/ns/ext/port-props#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix units:  <http://lv2plug.in/ns/extensions/units#> .
 @prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
 
 <http://moddevices.com/ns/mod>
@@ -65,13 +66,29 @@ mod:builderVersion
     a rdf:Property ,
         owl:DatatypeProperty ,
         owl:FunctionalProperty ;
+    rdfs:range xsd:nonNegativeInteger ;
     rdfs:label "builder version" ;
     rdfs:comment "The version of the MOD cloud builder used to compile a plugin." .
+
+mod:buildId
+    a rdf:Property ,
+        owl:DatatypeProperty ,
+        owl:FunctionalProperty ;
+    rdfs:label "cloud build id" ;
+    rdfs:comment "The id for build process the MOD cloud builder used to compile a plugin." .
+
+mod:buildEnvironment
+    a rdf:Property ,
+        owl:DatatypeProperty ,
+        owl:FunctionalProperty ;
+    rdfs:label "cloud build environment" ;
+    rdfs:comment "The environment of the MOD cloud builder used to compile a plugin. MUST be 'prod', 'dev' or 'labs'." .
 
 mod:releaseNumber
     a rdf:Property ,
         owl:DatatypeProperty ,
         owl:FunctionalProperty ;
+    rdfs:range xsd:nonNegativeInteger ;
     rdfs:label "release number" ;
     rdfs:comment "The MOD build release number of a bundle. This number is auto-incremented everytime the cloud rebuilds or updates the plugin." .
 
@@ -79,6 +96,33 @@ mod:tapTempo
     a lv2:PortProperty ;
     rdfs:label "tap tempo" ;
     rdfs:comment "Indicates that the port is suitable for a MOD foot-switch addressing, by using hardware-side tap tempo. Please note that a unit of time is required on the port for tap tempo to work properly. The supported unit types are 'ms', 's', 'Hz' and 'bpm'." .
+
+mod:volts
+    a units:Unit ;
+    rdfs:label "volts" ;
+    units:render "%f v" ;
+    units:symbol "v" ;
+    rdfs:comment "Volts as an LV2 unit type, often used for CV related ports." .
+
+mod:CVPort
+        a rdfs:Class ;
+        rdfs:subClassOf lv2:CVPort ;
+        rdfs:label "MOD CV Port" ;
+    lv2:documentation """
+<p>
+An lv2:CVPort with strict range restrictions.<br/>
+Ports with the type mod:CVPort MUST define their minimum and maximum values.
+and those need to be within the possible 3 cases:
+</p>
+<ul>
+<li>- Unipolar mode (minimum: -10, maximum: 0)</li>
+<li>Bipolar mode (minimum: -5, maximum: +5)</li>
+<li>+ Unipolar mode (minimum: 0, maximum: +10)</li>
+</ul>
+<p>
+It is assumed these ports use mod:volts as unit.
+</p>
+""" .
 
 mod:DelayPlugin
         a rdfs:Class ,
