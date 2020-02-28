@@ -17,36 +17,38 @@
   </head>
   <body>
 
-  <!-- HEADER -->
-  <div id="topbar">
-    <div id="header">
-      <div id="titlebox">
-        <h1 id="title"><a href="index.html">MOD GUI</a></h1>
-        <div id="subtitle"><a href="http://moddevices.com/ns/modgui">http://moddevices.com/ns/modgui</a></div>
-        <div id="shortdesc">An LV2 extension to build HTML interfaces for audio plugins.</div>
+    <!-- HEADER -->
+    <div id="topbar">
+      <div id="header">
+        <div id="titlebox">
+          <h1 id="title"><a href="index.html">MOD GUI</a></h1>
+          <div id="shortdesc">An LV2 extension to build HTML interfaces for audio plugins.</div>
+        </div>
+        <div id="metabox">
+          <table id="meta">
+            <tr><th>ID</th><td><a href="http://moddevices.com/ns/modgui">http://moddevices.com/ns/modgui</a></td></tr>
+            <tr><th>Version</th><td>2.0</td></tr>
+            <tr><th>Date</th><td>2020-02-28</td></tr>
+          </table>
+        </div>
       </div>
-      <table id="meta">
-        <!--<tr><th>URI</th><td><a href="http://moddevices.com/ns/modgui">http://moddevices.com/ns/modgui</a></td></tr>
-            <tr><th>Version</th><td>@REVISION@</td></tr>-->
-        <!--<tr><th>Prefixes</th><td><span><a href="http://ontologi.es/doap-changeset#">dcs</a> <a href="http://usefulinc.com/ns/doap#">doap</a> <a href="http://xmlns.com/foaf/0.1/">foaf</a> <a href="http://lv2plug.in/ns/lv2core#">lv2</a> <a href="http://moddevices.com/ns/modgui#">modgui</a> <a href="http://www.w3.org/2002/07/owl#">owl</a> <a href="http://lv2plug.in/ns/ext/port-props#">pprops</a> <a href="http://www.w3.org/1999/02/22-rdf-syntax-ns#">rdf</a> <a href="http://www.w3.org/2000/01/rdf-schema#">rdfs</a> <a href="http://lv2plug.in/ns/extensions/units#">units</a> <a href="http://www.w3.org/2001/XMLSchema#">xsd</a> </span></td></tr>-->
-        <tr><th>Version</th><td>2.0</td></tr>
-        <tr><th>Date</th><td>2019-09-02</td></tr>
-        <tr><th>Discuss</th><td><a href="mailto:None">None</a> <a href="None">(subscribe)</a></td></tr>
-        <tr><th class="metahead">Developers</th><td><span class="author" property="doap:developer">Filipe Coelho</span>, <span class="author" property="doap:developer">Luis Fagundes</span></td></tr><tr><th class="metahead">Maintainer</th><td><span class="author" property="doap:maintainer">Filipe Coelho</span></td></tr>
-      </table>
     </div>
-    <ul id="contents">
-      <!-- <li><a href="#sec-description">Description</a></li> -->
-      <li><a href="#sec-index">Index</a></li>
-      <li><a href="#sec-reference">Reference</a></li>
-      <li><a href="#sec-history">History</a></li>
-      
-    </ul>
-  </div>
 
-  <!-- DESCRIPTION -->
-  <!--<h2 class="sec" id="sec-description">Description</h2>-->
-  <div class="content">
+    <div id="content">
+      <div id="contentsbox">
+        <!-- Contents: -->
+        <ul id="contents">
+          <!-- <li><a href="#sec-description">Description</a></li> -->
+          <li><a href="#sec-reference">Reference</a></li>
+          <li><a href="#sec-history">History</a></li>
+          
+        </ul>
+      </div>
+      <hr class="contentssep" />
+
+      <!-- DESCRIPTION -->
+      <!--<h2 class="sec" id="sec-description">Description</h2>-->
+      <div class="section">
 <p>
 This extension defines a standard for generating web-based interfaces for plugins.<br/>
 Plugins implementing this standard will be compatible with the MOD device and MOD host software.
@@ -93,71 +95,62 @@ To help the creation of interfaces, several base layouts have been created in th
 </p>
 </div>
 
-  <!-- INDEX -->
-  <h2 class="sec" id="sec-index">Index</h2>
-  <div class="content" id="index">
-  <table class="index"><thead><tr><th>Classes</th><th>Properties</th><th>Files</th></tr></thead>
+      <!-- REFERENCE -->
+      <h2 class="sec" id="sec-reference">Reference</h2>
+      <div class="section">
+        <div id="indexbox">
+          <table class="index">
+<thead><tr><th><a href="#ref-classes" />Classes</th><th><a href="#ref-properties" />Properties</th></tr></thead>
 <tbody><tr><td><ul><li><a href="#Gui">Gui</a></li><li><a href="#MonitoredOutput">MonitoredOutput</a></li><li><a href="#Port">Port</a></li></ul></td>
 <td><ul><li><a href="#brand">brand</a></li><li><a href="#color">color</a></li><li><a href="#gui">gui</a></li><li><a href="#iconTemplate">iconTemplate</a></li><li><a href="#javascript">javascript</a></li><li><a href="#knob">knob</a></li><li><a href="#label">label</a></li><li><a href="#model">model</a></li><li><a href="#monitoredOutputs">monitoredOutputs</a></li><li><a href="#panel">panel</a></li><li><a href="#port">port</a></li><li><a href="#resourcesDirectory">resourcesDirectory</a></li><li><a href="#screenshot">screenshot</a></li><li><a href="#settingsTemplate">settingsTemplate</a></li><li><a href="#stylesheet">stylesheet</a></li><li><a href="#templateData">templateData</a></li><li><a href="#thumbnail">thumbnail</a></li></ul></td>
-<td><ul><li><a href="modgui.doap.ttl">modgui.doap.ttl</a></li><li><a href="modgui.ttl">modgui.ttl</a></li></ul></td>
 </tr></tbody></table>
-  </div>
 
-  <!-- DOCUMENTATION -->
-  <h2 class="sec" id="sec-reference">Reference</h2>
-  <div class="content">
-  <div class="specterm" id="Gui" about="http://moddevices.com/ns/modgui#Gui">
-<h3>Class <a href="#Gui">modgui:Gui</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">Graphical User Interface</div><div property="rdfs:comment">
+          <h3><a id="ref-classes" />Classes</h3><div class="specterm" id="Gui" about="http://moddevices.com/ns/modgui#Gui"><h4><a href="#Gui">Gui</a></h4><div class="spectermbody">
+<table class="terminfo"><tr><th>In domain of</th><td><a href="#brand" >brand</a></td></tr>
+<tr><th></th><td><a href="#color" >color</a></td></tr>
+<tr><th></th><td><a href="#iconTemplate" >iconTemplate</a></td></tr>
+<tr><th></th><td><a href="#javascript" >javascript</a></td></tr>
+<tr><th></th><td><a href="#knob" >knob</a></td></tr>
+<tr><th></th><td><a href="#label" >label</a></td></tr>
+<tr><th></th><td><a href="#model" >model</a></td></tr>
+<tr><th></th><td><a href="#monitoredOutputs" >monitoredOutputs</a></td></tr>
+<tr><th></th><td><a href="#panel" >panel</a></td></tr>
+<tr><th></th><td><a href="#port" >port</a></td></tr>
+<tr><th></th><td><a href="#resourcesDirectory" >resourcesDirectory</a></td></tr>
+<tr><th></th><td><a href="#screenshot" >screenshot</a></td></tr>
+<tr><th></th><td><a href="#settingsTemplate" >settingsTemplate</a></td></tr>
+<tr><th></th><td><a href="#stylesheet" >stylesheet</a></td></tr>
+<tr><th></th><td><a href="#templateData" >templateData</a></td></tr>
+<tr><th></th><td><a href="#thumbnail" >thumbnail</a></td></tr>
+<tr><th>In range of</th><td><a href="#gui" >gui</a></td></tr>
+</table>
+<div class="description"><div property="rdfs:label" class="label">Graphical User Interface</div><div class="comment" property="rdfs:comment">
 <p>
 The web interface definition for this plugin.<br/>
 It's defined by html templates for icon and settings panel, plus css, images and other media that's contained in the resources directory.
 </p>
-</div></div>
-<table class="terminfo"><tr><th>Restriction on <a href="#resourcesDirectory" >modgui:resourcesDirectory</a></th><td><table class="restriction"><tr><th><a href="http://www.w3.org/2002/07/owl#cardinality" >owl:cardinality</a></th>
-<td>1</td></tr>
-</table>
-<span>A modgui MUST have a resources directory.</span>
-</td></tr><tr><th>Restriction on <a href="#iconTemplate" >modgui:iconTemplate</a></th><td><table class="restriction"><tr><th><a href="http://www.w3.org/2002/07/owl#cardinality" >owl:cardinality</a></th>
-<td>1</td></tr>
-</table>
-<span>A modgui MUST have an icon template.</span>
-</td></tr><tr><th>Restriction on <a href="#stylesheet" >modgui:stylesheet</a></th><td><table class="restriction"><tr><th><a href="http://www.w3.org/2002/07/owl#cardinality" >owl:cardinality</a></th>
-<td>1</td></tr>
-</table>
-<span>A modgui MUST have a stylesheet.</span>
-</td></tr><tr><th>Restriction on <a href="#screenshot" >modgui:screenshot</a></th><td><table class="restriction"><tr><th><a href="http://www.w3.org/2002/07/owl#cardinality" >owl:cardinality</a></th>
-<td>1</td></tr>
-</table>
-<span>A modgui MUST have a screenshot.</span>
-</td></tr><tr><th>Restriction on <a href="#thumbnail" >modgui:thumbnail</a></th><td><table class="restriction"><tr><th><a href="http://www.w3.org/2002/07/owl#cardinality" >owl:cardinality</a></th>
-<td>1</td></tr>
-</table>
-<span>A modgui MUST have a thumbnail.</span>
-</td></tr><tr><th>In domain of</th><td><a href="#brand" >modgui:brand</a></td></tr>
-<tr><td></td><td><a href="#color" >modgui:color</a></td></tr>
-<tr><td></td><td><a href="#iconTemplate" >modgui:iconTemplate</a></td></tr>
-<tr><td></td><td><a href="#javascript" >modgui:javascript</a></td></tr>
-<tr><td></td><td><a href="#knob" >modgui:knob</a></td></tr>
-<tr><td></td><td><a href="#label" >modgui:label</a></td></tr>
-<tr><td></td><td><a href="#model" >modgui:model</a></td></tr>
-<tr><td></td><td><a href="#monitoredOutputs" >modgui:monitoredOutputs</a></td></tr>
-<tr><td></td><td><a href="#panel" >modgui:panel</a></td></tr>
-<tr><td></td><td><a href="#port" >modgui:port</a></td></tr>
-<tr><td></td><td><a href="#resourcesDirectory" >modgui:resourcesDirectory</a></td></tr>
-<tr><td></td><td><a href="#screenshot" >modgui:screenshot</a></td></tr>
-<tr><td></td><td><a href="#settingsTemplate" >modgui:settingsTemplate</a></td></tr>
-<tr><td></td><td><a href="#stylesheet" >modgui:stylesheet</a></td></tr>
-<tr><td></td><td><a href="#templateData" >modgui:templateData</a></td></tr>
-<tr><td></td><td><a href="#thumbnail" >modgui:thumbnail</a></td></tr>
-<tr><th>In range of</th><td><a href="#gui" >modgui:gui</a></td></tr>
-</table>
-</div>
+</div><dl><dt>Restriction on <a href="#resourcesDirectory" >resourcesDirectory</a></dt>
+<dd><a href="http://www.w3.org/2002/07/owl#cardinality" >owl:cardinality</a> 1
+<div>A modgui MUST have a resources directory.</div>
+</dd></dl><dl><dt>Restriction on <a href="#iconTemplate" >iconTemplate</a></dt>
+<dd><a href="http://www.w3.org/2002/07/owl#cardinality" >owl:cardinality</a> 1
+<div>A modgui MUST have an icon template.</div>
+</dd></dl><dl><dt>Restriction on <a href="#stylesheet" >stylesheet</a></dt>
+<dd><a href="http://www.w3.org/2002/07/owl#cardinality" >owl:cardinality</a> 1
+<div>A modgui MUST have a stylesheet.</div>
+</dd></dl><dl><dt>Restriction on <a href="#screenshot" >screenshot</a></dt>
+<dd><a href="http://www.w3.org/2002/07/owl#cardinality" >owl:cardinality</a> 1
+<div>A modgui MUST have a screenshot.</div>
+</dd></dl><dl><dt>Restriction on <a href="#thumbnail" >thumbnail</a></dt>
+<dd><a href="http://www.w3.org/2002/07/owl#cardinality" >owl:cardinality</a> 1
+<div>A modgui MUST have a thumbnail.</div>
+</dd></dl></div></div>
 </div>
 
-<div class="specterm" id="MonitoredOutput" about="http://moddevices.com/ns/modgui#MonitoredOutput">
-<h3>Class <a href="#MonitoredOutput">modgui:MonitoredOutput</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">Monitored Output</div><div property="rdfs:comment">
+<div class="specterm" id="MonitoredOutput" about="http://moddevices.com/ns/modgui#MonitoredOutput"><h4><a href="#MonitoredOutput">MonitoredOutput</a></h4><div class="spectermbody">
+<table class="terminfo"><tr><th>In range of</th><td><a href="#monitoredOutputs" >monitoredOutputs</a></td></tr>
+</table>
+<div class="description"><div property="rdfs:label" class="label">Monitored Output</div><div class="comment" property="rdfs:comment">
 <p>The class which represents a MOD GUI monitored output (control port).</p>
 
 <p>
@@ -166,84 +159,74 @@ The host will keep track of port changes and notify the MOD GUI when it happens.
 </p>
 <p>
 To enable monitor of output ports add the following code to your MOD GUI definition, modifying as needed:
-<code>                   <br/><br/>
-    <a href="#monitoredOutputs">modgui:monitoredOutputs</a> [ <br/>
-&nbsp;  <a href="http://lv2plug.in/ns/lv2core#symbol">lv2:symbol</a> "out1" ;   <br/>
-    ] , [                     <br/>
-&nbsp;  <a href="http://lv2plug.in/ns/lv2core#symbol">lv2:symbol</a> "out2" ;   <br/>
-    ] ;                       <br/><br/>
-</code>
+</p>
+<pre>
+<a href="#monitoredOutputs">modgui:monitoredOutputs</a> [
+    <a href="http://lv2plug.in/ns/lv2core#symbol">lv2:symbol</a> "out1" ;
+] , [
+    <a href="http://lv2plug.in/ns/lv2core#symbol">lv2:symbol</a> "out2" ;
+] ;
+</pre>
+<p>
 The MOD GUI will receive the events in its javascript function, just like it does for input controls.
 </p>
-</div></div>
-<table class="terminfo"><tr><th>Restriction on <a href="http://lv2plug.in/ns/lv2core#symbol" >lv2:symbol</a></th><td><table class="restriction"><tr><th><a href="http://www.w3.org/2002/07/owl#cardinality" >owl:cardinality</a></th>
-<td>1</td></tr>
-</table>
-<span>A monitored output MUST have exactly one lv2:symbol.</span>
-</td></tr><tr><th>In range of</th><td><a href="#monitoredOutputs" >modgui:monitoredOutputs</a></td></tr>
-</table>
-</div>
+</div><dl><dt>Restriction on <a href="http://lv2plug.in/ns/lv2core#symbol" >lv2:symbol</a></dt>
+<dd><a href="http://www.w3.org/2002/07/owl#cardinality" >owl:cardinality</a> 1
+<div>A monitored output MUST have exactly one lv2:symbol.</div>
+</dd></dl></div></div>
 </div>
 
-<div class="specterm" id="Port" about="http://moddevices.com/ns/modgui#Port">
-<h3>Class <a href="#Port">modgui:Port</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">Port</div><div property="rdfs:comment">
+<div class="specterm" id="Port" about="http://moddevices.com/ns/modgui#Port"><h4><a href="#Port">Port</a></h4><div class="spectermbody">
+<table class="terminfo"><tr><th>In range of</th><td><a href="#port" >port</a></td></tr>
+</table>
+<div class="description"><div property="rdfs:label" class="label">Port</div><div class="comment" property="rdfs:comment">
 <p>The class which represents a MOD GUI port.</p>
 
 <p>
 This is used by the SDK wizard to save the last selected state of each knob or combo-box on the screen.
 </p>
-</div></div>
-<table class="terminfo"><tr><th>Restriction on <a href="http://lv2plug.in/ns/lv2core#index" >lv2:index</a></th><td><table class="restriction"><tr><th><a href="http://www.w3.org/2002/07/owl#cardinality" >owl:cardinality</a></th>
-<td>1</td></tr>
-</table>
-<span>A port MUST have exactly one lv2:index.</span>
-</td></tr><tr><th>Restriction on <a href="http://lv2plug.in/ns/lv2core#symbol" >lv2:symbol</a></th><td><table class="restriction"><tr><th><a href="http://www.w3.org/2002/07/owl#cardinality" >owl:cardinality</a></th>
-<td>1</td></tr>
-</table>
-<span>A port MUST have exactly one lv2:symbol.</span>
-</td></tr><tr><th>Restriction on <a href="http://lv2plug.in/ns/lv2core#name" >lv2:name</a></th><td><table class="restriction"><tr><th><a href="http://www.w3.org/2002/07/owl#minCardinality" >owl:minCardinality</a></th>
-<td>1</td></tr>
-</table>
-<span>A port MUST have exactly one lv2:name.</span>
-</td></tr><tr><th>In range of</th><td><a href="#port" >modgui:port</a></td></tr>
-</table>
-</div>
+</div><dl><dt>Restriction on <a href="http://lv2plug.in/ns/lv2core#index" >lv2:index</a></dt>
+<dd><a href="http://www.w3.org/2002/07/owl#cardinality" >owl:cardinality</a> 1
+<div>A port MUST have exactly one lv2:index.</div>
+</dd></dl><dl><dt>Restriction on <a href="http://lv2plug.in/ns/lv2core#symbol" >lv2:symbol</a></dt>
+<dd><a href="http://www.w3.org/2002/07/owl#cardinality" >owl:cardinality</a> 1
+<div>A port MUST have exactly one lv2:symbol.</div>
+</dd></dl><dl><dt>Restriction on <a href="http://lv2plug.in/ns/lv2core#name" >lv2:name</a></dt>
+<dd><a href="http://www.w3.org/2002/07/owl#minCardinality" >owl:minCardinality</a> 1
+<div>A port MUST have exactly one lv2:name.</div>
+</dd></dl></div></div>
 </div>
 
-<div class="specterm" id="brand" about="http://moddevices.com/ns/modgui#brand">
-<h3>Property <a href="#brand">modgui:brand</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">brand</div><div property="rdfs:comment"><p>The brand selected when building a modgui through the MOD SDK.</p></div></div>
-<table class="terminfo"><tr><th>OWL Type</th><td>Datatype Property</td></tr>
-<tr><th>Domain</th><td><a href="#Gui" about="http://moddevices.com/ns/modgui#brand" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#Gui">modgui:Gui</a></td></tr>
+<h3><a id="ref-properties" />Properties</h3><div class="specterm" id="brand" about="http://moddevices.com/ns/modgui#brand"><h4><a href="#brand">brand</a></h4><div class="spectermbody">
+<table class="terminfo"><tr><th>Type</th><td>Datatype Property</td></tr>
+<tr><th>Domain</th><td><a href="#Gui" about="http://moddevices.com/ns/modgui#brand" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#Gui">Gui</a></td></tr>
 <tr><th>Range</th><td><a href="http://www.w3.org/2001/XMLSchema#string" about="http://moddevices.com/ns/modgui#brand" rel="rdfs:range" resource="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></td></tr>
 </table>
-</div>
+<div class="description"><div property="rdfs:label" class="label">brand</div><div class="comment" property="rdfs:comment"><p>The brand selected when building a modgui through the MOD SDK.</p></div></div></div>
 </div>
 
-<div class="specterm" id="color" about="http://moddevices.com/ns/modgui#color">
-<h3>Property <a href="#color">modgui:color</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">color</div><div property="rdfs:comment"><p>The color selected when building a modgui through the MOD SDK.</p></div></div>
-<table class="terminfo"><tr><th>OWL Type</th><td>Datatype Property</td></tr>
-<tr><th>Domain</th><td><a href="#Gui" about="http://moddevices.com/ns/modgui#color" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#Gui">modgui:Gui</a></td></tr>
+<div class="specterm" id="color" about="http://moddevices.com/ns/modgui#color"><h4><a href="#color">color</a></h4><div class="spectermbody">
+<table class="terminfo"><tr><th>Type</th><td>Datatype Property</td></tr>
+<tr><th>Domain</th><td><a href="#Gui" about="http://moddevices.com/ns/modgui#color" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#Gui">Gui</a></td></tr>
 <tr><th>Range</th><td><a href="http://www.w3.org/2001/XMLSchema#string" about="http://moddevices.com/ns/modgui#color" rel="rdfs:range" resource="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></td></tr>
 </table>
-</div>
+<div class="description"><div property="rdfs:label" class="label">color</div><div class="comment" property="rdfs:comment"><p>The color selected when building a modgui through the MOD SDK.</p></div></div></div>
 </div>
 
-<div class="specterm" id="gui" about="http://moddevices.com/ns/modgui#gui">
-<h3>Property <a href="#gui">modgui:gui</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">graphical user interface</div><div property="rdfs:comment"><p>Relates a plugin to the a MOD Graphical User Interface</p></div></div>
-<table class="terminfo"><tr><th>OWL Type</th><td>Object Property</td></tr>
+<div class="specterm" id="gui" about="http://moddevices.com/ns/modgui#gui"><h4><a href="#gui">gui</a></h4><div class="spectermbody">
+<table class="terminfo"><tr><th>Type</th><td>Object Property</td></tr>
 <tr><th>Domain</th><td><a href="http://lv2plug.in/ns/lv2core#Plugin" about="http://moddevices.com/ns/modgui#gui" rel="rdfs:domain" resource="http://lv2plug.in/ns/lv2core#Plugin">lv2:Plugin</a></td></tr>
-<tr><th>Range</th><td><a href="#Gui" about="http://moddevices.com/ns/modgui#gui" rel="rdfs:range" resource="http://moddevices.com/ns/modgui#Gui">modgui:Gui</a></td></tr>
+<tr><th>Range</th><td><a href="#Gui" about="http://moddevices.com/ns/modgui#gui" rel="rdfs:range" resource="http://moddevices.com/ns/modgui#Gui">Gui</a></td></tr>
 </table>
-</div>
+<div class="description"><div property="rdfs:label" class="label">graphical user interface</div><div class="comment" property="rdfs:comment"><p>Relates a plugin to the a MOD Graphical User Interface</p></div></div></div>
 </div>
 
-<div class="specterm" id="iconTemplate" about="http://moddevices.com/ns/modgui#iconTemplate">
-<h3>Property <a href="#iconTemplate">modgui:iconTemplate</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">icon template</div><div property="rdfs:comment">
+<div class="specterm" id="iconTemplate" about="http://moddevices.com/ns/modgui#iconTemplate"><h4><a href="#iconTemplate">iconTemplate</a></h4><div class="spectermbody">
+<table class="terminfo"><tr><th>Type</th><td>Object Property</td></tr>
+<tr><th>Domain</th><td><a href="#Gui" about="http://moddevices.com/ns/modgui#iconTemplate" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#Gui">Gui</a></td></tr>
+<tr><th>Range</th><td><a href="http://www.w3.org/2002/07/owl#Thing" about="http://moddevices.com/ns/modgui#iconTemplate" rel="rdfs:range" resource="http://www.w3.org/2002/07/owl#Thing">owl:Thing</a></td></tr>
+</table>
+<div class="description"><div property="rdfs:label" class="label">icon template</div><div class="comment" property="rdfs:comment">
 <p>
 A template that will be used to render the HTML icon of this plugin.
 The value of this property must be a URI that resolves to a Mustache template.
@@ -395,17 +378,15 @@ To define which area of the plugin can be clicked for dragging, an element with 
 </p>
 
 <p>This does not apply to Settings template</p>
-</div></div>
-<table class="terminfo"><tr><th>OWL Type</th><td>Object Property</td></tr>
-<tr><th>Domain</th><td><a href="#Gui" about="http://moddevices.com/ns/modgui#iconTemplate" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#Gui">modgui:Gui</a></td></tr>
-<tr><th>Range</th><td><a href="http://www.w3.org/2002/07/owl#Thing" about="http://moddevices.com/ns/modgui#iconTemplate" rel="rdfs:range" resource="http://www.w3.org/2002/07/owl#Thing">owl:Thing</a></td></tr>
-</table>
-</div>
+</div></div></div>
 </div>
 
-<div class="specterm" id="javascript" about="http://moddevices.com/ns/modgui#javascript">
-<h3>Property <a href="#javascript">modgui:javascript</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">javascript</div><div property="rdfs:comment">
+<div class="specterm" id="javascript" about="http://moddevices.com/ns/modgui#javascript"><h4><a href="#javascript">javascript</a></h4><div class="spectermbody">
+<table class="terminfo"><tr><th>Type</th><td>Object Property</td></tr>
+<tr><th>Domain</th><td><a href="#Gui" about="http://moddevices.com/ns/modgui#javascript" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#Gui">Gui</a></td></tr>
+<tr><th>Range</th><td><a href="http://www.w3.org/2002/07/owl#Thing" about="http://moddevices.com/ns/modgui#javascript" rel="rdfs:range" resource="http://www.w3.org/2002/07/owl#Thing">owl:Thing</a></td></tr>
+</table>
+<div class="description"><div property="rdfs:label" class="label">javascript</div><div class="comment" property="rdfs:comment">
 <p>
 A Javascript file containing a declaration of an anonymous function which will be called once when plugin interface is first rendered and everytime a port value is changed.
 </p>
@@ -421,77 +402,63 @@ This function will receive as parameter an object containing:
   <li>settings: JQuery object with the settings screen interface.</li>
   <li>data: A object that can be used by this javascript function to store anything that should persist.</li>
 </ul>
-</div></div>
-<table class="terminfo"><tr><th>OWL Type</th><td>Object Property</td></tr>
-<tr><th>Domain</th><td><a href="#Gui" about="http://moddevices.com/ns/modgui#javascript" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#Gui">modgui:Gui</a></td></tr>
-<tr><th>Range</th><td><a href="http://www.w3.org/2002/07/owl#Thing" about="http://moddevices.com/ns/modgui#javascript" rel="rdfs:range" resource="http://www.w3.org/2002/07/owl#Thing">owl:Thing</a></td></tr>
-</table>
-</div>
+</div></div></div>
 </div>
 
-<div class="specterm" id="knob" about="http://moddevices.com/ns/modgui#knob">
-<h3>Property <a href="#knob">modgui:knob</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">knob</div><div property="rdfs:comment"><p>The knob selected when building a modgui through the MOD SDK.</p></div></div>
-<table class="terminfo"><tr><th>OWL Type</th><td>Datatype Property</td></tr>
-<tr><th>Domain</th><td><a href="#Gui" about="http://moddevices.com/ns/modgui#knob" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#Gui">modgui:Gui</a></td></tr>
+<div class="specterm" id="knob" about="http://moddevices.com/ns/modgui#knob"><h4><a href="#knob">knob</a></h4><div class="spectermbody">
+<table class="terminfo"><tr><th>Type</th><td>Datatype Property</td></tr>
+<tr><th>Domain</th><td><a href="#Gui" about="http://moddevices.com/ns/modgui#knob" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#Gui">Gui</a></td></tr>
 <tr><th>Range</th><td><a href="http://www.w3.org/2001/XMLSchema#string" about="http://moddevices.com/ns/modgui#knob" rel="rdfs:range" resource="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></td></tr>
 </table>
-</div>
+<div class="description"><div property="rdfs:label" class="label">knob</div><div class="comment" property="rdfs:comment"><p>The knob selected when building a modgui through the MOD SDK.</p></div></div></div>
 </div>
 
-<div class="specterm" id="label" about="http://moddevices.com/ns/modgui#label">
-<h3>Property <a href="#label">modgui:label</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">label</div><div property="rdfs:comment"><p>The label selected when building a modgui through the MOD SDK.</p></div></div>
-<table class="terminfo"><tr><th>OWL Type</th><td>Datatype Property</td></tr>
-<tr><th>Domain</th><td><a href="#Gui" about="http://moddevices.com/ns/modgui#label" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#Gui">modgui:Gui</a></td></tr>
+<div class="specterm" id="label" about="http://moddevices.com/ns/modgui#label"><h4><a href="#label">label</a></h4><div class="spectermbody">
+<table class="terminfo"><tr><th>Type</th><td>Datatype Property</td></tr>
+<tr><th>Domain</th><td><a href="#Gui" about="http://moddevices.com/ns/modgui#label" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#Gui">Gui</a></td></tr>
 <tr><th>Range</th><td><a href="http://www.w3.org/2001/XMLSchema#string" about="http://moddevices.com/ns/modgui#label" rel="rdfs:range" resource="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></td></tr>
 </table>
-</div>
+<div class="description"><div property="rdfs:label" class="label">label</div><div class="comment" property="rdfs:comment"><p>The label selected when building a modgui through the MOD SDK.</p></div></div></div>
 </div>
 
-<div class="specterm" id="model" about="http://moddevices.com/ns/modgui#model">
-<h3>Property <a href="#model">modgui:model</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">model</div><div property="rdfs:comment"><p>The model selected when building a modgui through the MOD SDK.</p></div></div>
-<table class="terminfo"><tr><th>OWL Type</th><td>Datatype Property</td></tr>
-<tr><th>Domain</th><td><a href="#Gui" about="http://moddevices.com/ns/modgui#model" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#Gui">modgui:Gui</a></td></tr>
+<div class="specterm" id="model" about="http://moddevices.com/ns/modgui#model"><h4><a href="#model">model</a></h4><div class="spectermbody">
+<table class="terminfo"><tr><th>Type</th><td>Datatype Property</td></tr>
+<tr><th>Domain</th><td><a href="#Gui" about="http://moddevices.com/ns/modgui#model" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#Gui">Gui</a></td></tr>
 <tr><th>Range</th><td><a href="http://www.w3.org/2001/XMLSchema#string" about="http://moddevices.com/ns/modgui#model" rel="rdfs:range" resource="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></td></tr>
 </table>
-</div>
+<div class="description"><div property="rdfs:label" class="label">model</div><div class="comment" property="rdfs:comment"><p>The model selected when building a modgui through the MOD SDK.</p></div></div></div>
 </div>
 
-<div class="specterm" id="monitoredOutputs" about="http://moddevices.com/ns/modgui#monitoredOutputs">
-<h3>Property <a href="#monitoredOutputs">modgui:monitoredOutputs</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">monitored outputs</div><div property="rdfs:comment"><p>A monitored output on a MOD GUI.</p></div></div>
-<table class="terminfo"><tr><th>OWL Type</th><td>Object Property</td></tr>
-<tr><th>Domain</th><td><a href="#Gui" about="http://moddevices.com/ns/modgui#monitoredOutputs" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#Gui">modgui:Gui</a></td></tr>
-<tr><th>Range</th><td><a href="#MonitoredOutput" about="http://moddevices.com/ns/modgui#monitoredOutputs" rel="rdfs:range" resource="http://moddevices.com/ns/modgui#MonitoredOutput">modgui:MonitoredOutput</a></td></tr>
+<div class="specterm" id="monitoredOutputs" about="http://moddevices.com/ns/modgui#monitoredOutputs"><h4><a href="#monitoredOutputs">monitoredOutputs</a></h4><div class="spectermbody">
+<table class="terminfo"><tr><th>Type</th><td>Object Property</td></tr>
+<tr><th>Domain</th><td><a href="#Gui" about="http://moddevices.com/ns/modgui#monitoredOutputs" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#Gui">Gui</a></td></tr>
+<tr><th>Range</th><td><a href="#MonitoredOutput" about="http://moddevices.com/ns/modgui#monitoredOutputs" rel="rdfs:range" resource="http://moddevices.com/ns/modgui#MonitoredOutput">MonitoredOutput</a></td></tr>
 </table>
-</div>
+<div class="description"><div property="rdfs:label" class="label">monitored outputs</div><div class="comment" property="rdfs:comment"><p>A monitored output on a MOD GUI.</p></div></div></div>
 </div>
 
-<div class="specterm" id="panel" about="http://moddevices.com/ns/modgui#panel">
-<h3>Property <a href="#panel">modgui:panel</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">panel</div><div property="rdfs:comment"><p>The panel selected when building a modgui through the MOD SDK.</p></div></div>
-<table class="terminfo"><tr><th>OWL Type</th><td>Datatype Property</td></tr>
-<tr><th>Domain</th><td><a href="#Gui" about="http://moddevices.com/ns/modgui#panel" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#Gui">modgui:Gui</a></td></tr>
+<div class="specterm" id="panel" about="http://moddevices.com/ns/modgui#panel"><h4><a href="#panel">panel</a></h4><div class="spectermbody">
+<table class="terminfo"><tr><th>Type</th><td>Datatype Property</td></tr>
+<tr><th>Domain</th><td><a href="#Gui" about="http://moddevices.com/ns/modgui#panel" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#Gui">Gui</a></td></tr>
 <tr><th>Range</th><td><a href="http://www.w3.org/2001/XMLSchema#string" about="http://moddevices.com/ns/modgui#panel" rel="rdfs:range" resource="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></td></tr>
 </table>
-</div>
+<div class="description"><div property="rdfs:label" class="label">panel</div><div class="comment" property="rdfs:comment"><p>The panel selected when building a modgui through the MOD SDK.</p></div></div></div>
 </div>
 
-<div class="specterm" id="port" about="http://moddevices.com/ns/modgui#port">
-<h3>Property <a href="#port">modgui:port</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">port</div><div property="rdfs:comment"><p>A port on a MOD GUI.</p></div></div>
-<table class="terminfo"><tr><th>OWL Type</th><td>Object Property</td></tr>
-<tr><th>Domain</th><td><a href="#Gui" about="http://moddevices.com/ns/modgui#port" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#Gui">modgui:Gui</a></td></tr>
-<tr><th>Range</th><td><a href="#Port" about="http://moddevices.com/ns/modgui#port" rel="rdfs:range" resource="http://moddevices.com/ns/modgui#Port">modgui:Port</a></td></tr>
+<div class="specterm" id="port" about="http://moddevices.com/ns/modgui#port"><h4><a href="#port">port</a></h4><div class="spectermbody">
+<table class="terminfo"><tr><th>Type</th><td>Object Property</td></tr>
+<tr><th>Domain</th><td><a href="#Gui" about="http://moddevices.com/ns/modgui#port" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#Gui">Gui</a></td></tr>
+<tr><th>Range</th><td><a href="#Port" about="http://moddevices.com/ns/modgui#port" rel="rdfs:range" resource="http://moddevices.com/ns/modgui#Port">Port</a></td></tr>
 </table>
-</div>
+<div class="description"><div property="rdfs:label" class="label">port</div><div class="comment" property="rdfs:comment"><p>A port on a MOD GUI.</p></div></div></div>
 </div>
 
-<div class="specterm" id="resourcesDirectory" about="http://moddevices.com/ns/modgui#resourcesDirectory">
-<h3>Property <a href="#resourcesDirectory">modgui:resourcesDirectory</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">resources directory</div><div property="rdfs:comment">
+<div class="specterm" id="resourcesDirectory" about="http://moddevices.com/ns/modgui#resourcesDirectory"><h4><a href="#resourcesDirectory">resourcesDirectory</a></h4><div class="spectermbody">
+<table class="terminfo"><tr><th>Type</th><td>Object Property</td></tr>
+<tr><th>Domain</th><td><a href="#Gui" about="http://moddevices.com/ns/modgui#resourcesDirectory" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#Gui">Gui</a></td></tr>
+<tr><th>Range</th><td><a href="http://www.w3.org/2002/07/owl#Thing" about="http://moddevices.com/ns/modgui#resourcesDirectory" rel="rdfs:range" resource="http://www.w3.org/2002/07/owl#Thing">owl:Thing</a></td></tr>
+</table>
+<div class="description"><div property="rdfs:label" class="label">resources directory</div><div class="comment" property="rdfs:comment">
 <p>
 This is a URI that resolves to a directory inside the bundle.
 Any file inside this directory will be statically served to browser, and will be available at the '/resources/' path.
@@ -500,32 +467,28 @@ Any file inside this directory will be statically served to browser, and will be
 <p>
 For the webserver to properly identify where to look, any request for media inside this directory must have an {{{ns}}} parameter.
 </p>
-</div></div>
-<table class="terminfo"><tr><th>OWL Type</th><td>Object Property</td></tr>
-<tr><th>Domain</th><td><a href="#Gui" about="http://moddevices.com/ns/modgui#resourcesDirectory" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#Gui">modgui:Gui</a></td></tr>
-<tr><th>Range</th><td><a href="http://www.w3.org/2002/07/owl#Thing" about="http://moddevices.com/ns/modgui#resourcesDirectory" rel="rdfs:range" resource="http://www.w3.org/2002/07/owl#Thing">owl:Thing</a></td></tr>
-</table>
-</div>
+</div></div></div>
 </div>
 
-<div class="specterm" id="screenshot" about="http://moddevices.com/ns/modgui#screenshot">
-<h3>Property <a href="#screenshot">modgui:screenshot</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">screenshot</div><div property="rdfs:comment">
+<div class="specterm" id="screenshot" about="http://moddevices.com/ns/modgui#screenshot"><h4><a href="#screenshot">screenshot</a></h4><div class="spectermbody">
+<table class="terminfo"><tr><th>Type</th><td>Object Property</td></tr>
+<tr><th>Domain</th><td><a href="#Gui" about="http://moddevices.com/ns/modgui#screenshot" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#Gui">Gui</a></td></tr>
+<tr><th>Range</th><td><a href="http://www.w3.org/2002/07/owl#Thing" about="http://moddevices.com/ns/modgui#screenshot" rel="rdfs:range" resource="http://www.w3.org/2002/07/owl#Thing">owl:Thing</a></td></tr>
+</table>
+<div class="description"><div property="rdfs:label" class="label">screenshot</div><div class="comment" property="rdfs:comment">
 <p>
 An image with a real size screenshot of the rendered plugin interface.
 The value of this property must be a URI that resolves to an image.
 </p>
-</div></div>
-<table class="terminfo"><tr><th>OWL Type</th><td>Object Property</td></tr>
-<tr><th>Domain</th><td><a href="#Gui" about="http://moddevices.com/ns/modgui#screenshot" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#Gui">modgui:Gui</a></td></tr>
-<tr><th>Range</th><td><a href="http://www.w3.org/2002/07/owl#Thing" about="http://moddevices.com/ns/modgui#screenshot" rel="rdfs:range" resource="http://www.w3.org/2002/07/owl#Thing">owl:Thing</a></td></tr>
-</table>
-</div>
+</div></div></div>
 </div>
 
-<div class="specterm" id="settingsTemplate" about="http://moddevices.com/ns/modgui#settingsTemplate">
-<h3>Property <a href="#settingsTemplate">modgui:settingsTemplate</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">settings template</div><div property="rdfs:comment">
+<div class="specterm" id="settingsTemplate" about="http://moddevices.com/ns/modgui#settingsTemplate"><h4><a href="#settingsTemplate">settingsTemplate</a></h4><div class="spectermbody">
+<table class="terminfo"><tr><th>Type</th><td>Object Property</td></tr>
+<tr><th>Domain</th><td><a href="#Gui" about="http://moddevices.com/ns/modgui#settingsTemplate" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#Gui">Gui</a></td></tr>
+<tr><th>Range</th><td><a href="http://www.w3.org/2002/07/owl#Thing" about="http://moddevices.com/ns/modgui#settingsTemplate" rel="rdfs:range" resource="http://www.w3.org/2002/07/owl#Thing">owl:Thing</a></td></tr>
+</table>
+<div class="description"><div property="rdfs:label" class="label">settings template</div><div class="comment" property="rdfs:comment">
 <p>
 A template that will be used to render the HTML settings panel of this plugin. The
 value of this property must be a URI that resolves to a Mustache template.
@@ -535,17 +498,15 @@ value of this property must be a URI that resolves to a Mustache template.
 To develop this, use the same guidelines and markup as described in <a href="#iconTemplate">modgui:iconTemplate</a>.
 The only difference is that the audio ports here are irrelevant.
 </p>
-</div></div>
-<table class="terminfo"><tr><th>OWL Type</th><td>Object Property</td></tr>
-<tr><th>Domain</th><td><a href="#Gui" about="http://moddevices.com/ns/modgui#settingsTemplate" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#Gui">modgui:Gui</a></td></tr>
-<tr><th>Range</th><td><a href="http://www.w3.org/2002/07/owl#Thing" about="http://moddevices.com/ns/modgui#settingsTemplate" rel="rdfs:range" resource="http://www.w3.org/2002/07/owl#Thing">owl:Thing</a></td></tr>
-</table>
-</div>
+</div></div></div>
 </div>
 
-<div class="specterm" id="stylesheet" about="http://moddevices.com/ns/modgui#stylesheet">
-<h3>Property <a href="#stylesheet">modgui:stylesheet</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">stylesheet</div><div property="rdfs:comment">
+<div class="specterm" id="stylesheet" about="http://moddevices.com/ns/modgui#stylesheet"><h4><a href="#stylesheet">stylesheet</a></h4><div class="spectermbody">
+<table class="terminfo"><tr><th>Type</th><td>Object Property</td></tr>
+<tr><th>Domain</th><td><a href="#Gui" about="http://moddevices.com/ns/modgui#stylesheet" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#Gui">Gui</a></td></tr>
+<tr><th>Range</th><td><a href="http://www.w3.org/2002/07/owl#Thing" about="http://moddevices.com/ns/modgui#stylesheet" rel="rdfs:range" resource="http://www.w3.org/2002/07/owl#Thing">owl:Thing</a></td></tr>
+</table>
+<div class="description"><div property="rdfs:label" class="label">stylesheet</div><div class="comment" property="rdfs:comment">
 <p>
 A CSS file that holds all styles used for this plugin.
 The CSS will be automatically loaded on request.
@@ -559,17 +520,17 @@ The stylesheet will be parsed for dynamic content, so the {{{ns}}} tag can be us
 <p>
 Remember that all class names must be preceded by the bundle's name to avoid conflicting with other plugins or general interface.
 </p>
-</div></div>
-<table class="terminfo"><tr><th>OWL Type</th><td>Object Property</td></tr>
-<tr><th>Domain</th><td><a href="#Gui" about="http://moddevices.com/ns/modgui#stylesheet" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#Gui">modgui:Gui</a></td></tr>
-<tr><th>Range</th><td><a href="http://www.w3.org/2002/07/owl#Thing" about="http://moddevices.com/ns/modgui#stylesheet" rel="rdfs:range" resource="http://www.w3.org/2002/07/owl#Thing">owl:Thing</a></td></tr>
-</table>
-</div>
+</div></div></div>
 </div>
 
-<div class="specterm" id="templateData" about="http://moddevices.com/ns/modgui#templateData">
-<h3>Property <a href="#templateData">modgui:templateData</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">template data</div><div class="warning">DEPRECATED</div><div property="rdfs:comment">
+<div class="specterm" id="templateData" about="http://moddevices.com/ns/modgui#templateData"><h4><a href="#templateData">templateData</a></h4><div class="spectermbody">
+<table class="terminfo"><tr><th>Type</th><td>Object Property</td></tr>
+<tr><th>Domain</th><td><a href="#Gui" about="http://moddevices.com/ns/modgui#templateData" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#Gui">Gui</a></td></tr>
+<tr><th>Range</th><td><a href="http://www.w3.org/2002/07/owl#Thing" about="http://moddevices.com/ns/modgui#templateData" rel="rdfs:range" resource="http://www.w3.org/2002/07/owl#Thing">owl:Thing</a></td></tr>
+<tr><th><a href="http://www.w3.org/2002/07/owl#deprecated" >owl:deprecated</a></th>
+<td>true</td></tr>
+</table>
+<div class="description"><div property="rdfs:label" class="label">template data</div><div class="warning">Deprecated</div><div class="comment" property="rdfs:comment">
 <p>
 The data that will be used to render the templates defined in <a href="#iconTemplate">modgui:iconTemplate</a>
 and <a href="#settingsTemplate">modgui:settingsTemplate</a>. The value of this property must be a URI that resolves to
@@ -614,38 +575,30 @@ you can refer to it like this:<br/>
 <p>
 In the example above, the brand.png file inside the <a href="#resourcesDirectory">modgui:resourcesDirectory</a> would be served.
 </p>
-</div></div>
-<table class="terminfo"><tr><th>OWL Type</th><td>Object Property</td></tr>
-<tr><th>Domain</th><td><a href="#Gui" about="http://moddevices.com/ns/modgui#templateData" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#Gui">modgui:Gui</a></td></tr>
-<tr><th>Range</th><td><a href="http://www.w3.org/2002/07/owl#Thing" about="http://moddevices.com/ns/modgui#templateData" rel="rdfs:range" resource="http://www.w3.org/2002/07/owl#Thing">owl:Thing</a></td></tr>
-<tr><th><a href="http://www.w3.org/2002/07/owl#deprecated" >owl:deprecated</a></th>
-<td>true</td></tr>
-</table>
-</div>
+</div></div></div>
 </div>
 
-<div class="specterm" id="thumbnail" about="http://moddevices.com/ns/modgui#thumbnail">
-<h3>Property <a href="#thumbnail">modgui:thumbnail</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">screenshot</div><div property="rdfs:comment">
+<div class="specterm" id="thumbnail" about="http://moddevices.com/ns/modgui#thumbnail"><h4><a href="#thumbnail">thumbnail</a></h4><div class="spectermbody">
+<table class="terminfo"><tr><th>Type</th><td>Object Property</td></tr>
+<tr><th>Domain</th><td><a href="#Gui" about="http://moddevices.com/ns/modgui#thumbnail" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#Gui">Gui</a></td></tr>
+<tr><th>Range</th><td><a href="http://www.w3.org/2002/07/owl#Thing" about="http://moddevices.com/ns/modgui#thumbnail" rel="rdfs:range" resource="http://www.w3.org/2002/07/owl#Thing">owl:Thing</a></td></tr>
+</table>
+<div class="description"><div property="rdfs:label" class="label">screenshot</div><div class="comment" property="rdfs:comment">
 <p>
 An image with a small representation of the rendered plugin interface.
 The value of this property must be a URI that resolves to an image with maximum size of 256x64px.
 </p>
-</div></div>
-<table class="terminfo"><tr><th>OWL Type</th><td>Object Property</td></tr>
-<tr><th>Domain</th><td><a href="#Gui" about="http://moddevices.com/ns/modgui#thumbnail" rel="rdfs:domain" resource="http://moddevices.com/ns/modgui#Gui">modgui:Gui</a></td></tr>
-<tr><th>Range</th><td><a href="http://www.w3.org/2002/07/owl#Thing" about="http://moddevices.com/ns/modgui#thumbnail" rel="rdfs:range" resource="http://www.w3.org/2002/07/owl#Thing">owl:Thing</a></td></tr>
-</table>
-</div>
+</div></div></div>
 </div>
 
 
-  </div>
+        </div>
+      </div>
 
-  <!-- HISTORY -->
-  <h2 class="sec" id="sec-history">History</h2>
-  <div class="content">
-  <dl>
+      <!-- HISTORY -->
+      <h2 class="sec" id="sec-history">History</h2>
+      <div class="section">
+        <dl>
 <dt><a href="https://github.com/moddevices/mod-sdk/archive/v2.0.0.tar.gz">Version 2.0</a> (2016-03-28)</dt>
 <dd><ul>
 <li>Code rewrite and domain switch.</li>
@@ -654,30 +607,31 @@ The value of this property must be a URI that resolves to an image with maximum 
 <li>First stable release.</li>
 </ul></dd></dl>
 
-  </div>
+      </div>
 
-  <!-- FOOTER -->
-  <div id="footer">
-    <div>
-      This document is available under the
-      <a about="" rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/">
-        Creative Commons Attribution-ShareAlike License
-      </a>
-    </div>
-	<div>
-      Valid
-      <a about="" rel="dct:conformsTo" resource="http://www.w3.org/TR/rdfa-syntax"
-         href="http://validator.w3.org/check?uri=referer">
-        XHTML+RDFa
-      </a>
-      and
-      <a about="" rel="dct:conformsTo" resource="http://www.w3.org/TR/CSS2"
-         href="http://jigsaw.w3.org/css-validator/check/referer">
-        CSS
-      </a>
-      generated from manifest.ttl by <a href="http://drobilla.net/software/lv2specgen">lv2specgen</a>
-    </div>
-  </div>
+      <!-- FOOTER -->
+      <div id="footer">
+        <div>
+          This document is available under the
+          <a about="" rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/">
+            Creative Commons Attribution-ShareAlike License
+          </a>
+        </div>
+	    <div>
+          Valid
+          <a about="" rel="dct:conformsTo" resource="http://www.w3.org/TR/rdfa-syntax"
+             href="http://validator.w3.org/check?uri=referer">
+            XHTML+RDFa
+          </a>
+          and
+          <a about="" rel="dct:conformsTo" resource="http://www.w3.org/TR/CSS2"
+             href="http://jigsaw.w3.org/css-validator/check/referer">
+            CSS
+          </a>
+          generated from manifest.ttl by lv2specgen
+        </div>
+      </div>
 
+    </div>
   </body>
 </html>

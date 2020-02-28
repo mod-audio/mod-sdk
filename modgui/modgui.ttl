@@ -534,13 +534,15 @@ The host will keep track of port changes and notify the MOD GUI when it happens.
 </p>
 <p>
 To enable monitor of output ports add the following code to your MOD GUI definition, modifying as needed:
-<code>                   <br/><br/>
-    modgui:monitoredOutputs [ <br/>
-&nbsp;  lv2:symbol "out1" ;   <br/>
-    ] , [                     <br/>
-&nbsp;  lv2:symbol "out2" ;   <br/>
-    ] ;                       <br/><br/>
-</code>
+</p>
+<pre>
+modgui:monitoredOutputs [
+    lv2:symbol "out1" ;
+] , [
+    lv2:symbol "out2" ;
+] ;
+</pre>
+<p>
 The MOD GUI will receive the events in its javascript function, just like it does for input controls.
 </p>
 """ .

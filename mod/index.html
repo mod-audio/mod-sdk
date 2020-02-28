@@ -17,299 +17,300 @@
   </head>
   <body>
 
-  <!-- HEADER -->
-  <div id="topbar">
-    <div id="header">
-      <div id="titlebox">
-        <h1 id="title"><a href="index.html">MOD</a></h1>
-        <div id="subtitle"><a href="http://moddevices.com/ns/mod">http://moddevices.com/ns/mod</a></div>
-        <div id="shortdesc">Properties for describing MOD Devices related data.</div>
+    <!-- HEADER -->
+    <div id="topbar">
+      <div id="header">
+        <div id="titlebox">
+          <h1 id="title"><a href="index.html">MOD</a></h1>
+          <div id="shortdesc">Properties for describing MOD Devices related data.</div>
+        </div>
+        <div id="metabox">
+          <table id="meta">
+            <tr><th>ID</th><td><a href="http://moddevices.com/ns/mod">http://moddevices.com/ns/mod</a></td></tr>
+            <tr><th>Version</th><td>1.2</td></tr>
+            <tr><th>Date</th><td>2020-02-28</td></tr>
+          </table>
+        </div>
       </div>
-      <table id="meta">
-        <!--<tr><th>URI</th><td><a href="http://moddevices.com/ns/mod">http://moddevices.com/ns/mod</a></td></tr>
-            <tr><th>Version</th><td>@REVISION@</td></tr>-->
-        <!--<tr><th>Prefixes</th><td><span><a href="http://ontologi.es/doap-changeset#">dcs</a> <a href="http://usefulinc.com/ns/doap#">doap</a> <a href="http://xmlns.com/foaf/0.1/">foaf</a> <a href="http://lv2plug.in/ns/lv2core#">lv2</a> <a href="http://moddevices.com/ns/mod#">mod</a> <a href="http://www.w3.org/2002/07/owl#">owl</a> <a href="http://lv2plug.in/ns/ext/port-props#">pprops</a> <a href="http://www.w3.org/1999/02/22-rdf-syntax-ns#">rdf</a> <a href="http://www.w3.org/2000/01/rdf-schema#">rdfs</a> <a href="http://www.w3.org/2001/XMLSchema#">xsd</a> </span></td></tr>-->
-        <tr><th>Version</th><td>1.2</td></tr>
-        <tr><th>Date</th><td>2019-09-02</td></tr>
-        <tr><th>Discuss</th><td><a href="mailto:None">None</a> <a href="None">(subscribe)</a></td></tr>
-        <tr><th class="metahead">Developers</th><td><span class="author" property="doap:developer">Filipe Coelho</span>, <span class="author" property="doap:developer">Jakob Duebel</span></td></tr><tr><th class="metahead">Maintainer</th><td><span class="author" property="doap:maintainer">Jakob Duebel</span></td></tr>
-      </table>
     </div>
-    <ul id="contents">
-      <!-- <li><a href="#sec-description">Description</a></li> -->
-      <li><a href="#sec-index">Index</a></li>
-      <li><a href="#sec-reference">Reference</a></li>
-      <li><a href="#sec-history">History</a></li>
-      
-    </ul>
-  </div>
 
-  <!-- DESCRIPTION -->
-  <!--<h2 class="sec" id="sec-description">Description</h2>-->
-  <div class="content">
+    <div id="content">
+      <div id="contentsbox">
+        <!-- Contents: -->
+        <ul id="contents">
+          <!-- <li><a href="#sec-description">Description</a></li> -->
+          <li><a href="#sec-reference">Reference</a></li>
+          <li><a href="#sec-history">History</a></li>
+          
+        </ul>
+      </div>
+      <hr class="contentssep" />
+
+      <!-- DESCRIPTION -->
+      <!--<h2 class="sec" id="sec-description">Description</h2>-->
+      <div class="section">
 <p>
 This is a vocabulary for describing extra plugin data specific to MOD software and devices.
 </p>
 </div>
 
-  <!-- INDEX -->
-  <h2 class="sec" id="sec-index">Index</h2>
-  <div class="content" id="index">
-  <table class="index"><thead><tr><th>Classes</th><th>Properties</th><th>Instances</th><th>Files</th></tr></thead>
-<tbody><tr><td><ul><li><a href="#ControlVoltagePlugin">ControlVoltagePlugin</a></li><li><a href="#DelayPlugin">DelayPlugin</a></li><li><a href="#DistortionPlugin">DistortionPlugin</a></li><li><a href="#DynamicsPlugin">DynamicsPlugin</a></li><li><a href="#FilterPlugin">FilterPlugin</a></li><li><a href="#GeneratorPlugin">GeneratorPlugin</a></li><li><a href="#MIDIPlugin">MIDIPlugin</a></li><li><a href="#MaxGenPlugin">MaxGenPlugin</a></li><li><a href="#ModulatorPlugin">ModulatorPlugin</a></li><li><a href="#ReverbPlugin">ReverbPlugin</a></li><li><a href="#SimulatorPlugin">SimulatorPlugin</a></li><li><a href="#SpatialPlugin">SpatialPlugin</a></li><li><a href="#SpectralPlugin">SpectralPlugin</a></li><li><a href="#UtilityPlugin">UtilityPlugin</a></li></ul></td>
-<td><ul><li><a href="#brand">brand</a></li><li><a href="#builderVersion">builderVersion</a></li><li><a href="#default">default</a></li><li><a href="#label">label</a></li><li><a href="#maximum">maximum</a></li><li><a href="#minimum">minimum</a></li><li><a href="#rangeSteps">rangeSteps</a></li><li><a href="#releaseNumber">releaseNumber</a></li></ul></td>
-<td><ul><li><a href="#notStompboxCapable">notStompboxCapable</a></li><li><a href="#tapTempo">tapTempo</a></li><li><a href="#tempoRelatedDynamicScalePoints">tempoRelatedDynamicScalePoints</a></li></ul></td>
-<td><ul><li><a href="mod.doap.ttl">mod.doap.ttl</a></li><li><a href="mod.ttl">mod.ttl</a></li></ul></td>
+      <!-- REFERENCE -->
+      <h2 class="sec" id="sec-reference">Reference</h2>
+      <div class="section">
+        <div id="indexbox">
+          <table class="index">
+<thead><tr><th><a href="#ref-classes" />Classes</th><th><a href="#ref-properties" />Properties</th><th><a href="#ref-instances" />Instances</th></tr></thead>
+<tbody><tr><td><ul><li><a href="#CVPort">CVPort</a></li><li><a href="#ControlVoltagePlugin">ControlVoltagePlugin</a></li><li><a href="#DelayPlugin">DelayPlugin</a></li><li><a href="#DistortionPlugin">DistortionPlugin</a></li><li><a href="#DynamicsPlugin">DynamicsPlugin</a></li><li><a href="#FilterPlugin">FilterPlugin</a></li><li><a href="#GeneratorPlugin">GeneratorPlugin</a></li><li><a href="#MIDIPlugin">MIDIPlugin</a></li><li><a href="#MaxGenPlugin">MaxGenPlugin</a></li><li><a href="#ModulatorPlugin">ModulatorPlugin</a></li><li><a href="#ReverbPlugin">ReverbPlugin</a></li><li><a href="#SimulatorPlugin">SimulatorPlugin</a></li><li><a href="#SpatialPlugin">SpatialPlugin</a></li><li><a href="#SpectralPlugin">SpectralPlugin</a></li><li><a href="#UtilityPlugin">UtilityPlugin</a></li></ul></td>
+<td><ul><li><a href="#brand">brand</a></li><li><a href="#buildEnvironment">buildEnvironment</a></li><li><a href="#buildId">buildId</a></li><li><a href="#builderVersion">builderVersion</a></li><li><a href="#default">default</a></li><li><a href="#label">label</a></li><li><a href="#maximum">maximum</a></li><li><a href="#minimum">minimum</a></li><li><a href="#rangeSteps">rangeSteps</a></li><li><a href="#releaseNumber">releaseNumber</a></li></ul></td>
+<td><ul><li><a href="#notStompboxCapable">notStompboxCapable</a></li><li><a href="#tapTempo">tapTempo</a></li><li><a href="#tempoRelatedDynamicScalePoints">tempoRelatedDynamicScalePoints</a></li><li><a href="#volts">volts</a></li></ul></td>
 </tr></tbody></table>
-  </div>
 
-  <!-- DOCUMENTATION -->
-  <h2 class="sec" id="sec-reference">Reference</h2>
-  <div class="content">
-  <div class="specterm" id="ControlVoltagePlugin" about="http://moddevices.com/ns/mod#ControlVoltagePlugin">
-<h3>Class <a href="#ControlVoltagePlugin">mod:ControlVoltagePlugin</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">Control Voltage</div><div property="rdfs:comment"><p>Forces Control Voltage as the plugin category.</p></div></div>
+          <h3><a id="ref-classes" />Classes</h3><div class="specterm" id="CVPort" about="http://moddevices.com/ns/mod#CVPort"><h4><a href="#CVPort">CVPort</a></h4><div class="spectermbody">
 <table class="terminfo">
-<tr><th>Sub-class of</th><td><a href="http://lv2plug.in/ns/lv2core#Plugin" >lv2:Plugin</a></td></tr>
+<tr><th>Subclass of</th><td><a href="http://lv2plug.in/ns/lv2core#CVPort" >lv2:CVPort</a></td></tr>
 </table>
-</div>
+<div class="description"><div property="rdfs:label" class="label">MOD CV Port</div><div class="comment" property="rdfs:comment">
+<p>
+An <a href="http://lv2plug.in/ns/lv2core#CVPort">lv2:CVPort</a> with strict range restrictions.<br/>
+Ports with the type <a href="#CVPort">mod:CVPort</a> MUST define their minimum and maximum values.
+and those need to be within the possible 3 cases:
+</p>
+<ul>
+<li>- Unipolar mode (minimum: -10, maximum: 0)</li>
+<li>Bipolar mode (minimum: -5, maximum: +5)</li>
+<li>+ Unipolar mode (minimum: 0, maximum: +10)</li>
+</ul>
+<p>
+It is assumed these ports use <a href="#volts">mod:volts</a> as unit.
+</p>
+</div></div></div>
 </div>
 
-<div class="specterm" id="DelayPlugin" about="http://moddevices.com/ns/mod#DelayPlugin">
-<h3>Class <a href="#DelayPlugin">mod:DelayPlugin</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">Delay</div><div property="rdfs:comment"><p>Forces Delay as the plugin category.</p></div></div>
+<div class="specterm" id="ControlVoltagePlugin" about="http://moddevices.com/ns/mod#ControlVoltagePlugin"><h4><a href="#ControlVoltagePlugin">ControlVoltagePlugin</a></h4><div class="spectermbody">
 <table class="terminfo">
-<tr><th>Sub-class of</th><td><a href="http://lv2plug.in/ns/lv2core#Plugin" >lv2:Plugin</a></td></tr>
+<tr><th>Subclass of</th><td><a href="http://lv2plug.in/ns/lv2core#Plugin" >lv2:Plugin</a></td></tr>
 </table>
-</div>
+<div class="description"><div property="rdfs:label" class="label">Control Voltage</div><div class="comment" property="rdfs:comment"><p>Forces Control Voltage as the plugin category.</p></div></div></div>
 </div>
 
-<div class="specterm" id="DistortionPlugin" about="http://moddevices.com/ns/mod#DistortionPlugin">
-<h3>Class <a href="#DistortionPlugin">mod:DistortionPlugin</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">Distortion</div><div property="rdfs:comment"><p>Forces Distortion as the plugin category.</p></div></div>
+<div class="specterm" id="DelayPlugin" about="http://moddevices.com/ns/mod#DelayPlugin"><h4><a href="#DelayPlugin">DelayPlugin</a></h4><div class="spectermbody">
 <table class="terminfo">
-<tr><th>Sub-class of</th><td><a href="http://lv2plug.in/ns/lv2core#Plugin" >lv2:Plugin</a></td></tr>
+<tr><th>Subclass of</th><td><a href="http://lv2plug.in/ns/lv2core#Plugin" >lv2:Plugin</a></td></tr>
 </table>
-</div>
+<div class="description"><div property="rdfs:label" class="label">Delay</div><div class="comment" property="rdfs:comment"><p>Forces Delay as the plugin category.</p></div></div></div>
 </div>
 
-<div class="specterm" id="DynamicsPlugin" about="http://moddevices.com/ns/mod#DynamicsPlugin">
-<h3>Class <a href="#DynamicsPlugin">mod:DynamicsPlugin</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">Dynamics</div><div property="rdfs:comment"><p>Forces Dynamics as the plugin category.</p></div></div>
+<div class="specterm" id="DistortionPlugin" about="http://moddevices.com/ns/mod#DistortionPlugin"><h4><a href="#DistortionPlugin">DistortionPlugin</a></h4><div class="spectermbody">
 <table class="terminfo">
-<tr><th>Sub-class of</th><td><a href="http://lv2plug.in/ns/lv2core#Plugin" >lv2:Plugin</a></td></tr>
+<tr><th>Subclass of</th><td><a href="http://lv2plug.in/ns/lv2core#Plugin" >lv2:Plugin</a></td></tr>
 </table>
-</div>
+<div class="description"><div property="rdfs:label" class="label">Distortion</div><div class="comment" property="rdfs:comment"><p>Forces Distortion as the plugin category.</p></div></div></div>
 </div>
 
-<div class="specterm" id="FilterPlugin" about="http://moddevices.com/ns/mod#FilterPlugin">
-<h3>Class <a href="#FilterPlugin">mod:FilterPlugin</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">Filter</div><div property="rdfs:comment"><p>Forces Filter as the plugin category.</p></div></div>
+<div class="specterm" id="DynamicsPlugin" about="http://moddevices.com/ns/mod#DynamicsPlugin"><h4><a href="#DynamicsPlugin">DynamicsPlugin</a></h4><div class="spectermbody">
 <table class="terminfo">
-<tr><th>Sub-class of</th><td><a href="http://lv2plug.in/ns/lv2core#Plugin" >lv2:Plugin</a></td></tr>
+<tr><th>Subclass of</th><td><a href="http://lv2plug.in/ns/lv2core#Plugin" >lv2:Plugin</a></td></tr>
 </table>
-</div>
+<div class="description"><div property="rdfs:label" class="label">Dynamics</div><div class="comment" property="rdfs:comment"><p>Forces Dynamics as the plugin category.</p></div></div></div>
 </div>
 
-<div class="specterm" id="GeneratorPlugin" about="http://moddevices.com/ns/mod#GeneratorPlugin">
-<h3>Class <a href="#GeneratorPlugin">mod:GeneratorPlugin</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">Generator</div><div property="rdfs:comment"><p>Forces Generator as the plugin category.</p></div></div>
+<div class="specterm" id="FilterPlugin" about="http://moddevices.com/ns/mod#FilterPlugin"><h4><a href="#FilterPlugin">FilterPlugin</a></h4><div class="spectermbody">
 <table class="terminfo">
-<tr><th>Sub-class of</th><td><a href="http://lv2plug.in/ns/lv2core#Plugin" >lv2:Plugin</a></td></tr>
+<tr><th>Subclass of</th><td><a href="http://lv2plug.in/ns/lv2core#Plugin" >lv2:Plugin</a></td></tr>
 </table>
-</div>
+<div class="description"><div property="rdfs:label" class="label">Filter</div><div class="comment" property="rdfs:comment"><p>Forces Filter as the plugin category.</p></div></div></div>
 </div>
 
-<div class="specterm" id="MIDIPlugin" about="http://moddevices.com/ns/mod#MIDIPlugin">
-<h3>Class <a href="#MIDIPlugin">mod:MIDIPlugin</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">MIDI Utility</div><div property="rdfs:comment"><p>Forces MIDI Utility as the plugin category.</p></div></div>
+<div class="specterm" id="GeneratorPlugin" about="http://moddevices.com/ns/mod#GeneratorPlugin"><h4><a href="#GeneratorPlugin">GeneratorPlugin</a></h4><div class="spectermbody">
 <table class="terminfo">
-<tr><th>Sub-class of</th><td><a href="http://lv2plug.in/ns/lv2core#Plugin" >lv2:Plugin</a></td></tr>
+<tr><th>Subclass of</th><td><a href="http://lv2plug.in/ns/lv2core#Plugin" >lv2:Plugin</a></td></tr>
 </table>
-</div>
+<div class="description"><div property="rdfs:label" class="label">Generator</div><div class="comment" property="rdfs:comment"><p>Forces Generator as the plugin category.</p></div></div></div>
 </div>
 
-<div class="specterm" id="MaxGenPlugin" about="http://moddevices.com/ns/mod#MaxGenPlugin">
-<h3>Class <a href="#MaxGenPlugin">mod:MaxGenPlugin</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">MAX gen~ Plugin</div><div property="rdfs:comment"><p>A plugin made with MAX gen~ export function.</p></div></div>
+<div class="specterm" id="MIDIPlugin" about="http://moddevices.com/ns/mod#MIDIPlugin"><h4><a href="#MIDIPlugin">MIDIPlugin</a></h4><div class="spectermbody">
 <table class="terminfo">
-<tr><th>Sub-class of</th><td><a href="http://lv2plug.in/ns/lv2core#Plugin" >lv2:Plugin</a></td></tr>
+<tr><th>Subclass of</th><td><a href="http://lv2plug.in/ns/lv2core#Plugin" >lv2:Plugin</a></td></tr>
 </table>
-</div>
+<div class="description"><div property="rdfs:label" class="label">MIDI Utility</div><div class="comment" property="rdfs:comment"><p>Forces MIDI Utility as the plugin category.</p></div></div></div>
 </div>
 
-<div class="specterm" id="ModulatorPlugin" about="http://moddevices.com/ns/mod#ModulatorPlugin">
-<h3>Class <a href="#ModulatorPlugin">mod:ModulatorPlugin</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">Modulator</div><div property="rdfs:comment"><p>Forces Modulator as the plugin category.</p></div></div>
+<div class="specterm" id="MaxGenPlugin" about="http://moddevices.com/ns/mod#MaxGenPlugin"><h4><a href="#MaxGenPlugin">MaxGenPlugin</a></h4><div class="spectermbody">
 <table class="terminfo">
-<tr><th>Sub-class of</th><td><a href="http://lv2plug.in/ns/lv2core#Plugin" >lv2:Plugin</a></td></tr>
+<tr><th>Subclass of</th><td><a href="http://lv2plug.in/ns/lv2core#Plugin" >lv2:Plugin</a></td></tr>
 </table>
-</div>
+<div class="description"><div property="rdfs:label" class="label">MAX gen~ Plugin</div><div class="comment" property="rdfs:comment"><p>A plugin made with MAX gen~ export function.</p></div></div></div>
 </div>
 
-<div class="specterm" id="ReverbPlugin" about="http://moddevices.com/ns/mod#ReverbPlugin">
-<h3>Class <a href="#ReverbPlugin">mod:ReverbPlugin</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">Reverb</div><div property="rdfs:comment"><p>Forces Reverb as the plugin category.</p></div></div>
+<div class="specterm" id="ModulatorPlugin" about="http://moddevices.com/ns/mod#ModulatorPlugin"><h4><a href="#ModulatorPlugin">ModulatorPlugin</a></h4><div class="spectermbody">
 <table class="terminfo">
-<tr><th>Sub-class of</th><td><a href="http://lv2plug.in/ns/lv2core#Plugin" >lv2:Plugin</a></td></tr>
+<tr><th>Subclass of</th><td><a href="http://lv2plug.in/ns/lv2core#Plugin" >lv2:Plugin</a></td></tr>
 </table>
-</div>
+<div class="description"><div property="rdfs:label" class="label">Modulator</div><div class="comment" property="rdfs:comment"><p>Forces Modulator as the plugin category.</p></div></div></div>
 </div>
 
-<div class="specterm" id="SimulatorPlugin" about="http://moddevices.com/ns/mod#SimulatorPlugin">
-<h3>Class <a href="#SimulatorPlugin">mod:SimulatorPlugin</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label"></div><div property="rdfs:comment"><p>Forces Simulator as the plugin category.</p></div></div>
+<div class="specterm" id="ReverbPlugin" about="http://moddevices.com/ns/mod#ReverbPlugin"><h4><a href="#ReverbPlugin">ReverbPlugin</a></h4><div class="spectermbody">
 <table class="terminfo">
-<tr><th>Sub-class of</th><td><a href="http://lv2plug.in/ns/lv2core#Plugin" >lv2:Plugin</a></td></tr>
+<tr><th>Subclass of</th><td><a href="http://lv2plug.in/ns/lv2core#Plugin" >lv2:Plugin</a></td></tr>
 </table>
-</div>
+<div class="description"><div property="rdfs:label" class="label">Reverb</div><div class="comment" property="rdfs:comment"><p>Forces Reverb as the plugin category.</p></div></div></div>
 </div>
 
-<div class="specterm" id="SpatialPlugin" about="http://moddevices.com/ns/mod#SpatialPlugin">
-<h3>Class <a href="#SpatialPlugin">mod:SpatialPlugin</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">Spatial</div><div property="rdfs:comment"><p>Forces Spatial as the plugin category.</p></div></div>
+<div class="specterm" id="SimulatorPlugin" about="http://moddevices.com/ns/mod#SimulatorPlugin"><h4><a href="#SimulatorPlugin">SimulatorPlugin</a></h4><div class="spectermbody">
 <table class="terminfo">
-<tr><th>Sub-class of</th><td><a href="http://lv2plug.in/ns/lv2core#Plugin" >lv2:Plugin</a></td></tr>
+<tr><th>Subclass of</th><td><a href="http://lv2plug.in/ns/lv2core#Plugin" >lv2:Plugin</a></td></tr>
 </table>
-</div>
+<div class="description"><div property="rdfs:label" class="label"></div><div class="comment" property="rdfs:comment"><p>Forces Simulator as the plugin category.</p></div></div></div>
 </div>
 
-<div class="specterm" id="SpectralPlugin" about="http://moddevices.com/ns/mod#SpectralPlugin">
-<h3>Class <a href="#SpectralPlugin">mod:SpectralPlugin</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">Spectral</div><div property="rdfs:comment"><p>Forces Spectral as the plugin category.</p></div></div>
+<div class="specterm" id="SpatialPlugin" about="http://moddevices.com/ns/mod#SpatialPlugin"><h4><a href="#SpatialPlugin">SpatialPlugin</a></h4><div class="spectermbody">
 <table class="terminfo">
-<tr><th>Sub-class of</th><td><a href="http://lv2plug.in/ns/lv2core#Plugin" >lv2:Plugin</a></td></tr>
+<tr><th>Subclass of</th><td><a href="http://lv2plug.in/ns/lv2core#Plugin" >lv2:Plugin</a></td></tr>
 </table>
-</div>
+<div class="description"><div property="rdfs:label" class="label">Spatial</div><div class="comment" property="rdfs:comment"><p>Forces Spatial as the plugin category.</p></div></div></div>
 </div>
 
-<div class="specterm" id="UtilityPlugin" about="http://moddevices.com/ns/mod#UtilityPlugin">
-<h3>Class <a href="#UtilityPlugin">mod:UtilityPlugin</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">Utility</div><div property="rdfs:comment"><p>Forces Utility as the plugin category.</p></div></div>
+<div class="specterm" id="SpectralPlugin" about="http://moddevices.com/ns/mod#SpectralPlugin"><h4><a href="#SpectralPlugin">SpectralPlugin</a></h4><div class="spectermbody">
 <table class="terminfo">
-<tr><th>Sub-class of</th><td><a href="http://lv2plug.in/ns/lv2core#Plugin" >lv2:Plugin</a></td></tr>
+<tr><th>Subclass of</th><td><a href="http://lv2plug.in/ns/lv2core#Plugin" >lv2:Plugin</a></td></tr>
 </table>
-</div>
+<div class="description"><div property="rdfs:label" class="label">Spectral</div><div class="comment" property="rdfs:comment"><p>Forces Spectral as the plugin category.</p></div></div></div>
 </div>
 
-<div class="specterm" id="brand" about="http://moddevices.com/ns/mod#brand">
-<h3>Property <a href="#brand">mod:brand</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">brand</div><div property="rdfs:comment"><p>A short plugin brand name. Maximum of 11 characters</p></div></div>
-<table class="terminfo"><tr><th>OWL Type</th><td>Datatype Property</td></tr>
+<div class="specterm" id="UtilityPlugin" about="http://moddevices.com/ns/mod#UtilityPlugin"><h4><a href="#UtilityPlugin">UtilityPlugin</a></h4><div class="spectermbody">
+<table class="terminfo">
+<tr><th>Subclass of</th><td><a href="http://lv2plug.in/ns/lv2core#Plugin" >lv2:Plugin</a></td></tr>
+</table>
+<div class="description"><div property="rdfs:label" class="label">Utility</div><div class="comment" property="rdfs:comment"><p>Forces Utility as the plugin category.</p></div></div></div>
+</div>
+
+<h3><a id="ref-properties" />Properties</h3><div class="specterm" id="brand" about="http://moddevices.com/ns/mod#brand"><h4><a href="#brand">brand</a></h4><div class="spectermbody">
+<table class="terminfo"><tr><th>Type</th><td>Datatype Property</td></tr>
 <tr><th>Range</th><td><a href="http://www.w3.org/2001/XMLSchema#string" about="http://moddevices.com/ns/mod#brand" rel="rdfs:range" resource="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></td></tr>
 </table>
-</div>
+<div class="description"><div property="rdfs:label" class="label">brand</div><div class="comment" property="rdfs:comment"><p>A short plugin brand name. Maximum of 11 characters</p></div></div></div>
 </div>
 
-<div class="specterm" id="builderVersion" about="http://moddevices.com/ns/mod#builderVersion">
-<h3>Property <a href="#builderVersion">mod:builderVersion</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">builder version</div><div property="rdfs:comment"><p>The version of the MOD cloud builder used to compile a plugin.</p></div></div>
-<table class="terminfo"><tr><th>OWL Type</th><td>Datatype Property</td></tr>
+<div class="specterm" id="buildEnvironment" about="http://moddevices.com/ns/mod#buildEnvironment"><h4><a href="#buildEnvironment">buildEnvironment</a></h4><div class="spectermbody">
+<table class="terminfo"><tr><th>Type</th><td>Datatype Property</td></tr>
 </table>
-</div>
+<div class="description"><div property="rdfs:label" class="label">cloud build environment</div><div class="comment" property="rdfs:comment"><p>The environment of the MOD cloud builder used to compile a plugin. MUST be 'prod', 'dev' or 'labs'.</p></div></div></div>
 </div>
 
-<div class="specterm" id="default" about="http://moddevices.com/ns/mod#default">
-<h3>Property <a href="#default">mod:default</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">default</div><div property="rdfs:comment"><p>A custom default value specific to MOD devices, used in place of lv2:default.</p></div></div>
-<table class="terminfo"><tr><th>OWL Type</th><td>Datatype Property</td></tr>
+<div class="specterm" id="buildId" about="http://moddevices.com/ns/mod#buildId"><h4><a href="#buildId">buildId</a></h4><div class="spectermbody">
+<table class="terminfo"><tr><th>Type</th><td>Datatype Property</td></tr>
+</table>
+<div class="description"><div property="rdfs:label" class="label">cloud build id</div><div class="comment" property="rdfs:comment"><p>The id for build process the MOD cloud builder used to compile a plugin.</p></div></div></div>
+</div>
+
+<div class="specterm" id="builderVersion" about="http://moddevices.com/ns/mod#builderVersion"><h4><a href="#builderVersion">builderVersion</a></h4><div class="spectermbody">
+<table class="terminfo"><tr><th>Type</th><td>Datatype Property</td></tr>
+<tr><th>Range</th><td><a href="http://www.w3.org/2001/XMLSchema#nonNegativeInteger" about="http://moddevices.com/ns/mod#builderVersion" rel="rdfs:range" resource="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">xsd:nonNegativeInteger</a></td></tr>
+</table>
+<div class="description"><div property="rdfs:label" class="label">builder version</div><div class="comment" property="rdfs:comment"><p>The version of the MOD cloud builder used to compile a plugin.</p></div></div></div>
+</div>
+
+<div class="specterm" id="default" about="http://moddevices.com/ns/mod#default"><h4><a href="#default">default</a></h4><div class="spectermbody">
+<table class="terminfo"><tr><th>Type</th><td>Datatype Property</td></tr>
 <tr><th><a href="http://www.w3.org/2000/01/rdf-schema#seeAlso" >rdfs:seeAlso</a></th>
 <td><a href="http://lv2plug.in/ns/lv2core#default" about="http://moddevices.com/ns/mod#default" rel="rdfs:seeAlso" resource="http://lv2plug.in/ns/lv2core#default">lv2:default</a></td></tr>
 </table>
-</div>
+<div class="description"><div property="rdfs:label" class="label">default</div><div class="comment" property="rdfs:comment"><p>A custom default value specific to MOD devices, used in place of lv2:default.</p></div></div></div>
 </div>
 
-<div class="specterm" id="label" about="http://moddevices.com/ns/mod#label">
-<h3>Property <a href="#label">mod:label</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">label</div><div property="rdfs:comment"><p>A short plugin label. Maximum of 16 characters</p></div></div>
-<table class="terminfo"><tr><th>OWL Type</th><td>Datatype Property</td></tr>
+<div class="specterm" id="label" about="http://moddevices.com/ns/mod#label"><h4><a href="#label">label</a></h4><div class="spectermbody">
+<table class="terminfo"><tr><th>Type</th><td>Datatype Property</td></tr>
 <tr><th>Range</th><td><a href="http://www.w3.org/2001/XMLSchema#string" about="http://moddevices.com/ns/mod#label" rel="rdfs:range" resource="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></td></tr>
 </table>
-</div>
+<div class="description"><div property="rdfs:label" class="label">label</div><div class="comment" property="rdfs:comment"><p>A short plugin label. Maximum of 16 characters</p></div></div></div>
 </div>
 
-<div class="specterm" id="maximum" about="http://moddevices.com/ns/mod#maximum">
-<h3>Property <a href="#maximum">mod:maximum</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">maximum</div><div property="rdfs:comment"><p>A custom maximum value specific to MOD devices, used in place of lv2:maximum.</p></div></div>
-<table class="terminfo"><tr><th>OWL Type</th><td>Datatype Property</td></tr>
+<div class="specterm" id="maximum" about="http://moddevices.com/ns/mod#maximum"><h4><a href="#maximum">maximum</a></h4><div class="spectermbody">
+<table class="terminfo"><tr><th>Type</th><td>Datatype Property</td></tr>
 <tr><th><a href="http://www.w3.org/2000/01/rdf-schema#seeAlso" >rdfs:seeAlso</a></th>
 <td><a href="http://lv2plug.in/ns/lv2core#maximum" about="http://moddevices.com/ns/mod#maximum" rel="rdfs:seeAlso" resource="http://lv2plug.in/ns/lv2core#maximum">lv2:maximum</a></td></tr>
 </table>
-</div>
+<div class="description"><div property="rdfs:label" class="label">maximum</div><div class="comment" property="rdfs:comment"><p>A custom maximum value specific to MOD devices, used in place of lv2:maximum.</p></div></div></div>
 </div>
 
-<div class="specterm" id="minimum" about="http://moddevices.com/ns/mod#minimum">
-<h3>Property <a href="#minimum">mod:minimum</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">minimum</div><div property="rdfs:comment"><p>A custom minimum value specific to MOD devices, used in place of lv2:minimum.</p></div></div>
-<table class="terminfo"><tr><th>OWL Type</th><td>Datatype Property</td></tr>
+<div class="specterm" id="minimum" about="http://moddevices.com/ns/mod#minimum"><h4><a href="#minimum">minimum</a></h4><div class="spectermbody">
+<table class="terminfo"><tr><th>Type</th><td>Datatype Property</td></tr>
 <tr><th><a href="http://www.w3.org/2000/01/rdf-schema#seeAlso" >rdfs:seeAlso</a></th>
 <td><a href="http://lv2plug.in/ns/lv2core#minimum" about="http://moddevices.com/ns/mod#minimum" rel="rdfs:seeAlso" resource="http://lv2plug.in/ns/lv2core#minimum">lv2:minimum</a></td></tr>
 </table>
-</div>
+<div class="description"><div property="rdfs:label" class="label">minimum</div><div class="comment" property="rdfs:comment"><p>A custom minimum value specific to MOD devices, used in place of lv2:minimum.</p></div></div></div>
 </div>
 
-<div class="specterm" id="rangeSteps" about="http://moddevices.com/ns/mod#rangeSteps">
-<h3>Property <a href="#rangeSteps">mod:rangeSteps</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">number of value steps</div><div property="rdfs:comment"><p>A custom rangeSteps value specific to MOD devices, used in place of pprops:rangeSteps.</p></div></div>
+<div class="specterm" id="rangeSteps" about="http://moddevices.com/ns/mod#rangeSteps"><h4><a href="#rangeSteps">rangeSteps</a></h4><div class="spectermbody">
 <table class="terminfo"><tr><th>Domain</th><td><a href="http://lv2plug.in/ns/lv2core#Port" about="http://moddevices.com/ns/mod#rangeSteps" rel="rdfs:domain" resource="http://lv2plug.in/ns/lv2core#Port">lv2:Port</a></td></tr>
 <tr><th>Range</th><td><a href="http://www.w3.org/2001/XMLSchema#nonNegativeInteger" about="http://moddevices.com/ns/mod#rangeSteps" rel="rdfs:range" resource="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">xsd:nonNegativeInteger</a></td></tr>
 <tr><th><a href="http://www.w3.org/2000/01/rdf-schema#seeAlso" >rdfs:seeAlso</a></th>
 <td><a href="http://lv2plug.in/ns/ext/port-props#rangeSteps" about="http://moddevices.com/ns/mod#rangeSteps" rel="rdfs:seeAlso" resource="http://lv2plug.in/ns/ext/port-props#rangeSteps">pprops:rangeSteps</a></td></tr>
 </table>
-</div>
+<div class="description"><div property="rdfs:label" class="label">number of value steps</div><div class="comment" property="rdfs:comment"><p>A custom rangeSteps value specific to MOD devices, used in place of pprops:rangeSteps.</p></div></div></div>
 </div>
 
-<div class="specterm" id="releaseNumber" about="http://moddevices.com/ns/mod#releaseNumber">
-<h3>Property <a href="#releaseNumber">mod:releaseNumber</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">release number</div><div property="rdfs:comment"><p>The MOD build release number of a bundle. This number is auto-incremented everytime the cloud rebuilds or updates the plugin.</p></div></div>
-<table class="terminfo"><tr><th>OWL Type</th><td>Datatype Property</td></tr>
+<div class="specterm" id="releaseNumber" about="http://moddevices.com/ns/mod#releaseNumber"><h4><a href="#releaseNumber">releaseNumber</a></h4><div class="spectermbody">
+<table class="terminfo"><tr><th>Type</th><td>Datatype Property</td></tr>
+<tr><th>Range</th><td><a href="http://www.w3.org/2001/XMLSchema#nonNegativeInteger" about="http://moddevices.com/ns/mod#releaseNumber" rel="rdfs:range" resource="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">xsd:nonNegativeInteger</a></td></tr>
 </table>
-</div>
+<div class="description"><div property="rdfs:label" class="label">release number</div><div class="comment" property="rdfs:comment"><p>The MOD build release number of a bundle. This number is auto-incremented everytime the cloud rebuilds or updates the plugin.</p></div></div></div>
 </div>
 
-<div class="specterm" id="notStompboxCapable" about="http://moddevices.com/ns/mod#notStompboxCapable">
-<h3>Instance <a href="#notStompboxCapable">mod:notStompboxCapable</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">not stompbox capable</div><div property="rdfs:comment">
+<h3><a id="ref-instances" />Instances</h3><div class="specterm" id="notStompboxCapable" about="http://moddevices.com/ns/mod#notStompboxCapable"><h4><a href="#notStompboxCapable">notStompboxCapable</a></h4><div class="spectermbody">
+<table class="terminfo"><tr><th>Type</th><td><a href="http://lv2plug.in/ns/lv2core#Feature" about="http://moddevices.com/ns/mod#notStompboxCapable" rel="rdf:type" resource="http://lv2plug.in/ns/lv2core#Feature">lv2:Feature</a></td></tr>
+</table>
+<div class="description"><div property="rdfs:label" class="label">not stompbox capable</div><div class="comment" property="rdfs:comment">
 <p>
 Indicates that the plugin is not suitable for use in the MOD Stompbox mode.<br/>
 Plugins are assumed to be suitable for Stompbox mode by default, and MUST provide this as an optional feature in case that's not true.
 </p>
-</div></div>
-<table class="terminfo"><tr><th>Type</th><td><a href="http://lv2plug.in/ns/lv2core#Feature" about="http://moddevices.com/ns/mod#notStompboxCapable" rel="rdf:type" resource="http://lv2plug.in/ns/lv2core#Feature">lv2:Feature</a></td></tr>
-</table>
-</div>
+</div></div></div>
 </div>
 
-<div class="specterm" id="tapTempo" about="http://moddevices.com/ns/mod#tapTempo">
-<h3>Instance <a href="#tapTempo">mod:tapTempo</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">tap tempo</div><div property="rdfs:comment"><p>Indicates that the port is suitable for a MOD foot-switch addressing, by using hardware-side tap tempo. Please note that a unit of time is required on the port for tap tempo to work properly. The supported unit types are 'ms', 's', 'Hz' and 'bpm'.</p></div></div>
+<div class="specterm" id="tapTempo" about="http://moddevices.com/ns/mod#tapTempo"><h4><a href="#tapTempo">tapTempo</a></h4><div class="spectermbody">
 <table class="terminfo"><tr><th>Type</th><td><a href="http://lv2plug.in/ns/lv2core#PortProperty" about="http://moddevices.com/ns/mod#tapTempo" rel="rdf:type" resource="http://lv2plug.in/ns/lv2core#PortProperty">lv2:PortProperty</a></td></tr>
 </table>
-</div>
+<div class="description"><div property="rdfs:label" class="label">tap tempo</div><div class="comment" property="rdfs:comment"><p>Indicates that the port is suitable for a MOD foot-switch addressing, by using hardware-side tap tempo. Please note that a unit of time is required on the port for tap tempo to work properly. The supported unit types are 'ms', 's', 'Hz' and 'bpm'.</p></div></div></div>
 </div>
 
-<div class="specterm" id="tempoRelatedDynamicScalePoints" about="http://moddevices.com/ns/mod#tempoRelatedDynamicScalePoints">
-<h3>Instance <a href="#tempoRelatedDynamicScalePoints">mod:tempoRelatedDynamicScalePoints</a></h3>
-<div class="spectermbody"><div class="description"><div property="rdfs:label" class="label">tempo related dynamic scale points</div><div property="rdfs:comment">
+<div class="specterm" id="tempoRelatedDynamicScalePoints" about="http://moddevices.com/ns/mod#tempoRelatedDynamicScalePoints"><h4><a href="#tempoRelatedDynamicScalePoints">tempoRelatedDynamicScalePoints</a></h4><div class="spectermbody">
+<table class="terminfo"><tr><th>Type</th><td><a href="http://lv2plug.in/ns/lv2core#PortProperty" about="http://moddevices.com/ns/mod#tempoRelatedDynamicScalePoints" rel="rdf:type" resource="http://lv2plug.in/ns/lv2core#PortProperty">lv2:PortProperty</a></td></tr>
+</table>
+<div class="description"><div property="rdfs:label" class="label">tempo related dynamic scale points</div><div class="comment" property="rdfs:comment">
 <p>
 Indicates that the port is suitable for scale points related to musical tempo, e.g. 'quarter note'.<br/>
 Please note that a unit of time is required on the port for tap tempo to work properly.
 The supported unit types are 'ms', 's', 'min', 'Hz', 'MHz' and 'kHz'.
 </p>
-</div></div>
-<table class="terminfo"><tr><th>Type</th><td><a href="http://lv2plug.in/ns/lv2core#PortProperty" about="http://moddevices.com/ns/mod#tempoRelatedDynamicScalePoints" rel="rdf:type" resource="http://lv2plug.in/ns/lv2core#PortProperty">lv2:PortProperty</a></td></tr>
+</div></div></div>
+</div>
+
+<div class="specterm" id="volts" about="http://moddevices.com/ns/mod#volts"><h4><a href="#volts">volts</a></h4><div class="spectermbody">
+<table class="terminfo"><tr><th>Type</th><td><a href="http://lv2plug.in/ns/extensions/units#Unit" about="http://moddevices.com/ns/mod#volts" rel="rdf:type" resource="http://lv2plug.in/ns/extensions/units#Unit">units:Unit</a></td></tr>
+<tr><th><a href="http://lv2plug.in/ns/extensions/units#render" >units:render</a></th>
+<td>%f v</td></tr>
+<tr><th><a href="http://lv2plug.in/ns/extensions/units#symbol" >units:symbol</a></th>
+<td>v</td></tr>
 </table>
+<div class="description"><div property="rdfs:label" class="label">volts</div><div class="comment" property="rdfs:comment"><p>Volts as an LV2 unit type, often used for CV related ports.</p></div></div></div>
 </div>
-</div>
 
 
-  </div>
+        </div>
+      </div>
 
-  <!-- HISTORY -->
-  <h2 class="sec" id="sec-history">History</h2>
-  <div class="content">
-  <dl>
-<dt><a href="https://github.com/moddevices/mod-sdk/archive/v2.0.0.tar.gz">Version 1.1</a> (2019-03-27)</dt>
+      <!-- HISTORY -->
+      <h2 class="sec" id="sec-history">History</h2>
+      <div class="section">
+        <dl>
+<dt><a href="https://github.com/moddevices/mod-sdk/archive/v2.0.0.tar.gz">Version 1.2</a> (2020-02-28)</dt>
+<dd><ul>
+<li>Add CVPort port type.</li>
+<li>Add volts unit.</li>
+<li>Add buildId and buildEnvironment for tracking origin of plugin build.</li>
+<li>Specify rdfs:range for mod:builderVersion and mod:releaseNumber.</li>
+</ul></dd><dt><a href="https://github.com/moddevices/mod-sdk/archive/v2.0.0.tar.gz">Version 1.1</a> (2019-03-27)</dt>
 <dd><ul>
 <li>Add ControlVoltagePlugin category.</li>
 <li>Add tempoRelatedDynamicScalePoints.</li>
@@ -318,30 +319,31 @@ The supported unit types are 'ms', 's', 'min', 'Hz', 'MHz' and 'kHz'.
 <li>First stable release.</li>
 </ul></dd></dl>
 
-  </div>
+      </div>
 
-  <!-- FOOTER -->
-  <div id="footer">
-    <div>
-      This document is available under the
-      <a about="" rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/">
-        Creative Commons Attribution-ShareAlike License
-      </a>
-    </div>
-	<div>
-      Valid
-      <a about="" rel="dct:conformsTo" resource="http://www.w3.org/TR/rdfa-syntax"
-         href="http://validator.w3.org/check?uri=referer">
-        XHTML+RDFa
-      </a>
-      and
-      <a about="" rel="dct:conformsTo" resource="http://www.w3.org/TR/CSS2"
-         href="http://jigsaw.w3.org/css-validator/check/referer">
-        CSS
-      </a>
-      generated from manifest.ttl by <a href="http://drobilla.net/software/lv2specgen">lv2specgen</a>
-    </div>
-  </div>
+      <!-- FOOTER -->
+      <div id="footer">
+        <div>
+          This document is available under the
+          <a about="" rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/">
+            Creative Commons Attribution-ShareAlike License
+          </a>
+        </div>
+	    <div>
+          Valid
+          <a about="" rel="dct:conformsTo" resource="http://www.w3.org/TR/rdfa-syntax"
+             href="http://validator.w3.org/check?uri=referer">
+            XHTML+RDFa
+          </a>
+          and
+          <a about="" rel="dct:conformsTo" resource="http://www.w3.org/TR/CSS2"
+             href="http://jigsaw.w3.org/css-validator/check/referer">
+            CSS
+          </a>
+          generated from manifest.ttl by lv2specgen
+        </div>
+      </div>
 
+    </div>
   </body>
 </html>
