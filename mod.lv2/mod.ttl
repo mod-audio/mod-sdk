@@ -23,44 +23,19 @@ mod:brand
     rdfs:range xsd:string ;
     rdfs:comment "A short plugin brand name. Maximum of 11 characters" .
 
-mod:label
-    a rdf:Property ,
-        owl:DatatypeProperty ;
-    rdfs:label "label" ;
-    rdfs:range xsd:string ;
-    rdfs:comment "A short plugin label. Maximum of 16 characters" .
-
-mod:default
+mod:buildEnvironment
     a rdf:Property ,
         owl:DatatypeProperty ,
         owl:FunctionalProperty ;
-    rdfs:label "default" ;
-    rdfs:seeAlso lv2:default ;
-    rdfs:comment "A custom default value specific to MOD devices, used in place of lv2:default." .
+    rdfs:label "cloud build environment" ;
+    rdfs:comment "The environment of the MOD cloud builder used to compile a plugin. MUST be 'prod', 'dev' or 'labs'." .
 
-mod:minimum
+mod:buildId
     a rdf:Property ,
         owl:DatatypeProperty ,
         owl:FunctionalProperty ;
-    rdfs:label "minimum" ;
-    rdfs:seeAlso lv2:minimum ;
-    rdfs:comment "A custom minimum value specific to MOD devices, used in place of lv2:minimum." .
-
-mod:maximum
-    a rdf:Property ,
-        owl:DatatypeProperty ,
-        owl:FunctionalProperty ;
-    rdfs:label "maximum" ;
-    rdfs:seeAlso lv2:maximum ;
-    rdfs:comment "A custom maximum value specific to MOD devices, used in place of lv2:maximum." .
-
-mod:rangeSteps
-    a rdf:Property ;
-    rdfs:domain lv2:Port ;
-    rdfs:range xsd:nonNegativeInteger ;
-    rdfs:label "number of value steps" ;
-    rdfs:seeAlso pprops:rangeSteps ;
-    rdfs:comment "A custom rangeSteps value specific to MOD devices, used in place of pprops:rangeSteps." .
+    rdfs:label "cloud build id" ;
+    rdfs:comment "The id for build process the MOD cloud builder used to compile a plugin." .
 
 mod:builderVersion
     a rdf:Property ,
@@ -70,19 +45,44 @@ mod:builderVersion
     rdfs:label "builder version" ;
     rdfs:comment "The version of the MOD cloud builder used to compile a plugin." .
 
-mod:buildId
+mod:default
     a rdf:Property ,
         owl:DatatypeProperty ,
         owl:FunctionalProperty ;
-    rdfs:label "cloud build id" ;
-    rdfs:comment "The id for build process the MOD cloud builder used to compile a plugin." .
+    rdfs:label "default" ;
+    rdfs:seeAlso lv2:default ;
+    rdfs:comment "A custom default value specific to MOD devices, used in place of lv2:default." .
 
-mod:buildEnvironment
+mod:label
+    a rdf:Property ,
+        owl:DatatypeProperty ;
+    rdfs:label "label" ;
+    rdfs:range xsd:string ;
+    rdfs:comment "A short plugin label. Maximum of 16 characters" .
+
+mod:maximum
     a rdf:Property ,
         owl:DatatypeProperty ,
         owl:FunctionalProperty ;
-    rdfs:label "cloud build environment" ;
-    rdfs:comment "The environment of the MOD cloud builder used to compile a plugin. MUST be 'prod', 'dev' or 'labs'." .
+    rdfs:label "maximum" ;
+    rdfs:seeAlso lv2:maximum ;
+    rdfs:comment "A custom maximum value specific to MOD devices, used in place of lv2:maximum." .
+
+mod:minimum
+    a rdf:Property ,
+        owl:DatatypeProperty ,
+        owl:FunctionalProperty ;
+    rdfs:label "minimum" ;
+    rdfs:seeAlso lv2:minimum ;
+    rdfs:comment "A custom minimum value specific to MOD devices, used in place of lv2:minimum." .
+
+mod:rangeSteps
+    a rdf:Property ;
+    rdfs:domain lv2:Port ;
+    rdfs:range xsd:nonNegativeInteger ;
+    rdfs:label "number of value steps" ;
+    rdfs:seeAlso pprops:rangeSteps ;
+    rdfs:comment "A custom rangeSteps value specific to MOD devices, used in place of pprops:rangeSteps." .
 
 mod:releaseNumber
     a rdf:Property ,
@@ -96,6 +96,17 @@ mod:tapTempo
     a lv2:PortProperty ;
     rdfs:label "tap tempo" ;
     rdfs:comment "Indicates that the port is suitable for a MOD foot-switch addressing, by using hardware-side tap tempo. Please note that a unit of time is required on the port for tap tempo to work properly. The supported unit types are 'ms', 's', 'Hz' and 'bpm'." .
+
+mod:tempoRelatedDynamicScalePoints
+    a lv2:PortProperty ;
+    rdfs:label "tempo related dynamic scale points" ;
+    lv2:documentation """
+<p>
+Indicates that the port is suitable for scale points related to musical tempo, e.g. 'quarter note'.<br/>
+Please note that a unit of time is required on the port for tap tempo to work properly.
+The supported unit types are 'ms', 's', 'min', 'Hz', 'MHz' and 'kHz'.
+</p>
+""" .
 
 mod:volts
     a units:Unit ;
@@ -201,12 +212,12 @@ mod:UtilityPlugin
         rdfs:label "Utility" ;
         rdfs:comment """Forces Utility as the plugin category.""" .
 
-mod:MIDIPlugin
+mod:ControlVoltagePlugin
         a rdfs:Class ,
                 owl:Class ;
         rdfs:subClassOf lv2:Plugin ;
-        rdfs:label "MIDI Utility" ;
-        rdfs:comment """Forces MIDI Utility as the plugin category.""" .
+        rdfs:label "Control Voltage" ;
+        rdfs:comment """Forces Control Voltage as the plugin category.""" .
 
 mod:MaxGenPlugin
         a rdfs:Class ,
@@ -215,30 +226,9 @@ mod:MaxGenPlugin
         rdfs:label "MAX gen~ Plugin" ;
         rdfs:comment """A plugin made with MAX gen~ export function.""" .
 
-mod:ControlVoltagePlugin
+mod:MIDIPlugin
         a rdfs:Class ,
                 owl:Class ;
         rdfs:subClassOf lv2:Plugin ;
-        rdfs:label "Control Voltage" ;
-        rdfs:comment """Forces Control Voltage as the plugin category.""" .
-
-mod:notStompboxCapable
-    a lv2:Feature ;
-    rdfs:label "not stompbox capable" ;
-    lv2:documentation """
-<p>
-Indicates that the plugin is not suitable for use in the MOD Stompbox mode.<br/>
-Plugins are assumed to be suitable for Stompbox mode by default, and MUST provide this as an optional feature in case that's not true.
-</p>
-""" .
-
-mod:tempoRelatedDynamicScalePoints
-    a lv2:PortProperty ;
-    rdfs:label "tempo related dynamic scale points" ;
-    lv2:documentation """
-<p>
-Indicates that the port is suitable for scale points related to musical tempo, e.g. 'quarter note'.<br/>
-Please note that a unit of time is required on the port for tap tempo to work properly.
-The supported unit types are 'ms', 's', 'min', 'Hz', 'MHz' and 'kHz'.
-</p>
-""" .
+        rdfs:label "MIDI Utility" ;
+        rdfs:comment """Forces MIDI Utility as the plugin category.""" .
