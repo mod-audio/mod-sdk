@@ -81,10 +81,15 @@ mod:preferColouredListByDefault
     rdfs:label "preferColouredListByDefault" ;
     rdfs:comment "Indicates that, when addressing the port to a MOD device actuator, it is prefered to do so in the 'Cycle' LED colour mode".
 
-mod:preferMomentaryToggleByDefault
+mod:preferMomentaryOffByDefault
     a lv2:PortProperty ;
-    rdfs:label "preferMomentaryToggleByDefault" ;
-    rdfs:comment "Indicates that, when addressing the port to a MOD device actuator, it is prefered to do so in the 'Momentary' mode".
+    rdfs:label "preferMomentaryOffByDefault" ;
+    rdfs:comment "Indicates that, when addressing the port to a MOD device actuator, it is prefered to do so in the 'Momentary Off' mode".
+
+mod:preferMomentaryOnByDefault
+    a lv2:PortProperty ;
+    rdfs:label "preferMomentaryOnByDefault" ;
+    rdfs:comment "Indicates that, when addressing the port to a MOD device actuator, it is prefered to do so in the 'Momentary On' mode".
 
 mod:rangeSteps
     a rdf:Property ;
