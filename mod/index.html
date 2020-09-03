@@ -28,7 +28,7 @@
           <table id="meta">
             <tr><th>ID</th><td><a href="http://moddevices.com/ns/mod">http://moddevices.com/ns/mod</a></td></tr>
             <tr><th>Version</th><td>1.2</td></tr>
-            <tr><th>Date</th><td>2020-07-23</td></tr>
+            <tr><th>Date</th><td>2020-09-03</td></tr>
           </table>
         </div>
       </div>
@@ -62,7 +62,7 @@ This is a vocabulary for describing extra plugin data specific to MOD software a
 <thead><tr><th><a href="#ref-classes" />Classes</th><th><a href="#ref-properties" />Properties</th><th><a href="#ref-instances" />Instances</th></tr></thead>
 <tbody><tr><td><ul><li><a href="#CVPort">CVPort</a></li><li><a href="#ControlVoltagePlugin">ControlVoltagePlugin</a></li><li><a href="#DelayPlugin">DelayPlugin</a></li><li><a href="#DistortionPlugin">DistortionPlugin</a></li><li><a href="#DynamicsPlugin">DynamicsPlugin</a></li><li><a href="#FilterPlugin">FilterPlugin</a></li><li><a href="#GeneratorPlugin">GeneratorPlugin</a></li><li><a href="#MIDIPlugin">MIDIPlugin</a></li><li><a href="#MaxGenPlugin">MaxGenPlugin</a></li><li><a href="#ModulatorPlugin">ModulatorPlugin</a></li><li><a href="#ReverbPlugin">ReverbPlugin</a></li><li><a href="#SimulatorPlugin">SimulatorPlugin</a></li><li><a href="#SpatialPlugin">SpatialPlugin</a></li><li><a href="#SpectralPlugin">SpectralPlugin</a></li><li><a href="#UtilityPlugin">UtilityPlugin</a></li></ul></td>
 <td><ul><li><a href="#brand">brand</a></li><li><a href="#buildEnvironment">buildEnvironment</a></li><li><a href="#buildId">buildId</a></li><li><a href="#builderVersion">builderVersion</a></li><li><a href="#default">default</a></li><li><a href="#label">label</a></li><li><a href="#maximum">maximum</a></li><li><a href="#minimum">minimum</a></li><li><a href="#rangeSteps">rangeSteps</a></li><li><a href="#releaseNumber">releaseNumber</a></li></ul></td>
-<td><ul><li><a href="#preferColouredListByDefault">preferColouredListByDefault</a></li><li><a href="#preferMomentaryToggleByDefault">preferMomentaryToggleByDefault</a></li><li><a href="#tapTempo">tapTempo</a></li><li><a href="#tempoRelatedDynamicScalePoints">tempoRelatedDynamicScalePoints</a></li><li><a href="#volts">volts</a></li></ul></td>
+<td><ul><li><a href="#preferColouredListByDefault">preferColouredListByDefault</a></li><li><a href="#preferMomentaryOffByDefault">preferMomentaryOffByDefault</a></li><li><a href="#preferMomentaryOnByDefault">preferMomentaryOnByDefault</a></li><li><a href="#tapTempo">tapTempo</a></li><li><a href="#tempoRelatedDynamicScalePoints">tempoRelatedDynamicScalePoints</a></li><li><a href="#volts">volts</a></li></ul></td>
 </tr></tbody></table>
 
           <h3><a id="ref-classes" />Classes</h3><div class="specterm" id="CVPort" about="http://moddevices.com/ns/mod#CVPort"><h4><a href="#CVPort">CVPort</a></h4><div class="spectermbody">
@@ -263,10 +263,16 @@ It is assumed these ports use <a href="#volts">mod:volts</a> as unit.
 <div class="description"><div property="rdfs:label" class="label">preferColouredListByDefault</div><div class="comment" property="rdfs:comment"><p>Indicates that, when addressing the port to a MOD device actuator, it is prefered to do so in the 'Cycle' LED colour mode</p></div></div></div>
 </div>
 
-<div class="specterm" id="preferMomentaryToggleByDefault" about="http://moddevices.com/ns/mod#preferMomentaryToggleByDefault"><h4><a href="#preferMomentaryToggleByDefault">preferMomentaryToggleByDefault</a></h4><div class="spectermbody">
-<table class="terminfo"><tr><th>Type</th><td><a href="http://lv2plug.in/ns/lv2core#PortProperty" about="http://moddevices.com/ns/mod#preferMomentaryToggleByDefault" rel="rdf:type" resource="http://lv2plug.in/ns/lv2core#PortProperty">lv2:PortProperty</a></td></tr>
+<div class="specterm" id="preferMomentaryOffByDefault" about="http://moddevices.com/ns/mod#preferMomentaryOffByDefault"><h4><a href="#preferMomentaryOffByDefault">preferMomentaryOffByDefault</a></h4><div class="spectermbody">
+<table class="terminfo"><tr><th>Type</th><td><a href="http://lv2plug.in/ns/lv2core#PortProperty" about="http://moddevices.com/ns/mod#preferMomentaryOffByDefault" rel="rdf:type" resource="http://lv2plug.in/ns/lv2core#PortProperty">lv2:PortProperty</a></td></tr>
 </table>
-<div class="description"><div property="rdfs:label" class="label">preferMomentaryToggleByDefault</div><div class="comment" property="rdfs:comment"><p>Indicates that, when addressing the port to a MOD device actuator, it is prefered to do so in the 'Momentary' mode</p></div></div></div>
+<div class="description"><div property="rdfs:label" class="label">preferMomentaryOffByDefault</div><div class="comment" property="rdfs:comment"><p>Indicates that, when addressing the port to a MOD device actuator, it is prefered to do so in the 'Momentary Off' mode</p></div></div></div>
+</div>
+
+<div class="specterm" id="preferMomentaryOnByDefault" about="http://moddevices.com/ns/mod#preferMomentaryOnByDefault"><h4><a href="#preferMomentaryOnByDefault">preferMomentaryOnByDefault</a></h4><div class="spectermbody">
+<table class="terminfo"><tr><th>Type</th><td><a href="http://lv2plug.in/ns/lv2core#PortProperty" about="http://moddevices.com/ns/mod#preferMomentaryOnByDefault" rel="rdf:type" resource="http://lv2plug.in/ns/lv2core#PortProperty">lv2:PortProperty</a></td></tr>
+</table>
+<div class="description"><div property="rdfs:label" class="label">preferMomentaryOnByDefault</div><div class="comment" property="rdfs:comment"><p>Indicates that, when addressing the port to a MOD device actuator, it is prefered to do so in the 'Momentary On' mode</p></div></div></div>
 </div>
 
 <div class="specterm" id="tapTempo" about="http://moddevices.com/ns/mod#tapTempo"><h4><a href="#tapTempo">tapTempo</a></h4><div class="spectermbody">
@@ -305,9 +311,9 @@ The supported unit types are 'ms', 's', 'min', 'Hz', 'MHz' and 'kHz'.
       <h2 class="sec" id="sec-history">History</h2>
       <div class="section">
         <dl>
-<dt><a href="https://github.com/moddevices/mod-sdk/archive/v2.0.0.tar.gz">Version 1.3</a> (2020-07-23)</dt>
+<dt><a href="https://github.com/moddevices/mod-sdk/archive/v2.0.0.tar.gz">Version 1.3</a> (2020-09-03)</dt>
 <dd><ul>
-<li>Add mod:preferColouredListByDefault and mod:preferMomentaryToggleByDefault properties.</li>
+<li>Add mod:preferColouredListByDefault and mod:preferMomentary{On/Off}ByDefault properties.</li>
 <li>Remove mod:notStompboxCapable.</li>
 </ul></dd><dt><a href="https://github.com/moddevices/mod-sdk/archive/v2.0.0.tar.gz">Version 1.2</a> (2020-02-28)</dt>
 <dd><ul>

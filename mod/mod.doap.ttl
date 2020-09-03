@@ -51,12 +51,12 @@
         ]
     ] , [
         doap:revision "1.3" ;
-        doap:created "2020-07-23" ;
+        doap:created "2020-09-03" ;
         doap:file-release <https://github.com/moddevices/mod-sdk/archive/v2.0.0.tar.gz> ;
         dcs:blame <https://falktx.com/> ;
         dcs:changeset [
             dcs:item [
-                rdfs:label "Add mod:preferColouredListByDefault and mod:preferMomentaryToggleByDefault properties."
+                rdfs:label "Add mod:preferColouredListByDefault and mod:preferMomentary{On/Off}ByDefault properties."
             ] , [
                 rdfs:label "Remove mod:notStompboxCapable."
             ]
