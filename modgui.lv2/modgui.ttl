@@ -309,15 +309,16 @@ A Javascript file containing a declaration of an anonymous function which will b
 </p>
 
 <p>
-This function will receive as parameter an object containing:
+This function will receive as parameter an event object containing:
 </p>
 <ul>
-  <li>event: a dictionary indicating the context in which the function is called. Contains the "type" key, that can be either "start" (first call) or "change",
-      when a port value is changed. In the latter case, it will also contain they key "symbol", indicating which port has changed.</li>
-  <li>values: a dictionary containing the values of all control ports of this plugin.</li>
-  <li>icon: the JQuery object encapsulating the DOM object of the main plugin interface.</li>
-  <li>settings: JQuery object with the settings screen interface.</li>
-  <li>data: A object that can be used by this javascript function to store anything that should persist.</li>
+  <li><i>type</i>: either "start", if plugin is being instantiated, or "change", if an input port value is being changed;</li>
+  <li><i>ports</i>: an array of { symbol, value } objects with all port values, if <i>type</i> is "start";</li>
+  <li><i>symbol</i>: the port input port which value is being changed, if <i>type</i> is "change";</li>
+  <li><i>value</i>: the input port value, , if <i>type</i> is "change";</li>
+  <li><i>icon</i>: the JQuery object encapsulating the DOM object of the main plugin interface.</li>
+  <li><i>settings</i>: JQuery object with the settings screen interface.</li>
+  <li><i>data</i>: A object that can be used by this javascript function to store anything that should persist between calls.</li>
 </ul>
 """ .
 
