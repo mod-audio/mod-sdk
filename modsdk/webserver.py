@@ -751,7 +751,7 @@ def make_application(port=PORT, output_log=False):
             (r"/(.*)", web.StaticFileHandler, {"path": HTML_DIR}),
             ], debug=output_log)
 
-    application.listen(port)
+    application.listen(port, address="0.0.0.0")
     if output_log:
         options.parse_command_line()
 
