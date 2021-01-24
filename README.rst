@@ -20,7 +20,7 @@ Build
 We use lilv to scan plugins, phantomjs to render screenshots and `pillow`_ to build png images.
 If you use a Debian-based GNU/Linux distribution (like Ubuntu), you can install all this with::
 
-    $ sudo apt-get install build-essential liblilv-dev phantomjs python3-pil python3-pystache python3-tornado python3-setuptools
+    $ sudo apt-get install build-essential liblilv-dev phantomjs python3-pil python3-pystache python3-tornado python3-setuptools python3-pyinotify
 
 After you have all dependencies installed, build it with::
 
