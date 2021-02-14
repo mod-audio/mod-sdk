@@ -53,6 +53,13 @@ mod:default
     rdfs:seeAlso lv2:default ;
     rdfs:comment "A custom default value specific to MOD devices, used in place of lv2:default." .
 
+mod:fileTypes
+    a rdf:Property ,
+        owl:DatatypeProperty ,
+        owl:FunctionalProperty ;
+    rdfs:label "file types" ;
+    rdfs:comment "The file types that a path parameter supports, written as a comma-separated string without whitespace." .
+
 mod:label
     a rdf:Property ,
         owl:DatatypeProperty ;

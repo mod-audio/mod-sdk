@@ -10,9 +10,9 @@
     doap:homepage <http://moddevices.com/ns/modgui> ;
     doap:created "2013-05-03" ;
     doap:shortdesc "An LV2 extension to build HTML interfaces for audio plugins." ;
-    doap:developer <http://falktx.com/myself.html> ,
+    doap:developer <https://falktx.com> ,
                    <http://hacklab.com.br#lhfagundes> ;
-    doap:maintainer <http://falktx.com/myself.html> ;
+    doap:maintainer <https://falktx.com> ;
     doap:release [
         doap:revision "1.0" ;
         doap:created "2014-10-14" ;
@@ -38,7 +38,7 @@
     foaf:name "Luis Fagundes";
     foaf:mbox <mailto:lhfagundes@hacklab.com.br> .
 
-<http://falktx.com/myself.html>
+<https://falktx.com>
     a foaf:Person ;
     foaf:name "Filipe Coelho" ;
     foaf:mbox <mailto:falktx@falktx.com> .
