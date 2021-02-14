@@ -221,7 +221,34 @@ It is assumed these ports use <a href="#volts">mod:volts</a> as unit.
 <div class="specterm" id="fileTypes" about="http://moddevices.com/ns/mod#fileTypes"><h4><a href="#fileTypes">fileTypes</a></h4><div class="spectermbody">
 <table class="terminfo"><tr><th>Type</th><td>Datatype Property</td></tr>
 </table>
-<div class="description"><div property="rdfs:label" class="label">file types</div><div class="comment" property="rdfs:comment"><p>The file types that a path parameter supports, written as a comma-separated string without whitespace.</p></div></div></div>
+<div class="description"><div property="rdfs:label" class="label">file types</div><div class="comment" property="rdfs:comment">
+<p>
+The file types that a path parameter supports, written as a comma-separated string without whitespace.
+</p>
+<p>
+As of v1.10, the currently supported file types are:
+</p>
+<ul>
+  <li><strong>audioloop</strong>: Audio Loops, meant to be used for looper-style plugins.</li>
+  <li><strong>audiorecording</strong>: Audio Recordings, triggered by plugins and stored in the unit.</li>
+  <li><strong>audiosample</strong>: One-shot Audio Samples, meant to be used for sampler-style plugins.</li>
+  <li><strong>audiotrack</strong>: Audio Tracks, meant to be used as full-performance/song or backtrack.</li>
+  <li><strong>cabsim</strong>: Speaker Cabinets, meant as small IR audio files.</li>
+  <li><strong>h2drumkit</strong>: Hydrogen Drumkits, must use h2drumkit file extension.</li>
+  <li><strong>ir</strong>: Impulse Responses.</li>
+  <li><strong>midiclip</strong>: MIDI Clips, to be used in sync with host tempo, must have mid or midi file extension.</li>
+  <li><strong>midisong</strong>: MIDI Songs, meant to be used as full-performance/song or backtrack.</li>
+  <li><strong>sf2</strong>: SF2 Instruments, must have sf2 or sf3 file extension.</li>
+  <li><strong>sfz</strong>: SFZ Instruments, must have sfz file extension.</li>
+</ul>
+<p>
+For audio files the supported file extensions are (usually through libsndfile) "aif", "aifc", "aiff", "au", "bwf", "flac", "htk", "iff", "mat4", "mat5", "oga", "ogg",
+"paf", "pvf", "pvf5", "sd2", "sf", "snd", "svx", "vcc", "w64", "wav", "xi",
+(extra through ffmpeg)
+"3g2", "3gp", "aac", "ac3", "amr", "ape", "mp2", "mp3", "mpc", and "wma".<br/>
+For Speaker Cabinets and Impulse Responses, the supported file extensions are "aif", "aifc", "aiff", "flac", "w64" and "wav".
+</p>
+</div></div></div>
 </div>
 
 <div class="specterm" id="label" about="http://moddevices.com/ns/mod#label"><h4><a href="#label">label</a></h4><div class="spectermbody">
