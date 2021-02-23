@@ -28,7 +28,7 @@
           <table id="meta">
             <tr><th>ID</th><td><a href="http://moddevices.com/ns/mod">http://moddevices.com/ns/mod</a></td></tr>
             <tr><th>Version</th><td>1.2</td></tr>
-            <tr><th>Date</th><td>2021-02-14</td></tr>
+            <tr><th>Date</th><td>2021-02-23</td></tr>
           </table>
         </div>
       </div>
@@ -61,7 +61,7 @@ This is a vocabulary for describing extra plugin data specific to MOD software a
           <table class="index">
 <thead><tr><th><a href="#ref-classes" />Classes</th><th><a href="#ref-properties" />Properties</th><th><a href="#ref-instances" />Instances</th></tr></thead>
 <tbody><tr><td><ul><li><a href="#CVPort">CVPort</a></li><li><a href="#ControlVoltagePlugin">ControlVoltagePlugin</a></li><li><a href="#DelayPlugin">DelayPlugin</a></li><li><a href="#DistortionPlugin">DistortionPlugin</a></li><li><a href="#DynamicsPlugin">DynamicsPlugin</a></li><li><a href="#FilterPlugin">FilterPlugin</a></li><li><a href="#GeneratorPlugin">GeneratorPlugin</a></li><li><a href="#MIDIPlugin">MIDIPlugin</a></li><li><a href="#MaxGenPlugin">MaxGenPlugin</a></li><li><a href="#ModulatorPlugin">ModulatorPlugin</a></li><li><a href="#ReverbPlugin">ReverbPlugin</a></li><li><a href="#SimulatorPlugin">SimulatorPlugin</a></li><li><a href="#SpatialPlugin">SpatialPlugin</a></li><li><a href="#SpectralPlugin">SpectralPlugin</a></li><li><a href="#UtilityPlugin">UtilityPlugin</a></li></ul></td>
-<td><ul><li><a href="#brand">brand</a></li><li><a href="#buildEnvironment">buildEnvironment</a></li><li><a href="#buildId">buildId</a></li><li><a href="#builderVersion">builderVersion</a></li><li><a href="#default">default</a></li><li><a href="#fileTypes">fileTypes</a></li><li><a href="#label">label</a></li><li><a href="#maximum">maximum</a></li><li><a href="#minimum">minimum</a></li><li><a href="#rangeSteps">rangeSteps</a></li><li><a href="#releaseNumber">releaseNumber</a></li></ul></td>
+<td><ul><li><a href="#brand">brand</a></li><li><a href="#buildEnvironment">buildEnvironment</a></li><li><a href="#buildId">buildId</a></li><li><a href="#builderVersion">builderVersion</a></li><li><a href="#default">default</a></li><li><a href="#fileTypes">fileTypes</a></li><li><a href="#label">label</a></li><li><a href="#maximum">maximum</a></li><li><a href="#minimum">minimum</a></li><li><a href="#rangeSteps">rangeSteps</a></li><li><a href="#rawMIDIClockAccess">rawMIDIClockAccess</a></li><li><a href="#releaseNumber">releaseNumber</a></li></ul></td>
 <td><ul><li><a href="#preferColouredListByDefault">preferColouredListByDefault</a></li><li><a href="#preferMomentaryOffByDefault">preferMomentaryOffByDefault</a></li><li><a href="#preferMomentaryOnByDefault">preferMomentaryOnByDefault</a></li><li><a href="#tapTempo">tapTempo</a></li><li><a href="#tempoRelatedDynamicScalePoints">tempoRelatedDynamicScalePoints</a></li><li><a href="#volts">volts</a></li></ul></td>
 </tr></tbody></table>
 
@@ -281,6 +281,12 @@ For Speaker Cabinets and Impulse Responses, the supported file extensions are "a
 <td><a href="http://lv2plug.in/ns/ext/port-props#rangeSteps" about="http://moddevices.com/ns/mod#rangeSteps" rel="rdfs:seeAlso" resource="http://lv2plug.in/ns/ext/port-props#rangeSteps">pprops:rangeSteps</a></td></tr>
 </table>
 <div class="description"><div property="rdfs:label" class="label">number of value steps</div><div class="comment" property="rdfs:comment"><p>A custom rangeSteps value specific to MOD devices, used in place of pprops:rangeSteps.</p></div></div></div>
+</div>
+
+<div class="specterm" id="rawMIDIClockAccess" about="http://moddevices.com/ns/mod#rawMIDIClockAccess"><h4><a href="#rawMIDIClockAccess">rawMIDIClockAccess</a></h4><div class="spectermbody">
+<table class="terminfo"><tr><th>Domain</th><td><a href="http://lv2plug.in/ns/ext/atom#AtomPort" about="http://moddevices.com/ns/mod#rawMIDIClockAccess" rel="rdfs:domain" resource="http://lv2plug.in/ns/ext/atom#AtomPort">atom:AtomPort</a></td></tr>
+</table>
+<div class="description"><div property="rdfs:label" class="label">access raw midi clock</div><div class="comment" property="rdfs:comment"><p>Hides the atom port and connects it to the raw MIDI inputs currently active, allowing to receive all messages before they are filtered by mod-host, such as MIDI Clock.</p></div></div></div>
 </div>
 
 <div class="specterm" id="releaseNumber" about="http://moddevices.com/ns/mod#releaseNumber"><h4><a href="#releaseNumber">releaseNumber</a></h4><div class="spectermbody">
