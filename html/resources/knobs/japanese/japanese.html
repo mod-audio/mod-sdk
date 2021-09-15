@@ -2,40 +2,32 @@
 <html>
     <head>
         <meta charset="utf-8"/>
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
         <style type="text/css" media="screen">
             body { background:#333; }
             .knob { background-position:left center; background-repeat:no-repeat; float:left; }
-            .knob-japanese { height:100px; width:100px; }
-            .knob-japanese-blue { background-image:url(blue/_strip.png); }
-            .knob-japanese-brown { background-image:url(brown/_strip.png); }
-            .knob-japanese-cream { background-image:url(cream/_strip.png); }
-            .knob-japanese-darkblue { background-image:url(darkblue/_strip.png); }
-            .knob-japanese-gray { background-image:url(gray/_strip.png); }
-            .knob-japanese-green { background-image:url(green/_strip.png); }
-            .knob-japanese-orange { background-image:url(orange/_strip.png); }
-            .knob-japanese-purple { background-image:url(purple/_strip.png); }
-            .knob-japanese-red { background-image:url(red/_strip.png); }
-            .knob-japanese-white { background-image:url(white/_strip.png); }
-            .knob-japanese-yellow { background-image:url(yellow/_strip.png); }
+            .knob-japanese { height:128px; width:128px; }
+            .knob-japanese-blue { background-image:url(blue.png); }
+            .knob-japanese-brown { background-image:url(brown.png); }
+            .knob-japanese-cream { background-image:url(cream.png); }
+            .knob-japanese-darkblue { background-image:url(darkblue.png); }
+            .knob-japanese-gray { background-image:url(gray.png); }
+            .knob-japanese-green { background-image:url(green.png); }
+            .knob-japanese-orange { background-image:url(orange.png); }
+            .knob-japanese-purple { background-image:url(purple.png); }
+            .knob-japanese-red { background-image:url(red.png); }
+            .knob-japanese-white { background-image:url(white.png); }
+            .knob-japanese-yellow { background-image:url(yellow.png); }
         </style>
 
         <script>
             $(document).ready(function () {
                 var n = 0;
-
                 setInterval(function () {
-                    // var p = Math.floor( Math.abs(Math.sin(n * Math.PI / 180)) * 179);
-                    // $(".knob").css("background-position", -(p * 100) + "px top");
-                    // n = (++n % 360);
-                    $(".knob").css("background-position", -(n * 100) + "px top");
-                    n++;
-                    if(n > 179) {
-                        n = 0;
-                    }
+                    $(".knob").css("background-position", -(n * 128) + "px top");
+                    n = ++n % 65;
                 }, 20);
-                
             })
         </script>
     </head>
