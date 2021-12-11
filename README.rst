@@ -22,6 +22,11 @@ If you use a Debian-based GNU/Linux distribution (like Ubuntu), you can install 
 
     $ sudo apt-get install build-essential liblilv-dev phantomjs python3-pil python3-pystache python3-tornado python3-setuptools python3-pyinotify
 
+Hint: on Ubuntu 21.10, phantomJS is not available, and the tornado version is
+not compatible with mod-sdk, so these need to be installed separately:
+
+    pip3 install --user tornado==4.3 phantomjs
+
 After you have all dependencies installed, build it with::
 
     $ python3 setup.py build
@@ -32,6 +37,12 @@ Run
 If you don't want to install, simply run::
 
     $ ./development_server.py
+
+If you need the application run on a different port than 9000, you can edit
+modsk/settings.py and change the value of PORT in there. 
+Remember that for communication with the mod-ui you will need it's default port
+8888 free.
+
 
 To install mod-sdk, run::
 
