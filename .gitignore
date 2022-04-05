@@ -6,10 +6,11 @@ config.json
 .DS_Store
 MANIFEST.in
 
-build/
-documentation/
-html/resources/.git*
-utils/test
+/build/
+/documentation/
+/html/resources/.git*
+/modsdk-env/
+/utils/test
 
 .kdev4/
 .project.kdev4
