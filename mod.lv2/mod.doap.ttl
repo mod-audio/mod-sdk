@@ -10,8 +10,8 @@
     doap:homepage <http://moddevices.com/ns/mod> ;
     doap:created "2016-03-28" ;
     doap:shortdesc "Properties for describing MOD Devices related data." ;
-    doap:developer <https://falktx.com> , <https://github.com/jkbd/> ;
-    doap:maintainer <https://falktx.com> ;
+    doap:developer <https://falktx.com/> , <https://github.com/jkbd/> ;
+    doap:maintainer <https://falktx.com/> ;
     doap:release [
         doap:revision "1.0" ;
         doap:created "2016-03-28" ;
@@ -63,7 +63,7 @@
         ]
     ].
 
-<https://falktx.com>
+<https://falktx.com/>
     a foaf:Person ;
     foaf:name "Filipe Coelho" ;
     foaf:mbox <mailto:falktx@falktx.com> .
