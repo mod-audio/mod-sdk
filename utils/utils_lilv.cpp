@@ -24,12 +24,12 @@
 
 #include <lilv/lilv.h>
 
-#include "lv2/lv2plug.in/ns/lv2core/lv2.h"
-#include "lv2/lv2plug.in/ns/ext/atom/atom.h"
-#include "lv2/lv2plug.in/ns/ext/midi/midi.h"
-#include "lv2/lv2plug.in/ns/ext/port-props/port-props.h"
-#include "lv2/lv2plug.in/ns/ext/presets/presets.h"
-#include "lv2/lv2plug.in/ns/extensions/units/units.h"
+#include <lv2/core/lv2.h>
+#include <lv2/atom/atom.h>
+#include <lv2/midi/midi.h>
+#include <lv2/port-props/port-props.h>
+#include <lv2/presets/presets.h>
+#include <lv2/units/units.h>
 
 #include <algorithm>
 #include <cassert>
